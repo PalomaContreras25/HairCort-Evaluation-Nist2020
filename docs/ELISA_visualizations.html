@@ -420,10 +420,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -516,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3treee4cf6f37ae4048643792ea19e4e194eb18e30c6btargetblanke4cf6f3a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9atargetblank2cbdcc9a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/test-3/tree/e4cf6f37ae4048643792ea19e4e194eb18e30c6b" target="_blank">e4cf6f3</a>
+<a href="https://github.com/PalomaContreras25/test-3/tree/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a" target="_blank">2cbdcc9</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3treee4cf6f37ae4048643792ea19e4e194eb18e30c6btargetblanke4cf6f3a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9atargetblank2cbdcc9a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/test-3/tree/e4cf6f37ae4048643792ea19e4e194eb18e30c6b" target="_blank">e4cf6f3</a>.
+<a href="https://github.com/PalomaContreras25/test-3/tree/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a" target="_blank">2cbdcc9</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -548,15 +548,8 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  analysis/ELISA_QC.Rmd
-    Untracked:  analysis/ELISA_computation.Rmd
-    Untracked:  analysis/ELISA_visualizations.Rmd
-    Untracked:  data/Data_QC_flagged.csv
-    Untracked:  data/failed_samples.csv
-
 Unstaged changes:
-    Modified:   data/layout_wells_test3_091524.csv
+    Modified:   analysis/ELISA_visualizations.Rmd
 
 </code></pre>
 <p>
@@ -572,9 +565,72 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/ELISA_visualizations.Rmd</code>)
+and HTML (<code>docs/ELISA_visualizations.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a/analysis/ELISA_visualizations.Rmd" target="_blank">2cbdcc9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+merged data, cleaned, visualized some results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/test-3/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a/docs/ELISA_visualizations.html" target="_blank">2cbdcc9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+merged data, cleaned, visualized some results
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -589,27 +645,15 @@ Attaching package: &#39;dplyr&#39;</code></pre>
 <pre><code>The following objects are masked from &#39;package:base&#39;:
 
     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>data &lt;- read.csv(&quot;./data/Data_QC_flagged.csv&quot;)
+<pre class="r"><code># load dataset
+data &lt;- read.csv(&quot;./data/Data_QC_flagged.csv&quot;)
 
-  data$Buffer_nl &lt;- as.factor(data$Buffer_nl)
-
-
-ggplot(data, aes(x = Weight_mg, y = Average_Conc_pg.ml, )) +
-  geom_point() +
-  geom_smooth(method = &quot;lm&quot;, se = FALSE) +  # Add a linear trend line
-  labs(title = &quot;Association between Weight and Average Concentration&quot;,
-       x = &quot;Weight (mg)&quot;, y = &quot;Average Concentration (pg/ml)&quot;)</code></pre>
-<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># Scatter plot of Buffer vs Binding Percentage
-ggplot(data, aes(x = Buffer_nl, y = Binding.Perc)) +
-  geom_boxplot() +
-  geom_smooth(method = &quot;lm&quot;, se = FALSE) +  # Add a linear trend line
-  facet_wrap(data$Spike,scales = &quot;fixed&quot;) +
-  labs(title = &quot;Association between Buffer and Binding Percentage&quot;,
-       x = &quot;Buffer (nl)&quot;, y = &quot;Binding Percentage&quot;) </code></pre>
-<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
+#  since Buffer and spike are not continuous variables, change from numeric to factors
+data$Buffer_nl &lt;- as.factor(data$Buffer_nl)
+data$Spike &lt;- as.factor(data$Spike)</code></pre>
+</div>
+<div id="calculating-deviation-from-50-binding" class="section level2">
+<h2>Calculating deviation from 50% binding</h2>
 <pre class="r"><code>data$Binding_deviation &lt;- abs(data$Binding.Perc - 50)
 sorted_data &lt;- data[order(data$Binding_deviation), ]
 
@@ -649,7 +693,7 @@ kable(sorted_data)</code></pre>
 <th align="right">SEM</th>
 <th align="right">Weight_mg</th>
 <th align="left">Buffer_nl</th>
-<th align="right">Spike</th>
+<th align="left">Spike</th>
 <th align="left">Failed_samples</th>
 <th align="right">Binding_deviation</th>
 </tr>
@@ -668,7 +712,7 @@ kable(sorted_data)</code></pre>
 <td align="right">31.30</td>
 <td align="right">37.1</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">0.0</td>
 </tr>
@@ -685,7 +729,7 @@ kable(sorted_data)</code></pre>
 <td align="right">79.20</td>
 <td align="right">21.2</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">1.2</td>
 </tr>
@@ -702,7 +746,7 @@ kable(sorted_data)</code></pre>
 <td align="right">6.89</td>
 <td align="right">35.5</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">1.7</td>
 </tr>
@@ -719,7 +763,7 @@ kable(sorted_data)</code></pre>
 <td align="right">13.50</td>
 <td align="right">33.8</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">2.3</td>
 </tr>
@@ -736,7 +780,7 @@ kable(sorted_data)</code></pre>
 <td align="right">27.60</td>
 <td align="right">31.2</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">3.2</td>
 </tr>
@@ -753,7 +797,7 @@ kable(sorted_data)</code></pre>
 <td align="right">113.00</td>
 <td align="right">17.2</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">HIGH CV</td>
 <td align="right">3.8</td>
 </tr>
@@ -770,7 +814,7 @@ kable(sorted_data)</code></pre>
 <td align="right">23.90</td>
 <td align="right">21.6</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">4.0</td>
 </tr>
@@ -787,7 +831,7 @@ kable(sorted_data)</code></pre>
 <td align="right">11.70</td>
 <td align="right">30.8</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">6.0</td>
 </tr>
@@ -804,7 +848,7 @@ kable(sorted_data)</code></pre>
 <td align="right">235.00</td>
 <td align="right">30.1</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">HIGH CV</td>
 <td align="right">6.4</td>
 </tr>
@@ -821,7 +865,7 @@ kable(sorted_data)</code></pre>
 <td align="right">61.30</td>
 <td align="right">23.2</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">9.5</td>
 </tr>
@@ -838,7 +882,7 @@ kable(sorted_data)</code></pre>
 <td align="right">27.40</td>
 <td align="right">24.6</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">10.9</td>
 </tr>
@@ -855,7 +899,7 @@ kable(sorted_data)</code></pre>
 <td align="right">2120.00</td>
 <td align="right">17.7</td>
 <td align="left">60</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">HIGH CV</td>
 <td align="right">12.4</td>
 </tr>
@@ -872,7 +916,7 @@ kable(sorted_data)</code></pre>
 <td align="right">206.00</td>
 <td align="right">20.2</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">12.7</td>
 </tr>
@@ -889,7 +933,7 @@ kable(sorted_data)</code></pre>
 <td align="right">164.00</td>
 <td align="right">36.5</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">13.8</td>
 </tr>
@@ -906,7 +950,7 @@ kable(sorted_data)</code></pre>
 <td align="right">82.50</td>
 <td align="right">30.8</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">13.9</td>
 </tr>
@@ -923,7 +967,7 @@ kable(sorted_data)</code></pre>
 <td align="right">25.30</td>
 <td align="right">20.4</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">14.8</td>
 </tr>
@@ -940,7 +984,7 @@ kable(sorted_data)</code></pre>
 <td align="right">105.00</td>
 <td align="right">13.7</td>
 <td align="left">60</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">15.3</td>
 </tr>
@@ -957,7 +1001,7 @@ kable(sorted_data)</code></pre>
 <td align="right">98.50</td>
 <td align="right">11.0</td>
 <td align="left">60</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">16.1</td>
 </tr>
@@ -974,7 +1018,7 @@ kable(sorted_data)</code></pre>
 <td align="right">50.70</td>
 <td align="right">12.0</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">16.2</td>
 </tr>
@@ -991,7 +1035,7 @@ kable(sorted_data)</code></pre>
 <td align="right">716.00</td>
 <td align="right">32.1</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">HIGH CV</td>
 <td align="right">16.2</td>
 </tr>
@@ -1008,7 +1052,7 @@ kable(sorted_data)</code></pre>
 <td align="right">17.40</td>
 <td align="right">21.5</td>
 <td align="left">250</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">17.0</td>
 </tr>
@@ -1025,7 +1069,7 @@ kable(sorted_data)</code></pre>
 <td align="right">176.00</td>
 <td align="right">34.7</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">17.5</td>
 </tr>
@@ -1042,7 +1086,7 @@ kable(sorted_data)</code></pre>
 <td align="right">64.40</td>
 <td align="right">16.8</td>
 <td align="left">250</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">17.9</td>
 </tr>
@@ -1059,7 +1103,7 @@ kable(sorted_data)</code></pre>
 <td align="right">37.40</td>
 <td align="right">13.8</td>
 <td align="left">250</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">18.2</td>
 </tr>
@@ -1076,7 +1120,7 @@ kable(sorted_data)</code></pre>
 <td align="right">119.00</td>
 <td align="right">28.0</td>
 <td align="left">250</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">18.4</td>
 </tr>
@@ -1093,7 +1137,7 @@ kable(sorted_data)</code></pre>
 <td align="right">118.00</td>
 <td align="right">16.4</td>
 <td align="left">60</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">19.5</td>
 </tr>
@@ -1110,7 +1154,7 @@ kable(sorted_data)</code></pre>
 <td align="right">104.00</td>
 <td align="right">19.2</td>
 <td align="left">250</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">19.7</td>
 </tr>
@@ -1127,7 +1171,7 @@ kable(sorted_data)</code></pre>
 <td align="right">37.10</td>
 <td align="right">24.1</td>
 <td align="left">250</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">20.0</td>
 </tr>
@@ -1144,7 +1188,7 @@ kable(sorted_data)</code></pre>
 <td align="right">11.50</td>
 <td align="right">29.6</td>
 <td align="left">250</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">21.2</td>
 </tr>
@@ -1161,7 +1205,7 @@ kable(sorted_data)</code></pre>
 <td align="right">16.30</td>
 <td align="right">17.5</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">21.6</td>
 </tr>
@@ -1178,7 +1222,7 @@ kable(sorted_data)</code></pre>
 <td align="right">13.40</td>
 <td align="right">14.4</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">22.1</td>
 </tr>
@@ -1195,7 +1239,7 @@ kable(sorted_data)</code></pre>
 <td align="right">101.00</td>
 <td align="right">23.4</td>
 <td align="left">60</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">23.2</td>
 </tr>
@@ -1212,7 +1256,7 @@ kable(sorted_data)</code></pre>
 <td align="right">317.00</td>
 <td align="right">27.9</td>
 <td align="left">60</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">NA</td>
 <td align="right">25.9</td>
 </tr>
@@ -1229,7 +1273,7 @@ kable(sorted_data)</code></pre>
 <td align="right">65.30</td>
 <td align="right">13.1</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">HIGH CV</td>
 <td align="right">27.3</td>
 </tr>
@@ -1246,7 +1290,7 @@ kable(sorted_data)</code></pre>
 <td align="right">31.90</td>
 <td align="right">15.3</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">NA</td>
 <td align="right">27.8</td>
 </tr>
@@ -1263,7 +1307,7 @@ kable(sorted_data)</code></pre>
 <td align="right">38.60</td>
 <td align="right">11.7</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">HIGH CV;ABOVE 80% binding</td>
 <td align="right">30.6</td>
 </tr>
@@ -1280,7 +1324,7 @@ kable(sorted_data)</code></pre>
 <td align="right">10.80</td>
 <td align="right">29.6</td>
 <td align="left">250</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">ABOVE 80% binding</td>
 <td align="right">31.1</td>
 </tr>
@@ -1297,21 +1341,118 @@ kable(sorted_data)</code></pre>
 <td align="right">7.39</td>
 <td align="right">24.5</td>
 <td align="left">60</td>
-<td align="right">0</td>
+<td align="left">0</td>
 <td align="left">ABOVE 80% binding</td>
 <td align="right">34.3</td>
 </tr>
 </tbody>
 </table>
-<br>
-<p>
-<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-Session information
-</button>
-</p>
-<div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()</code></pre>
+<pre class="r"><code>#library(GGally)
+
+# Pair plot to visualize associations between key variables
+#ggpairs(your_data, columns = c(&quot;Weight_mg&quot;, &quot;Buffer_nl&quot;, &quot;Binding.Perc&quot;, &quot;CV.Perc&quot;))</code></pre>
+</div>
+<div id="plots" class="section level2">
+<h2>Plots</h2>
+<pre class="r"><code># Plot weight and binding percentage
+ggplot(data, aes(x = Weight_mg, y = Binding.Perc,  colour = Buffer_nl)) +
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE) +  # Add a linear trend line
+  labs(title = &quot;Association between Weight and Binding percentage&quot;,
+       x = &quot;Weight (mg)&quot;, y = &quot;Binding percentage&quot;) + 
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal() </code></pre>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Scatter plot of Binding Percentage vs Weight, colored by Spike
+ggplot(data, aes(x = Weight_mg, y = Binding.Perc, color = factor(Spike))) +
+  geom_point(size = 3) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE) +  # Add a linear trend line
+  labs(title = &quot;Binding Percentage vs Weight, colored by Spike&quot;,
+       x = &quot;Weight (mg)&quot;, y = &quot;Binding Percentage&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Scatter plot of Binding Percentage vs Weight, colored by Buffer
+ggplot(data, aes(x = Weight_mg, y = Binding.Perc, color = factor(Buffer_nl))) +
+  geom_point(size = 3) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE) +  # Add a linear trend line
+  labs(title = &quot;Binding Percentage vs Weight, colored by Buffer&quot;,
+       x = &quot;Weight (mg)&quot;, y = &quot;Binding Percentage&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Boxplot of Binding Percentage vs Buffer
+ggplot(data, aes(x = factor(Buffer_nl), y = Binding.Perc)) +
+  geom_boxplot() +
+  labs(title = &quot;Binding Percentage by Buffer&quot;,
+       x = &quot;Buffer (nl)&quot;, y = &quot;Binding Percentage&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Boxplot of Binding Percentage vs spike
+ggplot(data, aes(x = factor(Spike), y = Binding.Perc)) +
+  geom_boxplot() +
+  labs(title = &quot;Binding Percentage by spiker&quot;,
+       x = &quot;Buffer (nl)&quot;, y = &quot;Binding Percentage&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Violin plot to visualize distribution of CV Percentage by Buffer and Spike
+ggplot(data, aes(x = factor(Buffer_nl), y = CV.Perc, fill = factor(Spike))) +
+  geom_violin(trim = FALSE) +
+  labs(title = &quot;CV Percentage by Buffer and Spike&quot;,
+       x = &quot;Buffer (nl)&quot;, y = &quot;CV Percentage&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Violin plot to visualize distribution of Binding deviation by Buffer and Spike
+ggplot(data, aes(x = factor(Buffer_nl), y = Binding_deviation, fill = factor(Spike))) +
+  geom_violin(trim = TRUE) +
+  labs(title = &quot;Binding deviation by Buffer and Spike&quot;,
+       x = &quot;Buffer (nl)&quot;, y = &quot;Binding deviation&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-7.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Boxplot of Binding Percentage vs Buffer, colored by Spike
+ggplot(data, aes(x = factor(Buffer_nl), y = Binding.Perc, fill = factor(Spike))) +
+  geom_boxplot() +
+  labs(title = &quot;Binding Percentage by Buffer and Spike&quot;,
+       x = &quot;Buffer (nl)&quot;, y = &quot;Binding Percentage&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Box plot to visualize distribution of Binding deviation by Buffer and Spike
+ggplot(data, aes(x = factor(Buffer_nl), y = Binding_deviation, fill = factor(Spike))) +
+  geom_boxplot() +
+  geom_point(size = 3) +
+  labs(title = &quot;Binding deviation by Buffer and Spike&quot;,
+       x = &quot;Buffer (nl)&quot;, y = &quot;Binding deviation&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-9.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+
+
+
+
+
+&lt;br&gt;
+&lt;p&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-default btn-workflowr btn-workflowr-sessioninfo&quot;
+  data-toggle=&quot;collapse&quot; data-target=&quot;#workflowr-sessioninfo&quot;
+  style = &quot;display: block;&quot;&gt;
+  &lt;span class=&quot;glyphicon glyphicon-wrench&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
+  Session information
+&lt;/button&gt;
+&lt;/p&gt;
+
+&lt;div id=&quot;workflowr-sessioninfo&quot; class=&quot;collapse&quot;&gt;
+
+``` r
+sessionInfo()</code></pre>
 <pre><code>R version 4.1.0 (2021-05-18)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows 10 x64 (build 19045)
@@ -1335,17 +1476,17 @@ loaded via a namespace (and not attached):
  [1] Rcpp_1.0.10       highr_0.11        pillar_1.9.0      compiler_4.1.0   
  [5] bslib_0.8.0       later_1.3.0       jquerylib_0.1.4   git2r_0.31.0     
  [9] workflowr_1.7.1   tools_4.1.0       digest_0.6.31     lattice_0.20-44  
-[13] nlme_3.1-152      gtable_0.3.5      jsonlite_1.8.4    evaluate_1.0.0   
+[13] nlme_3.1-152      gtable_0.3.5      jsonlite_1.8.9    evaluate_1.0.0   
 [17] lifecycle_1.0.4   tibble_3.2.1      mgcv_1.8-35       pkgconfig_2.0.3  
 [21] rlang_1.1.0       Matrix_1.3-3      cli_3.6.1         rstudioapi_0.16.0
 [25] yaml_2.3.7        xfun_0.47         fastmap_1.1.1     withr_3.0.1      
-[29] stringr_1.5.1     generics_0.1.3    fs_1.5.2          vctrs_0.6.1      
-[33] sass_0.4.9        grid_4.1.0        rprojroot_2.0.4   tidyselect_1.2.0 
+[29] stringr_1.5.1     generics_0.1.3    fs_1.5.2          vctrs_0.6.5      
+[33] sass_0.4.9        grid_4.1.0        tidyselect_1.2.0  rprojroot_2.0.4  
 [37] glue_1.6.2        R6_2.5.1          fansi_1.0.4       rmarkdown_2.28   
-[41] farver_2.1.1      magrittr_2.0.3    splines_4.1.0     scales_1.3.0     
-[45] promises_1.2.0.1  htmltools_0.5.8.1 colorspace_2.1-0  httpuv_1.6.9     
-[49] labeling_0.4.3    utf8_1.2.3        stringi_1.7.12    munsell_0.5.1    
-[53] cachem_1.0.7     </code></pre>
+[41] farver_2.1.1      magrittr_2.0.3    whisker_0.4.1     splines_4.1.0    
+[45] scales_1.3.0      promises_1.2.0.1  htmltools_0.5.8.1 colorspace_2.1-0 
+[49] httpuv_1.6.9      labeling_0.4.3    utf8_1.2.3        stringi_1.7.12   
+[53] munsell_0.5.1     cachem_1.0.7     </code></pre>
 </div>
 </div>
 </div>

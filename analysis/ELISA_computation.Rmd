@@ -11,6 +11,13 @@ editor_options:
 ## Introduction
 ---
 
+```{r echo = FALSE, warning=FALSE}
+# Install libraries
+library(dplyr)
+library(knitr)
+library(ggplot2)
+```
+
 ```{r setup, include=FALSE}
 
 ```

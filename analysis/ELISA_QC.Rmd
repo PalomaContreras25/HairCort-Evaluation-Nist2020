@@ -103,10 +103,23 @@ m2 <- m2 %>%
 kable(head(m2))
 write.csv(m2, "./data/Data_QC_flagged.csv", row.names = FALSE) 
 
+
+# dataset with high cv samples removed
+data.no_cv <- m2 %>% 
+ filter(CV.Perc > CV_threshold) 
+
+
+write.csv(data.no_cv, "./data/Data_QC_filtered.csv", row.names = FALSE) 
+
 # table with samples that failed
 failed_samples <- rbind(cv_high, out_curve)
 write.csv(failed_samples, "./data/failed_samples.csv", row.names = FALSE) 
 
+
+ wflow_publish("./data/")
+ wflow_publish("./analysis/")
+ 
+ wflow_status()
 
 ```
 

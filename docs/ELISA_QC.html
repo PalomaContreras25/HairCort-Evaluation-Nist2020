@@ -420,10 +420,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -516,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3treee4cf6f37ae4048643792ea19e4e194eb18e30c6btargetblanke4cf6f3a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9atargetblank2cbdcc9a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/test-3/tree/e4cf6f37ae4048643792ea19e4e194eb18e30c6b" target="_blank">e4cf6f3</a>
+<a href="https://github.com/PalomaContreras25/test-3/tree/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a" target="_blank">2cbdcc9</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3treee4cf6f37ae4048643792ea19e4e194eb18e30c6btargetblanke4cf6f3a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9atargetblank2cbdcc9a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/test-3/tree/e4cf6f37ae4048643792ea19e4e194eb18e30c6b" target="_blank">e4cf6f3</a>.
+<a href="https://github.com/PalomaContreras25/test-3/tree/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a" target="_blank">2cbdcc9</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -549,14 +549,13 @@ were generated:
 </p>
 <pre><code>
 Untracked files:
-    Untracked:  analysis/ELISA_QC.Rmd
-    Untracked:  analysis/ELISA_computation.Rmd
-    Untracked:  analysis/ELISA_visualizations.Rmd
-    Untracked:  data/Data_QC_flagged.csv
-    Untracked:  data/failed_samples.csv
+    Untracked:  data/Data_QC_filtered.csv
 
 Unstaged changes:
-    Modified:   data/layout_wells_test3_091524.csv
+    Modified:   analysis/ELISA_QC.Rmd
+    Modified:   analysis/ELISA_visualizations.Rmd
+    Modified:   data/Data_QC_flagged.csv
+    Modified:   data/failed_samples.csv
 
 </code></pre>
 <p>
@@ -572,9 +571,72 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/ELISA_QC.Rmd</code>) and HTML
+(<code>docs/ELISA_QC.html</code>) files. If you’ve configured a remote
+Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a/analysis/ELISA_QC.Rmd" target="_blank">2cbdcc9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+merged data, cleaned, visualized some results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/test-3/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a/docs/ELISA_QC.html" target="_blank">2cbdcc9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+merged data, cleaned, visualized some results
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -1318,6 +1380,14 @@ kable(head(m2))</code></pre>
 </table>
 <pre class="r"><code>write.csv(m2, &quot;./data/Data_QC_flagged.csv&quot;, row.names = FALSE) 
 
+
+# dataset with high cv samples removed
+data.no_cv &lt;- m2 %&gt;% 
+ filter(CV.Perc &gt; CV_threshold) 
+
+
+write.csv(data.no_cv, &quot;./data/Data_QC_filtered.csv&quot;, row.names = FALSE) 
+
 # table with samples that failed
 failed_samples &lt;- rbind(cv_high, out_curve)
 write.csv(failed_samples, &quot;./data/failed_samples.csv&quot;, row.names = FALSE) </code></pre>
@@ -1352,16 +1422,16 @@ other attached packages:
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.10       pillar_1.9.0      compiler_4.1.0    bslib_0.8.0      
  [5] later_1.3.0       jquerylib_0.1.4   git2r_0.31.0      workflowr_1.7.1  
- [9] tools_4.1.0       digest_0.6.31     gtable_0.3.5      jsonlite_1.8.4   
+ [9] tools_4.1.0       digest_0.6.31     gtable_0.3.5      jsonlite_1.8.9   
 [13] evaluate_1.0.0    lifecycle_1.0.4   tibble_3.2.1      pkgconfig_2.0.3  
 [17] rlang_1.1.0       cli_3.6.1         rstudioapi_0.16.0 yaml_2.3.7       
 [21] xfun_0.47         fastmap_1.1.1     withr_3.0.1       stringr_1.5.1    
-[25] generics_0.1.3    fs_1.5.2          vctrs_0.6.1       sass_0.4.9       
-[29] grid_4.1.0        rprojroot_2.0.4   tidyselect_1.2.0  glue_1.6.2       
+[25] generics_0.1.3    fs_1.5.2          vctrs_0.6.5       sass_0.4.9       
+[29] grid_4.1.0        tidyselect_1.2.0  rprojroot_2.0.4   glue_1.6.2       
 [33] R6_2.5.1          fansi_1.0.4       rmarkdown_2.28    magrittr_2.0.3   
-[37] scales_1.3.0      promises_1.2.0.1  htmltools_0.5.8.1 colorspace_2.1-0 
-[41] httpuv_1.6.9      utf8_1.2.3        stringi_1.7.12    munsell_0.5.1    
-[45] cachem_1.0.7     </code></pre>
+[37] whisker_0.4.1     scales_1.3.0      promises_1.2.0.1  htmltools_0.5.8.1
+[41] colorspace_2.1-0  httpuv_1.6.9      utf8_1.2.3        stringi_1.7.12   
+[45] munsell_0.5.1     cachem_1.0.7     </code></pre>
 </div>
 </div>
 </div>
