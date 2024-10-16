@@ -22,3 +22,4 @@ library(ggplot2)
 
 ```
 
+ wflow_publish("./analysis/ELISA_Computation.Rmd")
