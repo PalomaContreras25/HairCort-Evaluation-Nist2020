@@ -1,0 +1,59 @@
+---
+title: "ELISA_Visualizations"
+author: "Paloma"
+date: "2024-10-16"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+```{r echo = FALSE, warning=FALSE}
+# Install libraries
+library(dplyr)
+library(knitr)
+library(ggplot2)
+```
+
+
+
+```{r }
+
+data <- read.csv("./data/Data_QC_flagged.csv")
+
+data$Buffer_nl <- as.factor(data$Buffer_nl)
+data$Spike <- as.factor(data$Spike)
+
+
+ggplot(data, aes(x = Weight_mg, y = Binding.Perc, )) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +  # Add a linear trend line
+  labs(title = "Association between Weight and Binding percentage",
+       x = "Weight (mg)", y = "Binding percentage")
+
+# Boxplot of Buffer vs Binding Percentage, wrapped by Spike
+ggplot(data, aes(x = Buffer_nl, y = Binding.Perc)) +
+  geom_boxplot() +
+  geom_smooth(method = "lm", se = FALSE) +  # Add a linear trend line
+  facet_wrap(data$Spike,scales = "fixed")  +  # Use formula notation for facet_wrap
+  scale_y_continuous(n.breaks = 10) +       # Adjust to show more y-axis labels
+  labs(title = "Boxplot Buffer and Binding %, wrapped by spike",
+       x = "Buffer (nl)", y = "Binding Percentage")
+
+
+data$Binding_deviation <- abs(data$Binding.Perc - 50)
+sorted_data <- data[order(data$Binding_deviation), ]
+
+dim(sorted_data)
+# View top results (closest to 50% Binding Percentage)
+kable(sorted_data)
+
+
+
+library(GGally)
+
+# Pair plot to visualize associations between key variables
+ggpairs(your_data, columns = c("Weight_mg", "Buffer_nl", "Binding.Perc", "CV.Perc"))
+
+```

@@ -1,0 +1,114 @@
+---
+title: "ELISA_QC"
+author: "Paloma"
+date: "2024-10-16"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+```{r echo = FALSE, warning=FALSE}
+# Install libraries
+library(dplyr)
+library(knitr)
+library(ggplot2)
+```
+
+
+
+### Load files
+```{r}
+
+layout <- read.csv("./data/layout_wells_test3_091524.csv", stringsAsFactors = TRUE, na.strings = c("", " "))
+results <- read.csv("./data/myassays_table_test3_091524.csv", stringsAsFactors = TRUE, na.strings = c("", " ", "-"))
+info <- read.csv("./data/sample_info_test3_091524.csv", stringsAsFactors = TRUE, na.strings = c("", " "))
+
+#kable(summary(c(layout, results, info)))
+
+
+```
+
+### Merge and clean files
+```{r}
+kable(head(layout)) 
+kable(head(results)) 
+dim(results)
+results <- results %>% 
+  select(!Sample) 
+
+m <- merge(layout, results, by = "Wells")
+kable(head(m)) 
+dim(m)
+
+m<- merge(m, info, by = c("Sample", "Wells"))
+m <- na.omit(m)
+kable(head(m)) 
+dim(m)
+
+
+colnames(m) <- c("Sample", "Wells", "Raw.OD", "Binding.Perc", "Concentration_pg/ml","Average_Conc_pg/ml", "CV.Perc", "SD", "SEM", "Weight_mg", "Buffer_nl", "Spike") 
+
+m[, 3:11] <- lapply(m[, 3:11], function(x) as.numeric(as.character(x)))
+m$Spike <- as.factor(m$Spike)
+
+
+```
+
+
+
+### Identify duplicates with CV above 15% and flag them
+
+```{r}
+CV_threshold <- 15.0
+cv_high <- m %>% 
+  filter(CV.Perc > CV_threshold) %>% 
+  arrange(desc(CV.Perc))
+
+kable(cv_high)
+
+# flag high CV
+
+m1 <- m %>%
+  mutate(CV_categ = ifelse(CV.Perc > CV_threshold, "HIGH CV", NA))
+
+```
+
+### Identify samples outside the curve and flag them  
+
+
+```{r}
+
+out_curve <- m %>% 
+  filter(Binding.Perc < 20.0 | Binding.Perc > 80.0) %>% 
+  arrange(desc(Binding.Perc))
+
+kable(out_curve)
+
+
+# flag samples outside the curve
+
+m2 <- m1 %>%
+  mutate(Binding.Perc_categ = ifelse(Binding.Perc > 80, "ABOVE 80% binding", ifelse(Binding.Perc < 20, "UNDER 20% binding", NA)))
+
+m2 <- m2 %>%
+  mutate(Failed_samples = ifelse(!is.na(CV_categ) & !is.na(Binding.Perc_categ), 
+                             paste(CV_categ, Binding.Perc_categ, sep = ";"), 
+                             coalesce(CV_categ, Binding.Perc_categ))) %>%
+  select(!c(CV_categ, Binding.Perc_categ))
+
+# dataset with problematic samples flagged
+
+kable(head(m2))
+write.csv(m2, "./data/Data_QC_flagged.csv", row.names = FALSE) 
+
+# table with samples that failed
+failed_samples <- rbind(cv_high, out_curve)
+write.csv(failed_samples, "./data/failed_samples.csv", row.names = FALSE) 
+
+
+```
+
+
+
