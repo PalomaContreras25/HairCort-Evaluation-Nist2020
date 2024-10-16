@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -386,9 +386,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>test-3/</code> <span
@@ -411,21 +411,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -516,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9atargetblank2cbdcc9a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree0d06b4668a82f24f277d4c9f7e5f4bc325cf0e0etargetblank0d06b46a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/test-3/tree/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a" target="_blank">2cbdcc9</a>
+<a href="https://github.com/PalomaContreras25/test-3/tree/0d06b4668a82f24f277d4c9f7e5f4bc325cf0e0e" target="_blank">0d06b46</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9atargetblank2cbdcc9a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree0d06b4668a82f24f277d4c9f7e5f4bc325cf0e0etargetblank0d06b46a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/test-3/tree/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a" target="_blank">2cbdcc9</a>.
+<a href="https://github.com/PalomaContreras25/test-3/tree/0d06b4668a82f24f277d4c9f7e5f4bc325cf0e0e" target="_blank">0d06b46</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -549,7 +546,7 @@ were generated:
 </p>
 <pre><code>
 Unstaged changes:
-    Modified:   analysis/ELISA_visualizations.Rmd
+    Modified:   analysis/ELISA_computation.Rmd
 
 </code></pre>
 <p>
@@ -599,6 +596,57 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/0d06b4668a82f24f277d4c9f7e5f4bc325cf0e0e/analysis/ELISA_visualizations.Rmd" target="_blank">0d06b46</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+wflow_publish("./analysis/ELISA_visualizations.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/b03e1438cf6f34249e0b47124233e12b7b369398/analysis/ELISA_visualizations.Rmd" target="_blank">b03e143</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+creating plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/test-3/b03e1438cf6f34249e0b47124233e12b7b369398/docs/ELISA_visualizations.html" target="_blank">b03e143</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+creating plots
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/PalomaContreras25/test-3/blob/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a/analysis/ELISA_visualizations.Rmd" target="_blank">2cbdcc9</a>
 </td>
 <td>
@@ -635,49 +683,40 @@ merged data, cleaned, visualized some results
 </div>
 </div>
 </div>
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
-<pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
-
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    intersect, setdiff, setequal, union</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
 <pre class="r"><code># load dataset
-data &lt;- read.csv(&quot;./data/Data_QC_flagged.csv&quot;)
+data &lt;- read.csv(&quot;./data/Data_QC_filtered.csv&quot;)
 
 #  since Buffer and spike are not continuous variables, change from numeric to factors
 data$Buffer_nl &lt;- as.factor(data$Buffer_nl)
 data$Spike &lt;- as.factor(data$Spike)</code></pre>
-</div>
 <div id="calculating-deviation-from-50-binding" class="section level2">
 <h2>Calculating deviation from 50% binding</h2>
 <pre class="r"><code>data$Binding_deviation &lt;- abs(data$Binding.Perc - 50)
 sorted_data &lt;- data[order(data$Binding_deviation), ]
 
 dim(sorted_data)</code></pre>
-<pre><code>[1] 38 14</code></pre>
+<pre><code>[1] 32 14</code></pre>
 <pre class="r"><code># View top results (closest to 50% Binding Percentage)
 kable(sorted_data)</code></pre>
-<table>
+<table style="width:100%;">
 <colgroup>
 <col width="1%" />
 <col width="4%" />
 <col width="3%" />
 <col width="4%" />
-<col width="7%" />
+<col width="8%" />
+<col width="12%" />
 <col width="11%" />
-<col width="11%" />
-<col width="4%" />
-<col width="4%" />
-<col width="4%" />
 <col width="5%" />
-<col width="5%" />
+<col width="4%" />
+<col width="4%" />
+<col width="6%" />
+<col width="6%" />
 <col width="3%" />
-<col width="15%" />
-<col width="10%" />
+<col width="11%" />
+<col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -700,7 +739,7 @@ kable(sorted_data)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">26</td>
+<td align="left">22</td>
 <td align="left">32</td>
 <td align="left">A11</td>
 <td align="right">0.656</td>
@@ -717,7 +756,7 @@ kable(sorted_data)</code></pre>
 <td align="right">0.0</td>
 </tr>
 <tr class="even">
-<td align="left">25</td>
+<td align="left">21</td>
 <td align="left">31</td>
 <td align="left">H9</td>
 <td align="right">0.701</td>
@@ -734,7 +773,7 @@ kable(sorted_data)</code></pre>
 <td align="right">1.2</td>
 </tr>
 <tr class="odd">
-<td align="left">28</td>
+<td align="left">24</td>
 <td align="left">34</td>
 <td align="left">C11</td>
 <td align="right">0.687</td>
@@ -751,7 +790,7 @@ kable(sorted_data)</code></pre>
 <td align="right">1.7</td>
 </tr>
 <tr class="even">
-<td align="left">27</td>
+<td align="left">23</td>
 <td align="left">33</td>
 <td align="left">B11</td>
 <td align="right">0.696</td>
@@ -768,7 +807,7 @@ kable(sorted_data)</code></pre>
 <td align="right">2.3</td>
 </tr>
 <tr class="odd">
-<td align="left">30</td>
+<td align="left">25</td>
 <td align="left">36</td>
 <td align="left">E11</td>
 <td align="right">0.695</td>
@@ -785,24 +824,7 @@ kable(sorted_data)</code></pre>
 <td align="right">3.2</td>
 </tr>
 <tr class="even">
-<td align="left">12</td>
-<td align="left">2</td>
-<td align="left">D3</td>
-<td align="right">0.675</td>
-<td align="right">53.8</td>
-<td align="right">1159.0</td>
-<td align="right">1045.0</td>
-<td align="right">15.300</td>
-<td align="right">160.00</td>
-<td align="right">113.00</td>
-<td align="right">17.2</td>
-<td align="left">60</td>
-<td align="left">0</td>
-<td align="left">HIGH CV</td>
-<td align="right">3.8</td>
-</tr>
-<tr class="odd">
-<td align="left">19</td>
+<td align="left">15</td>
 <td align="left">27</td>
 <td align="left">E9</td>
 <td align="right">0.610</td>
@@ -818,8 +840,8 @@ kable(sorted_data)</code></pre>
 <td align="left">NA</td>
 <td align="right">4.0</td>
 </tr>
-<tr class="even">
-<td align="left">10</td>
+<tr class="odd">
+<td align="left">8</td>
 <td align="left">18</td>
 <td align="left">D7</td>
 <td align="right">0.734</td>
@@ -835,25 +857,8 @@ kable(sorted_data)</code></pre>
 <td align="left">NA</td>
 <td align="right">6.0</td>
 </tr>
-<tr class="odd">
-<td align="left">13</td>
-<td align="left">20</td>
-<td align="left">F7</td>
-<td align="right">0.538</td>
-<td align="right">43.6</td>
-<td align="right">1785.0</td>
-<td align="right">1550.0</td>
-<td align="right">21.400</td>
-<td align="right">332.00</td>
-<td align="right">235.00</td>
-<td align="right">30.1</td>
-<td align="left">60</td>
-<td align="left">0</td>
-<td align="left">HIGH CV</td>
-<td align="right">6.4</td>
-</tr>
 <tr class="even">
-<td align="left">20</td>
+<td align="left">16</td>
 <td align="left">28</td>
 <td align="left">F9</td>
 <td align="right">0.757</td>
@@ -870,7 +875,7 @@ kable(sorted_data)</code></pre>
 <td align="right">9.5</td>
 </tr>
 <tr class="odd">
-<td align="left">16</td>
+<td align="left">12</td>
 <td align="left">23</td>
 <td align="left">A8</td>
 <td align="right">0.809</td>
@@ -887,24 +892,7 @@ kable(sorted_data)</code></pre>
 <td align="right">10.9</td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
-<td align="left">10</td>
-<td align="left">D5</td>
-<td align="right">0.743</td>
-<td align="right">37.6</td>
-<td align="right">940.7</td>
-<td align="right">3064.0</td>
-<td align="right">98.000</td>
-<td align="right">3000.00</td>
-<td align="right">2120.00</td>
-<td align="right">17.7</td>
-<td align="left">60</td>
-<td align="left">1</td>
-<td align="left">HIGH CV</td>
-<td align="right">12.4</td>
-</tr>
-<tr class="odd">
-<td align="left">18</td>
+<td align="left">14</td>
 <td align="left">26</td>
 <td align="left">D9</td>
 <td align="right">0.477</td>
@@ -920,8 +908,8 @@ kable(sorted_data)</code></pre>
 <td align="left">NA</td>
 <td align="right">12.7</td>
 </tr>
-<tr class="even">
-<td align="left">21</td>
+<tr class="odd">
+<td align="left">17</td>
 <td align="left">29</td>
 <td align="left">G9</td>
 <td align="right">0.518</td>
@@ -937,8 +925,8 @@ kable(sorted_data)</code></pre>
 <td align="left">NA</td>
 <td align="right">13.8</td>
 </tr>
-<tr class="odd">
-<td align="left">31</td>
+<tr class="even">
+<td align="left">26</td>
 <td align="left">37</td>
 <td align="left">F11</td>
 <td align="right">0.482</td>
@@ -954,8 +942,8 @@ kable(sorted_data)</code></pre>
 <td align="left">NA</td>
 <td align="right">13.9</td>
 </tr>
-<tr class="even">
-<td align="left">17</td>
+<tr class="odd">
+<td align="left">13</td>
 <td align="left">24</td>
 <td align="left">B9</td>
 <td align="right">0.835</td>
@@ -971,8 +959,8 @@ kable(sorted_data)</code></pre>
 <td align="left">NA</td>
 <td align="right">14.8</td>
 </tr>
-<tr class="odd">
-<td align="left">35</td>
+<tr class="even">
+<td align="left">29</td>
 <td align="left">6</td>
 <td align="left">H3</td>
 <td align="right">0.490</td>
@@ -988,8 +976,8 @@ kable(sorted_data)</code></pre>
 <td align="left">NA</td>
 <td align="right">15.3</td>
 </tr>
-<tr class="even">
-<td align="left">22</td>
+<tr class="odd">
+<td align="left">18</td>
 <td align="left">3</td>
 <td align="left">E3</td>
 <td align="right">0.478</td>
@@ -1005,8 +993,8 @@ kable(sorted_data)</code></pre>
 <td align="left">NA</td>
 <td align="right">16.1</td>
 </tr>
-<tr class="odd">
-<td align="left">7</td>
+<tr class="even">
+<td align="left">5</td>
 <td align="left">15</td>
 <td align="left">A7</td>
 <td align="right">0.888</td>
@@ -1022,25 +1010,8 @@ kable(sorted_data)</code></pre>
 <td align="left">NA</td>
 <td align="right">16.2</td>
 </tr>
-<tr class="even">
-<td align="left">29</td>
-<td align="left">35</td>
-<td align="left">D11</td>
-<td align="right">0.548</td>
-<td align="right">33.8</td>
-<td align="right">1727.0</td>
-<td align="right">2443.0</td>
-<td align="right">41.500</td>
-<td align="right">1010.00</td>
-<td align="right">716.00</td>
-<td align="right">32.1</td>
-<td align="left">60</td>
-<td align="left">0</td>
-<td align="left">HIGH CV</td>
-<td align="right">16.2</td>
-</tr>
 <tr class="odd">
-<td align="left">15</td>
+<td align="left">11</td>
 <td align="left">22</td>
 <td align="left">H7</td>
 <td align="right">0.453</td>
@@ -1057,7 +1028,7 @@ kable(sorted_data)</code></pre>
 <td align="right">17.0</td>
 </tr>
 <tr class="even">
-<td align="left">32</td>
+<td align="left">27</td>
 <td align="left">38</td>
 <td align="left">G11</td>
 <td align="right">0.429</td>
@@ -1074,7 +1045,7 @@ kable(sorted_data)</code></pre>
 <td align="right">17.5</td>
 </tr>
 <tr class="odd">
-<td align="left">5</td>
+<td align="left">3</td>
 <td align="left">13</td>
 <td align="left">G5</td>
 <td align="right">0.451</td>
@@ -1091,7 +1062,7 @@ kable(sorted_data)</code></pre>
 <td align="right">17.9</td>
 </tr>
 <tr class="even">
-<td align="left">6</td>
+<td align="left">4</td>
 <td align="left">14</td>
 <td align="left">H5</td>
 <td align="right">0.437</td>
@@ -1108,7 +1079,7 @@ kable(sorted_data)</code></pre>
 <td align="right">18.2</td>
 </tr>
 <tr class="odd">
-<td align="left">14</td>
+<td align="left">10</td>
 <td align="left">21</td>
 <td align="left">G7</td>
 <td align="right">0.425</td>
@@ -1125,7 +1096,7 @@ kable(sorted_data)</code></pre>
 <td align="right">18.4</td>
 </tr>
 <tr class="even">
-<td align="left">36</td>
+<td align="left">30</td>
 <td align="left">7</td>
 <td align="left">A5</td>
 <td align="right">0.436</td>
@@ -1142,7 +1113,7 @@ kable(sorted_data)</code></pre>
 <td align="right">19.5</td>
 </tr>
 <tr class="odd">
-<td align="left">38</td>
+<td align="left">32</td>
 <td align="left">9</td>
 <td align="left">C5</td>
 <td align="right">0.432</td>
@@ -1159,7 +1130,7 @@ kable(sorted_data)</code></pre>
 <td align="right">19.7</td>
 </tr>
 <tr class="even">
-<td align="left">4</td>
+<td align="left">2</td>
 <td align="left">12</td>
 <td align="left">F5</td>
 <td align="right">0.422</td>
@@ -1176,7 +1147,7 @@ kable(sorted_data)</code></pre>
 <td align="right">20.0</td>
 </tr>
 <tr class="odd">
-<td align="left">23</td>
+<td align="left">19</td>
 <td align="left">30A</td>
 <td align="left">A3</td>
 <td align="right">0.403</td>
@@ -1193,7 +1164,7 @@ kable(sorted_data)</code></pre>
 <td align="right">21.2</td>
 </tr>
 <tr class="even">
-<td align="left">3</td>
+<td align="left">1</td>
 <td align="left">11</td>
 <td align="left">E5</td>
 <td align="right">0.939</td>
@@ -1210,7 +1181,7 @@ kable(sorted_data)</code></pre>
 <td align="right">21.6</td>
 </tr>
 <tr class="odd">
-<td align="left">34</td>
+<td align="left">28</td>
 <td align="left">5</td>
 <td align="left">G3</td>
 <td align="right">0.944</td>
@@ -1227,7 +1198,7 @@ kable(sorted_data)</code></pre>
 <td align="right">22.1</td>
 </tr>
 <tr class="even">
-<td align="left">8</td>
+<td align="left">6</td>
 <td align="left">16</td>
 <td align="left">B7</td>
 <td align="right">0.372</td>
@@ -1244,7 +1215,7 @@ kable(sorted_data)</code></pre>
 <td align="right">23.2</td>
 </tr>
 <tr class="odd">
-<td align="left">11</td>
+<td align="left">9</td>
 <td align="left">19</td>
 <td align="left">E7</td>
 <td align="right">0.364</td>
@@ -1261,24 +1232,7 @@ kable(sorted_data)</code></pre>
 <td align="right">25.9</td>
 </tr>
 <tr class="even">
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">C3</td>
-<td align="right">0.959</td>
-<td align="right">77.3</td>
-<td align="right">461.9</td>
-<td align="right">396.6</td>
-<td align="right">23.300</td>
-<td align="right">92.40</td>
-<td align="right">65.30</td>
-<td align="right">13.1</td>
-<td align="left">250</td>
-<td align="left">0</td>
-<td align="left">HIGH CV</td>
-<td align="right">27.3</td>
-</tr>
-<tr class="odd">
-<td align="left">37</td>
+<td align="left">31</td>
 <td align="left">8</td>
 <td align="left">B5</td>
 <td align="right">1.030</td>
@@ -1294,25 +1248,8 @@ kable(sorted_data)</code></pre>
 <td align="left">NA</td>
 <td align="right">27.8</td>
 </tr>
-<tr class="even">
-<td align="left">33</td>
-<td align="left">4</td>
-<td align="left">F3</td>
-<td align="right">1.070</td>
-<td align="right">80.6</td>
-<td align="right">295.8</td>
-<td align="right">334.5</td>
-<td align="right">16.300</td>
-<td align="right">54.60</td>
-<td align="right">38.60</td>
-<td align="right">11.7</td>
-<td align="left">250</td>
-<td align="left">0</td>
-<td align="left">HIGH CV;ABOVE 80% binding</td>
-<td align="right">30.6</td>
-</tr>
 <tr class="odd">
-<td align="left">24</td>
+<td align="left">20</td>
 <td align="left">30B</td>
 <td align="left">B3</td>
 <td align="right">1.050</td>
@@ -1329,7 +1266,7 @@ kable(sorted_data)</code></pre>
 <td align="right">31.1</td>
 </tr>
 <tr class="even">
-<td align="left">9</td>
+<td align="left">7</td>
 <td align="left">17</td>
 <td align="left">C7</td>
 <td align="right">1.080</td>
@@ -1347,112 +1284,275 @@ kable(sorted_data)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>#library(GGally)
-
-# Pair plot to visualize associations between key variables
-#ggpairs(your_data, columns = c(&quot;Weight_mg&quot;, &quot;Buffer_nl&quot;, &quot;Binding.Perc&quot;, &quot;CV.Perc&quot;))</code></pre>
 </div>
-<div id="plots" class="section level2">
-<h2>Plots</h2>
-<pre class="r"><code># Plot weight and binding percentage
-ggplot(data, aes(x = Weight_mg, y = Binding.Perc,  colour = Buffer_nl)) +
-  geom_point() +
-  geom_smooth(method = &quot;lm&quot;, se = FALSE) +  # Add a linear trend line
-  labs(title = &quot;Association between Weight and Binding percentage&quot;,
-       x = &quot;Weight (mg)&quot;, y = &quot;Binding percentage&quot;) + 
-   scale_y_continuous(n.breaks = 10) +  
-  theme_minimal() </code></pre>
-<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># Scatter plot of Binding Percentage vs Weight, colored by Spike
-ggplot(data, aes(x = Weight_mg, y = Binding.Perc, color = factor(Spike))) +
+</div>
+<div id="scatterplots" class="section level1">
+<h1>Scatterplots</h1>
+<div id="binding-percentage" class="section level3">
+<h3>Binding percentage</h3>
+<pre class="r"><code># Scatter plot of Binding Percentage vs Weight, 4 groups
+ggplot(data, aes(x = Weight_mg, y = Binding.Perc, color = factor(Spike), shape = factor(Buffer_nl))) +
   geom_point(size = 3) +
-  geom_smooth(method = &quot;lm&quot;, se = FALSE) +  # Add a linear trend line
-  labs(title = &quot;Binding Percentage vs Weight, colored by Spike&quot;,
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, linewidth = 0.5) +  # Add a linear trend line
+  labs(title = &quot;Binding Percentage vs Weight, 4 groups&quot;,
        x = &quot;Weight (mg)&quot;, y = &quot;Binding Percentage&quot;) +
    scale_y_continuous(n.breaks = 10) +  
+    geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;gray&quot;, linewidth = 1) +  # Add horizontal line at y = 20
+  theme_minimal()</code></pre>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/b03e1438cf6f34249e0b47124233e12b7b369398/docs/figure/ELISA_visualizations.Rmd/unnamed-chunk-4-1.png" target="_blank">b03e143</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code># Scatter plot of Binding Percentage vs Weight, 2 groups (Buffer)
+ggplot(data, aes(x = Weight_mg, y = Binding.Perc, color = factor(Buffer_nl))) +
+  geom_point(size = 3) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, linewidth = 0.5) +  # Add a linear trend line
+  labs(title = &quot;Binding Percentage vs Weight, by Buffer&quot;,
+       x = &quot;Weight (mg)&quot;, y = &quot;Binding Percentage&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+    geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;gray&quot;, linewidth = 1) +  # Add horizontal line at y = 20
   theme_minimal()</code></pre>
 <pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># Scatter plot of Binding Percentage vs Weight, colored by Buffer
-ggplot(data, aes(x = Weight_mg, y = Binding.Perc, color = factor(Buffer_nl))) +
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
+Past versions of unnamed-chunk-4-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/b03e1438cf6f34249e0b47124233e12b7b369398/docs/figure/ELISA_visualizations.Rmd/unnamed-chunk-4-2.png" target="_blank">b03e143</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code># Scatter plot of Binding Percentage vs Weight, 2 groups (Spike)
+ggplot(data, aes(x = Weight_mg, y = Binding.Perc, shape = factor(Spike))) +
+  geom_point(size = 3, colour = &quot;cyan4&quot;) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, linewidth = 0.5, colour = &quot;cyan3&quot;) +  # Add a linear trend line
+  labs(title = &quot;Binding Percentage vs Weight, by Spike&quot;,
+       x = &quot;Weight (mg)&quot;, y = &quot;Binding Percentage&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+    geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;gray&quot;, linewidth = 1) +  # Add horizontal line at y = 20
+  theme_minimal()</code></pre>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-3">
+Past versions of unnamed-chunk-4-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/b03e1438cf6f34249e0b47124233e12b7b369398/docs/figure/ELISA_visualizations.Rmd/unnamed-chunk-4-3.png" target="_blank">b03e143</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="coef.-of-variation-percentage" class="section level3">
+<h3>Coef. of variation percentage</h3>
+<pre class="r"><code># Scatterplot of CV Percentage vs Buffer &amp; Spike
+ggplot(data, aes(x = factor(Buffer_nl), y = CV.Perc, fill = factor(Spike))) +
+  geom_boxplot() +
+  labs(title = &quot;Coef. of variation by Buffer and Spike&quot;,
+       x = &quot;Buffer (nl)&quot;, y = &quot;Coef of variation %&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Scatter plot of Binding Percentage vs Weight, 4 groups
+ggplot(data, aes(x = Weight_mg, y = CV.Perc, color = factor(Spike), shape = factor(Buffer_nl))) +
+  geom_point(size = 3) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, linewidth = 0.5) +  # Add a linear trend line
+  labs(title = &quot;Coef. of variation vs Weight, 4 groups&quot;,
+       x = &quot;Weight (mg)&quot;, y = &quot;Coef of variation %&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="deviation-from-50-binding" class="section level3">
+<h3>Deviation from 50% binding</h3>
+<pre class="r"><code># Scatter plot of Binding Deviation vs Weight, 4 groups
+ggplot(data, aes(x = Weight_mg, y = Binding_deviation, color = factor(Spike), shape = factor(Buffer_nl))) +
+  geom_point(size = 3) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, linewidth = 0.5) +  # Add a linear trend line
+  labs(title = &quot;Binding Deviation vs Weight, 4 groups&quot;,
+       x = &quot;Weight (mg)&quot;, y = &quot;Binding Deviation&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Scatter plot of Binding Deviation vs Weight, colored by Buffer
+ggplot(data, aes(x = Weight_mg, y = Binding_deviation, color = factor(Buffer_nl))) +
   geom_point(size = 3) +
   geom_smooth(method = &quot;lm&quot;, se = FALSE) +  # Add a linear trend line
-  labs(title = &quot;Binding Percentage vs Weight, colored by Buffer&quot;,
+  labs(title = &quot;Binding Deviation vs Weight, colored by Buffer&quot;,
        x = &quot;Weight (mg)&quot;, y = &quot;Binding Percentage&quot;) +
    scale_y_continuous(n.breaks = 10) +  
   theme_minimal()</code></pre>
 <pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># Boxplot of Binding Percentage vs Buffer
-ggplot(data, aes(x = factor(Buffer_nl), y = Binding.Perc)) +
-  geom_boxplot() +
-  labs(title = &quot;Binding Percentage by Buffer&quot;,
-       x = &quot;Buffer (nl)&quot;, y = &quot;Binding Percentage&quot;) +
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Scatter plot of Binding Deviation vs Weight, shape by Spike
+ggplot(data, aes(x = Weight_mg, y = Binding_deviation, shape = factor(Spike))) +
+  geom_point(size = 3, colour = &quot;cyan4&quot;) + 
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, linewidth = 0.5, colour = &quot;cyan3&quot;) +  # Add a linear trend line
+  labs(title = &quot;Binding Deviation vs Weight, shape by Spike&quot;,
+       x = &quot;Weight (mg)&quot;, y = &quot;Binding Deviation&quot;) +
    scale_y_continuous(n.breaks = 10) +  
   theme_minimal()</code></pre>
-<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-4.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># Boxplot of Binding Percentage vs spike
-ggplot(data, aes(x = factor(Spike), y = Binding.Perc)) +
-  geom_boxplot() +
-  labs(title = &quot;Binding Percentage by spiker&quot;,
-       x = &quot;Buffer (nl)&quot;, y = &quot;Binding Percentage&quot;) +
-   scale_y_continuous(n.breaks = 10) +  
-  theme_minimal()</code></pre>
-<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-5.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># Violin plot to visualize distribution of CV Percentage by Buffer and Spike
-ggplot(data, aes(x = factor(Buffer_nl), y = CV.Perc, fill = factor(Spike))) +
-  geom_violin(trim = FALSE) +
-  labs(title = &quot;CV Percentage by Buffer and Spike&quot;,
-       x = &quot;Buffer (nl)&quot;, y = &quot;CV Percentage&quot;) +
-   scale_y_continuous(n.breaks = 10) +  
-  theme_minimal()</code></pre>
-<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-6.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># Violin plot to visualize distribution of Binding deviation by Buffer and Spike
-ggplot(data, aes(x = factor(Buffer_nl), y = Binding_deviation, fill = factor(Spike))) +
-  geom_violin(trim = TRUE) +
-  labs(title = &quot;Binding deviation by Buffer and Spike&quot;,
-       x = &quot;Buffer (nl)&quot;, y = &quot;Binding deviation&quot;) +
-   scale_y_continuous(n.breaks = 10) +  
-  theme_minimal()</code></pre>
-<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-7.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># Boxplot of Binding Percentage vs Buffer, colored by Spike
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="boxplots" class="section level1">
+<h1>Boxplots</h1>
+<div id="binding-percentage-1" class="section level3">
+<h3>Binding percentage</h3>
+<pre class="r"><code># Boxplot of Binding Percentage vs Buffer &amp; Spike
 ggplot(data, aes(x = factor(Buffer_nl), y = Binding.Perc, fill = factor(Spike))) +
   geom_boxplot() +
   labs(title = &quot;Binding Percentage by Buffer and Spike&quot;,
        x = &quot;Buffer (nl)&quot;, y = &quot;Binding Percentage&quot;) +
    scale_y_continuous(n.breaks = 10) +  
+      geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;gray&quot;, linewidth = 1) + 
   theme_minimal()</code></pre>
-<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Boxplot of Binding Percentage vs Buffer
+ggplot(data, aes(x = factor(Buffer_nl), y = Binding.Perc, fill = factor(Buffer_nl))) +
+  geom_boxplot() +
+  labs(title = &quot;Binding Percentage by Buffer&quot;,
+       x = &quot;Buffer (nl)&quot;, y = &quot;Bindings Percentage&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+      geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;gray&quot;, linewidth = 1) + 
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Boxplot of Binding Percentage vs Spike
+ggplot(data, aes(x = factor(Spike), y = Binding.Perc, fill = Spike)) +
+  geom_boxplot() +
+  labs(title = &quot;Binding Percentage by Spike&quot;,
+       x = &quot;Spike&quot;, y = &quot;Binding Percentage&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+   geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;gray&quot;, linewidth = 1) +
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="coef.-of-variation-percentage-1" class="section level3">
+<h3>Coef. of variation percentage</h3>
+<pre class="r"><code># Boxplot of CV Percentage vs Buffer &amp; Spike
+ggplot(data, aes(x = factor(Buffer_nl), y = CV.Perc, fill = factor(Spike))) +
+  geom_boxplot() +
+  labs(title = &quot;Coef. of variation by Buffer and Spike&quot;,
+       x = &quot;Buffer (nl)&quot;, y = &quot;Coef of variation %&quot;) +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="deviation-from-50-binding-1" class="section level3">
+<h3>Deviation from 50% binding</h3>
 <pre class="r"><code># Box plot to visualize distribution of Binding deviation by Buffer and Spike
 ggplot(data, aes(x = factor(Buffer_nl), y = Binding_deviation, fill = factor(Spike))) +
   geom_boxplot() +
-  geom_point(size = 3) +
   labs(title = &quot;Binding deviation by Buffer and Spike&quot;,
        x = &quot;Buffer (nl)&quot;, y = &quot;Binding deviation&quot;) +
    scale_y_continuous(n.breaks = 10) +  
   theme_minimal()</code></pre>
-<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-4-9.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>
-
-
-
-
-
-&lt;br&gt;
-&lt;p&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn btn-default btn-workflowr btn-workflowr-sessioninfo&quot;
-  data-toggle=&quot;collapse&quot; data-target=&quot;#workflowr-sessioninfo&quot;
-  style = &quot;display: block;&quot;&gt;
-  &lt;span class=&quot;glyphicon glyphicon-wrench&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
-  Session information
-&lt;/button&gt;
-&lt;/p&gt;
-
-&lt;div id=&quot;workflowr-sessioninfo&quot; class=&quot;collapse&quot;&gt;
-
-``` r
-sessionInfo()</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>wflow_publish(“./analysis/ELISA_visualizations.Rmd”)</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.1.0 (2021-05-18)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows 10 x64 (build 19045)
@@ -1470,23 +1570,26 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_3.5.1 knitr_1.48    dplyr_1.1.2  
+[1] RColorBrewer_1.1-3 ggplot2_3.5.1      knitr_1.48         dplyr_1.1.2       
+[5] workflowr_1.7.1   
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.10       highr_0.11        pillar_1.9.0      compiler_4.1.0   
- [5] bslib_0.8.0       later_1.3.0       jquerylib_0.1.4   git2r_0.31.0     
- [9] workflowr_1.7.1   tools_4.1.0       digest_0.6.31     lattice_0.20-44  
-[13] nlme_3.1-152      gtable_0.3.5      jsonlite_1.8.9    evaluate_1.0.0   
-[17] lifecycle_1.0.4   tibble_3.2.1      mgcv_1.8-35       pkgconfig_2.0.3  
-[21] rlang_1.1.0       Matrix_1.3-3      cli_3.6.1         rstudioapi_0.16.0
-[25] yaml_2.3.7        xfun_0.47         fastmap_1.1.1     withr_3.0.1      
-[29] stringr_1.5.1     generics_0.1.3    fs_1.5.2          vctrs_0.6.5      
-[33] sass_0.4.9        grid_4.1.0        tidyselect_1.2.0  rprojroot_2.0.4  
-[37] glue_1.6.2        R6_2.5.1          fansi_1.0.4       rmarkdown_2.28   
-[41] farver_2.1.1      magrittr_2.0.3    whisker_0.4.1     splines_4.1.0    
-[45] scales_1.3.0      promises_1.2.0.1  htmltools_0.5.8.1 colorspace_2.1-0 
-[49] httpuv_1.6.9      labeling_0.4.3    utf8_1.2.3        stringi_1.7.12   
-[53] munsell_0.5.1     cachem_1.0.7     </code></pre>
+ [1] tidyselect_1.2.0  xfun_0.47         bslib_0.8.0       splines_4.1.0    
+ [5] lattice_0.20-44   colorspace_2.1-0  vctrs_0.6.5       generics_0.1.3   
+ [9] htmltools_0.5.8.1 yaml_2.3.7        mgcv_1.8-35       utf8_1.2.3       
+[13] rlang_1.1.0       jquerylib_0.1.4   later_1.3.0       pillar_1.9.0     
+[17] glue_1.6.2        withr_3.0.1       lifecycle_1.0.4   stringr_1.5.1    
+[21] munsell_0.5.1     gtable_0.3.5      evaluate_1.0.0    labeling_0.4.3   
+[25] callr_3.7.6       fastmap_1.1.1     httpuv_1.6.9      ps_1.7.5         
+[29] fansi_1.0.4       highr_0.11        Rcpp_1.0.10       promises_1.2.0.1 
+[33] scales_1.3.0      cachem_1.0.7      jsonlite_1.8.9    farver_2.1.1     
+[37] fs_1.5.2          digest_0.6.31     stringi_1.7.12    processx_3.8.1   
+[41] getPass_0.2-2     rprojroot_2.0.4   grid_4.1.0        cli_3.6.1        
+[45] tools_4.1.0       magrittr_2.0.3    sass_0.4.9        tibble_3.2.1     
+[49] whisker_0.4.1     pkgconfig_2.0.3   Matrix_1.3-3      rmarkdown_2.28   
+[53] httr_1.4.7        rstudioapi_0.16.0 R6_2.5.1          nlme_3.1-152     
+[57] git2r_0.31.0      compiler_4.1.0   </code></pre>
+</div>
 </div>
 </div>
 </div>
