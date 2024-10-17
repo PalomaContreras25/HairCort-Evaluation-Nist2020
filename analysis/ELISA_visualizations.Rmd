@@ -7,8 +7,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Introduction
-
 ```{r echo = FALSE, warning = FALSE, message=FALSE}
 # Install libraries
 library(dplyr)
@@ -17,7 +15,7 @@ library(ggplot2)
 library(RColorBrewer)
 ```
 
-```{r }
+```{r echo = FALSE}
 
 # load dataset
 data <- read.csv("./data/Data_QC_filtered.csv")
@@ -28,21 +26,9 @@ data$Spike <- as.factor(data$Spike)
 
 ```
 
-## Calculating deviation from 50% binding
-```{r}
 
-data$Binding_deviation <- abs(data$Binding.Perc - 50)
-sorted_data <- data[order(data$Binding_deviation), ]
-
-dim(sorted_data)
-# View top results (closest to 50% Binding Percentage)
-kable(sorted_data)
-
-```
-
-# Scatterplots 
-
-### Binding percentage
+# Binding percentage
+### Scatterplots
 ```{r}
 
 # Scatter plot of Binding Percentage vs Weight, 4 groups
@@ -80,66 +66,9 @@ ggplot(data, aes(x = Weight_mg, y = Binding.Perc, shape = factor(Spike))) +
 
 ```
 
-### Coef. of variation percentage
-
-```{r}
-# Scatterplot of CV Percentage vs Buffer & Spike
-ggplot(data, aes(x = factor(Buffer_nl), y = CV.Perc, fill = factor(Spike))) +
-  geom_boxplot() +
-  labs(title = "Coef. of variation by Buffer and Spike",
-       x = "Buffer (nl)", y = "Coef of variation %") +
-   scale_y_continuous(n.breaks = 10) +  
-  theme_minimal()
+### Boxplots
 
 
-# Scatter plot of Binding Percentage vs Weight, 4 groups
-ggplot(data, aes(x = Weight_mg, y = CV.Perc, color = factor(Spike), shape = factor(Buffer_nl))) +
-  geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a linear trend line
-  labs(title = "Coef. of variation vs Weight, 4 groups",
-       x = "Weight (mg)", y = "Coef of variation %") +
-   scale_y_continuous(n.breaks = 10) +  
-  theme_minimal()
- 
-```
-
-
-### Deviation from 50% binding
-
-```{r}
-
-# Scatter plot of Binding Deviation vs Weight, 4 groups
-ggplot(data, aes(x = Weight_mg, y = Binding_deviation, color = factor(Spike), shape = factor(Buffer_nl))) +
-  geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a linear trend line
-  labs(title = "Binding Deviation vs Weight, 4 groups",
-       x = "Weight (mg)", y = "Binding Deviation") +
-   scale_y_continuous(n.breaks = 10) +  
-  theme_minimal()
-
-# Scatter plot of Binding Deviation vs Weight, colored by Buffer
-ggplot(data, aes(x = Weight_mg, y = Binding_deviation, color = factor(Buffer_nl))) +
-  geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE) +  # Add a linear trend line
-  labs(title = "Binding Deviation vs Weight, colored by Buffer",
-       x = "Weight (mg)", y = "Binding Percentage") +
-   scale_y_continuous(n.breaks = 10) +  
-  theme_minimal()
-
-# Scatter plot of Binding Deviation vs Weight, shape by Spike
-ggplot(data, aes(x = Weight_mg, y = Binding_deviation, shape = factor(Spike))) +
-  geom_point(size = 3, colour = "cyan4") + 
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, colour = "cyan3") +  # Add a linear trend line
-  labs(title = "Binding Deviation vs Weight, shape by Spike",
-       x = "Weight (mg)", y = "Binding Deviation") +
-   scale_y_continuous(n.breaks = 10) +  
-  theme_minimal()
-
-```
-
-# Boxplots
-
-### Binding percentage
 ```{r}
 
 # Boxplot of Binding Percentage vs Buffer & Spike
@@ -172,11 +101,11 @@ ggplot(data, aes(x = factor(Spike), y = Binding.Perc, fill = Spike)) +
 
 ```
 
-### Coef. of variation percentage
 
+# Coef. of variation percentage
+
+### Boxplot
 ```{r}
-
-
 # Boxplot of CV Percentage vs Buffer & Spike
 ggplot(data, aes(x = factor(Buffer_nl), y = CV.Perc, fill = factor(Spike))) +
   geom_boxplot() +
@@ -187,10 +116,72 @@ ggplot(data, aes(x = factor(Buffer_nl), y = CV.Perc, fill = factor(Spike))) +
 
 ```
 
-
-
-### Deviation from 50% binding
+### Scatterplot
 ```{r}
+
+# Scatterplot CV Percentage vs Weight, 4 groups
+ggplot(data, aes(x = Weight_mg, y = CV.Perc, color = factor(Spike), shape = factor(Buffer_nl))) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a linear trend line
+  labs(title = "Coef. of variation vs Weight, 4 groups",
+       x = "Weight (mg)", y = "Coef of variation %") +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()
+ 
+```
+
+
+
+# Deviation from 50% binding
+## Calculating deviation from 50% binding
+
+Over 80% and under 20% bindings are considered not reliable. Here I calculate a "binding" deviation, or a distance from what I should aim for: 50% binding. 
+```{r}
+
+data$Binding_deviation <- abs(data$Binding.Perc - 50)
+sorted_data <- data[order(data$Binding_deviation), ]
+
+dim(sorted_data)
+# View top results (closest to 50% Binding Percentage)
+kable(head(sorted_data))
+
+```
+
+### Scatterplots
+```{r message=FALSE}
+
+# Scatter plot of Binding Deviation vs Weight, 4 groups
+ggplot(data, aes(x = Weight_mg, y = Binding_deviation, color = factor(Spike), shape = factor(Buffer_nl))) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a linear trend line
+  labs(title = "Binding Deviation vs Weight, 4 groups",
+       x = "Weight (mg)", y = "Binding Deviation") +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()
+
+# Scatter plot of Binding Deviation vs Weight, colored by Buffer
+ggplot(data, aes(x = Weight_mg, y = Binding_deviation, color = factor(Buffer_nl))) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE) +  # Add a linear trend line
+  labs(title = "Binding Deviation vs Weight, by Buffer, 2 groups",
+       x = "Weight (mg)", y = "Binding Percentage") +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()
+
+# Scatter plot of Binding Deviation vs Weight, shape by Spike
+ggplot(data, aes(x = Weight_mg, y = Binding_deviation, shape = factor(Spike))) +
+  geom_point(size = 3, colour = "cyan4") + 
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, colour = "cyan3") +  # Add a linear trend line
+  labs(title = "Binding Deviation vs Weight, shape by Spike, 2 groups",
+       x = "Weight (mg)", y = "Binding Deviation") +
+   scale_y_continuous(n.breaks = 10) +  
+  theme_minimal()
+
+```
+
+
+### Boxplot
+```{r message=FALSE}
 
 # Box plot to visualize distribution of Binding deviation by Buffer and Spike
 ggplot(data, aes(x = factor(Buffer_nl), y = Binding_deviation, fill = factor(Spike))) +
@@ -205,7 +196,13 @@ ggplot(data, aes(x = factor(Buffer_nl), y = Binding_deviation, fill = factor(Spi
 
 ```
 
+```{r echo = FALSE}
+
+
 wflow_publish("./analysis/ELISA_visualizations.Rmd")
 
-wflow_status()
+#wflow_status()
+
+
+```
 
