@@ -7,7 +7,10 @@ editor_options:
   chunk_output_type: console
 ---
 
-Test#3 is an ELISA assay run to quantify cortisol concentrations on human hair. The output from the plate reader, as well as all the information to interpret it, are stored in this repository. We used the original output from Myassays as it provides a better fitting curve than one calculated manually.
+
+
+
+The output from the plate reader, as well as all the information to interpret it, are stored in this repository. We used the original output from Myassays as it provides a better fitting curve than one calculated manually.
 
 All samples in this essay were obtained from the same person, and were extracted using the same protocol. The parameters that we want to optimize vary for different samples:
 
@@ -17,5 +20,6 @@ All samples in this essay were obtained from the same person, and were extracted
 
 
 Visualizations were conducted using dataset obtained from Myassays.com, i.e. before calculating final values including weight, buffer vol, and spike. This was because I wanted to look at the general performance of the assay, as well as visualizing the influence of different parameters of interest before controlling for them.
+
 
 

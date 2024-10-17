@@ -8,6 +8,20 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+### Hi there!
 
+
+### In Test#3 I test a protocol proposed by Nist et al. 2020 to quantify cortisol concentrations on human hair. This new protocol includes additional steps that would make possible to quantify very small hair samples (i.e. less than 20 mg). 
+
+### Here you will find:
+
+
+## Results from Test #3: [link](./docs/ELISA_visualizations.html)
+
+## How final cortisol concentrations were calculated: [link](.docs/ELISA_compulation.html) 
+
+## How I cleaned and organized the data: [link](./docs/ELISA_QC.html) 
+
+
+You can click this [link](./docs/about.html) to read a more detailed description of this experiment. 
 
