@@ -16,11 +16,11 @@ editor_options:
 ### Here you will find:
 
 
-## Results from Test #3: [link](./docs/ELISA_visualizations.html)
+## Results from Test #3: [link](./ELISA_visualizations.html)
 
-## How final cortisol concentrations were calculated: [link](.docs/ELISA_compulation.html) 
+## How final cortisol concentrations were calculated: [link](./ELISA_compulation.html) 
 
-## How I cleaned and organized the data: [link](./docs/ELISA_QC.html) 
+## How I cleaned and organized the data: [link](./ELISA_QC.html) 
 
 
 You can click this [link](./docs/about.html) to read a more detailed description of this experiment. 
