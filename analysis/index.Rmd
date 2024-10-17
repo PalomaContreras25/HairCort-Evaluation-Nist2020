@@ -16,12 +16,12 @@ editor_options:
 ### Here you will find:
 
 
-## Results from Test #3: [link](./ELISA_visualizations.html)
+## Results from Test #3: [link](http://palomacontreras25.github.io/test-3/docs/ELISA_visualizations.html)
 
-## How final cortisol concentrations were calculated: [link](./ELISA_compulation.html) 
+## How final cortisol concentrations were calculated: [link](http://palomacontreras25.github.io/test-3/docs/ELISA_compulation.html) 
 
-## How I cleaned and organized the data: [link](./ELISA_QC.html) 
+## How I cleaned and organized the data: [link](http://palomacontreras25.github.io/test-3/docs/ELISA_QC.html) 
 
 
-You can click this [link](./docs/about.html) to read a more detailed description of this experiment. 
+You can click this [link](http://palomacontreras25.github.io/test-3/docs/about.html) to read a more detailed description of this experiment. 
 
