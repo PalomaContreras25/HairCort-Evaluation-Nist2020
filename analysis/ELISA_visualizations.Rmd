@@ -6,6 +6,9 @@ output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
+# Introduction
+
+Here I use results from ELISA test-3. I removed the samples that have a Coef of variation higher than 15%.
 
 ```{r echo = FALSE, warning = FALSE, message=FALSE}
 # Install libraries
@@ -20,7 +23,8 @@ library(RColorBrewer)
 # load dataset
 data <- read.csv("./data/Data_QC_filtered.csv")
 
-#  since Buffer and spike are not continuous variables, change from numeric to factors
+# Since Buffer and spike are not continuous variables, 
+# change from numeric to factors
 data$Buffer_nl <- as.factor(data$Buffer_nl)
 data$Spike <- as.factor(data$Spike)
 
@@ -29,38 +33,53 @@ data$Spike <- as.factor(data$Spike)
 
 # Binding percentage
 ### Scatterplots
-```{r}
+```{r message =FALSE}
 
 # Scatter plot of Binding Percentage vs Weight, 4 groups
-ggplot(data, aes(x = Weight_mg, y = Binding.Perc, color = factor(Spike), shape = factor(Buffer_nl))) +
+
+ggplot(data, aes(x = Weight_mg, 
+                 y = Binding.Perc, 
+                 color = factor(Spike), 
+                 shape = factor(Buffer_nl))) +
   geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a linear trend line
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a trend line
+  geom_hline(yintercept = 50, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  # Add horizontal line
   labs(title = "Binding Percentage vs Weight, 4 groups",
-       x = "Weight (mg)", y = "Binding Percentage") +
-   scale_y_continuous(n.breaks = 10) +  
-    geom_hline(yintercept = 50, linetype = "dashed", color = "gray", linewidth = 1) +  # Add horizontal line at y = 20
+       x = "Weight (mg)", 
+       y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
  
 
 # Scatter plot of Binding Percentage vs Weight, 2 groups (Buffer)
-ggplot(data, aes(x = Weight_mg, y = Binding.Perc, color = factor(Buffer_nl))) +
+
+ggplot(data, aes(x = Weight_mg, 
+                 y = Binding.Perc, 
+                 color = factor(Buffer_nl))) +
   geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a linear trend line
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a trend line
+  geom_hline(yintercept = 50, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  # Add horizontal line 
   labs(title = "Binding Percentage vs Weight, by Buffer",
        x = "Weight (mg)", y = "Binding Percentage") +
-   scale_y_continuous(n.breaks = 10) +  
-    geom_hline(yintercept = 50, linetype = "dashed", color = "gray", linewidth = 1) +  # Add horizontal line at y = 20
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
 
 
 # Scatter plot of Binding Percentage vs Weight, 2 groups (Spike)
-ggplot(data, aes(x = Weight_mg, y = Binding.Perc, shape = factor(Spike))) +
-  geom_point(size = 3, colour = "cyan4") +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, colour = "cyan3") +  # Add a linear trend line
+
+ggplot(data, aes(x = Weight_mg, 
+                 y = Binding.Perc, 
+                 shape = factor(Spike))) +
+  geom_point(size = 3, colour = "brown") +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, 
+              colour = "cyan3") +  # Add a linear trend line
+  geom_hline(yintercept = 50, linetype = "dashed",
+             color = "gray", linewidth = 1) +  # Add horizontal line at y = 20
   labs(title = "Binding Percentage vs Weight, by Spike",
        x = "Weight (mg)", y = "Binding Percentage") +
-   scale_y_continuous(n.breaks = 10) +  
-    geom_hline(yintercept = 50, linetype = "dashed", color = "gray", linewidth = 1) +  # Add horizontal line at y = 20
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
 
 
@@ -72,31 +91,38 @@ ggplot(data, aes(x = Weight_mg, y = Binding.Perc, shape = factor(Spike))) +
 ```{r}
 
 # Boxplot of Binding Percentage vs Buffer & Spike
-ggplot(data, aes(x = factor(Buffer_nl), y = Binding.Perc, fill = factor(Spike))) +
+
+ggplot(data, aes(x = factor(Buffer_nl), 
+                 y = Binding.Perc, 
+                 fill = factor(Spike))) +
   geom_boxplot() +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "gray", linewidth = 1) + 
   labs(title = "Binding Percentage by Buffer and Spike",
        x = "Buffer (nl)", y = "Binding Percentage") +
-   scale_y_continuous(n.breaks = 10) +  
-      geom_hline(yintercept = 50, linetype = "dashed", color = "gray", linewidth = 1) + 
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
 
 
 # Boxplot of Binding Percentage vs Buffer
-ggplot(data, aes(x = factor(Buffer_nl), y = Binding.Perc, fill = factor(Buffer_nl))) +
+
+ggplot(data, aes(x = factor(Buffer_nl), 
+                 y = Binding.Perc, 
+                 fill = factor(Buffer_nl))) +
   geom_boxplot() +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "gray", linewidth = 1) + 
   labs(title = "Binding Percentage by Buffer",
        x = "Buffer (nl)", y = "Bindings Percentage") +
-   scale_y_continuous(n.breaks = 10) +  
-      geom_hline(yintercept = 50, linetype = "dashed", color = "gray", linewidth = 1) + 
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
 
 # Boxplot of Binding Percentage vs Spike
+
 ggplot(data, aes(x = factor(Spike), y = Binding.Perc, fill = Spike)) +
   geom_boxplot() +
   labs(title = "Binding Percentage by Spike",
        x = "Spike", y = "Binding Percentage") +
-   scale_y_continuous(n.breaks = 10) +  
-   geom_hline(yintercept = 50, linetype = "dashed", color = "gray", linewidth = 1) +
+  scale_y_continuous(n.breaks = 10) +  
+  geom_hline(yintercept = 50, linetype = "dashed", color = "gray", linewidth = 1) +
   theme_minimal()
 
 ```
@@ -107,11 +133,14 @@ ggplot(data, aes(x = factor(Spike), y = Binding.Perc, fill = Spike)) +
 ### Boxplot
 ```{r}
 # Boxplot of CV Percentage vs Buffer & Spike
-ggplot(data, aes(x = factor(Buffer_nl), y = CV.Perc, fill = factor(Spike))) +
+
+ggplot(data, aes(x = factor(Buffer_nl), 
+                 y = CV.Perc, 
+                 fill = factor(Spike))) +
   geom_boxplot() +
   labs(title = "Coef. of variation by Buffer and Spike",
        x = "Buffer (nl)", y = "Coef of variation %") +
-   scale_y_continuous(n.breaks = 10) +  
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
 
 ```
@@ -120,12 +149,16 @@ ggplot(data, aes(x = factor(Buffer_nl), y = CV.Perc, fill = factor(Spike))) +
 ```{r}
 
 # Scatterplot CV Percentage vs Weight, 4 groups
-ggplot(data, aes(x = Weight_mg, y = CV.Perc, color = factor(Spike), shape = factor(Buffer_nl))) +
+
+ggplot(data, aes(x = Weight_mg, 
+                 y = CV.Perc, 
+                 color = factor(Spike), 
+                 shape = factor(Buffer_nl))) +
   geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a linear trend line
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add line
   labs(title = "Coef. of variation vs Weight, 4 groups",
        x = "Weight (mg)", y = "Coef of variation %") +
-   scale_y_continuous(n.breaks = 10) +  
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
  
 ```
@@ -142,8 +175,10 @@ data$Binding_deviation <- abs(data$Binding.Perc - 50)
 sorted_data <- data[order(data$Binding_deviation), ]
 
 dim(sorted_data)
+
 # View top results (closest to 50% Binding Percentage)
-kable(head(sorted_data))
+
+kable(head(sorted_data[,c("Sample", "Wells", "Binding.Perc", "Binding_deviation")]))
 
 ```
 
@@ -151,30 +186,40 @@ kable(head(sorted_data))
 ```{r message=FALSE}
 
 # Scatter plot of Binding Deviation vs Weight, 4 groups
-ggplot(data, aes(x = Weight_mg, y = Binding_deviation, color = factor(Spike), shape = factor(Buffer_nl))) +
+
+ggplot(data, aes(x = Weight_mg, 
+                 y = Binding_deviation, 
+                 color = factor(Spike), 
+                 shape = factor(Buffer_nl))) +
   geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a linear trend line
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) + 
   labs(title = "Binding Deviation vs Weight, 4 groups",
        x = "Weight (mg)", y = "Binding Deviation") +
-   scale_y_continuous(n.breaks = 10) +  
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
 
 # Scatter plot of Binding Deviation vs Weight, colored by Buffer
-ggplot(data, aes(x = Weight_mg, y = Binding_deviation, color = factor(Buffer_nl))) +
+
+ggplot(data, aes(x = Weight_mg, 
+                 y = Binding_deviation, 
+                 color = factor(Buffer_nl))) +
   geom_point(size = 3) +
   geom_smooth(method = "lm", se = FALSE) +  # Add a linear trend line
   labs(title = "Binding Deviation vs Weight, by Buffer, 2 groups",
        x = "Weight (mg)", y = "Binding Percentage") +
-   scale_y_continuous(n.breaks = 10) +  
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
 
 # Scatter plot of Binding Deviation vs Weight, shape by Spike
-ggplot(data, aes(x = Weight_mg, y = Binding_deviation, shape = factor(Spike))) +
+
+ggplot(data, aes(x = Weight_mg, 
+                 y = Binding_deviation, 
+                 shape = factor(Spike))) +
   geom_point(size = 3, colour = "cyan4") + 
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, colour = "cyan3") +  # Add a linear trend line
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, colour = "cyan3") +  
   labs(title = "Binding Deviation vs Weight, shape by Spike, 2 groups",
        x = "Weight (mg)", y = "Binding Deviation") +
-   scale_y_continuous(n.breaks = 10) +  
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
 
 ```
@@ -184,14 +229,15 @@ ggplot(data, aes(x = Weight_mg, y = Binding_deviation, shape = factor(Spike))) +
 ```{r message=FALSE}
 
 # Box plot to visualize distribution of Binding deviation by Buffer and Spike
-ggplot(data, aes(x = factor(Buffer_nl), y = Binding_deviation, fill = factor(Spike))) +
+
+ggplot(data, aes(x = factor(Buffer_nl),
+                 y = Binding_deviation, 
+                 fill = factor(Spike))) +
   geom_boxplot() +
   labs(title = "Binding deviation by Buffer and Spike",
        x = "Buffer (nl)", y = "Binding deviation") +
-   scale_y_continuous(n.breaks = 10) +  
+  scale_y_continuous(n.breaks = 10) +  
   theme_minimal()
-
-
 
 
 ```
