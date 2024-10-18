@@ -199,7 +199,7 @@ ggplot(data, aes(x = factor(Buffer_nl), y = Binding_deviation, fill = factor(Spi
 ```{r echo = FALSE}
 
 
-wflow_publish("./analysis/ELISA_visualizations.Rmd")
+#wflow_publish("./analysis/ELISA_visualizations.Rmd")
 
 #wflow_status()
 
