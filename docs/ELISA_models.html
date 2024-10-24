@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Paloma" />
+
+<meta name="date" content="2024-10-23" />
+
+<title>ELISA_models</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">test-3</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">ELISA_models</h1>
+<h4 class="author">Paloma</h4>
+<h4 class="date">2024-10-23</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2024-10-23
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>test-3/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241016code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241016)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241016code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241016)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3treebf351723e2a8622c8349868f5ef99792f7c5924dtargetblankbf35172a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/PalomaContreras25/test-3/tree/bf351723e2a8622c8349868f5ef99792f7c5924d" target="_blank">bf35172</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3treebf351723e2a8622c8349868f5ef99792f7c5924dtargetblankbf35172a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/PalomaContreras25/test-3/tree/bf351723e2a8622c8349868f5ef99792f7c5924d" target="_blank">bf35172</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  analysis/ELISA_models.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="intro" class="section level1">
+<h1>Intro</h1>
+<p>To explore the effects of each variable more systematically, I run
+multiple models and compared them using AIC Akakikes’ coefficient. I
+removed samples with a binding over 80% or under 20%.</p>
+<p><img src="figure/ELISA_models.Rmd/qqplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This is the distribution of the data (binding percentage). I am not
+sure how to describe it, but it does not look very linear. I will test
+different distributions at another time, but for now, I will run and
+compare simple models that should allow me to understand which variables
+have a greater impact on binding percentages.</p>
+</div>
+<div id="linear-models-description" class="section level1">
+<h1>Linear models: Description</h1>
+<table>
+<caption>
+<span id="tab:table"> Model description </span>
+</caption>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">Spike</th>
+<th align="right">Buffer</th>
+<th align="right">Weight</th>
+<th align="center">Obs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>| m1 |</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">X</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>| m2 |</td>
+<td align="right">X</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>| m3 |</td>
+<td align="right"></td>
+<td align="right">X</td>
+<td align="right"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>| m4 |</td>
+<td align="right">X</td>
+<td align="right"></td>
+<td align="right">X</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>| m5 |</td>
+<td align="right"></td>
+<td align="right">X</td>
+<td align="right">X</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>| m6 |</td>
+<td align="right">X</td>
+<td align="right">X</td>
+<td align="right"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>| m7 |</td>
+<td align="right">X</td>
+<td align="right">X</td>
+<td align="right">X</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>| m8 |</td>
+<td align="right"></td>
+<td align="right">X</td>
+<td align="right">X</td>
+<td align="center">Spiked samples only</td>
+</tr>
+<tr class="odd">
+<td>| m9 |</td>
+<td align="right"></td>
+<td align="right">X</td>
+<td align="right">X</td>
+<td align="center">Not spiked samples only</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<div id="creating-models" class="section level2">
+<h2>Creating models</h2>
+<pre class="r"><code>binding &lt;- data$Binding.Perc
+weight &lt;- data$Weight_mg
+spike &lt;- data$Spike
+buffer &lt;- data$Buffer_nl
+
+# model 1
+
+m1 &lt;- lm(binding ~ weight)
+confint(m1, level = 0.95)</code></pre>
+<pre><code>                2.5 %     97.5 %
+(Intercept) 32.734311 70.6134504
+weight      -1.057979  0.4711297</code></pre>
+<pre class="r"><code># model 2
+
+m2 &lt;- lm(binding ~ spike)
+confint(m2, level = 0.95)</code></pre>
+<pre><code>                2.5 %    97.5 %
+(Intercept)  49.08898  59.28880
+spike1      -31.61922 -15.49189</code></pre>
+<pre class="r"><code># model 3
+
+m3 &lt;- lm(binding ~ buffer)
+confint(m3, level = 0.95)</code></pre>
+<pre><code>                2.5 %   97.5 %
+(Intercept) 31.784638 49.38459
+buffer1     -4.309996 19.07018</code></pre>
+<pre class="r"><code># model 4
+
+m4 &lt;- lm(binding ~ weight + spike)
+confint(m4, level = 0.95)</code></pre>
+<pre><code>                 2.5 %      97.5 %
+(Intercept)  64.866499  88.3764142
+weight       -1.307243  -0.4453015
+spike1      -34.855427 -21.2812872</code></pre>
+<pre class="r"><code># model 5 
+
+m5 &lt;- lm(binding ~ weight + buffer)
+confint(m5, level = 0.95)</code></pre>
+<pre><code>                2.5 %     97.5 %
+(Intercept) 30.459445 68.1867374
+weight      -1.164810  0.3642451
+buffer1     -3.315599 20.4905160</code></pre>
+<pre class="r"><code># model 6
+
+m6 &lt;- lm(binding ~ spike + buffer)
+confint(m6, level = 0.95)</code></pre>
+<pre><code>                  2.5 %    97.5 %
+(Intercept)  43.3835259  56.07685
+spike1      -31.3568589 -16.20012
+buffer1       0.5335106  15.51781</code></pre>
+<pre class="r"><code># model 7
+
+m7 &lt;- lm(binding ~ weight + buffer + spike)
+confint(m7, level = 0.95)</code></pre>
+<pre><code>                 2.5 %      97.5 %
+(Intercept)  65.804710  83.3124949
+weight       -1.368173  -0.7142862
+buffer1       6.502196  16.1265526
+spike1      -34.285345 -24.1790066</code></pre>
+<pre class="r"><code># model 8
+
+sp1 &lt;- data[data$Spike == 1,]
+sp0 &lt;- data[data$Spike == 0,]
+
+binding &lt;- sp1$Binding.Perc
+weight &lt;- sp1$Weight_mg
+spike &lt;- sp1$Spike
+buffer &lt;- sp1$Buffer_nl
+
+m8 &lt;- lm(binding ~  buffer + weight)
+confint(m8, level = 0.95)</code></pre>
+<pre><code>                 2.5 %     97.5 %
+(Intercept) 32.2245763 41.8013488
+buffer1     -0.4660705  5.2006784
+weight      -0.6129155 -0.1460631</code></pre>
+<pre class="r"><code># model 9
+
+binding &lt;- sp0$Binding.Perc
+weight &lt;- sp0$Weight_mg
+spike &lt;- sp0$Spike
+buffer &lt;- sp0$Buffer_nl
+
+m9 &lt;- lm(binding ~  buffer + weight)
+confint(m9, level = 0.95)</code></pre>
+<pre><code>                2.5 %     97.5 %
+(Intercept) 67.612787 87.4714725
+buffer1     10.383174 22.4241841
+weight      -1.640081 -0.8963561</code></pre>
+</div>
+<div id="qq-plots" class="section level2">
+<h2>QQ plots</h2>
+<pre class="r"><code>model &lt;- list(m1, m2, m3, m4, m5, m6, m7, m8, m9)
+
+par(mfrow = c(3, 3))
+
+for (i in 1:length(model)) {
+  # Create a Q-Q plot for the residuals of the i-th model
+  qqnorm(residuals(model[[i]]), main = paste(&quot;Q-Q Plot, m&quot;, i, sep = &quot;&quot;))
+  qqline(residuals(model[[i]]), col = &quot;red&quot;)
+}</code></pre>
+<p><img src="figure/ELISA_models.Rmd/qqplots%20models-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="plot-residuals-vs-fitted-by-model" class="section level2">
+<h2>Plot residuals vs fitted by model</h2>
+<pre class="r"><code>par(mfrow = c(3, 3))
+
+plot(m1, which = 1)  
+plot(m2, which = 1, main = &quot;m2&quot;)  
+plot(m3, which = 1, main = &quot;m3&quot;)  
+plot(m4, which = 1, main = &quot;m4&quot;)
+plot(m5, which = 1, main = &quot;m5&quot;) 
+plot(m6, which = 1, main = &quot;m6&quot;)
+plot(m7, which = 1, main = &quot;m7&quot;)
+plot(m8, which = 1, main = &quot;m8&quot;)
+plot(m9, which = 1, main = &quot;m9&quot;)</code></pre>
+<p><img src="figure/ELISA_models.Rmd/residuals%20models-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="comparing-models" class="section level1">
+<h1>Comparing models</h1>
+<div id="akakikes-information-criteria" class="section level2">
+<h2>(Akakike’s information criteria)</h2>
+<pre class="r"><code># computing bias-adjusted version of AIC (AICc) Akakaike&#39;s information criteria table
+AICc_compare &lt;-AICtab(m1, m2, m3, m4, m5, m6, m7, m8, m9, 
+        base = TRUE,
+        weights = TRUE,
+        logLik  = TRUE,
+        #indicate number of observations
+        nobs = 30)
+kable(AICc_compare)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">logLik</th>
+<th align="right">AIC</th>
+<th align="right">dLogLik</th>
+<th align="right">dAIC</th>
+<th align="right">df</th>
+<th align="right">weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">m8</td>
+<td align="right">-23.94220</td>
+<td align="right">55.8844</td>
+<td align="right">100.3385734</td>
+<td align="right">0.00000</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">m9</td>
+<td align="right">-55.69788</td>
+<td align="right">119.3958</td>
+<td align="right">68.5828959</td>
+<td align="right">63.51136</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m7</td>
+<td align="right">-95.17615</td>
+<td align="right">200.3523</td>
+<td align="right">29.1046184</td>
+<td align="right">144.46791</td>
+<td align="right">5</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">m4</td>
+<td align="right">-104.79103</td>
+<td align="right">217.5821</td>
+<td align="right">19.4897423</td>
+<td align="right">161.69766</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m6</td>
+<td align="right">-109.78461</td>
+<td align="right">227.5692</td>
+<td align="right">14.4961574</td>
+<td align="right">171.68483</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">m2</td>
+<td align="right">-112.25364</td>
+<td align="right">230.5073</td>
+<td align="right">12.0271289</td>
+<td align="right">174.62289</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m3</td>
+<td align="right">-123.73810</td>
+<td align="right">253.4762</td>
+<td align="right">0.5426679</td>
+<td align="right">197.59181</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">m5</td>
+<td align="right">-123.11028</td>
+<td align="right">254.2206</td>
+<td align="right">1.1704906</td>
+<td align="right">198.33617</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m1</td>
+<td align="right">-124.28077</td>
+<td align="right">254.5615</td>
+<td align="right">0.0000000</td>
+<td align="right">198.67715</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Model 7 has the highest weight, a measure of certainty in the
+model</strong>. However, we need to consider that the distribution of
+the data is not normal. Perhaps I should try using other distributions
+(binom, posson, )</p>
+</div>
+<div id="r-values-and-std-error" class="section level2">
+<h2>R values and std error</h2>
+<pre class="r"><code>kable(sum_models[order(sum_models$r_values, decreasing = TRUE), ]) </code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">r_values</th>
+<th align="left">info</th>
+<th align="right">res_std_error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">m7</td>
+<td align="right">0.8432246</td>
+<td align="left">spike + buffer + weight</td>
+<td align="right">6.203728</td>
+</tr>
+<tr class="even">
+<td align="left">m9</td>
+<td align="right">0.8076695</td>
+<td align="left">buffer + weight, NOT spiked only</td>
+<td align="right">5.850626</td>
+</tr>
+<tr class="odd">
+<td align="left">m4</td>
+<td align="right">0.7134063</td>
+<td align="left">weight + spike</td>
+<td align="right">8.387781</td>
+</tr>
+<tr class="even">
+<td align="left">m6</td>
+<td align="right">0.6001972</td>
+<td align="left">spike + buffer</td>
+<td align="right">9.906874</td>
+</tr>
+<tr class="odd">
+<td align="left">m2</td>
+<td align="right">0.5454965</td>
+<td align="left">spike</td>
+<td align="right">10.562881</td>
+</tr>
+<tr class="even">
+<td align="left">m8</td>
+<td align="right">0.5287000</td>
+<td align="left">buffer + weight, spiked only</td>
+<td align="right">2.054609</td>
+</tr>
+<tr class="odd">
+<td align="left">m5</td>
+<td align="right">0.0280065</td>
+<td align="left">weight + buffer</td>
+<td align="right">15.447046</td>
+</tr>
+<tr class="even">
+<td align="left">m3</td>
+<td align="right">0.0226583</td>
+<td align="left">buffer</td>
+<td align="right">15.489485</td>
+</tr>
+<tr class="odd">
+<td align="left">m1</td>
+<td align="right">-0.0133472</td>
+<td align="left">weight</td>
+<td align="right">15.772222</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="plot-regression-coefs" class="section level1">
+<h1>Plot regression coefs</h1>
+<div id="plot-model-1-to-4" class="section level3">
+<h3>Plot model 1 to 4</h3>
+<pre class="r"><code>ggplot(coef_df, aes(x = term, 
+                    y = estimate, 
+                    color = model)) +
+  geom_point(position = position_dodge(width = 4)) +  
+  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, 
+                    ymax = estimate + 1.96 * std.error),
+                position = position_dodge(width = 0.85), width = 1) + 
+  theme_minimal() +
+  coord_flip() +  # Flip the coordinates for better readability
+  facet_wrap(~ model, ncol = 1) +  # One model per line
+  labs(title = &quot;Coefficient Plot for Models 1-4&quot;,
+       x = &quot;Terms&quot;,
+       y = &quot;Estimates&quot;) +
+  theme(legend.position = &quot;none&quot;) +
+  geom_hline(yintercept = 0, color = &quot;gray&quot;, 
+             linetype = &quot;dashed&quot;) +  # Gray line at zero
+  expand_limits(y = c(-58, 58)) +
+  theme(
+    axis.text.x = element_text(size = 12),        # X-axis text size
+    axis.text.y = element_text(size = 12),        # Y-axis text size
+    axis.title.x = element_text(size = 14),       # X-axis title size
+    axis.title.y = element_text(size = 14),       # Y-axis title size
+    plot.title = element_text(size = 16, hjust = 0.5),  
+    strip.text = element_text(size = 14)          # Facet label text size
+  )</code></pre>
+<p><img src="figure/ELISA_models.Rmd/Plot%20model%201%20to%204-1.png" width="576" style="display: block; margin: auto;" /></p>
+</div>
+<div id="plot-model-5-to-9" class="section level3">
+<h3>Plot model 5 to 9</h3>
+<pre class="r"><code># Combine the data frames for plotting
+
+coef_df &lt;- rbind(coef_df5, coef_df6, coef_df7, coef_df8,coef_df9)
+
+ggplot(coef_df, aes(x = term, 
+                    y = estimate, 
+                    color = model)) +
+  geom_point(position = position_dodge(width = 3)) +  
+  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, 
+                    ymax = estimate + 1.96 * std.error),
+                position = position_dodge(width = 0.9), width = 0.85) + 
+  theme_minimal() +
+  coord_flip() +  # Flip the coordinates for better readability
+  facet_wrap(~ model, ncol = 1) +  # One model per line
+  labs(title = &quot;Coefficient Plot for Model 5 to 9&quot;,
+       x = &quot;Terms&quot;,
+       y = &quot;Estimates&quot;) +
+  theme(legend.position = &quot;none&quot;) +
+  geom_hline(yintercept = 0, color = &quot;gray&quot;, 
+             linetype = &quot;dashed&quot;) +  # Gray line at zero
+  expand_limits(y = c(-60, 60)) +
+  theme(
+    axis.text.x = element_text(size = 12),        # X-axis text size
+    axis.text.y = element_text(size = 12),        # Y-axis text size
+    axis.title.x = element_text(size = 14),       # X-axis title size
+    axis.title.y = element_text(size = 14),       # Y-axis title size
+    plot.title = element_text(size = 16, hjust = 0.5),  
+    strip.text = element_text(size = 14)          
+  )</code></pre>
+<p><img src="figure/ELISA_models.Rmd/Plot%20model%205%20to%209-1.png" width="576" style="display: block; margin: auto;" /></p>
+</div>
+<div id="additional-info-coefficient-table" class="section level3">
+<h3>Additional info (coefficient table)</h3>
+<pre class="r"><code># Coef table 
+coeftab(m1, m2, m3, m4, m5, m6, m7, m8, m9) -&gt; coeftabs
+kable(coeftabs)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">(Intercept)</th>
+<th align="right">weight</th>
+<th align="right">spike1</th>
+<th align="right">buffer1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">m1</td>
+<td align="right">51.67388</td>
+<td align="right">-0.2934245</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">m2</td>
+<td align="right">54.18889</td>
+<td align="right">NA</td>
+<td align="right">-23.55556</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">m3</td>
+<td align="right">40.58462</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">7.380090</td>
+</tr>
+<tr class="even">
+<td align="left">m4</td>
+<td align="right">76.62146</td>
+<td align="right">-0.8762722</td>
+<td align="right">-28.06836</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">m5</td>
+<td align="right">49.32309</td>
+<td align="right">-0.4002825</td>
+<td align="right">NA</td>
+<td align="right">8.587459</td>
+</tr>
+<tr class="even">
+<td align="left">m6</td>
+<td align="right">49.73019</td>
+<td align="right">NA</td>
+<td align="right">-23.77849</td>
+<td align="right">8.025660</td>
+</tr>
+<tr class="odd">
+<td align="left">m7</td>
+<td align="right">74.55860</td>
+<td align="right">-1.0412296</td>
+<td align="right">-29.23218</td>
+<td align="right">11.314374</td>
+</tr>
+<tr class="even">
+<td align="left">m8</td>
+<td align="right">37.01296</td>
+<td align="right">-0.3794893</td>
+<td align="right">NA</td>
+<td align="right">2.367304</td>
+</tr>
+<tr class="odd">
+<td align="left">m9</td>
+<td align="right">77.54213</td>
+<td align="right">-1.2682186</td>
+<td align="right">NA</td>
+<td align="right">16.403679</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="optimal-parameters-using-model-7" class="section level1">
+<h1>Optimal parameters using model 7</h1>
+<p>The goal is to run essays that result in a 50% binding. Here I can
+find the weight that gives 50% binding when spike is 0</p>
+<pre class="r"><code># choose one model (m7: buffer + weight + spike)
+coef &lt;- coef(m7)
+
+# Set target binding
+target_binding &lt;- 50
+
+# FUNCTION to Solve for weight, assuming spike = 0
+# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
+
+solve_for_weight &lt;- function(dilution_value, spike_value = 0) {
+  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
+}
+
+# Find the weight that gives 50% binding when spike is 0
+
+# dilution = 250
+optimal_weight &lt;- solve_for_weight(dilution_value = 1)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+   34.45251 </code></pre>
+<pre class="r"><code># dilution = 60
+optimal_weight &lt;- solve_for_weight(dilution_value = 0)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+   23.58616 </code></pre>
+<pre class="r"><code># Find the weight that gives 50% binding when spike is 1
+
+# dilution = 250
+optimal_weight &lt;- solve_for_weight(dilution_value = 1, spike_value = 1)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+   6.377845 </code></pre>
+<pre class="r"><code># dilution = 60
+optimal_weight &lt;- solve_for_weight(dilution_value = 0, spike_value = 1)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+  -4.488514 </code></pre>
+<div id="visualize-estimated-optimal-parameters" class="section level2">
+<h2>Visualize estimated optimal parameters</h2>
+<pre class="r"><code># FUNCTION to Solve for weight, assuming spike = 0
+# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
+
+solve_for_weight &lt;- function(dilution_value, spike_value = 0) {
+  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
+}
+
+# Loop over different dilution values to find the optimal weight for 50% binding
+# here, dilution 0 means 60uL, and 1 is 250 uL
+for (buffer in seq(0, 1, by = 0.1)) {
+  optimal_weight &lt;- solve_for_weight(buffer)
+  cat(&quot;Dilution:&quot;, buffer, &quot;-&gt; Optimal Weight for 50% Binding:&quot;, optimal_weight, &quot;\n&quot;)
+}</code></pre>
+<pre><code>Dilution: 0 -&gt; Optimal Weight for 50% Binding: 23.58616 
+Dilution: 0.1 -&gt; Optimal Weight for 50% Binding: 24.67279 
+Dilution: 0.2 -&gt; Optimal Weight for 50% Binding: 25.75943 
+Dilution: 0.3 -&gt; Optimal Weight for 50% Binding: 26.84606 
+Dilution: 0.4 -&gt; Optimal Weight for 50% Binding: 27.9327 
+Dilution: 0.5 -&gt; Optimal Weight for 50% Binding: 29.01933 
+Dilution: 0.6 -&gt; Optimal Weight for 50% Binding: 30.10597 
+Dilution: 0.7 -&gt; Optimal Weight for 50% Binding: 31.19261 
+Dilution: 0.8 -&gt; Optimal Weight for 50% Binding: 32.27924 
+Dilution: 0.9 -&gt; Optimal Weight for 50% Binding: 33.36588 
+Dilution: 1 -&gt; Optimal Weight for 50% Binding: 34.45251 </code></pre>
+<pre class="r"><code># visualize results
+## Buffer = 1, Spike = 0
+new_data.b1.s0 &lt;- expand.grid(weight = seq(min(weight), max(weight), 
+                                     length.out = 100),
+                        buffer = as.factor(1), 
+                        spike = as.factor(0))  
+
+# Predict the binding percentage for the new data
+new_data.b1.s0$predicted_binding &lt;- predict(m7, 
+                                            newdata = new_data.b1.s0)
+
+## Buffer = 1, Spike = 1
+new_data.b1.s1 &lt;- expand.grid(weight = seq(min(weight), max(weight), 
+                                     length.out = 100),
+                        buffer = as.factor(1), 
+                        spike = as.factor(1))  
+
+# Predict the binding percentage for the new data
+new_data.b1.s1$predicted_binding &lt;- predict(m7, 
+                                            newdata = new_data.b1.s1)
+
+## Buffer = 0, Spike = 1
+
+new_data.b0.s1 &lt;- expand.grid(weight = seq(min(weight), 
+                                     max(weight), length.out = 100),
+                        buffer = as.factor(0), spike = as.factor(1)) 
+
+# Predict the binding percentage for the new data
+new_data.b0.s1$predicted_binding &lt;- predict(m7, 
+                                            newdata = new_data.b0.s1)
+
+## Buffer = 0, Spike = 0
+
+new_data.b0.s0 &lt;- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(0), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data.b0.s0$predicted_binding &lt;- predict(m7, 
+                                            newdata = new_data.b0.s0)
+
+new_data &lt;- rbind(new_data.b0.s0, new_data.b0.s1, new_data.b1.s0, new_data.b1.s1)
+
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, 
+                     y = predicted_binding)) +
+  geom_line() +
+   geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +
+  labs(x = &quot;Weight&quot;,
+       y = &quot;Predicted Binding Percentage&quot;) +
+  facet_grid(buffer ~ spike, 
+             labeller = labeller(
+                 buffer = c(&quot;0&quot; = &quot;60 uL buffer&quot;,
+                          &quot;1&quot; = &quot;250 uL buffer&quot;),
+                 spike = c(&quot;0&quot; = &quot;No Spike&quot;, 
+                           &quot;1&quot; = &quot;Spiked&quot;)))</code></pre>
+<p><img src="figure/ELISA_models.Rmd/Visualize%20estimated%20optimal%20parameters-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Plot the predicted binding percentage against weight
+ggplot(new_data.b1.s1, aes(x = weight, 
+                     y = predicted_binding)) +
+  geom_line(color = &quot;gold3&quot;) +
+  geom_hline(yintercept = 50, 
+             linetype = &quot;dashed&quot;, 
+             color = &quot;red&quot;) +  # Highlight 50% binding
+  labs(title = &quot;Predicted Binding Percentage vs Weight 
+       (dilution = 250, spike = 1)&quot;,
+       x = &quot;Weight&quot;,
+       y = &quot;Predicted Binding Percentage&quot;)+
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_models.Rmd/Visualize%20estimated%20optimal%20parameters-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Plot the predicted binding percentage against weight
+ggplot(new_data.b0.s1, aes(x = weight, 
+                     y = predicted_binding)) +
+  geom_line(color = &quot;gold3&quot;) +
+  geom_hline(yintercept = 50, 
+             linetype = &quot;dashed&quot;, 
+             color = &quot;red&quot;) +  # Highlight 50% binding
+  labs(title = &quot;Predicted Binding Percentage vs Weight (dilution = 250, spike = 0)&quot;,
+       x = &quot;Weight&quot;,
+       y = &quot;Predicted Binding Percentage&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_models.Rmd/Visualize%20estimated%20optimal%20parameters-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Plot the predicted binding percentage against weight
+ggplot(new_data.b0.s0, aes(x = weight, 
+                     y = predicted_binding)) +
+  geom_line(color = &quot;gold3&quot;) +
+  geom_hline(yintercept = 50, 
+             linetype = &quot;dashed&quot;, 
+             color = &quot;red&quot;) +  # Highlight 50% binding
+  labs(title = &quot;Predicted Binding Percentage vs Weight (dilution = 60, spike = 0)&quot;,
+       x = &quot;Weight&quot;,
+       y = &quot;Predicted Binding Percentage&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/ELISA_models.Rmd/Visualize%20estimated%20optimal%20parameters-4.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.0 (2021-05-18)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19045)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] bbmle_1.0.25.1     arm_1.14-4         lme4_1.1-32        Matrix_1.3-3      
+ [5] MASS_7.3-54        coefplot_1.2.8     RColorBrewer_1.1-3 ggplot2_3.5.1     
+ [9] knitr_1.48         dplyr_1.1.2       
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.10         bdsmatrix_1.3-7     mvtnorm_1.3-1      
+ [4] lattice_0.20-44     rprojroot_2.0.4     digest_0.6.31      
+ [7] utf8_1.2.3          R6_2.5.1            plyr_1.8.9         
+[10] evaluate_1.0.0      coda_0.19-4.1       highr_0.11         
+[13] pillar_1.9.0        rlang_1.1.0         rstudioapi_0.16.0  
+[16] minqa_1.2.5         jquerylib_0.1.4     nloptr_2.0.3       
+[19] rmarkdown_2.28      labeling_0.4.3      splines_4.1.0      
+[22] stringr_1.5.1       useful_1.2.6.1      munsell_0.5.1      
+[25] compiler_4.1.0      numDeriv_2016.8-1.1 httpuv_1.6.9       
+[28] xfun_0.47           pkgconfig_2.0.3     htmltools_0.5.8.1  
+[31] tidyselect_1.2.0    tibble_3.2.1        workflowr_1.7.1    
+[34] fansi_1.0.4         withr_3.0.1         later_1.3.0        
+[37] grid_4.1.0          nlme_3.1-152        jsonlite_1.8.9     
+[40] gtable_0.3.5        lifecycle_1.0.4     git2r_0.31.0       
+[43] magrittr_2.0.3      scales_1.3.0        cli_3.6.1          
+[46] stringi_1.7.12      cachem_1.0.7        farver_2.1.1       
+[49] reshape2_1.4.4      fs_1.5.2            promises_1.2.0.1   
+[52] bslib_0.8.0         generics_0.1.3      vctrs_0.6.5        
+[55] boot_1.3-28         tools_4.1.0         glue_1.6.2         
+[58] abind_1.4-8         fastmap_1.1.1       yaml_2.3.7         
+[61] colorspace_2.1-0    sass_0.4.9         </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
