@@ -13,7 +13,7 @@
 
 <title>Home</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -281,7 +281,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -292,8 +292,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -302,13 +302,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-10-17
+<strong>Last updated:</strong> 2024-10-25
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>test-3/</code> <span
@@ -320,7 +320,7 @@ title="This is the local directory in which the code in this file was executed."
 This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
 analysis was created with <a
   href="https://github.com/workflowr/workflowr">workflowr</a> (version
-1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
 that were applied when the results were created. The <em>Past
 versions</em> tab lists the development history.
 </p>
@@ -331,33 +331,36 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3treef42c0961e769e814aeaa19b3ff379846260e5f5atargetblankf42c096a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree6c530825640b99042822e0bd10cc908427556eb3targetblank6c53082a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/test-3/tree/f42c0961e769e814aeaa19b3ff379846260e5f5a" target="_blank">f42c096</a>
+<a href="https://github.com/PalomaContreras25/test-3/tree/6c530825640b99042822e0bd10cc908427556eb3" target="_blank">6c53082</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3treef42c0961e769e814aeaa19b3ff379846260e5f5atargetblankf42c096a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree6c530825640b99042822e0bd10cc908427556eb3targetblank6c53082a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -367,7 +370,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/test-3/tree/f42c0961e769e814aeaa19b3ff379846260e5f5a" target="_blank">f42c096</a>.
+<a href="https://github.com/PalomaContreras25/test-3/tree/6c530825640b99042822e0bd10cc908427556eb3" target="_blank">6c53082</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -381,10 +384,8 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Ignored files:
-    Ignored:    .Rhistory
-    Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
+Unstaged changes:
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -399,6 +400,7 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
 These are the previous versions of the repository in which changes were
 made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
@@ -428,6 +430,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/test-3/91fbafe102c9dac79076b48c90d7964789cf004e/docs/index.html" target="_blank">91fbafe</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -752,29 +771,30 @@ cortisol concentrations on human hair. This new protocol includes
 additional steps that would make possible to quantify very small hair
 samples (i.e. less than 20 mg).</h3>
 </div>
-<div id="here-you-will-find" class="section level3">
-<h3>Here you will find:</h3>
-</div>
-<div id="results-from-test-3-link" class="section level2">
-<h2>Results from Test #3: <a
-href="http://palomacontreras25.github.io/test-3/docs/ELISA_visualizations.html">link</a></h2>
+<div id="here-you-will-find" class="section level2">
+<h2>Here you will find:</h2>
+<div id="results-from-test-3-link" class="section level3">
+<h3>Results from Test #3: <a
+href="http://palomacontreras25.github.io/test-3/docs/ELISA_visualizations.html">link</a></h3>
 </div>
 <div id="how-final-cortisol-concentrations-were-calculated-link"
-class="section level2">
-<h2>How final cortisol concentrations were calculated: <a
-href="http://palomacontreras25.github.io/test-3/docs/ELISA_computation.html">link</a></h2>
+class="section level3">
+<h3>How final cortisol concentrations were calculated: <a
+href="http://palomacontreras25.github.io/test-3/docs/ELISA_computation.html">link</a></h3>
 </div>
 <div id="how-i-cleaned-and-organized-the-data-link"
-class="section level2">
-<h2>How I cleaned and organized the data: <a
-href="http://palomacontreras25.github.io/test-3/docs/ELISA_QC.html">link</a></h2>
+class="section level3">
+<h3>How I cleaned and organized the data: <a
+href="http://palomacontreras25.github.io/test-3/docs/ELISA_QC.html">link</a></h3>
+</div>
+<div
+id="models-to-understand-how-each-variable-affects-cort-values-link"
+class="section level3">
+<h3>Models to understand how each variable affects cort values: <a
+href="http://palomacontreras25.github.io/test-3/docs/ELISA_models.html">link</a></h3>
 <p>You can click this <a
 href="http://palomacontreras25.github.io/test-3/docs/about.html">link</a>
 to read a more detailed description of this experiment.</p>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 

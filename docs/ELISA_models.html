@@ -15,7 +15,7 @@
 
 <title>ELISA_models</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -31,7 +31,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -382,7 +382,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-10-23
+<strong>Last updated:</strong> 2024-10-25
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -400,7 +400,7 @@ title="This is the local directory in which the code in this file was executed."
 This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
 analysis was created with <a
   href="https://github.com/workflowr/workflowr">workflowr</a> (version
-1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
 that were applied when the results were created. The <em>Past
 versions</em> tab lists the development history.
 </p>
@@ -420,10 +420,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -516,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3treebf351723e2a8622c8349868f5ef99792f7c5924dtargetblankbf35172a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree6c530825640b99042822e0bd10cc908427556eb3targetblank6c53082a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/test-3/tree/bf351723e2a8622c8349868f5ef99792f7c5924d" target="_blank">bf35172</a>
+<a href="https://github.com/PalomaContreras25/test-3/tree/6c530825640b99042822e0bd10cc908427556eb3" target="_blank">6c53082</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3treebf351723e2a8622c8349868f5ef99792f7c5924dtargetblankbf35172a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25test3tree6c530825640b99042822e0bd10cc908427556eb3targetblank6c53082a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/test-3/tree/bf351723e2a8622c8349868f5ef99792f7c5924d" target="_blank">bf35172</a>.
+<a href="https://github.com/PalomaContreras25/test-3/tree/6c530825640b99042822e0bd10cc908427556eb3" target="_blank">6c53082</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -548,12 +548,9 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Ignored files:
-    Ignored:    .Rhistory
-    Ignored:    .Rproj.user/
-
-Untracked files:
-    Untracked:  analysis/ELISA_models.Rmd
+Unstaged changes:
+    Modified:   analysis/ELISA_models.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -568,10 +565,74 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/ELISA_models.Rmd</code>) and HTML
+(<code>docs/ELISA_models.html</code>) files. If you’ve configured a
+remote Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/6c530825640b99042822e0bd10cc908427556eb3/analysis/ELISA_models.Rmd" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+<td>
+dfsf
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/test-3/6c530825640b99042822e0bd10cc908427556eb3/docs/ELISA_models.html" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+<td>
+dfsf
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -582,6 +643,43 @@ There are no past versions. Publish this analysis with
 multiple models and compared them using AIC Akakikes’ coefficient. I
 removed samples with a binding over 80% or under 20%.</p>
 <p><img src="figure/ELISA_models.Rmd/qqplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-qqplot-1">
+Past versions of qqplot-1.png
+</button>
+</p>
+<div id="fig-qqplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/6c530825640b99042822e0bd10cc908427556eb3/docs/figure/ELISA_models.Rmd/qqplot-1.png" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>This is the distribution of the data (binding percentage). I am not
 sure how to describe it, but it does not look very linear. I will test
 different distributions at another time, but for now, I will run and
@@ -780,6 +878,43 @@ for (i in 1:length(model)) {
   qqline(residuals(model[[i]]), col = &quot;red&quot;)
 }</code></pre>
 <p><img src="figure/ELISA_models.Rmd/qqplots%20models-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-qqplots-models-1">
+Past versions of "qqplots models-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-qqplots-models-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/6c530825640b99042822e0bd10cc908427556eb3/docs/figure/ELISA_models.Rmd/qqplots models-1.png" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="plot-residuals-vs-fitted-by-model" class="section level2">
 <h2>Plot residuals vs fitted by model</h2>
@@ -795,6 +930,43 @@ plot(m7, which = 1, main = &quot;m7&quot;)
 plot(m8, which = 1, main = &quot;m8&quot;)
 plot(m9, which = 1, main = &quot;m9&quot;)</code></pre>
 <p><img src="figure/ELISA_models.Rmd/residuals%20models-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-residuals-models-1">
+Past versions of "residuals models-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-residuals-models-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/6c530825640b99042822e0bd10cc908427556eb3/docs/figure/ELISA_models.Rmd/residuals models-1.png" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="comparing-models" class="section level1">
@@ -1011,6 +1183,43 @@ the data is not normal. Perhaps I should try using other distributions
     strip.text = element_text(size = 14)          # Facet label text size
   )</code></pre>
 <p><img src="figure/ELISA_models.Rmd/Plot%20model%201%20to%204-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Plot-model-1-to-4-1">
+Past versions of "Plot model 1 to 4-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Plot-model-1-to-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/6c530825640b99042822e0bd10cc908427556eb3/docs/figure/ELISA_models.Rmd/Plot model 1 to 4-1.png" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="plot-model-5-to-9" class="section level3">
 <h3>Plot model 5 to 9</h3>
@@ -1044,6 +1253,43 @@ ggplot(coef_df, aes(x = term,
     strip.text = element_text(size = 14)          
   )</code></pre>
 <p><img src="figure/ELISA_models.Rmd/Plot%20model%205%20to%209-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Plot-model-5-to-9-1">
+Past versions of "Plot model 5 to 9-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Plot-model-5-to-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/6c530825640b99042822e0bd10cc908427556eb3/docs/figure/ELISA_models.Rmd/Plot model 5 to 9-1.png" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="additional-info-coefficient-table" class="section level3">
 <h3>Additional info (coefficient table)</h3>
@@ -1252,6 +1498,44 @@ ggplot(new_data, aes(x = weight,
                  spike = c(&quot;0&quot; = &quot;No Spike&quot;, 
                            &quot;1&quot; = &quot;Spiked&quot;)))</code></pre>
 <p><img src="figure/ELISA_models.Rmd/Visualize%20estimated%20optimal%20parameters-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Visualize-estimated-optimal-parameters-1">
+Past versions of "Visualize estimated optimal parameters-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Visualize-estimated-optimal-parameters-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/6c530825640b99042822e0bd10cc908427556eb3/docs/figure/ELISA_models.Rmd/Visualize estimated optimal parameters-1.png" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Plot the predicted binding percentage against weight
 ggplot(new_data.b1.s1, aes(x = weight, 
                      y = predicted_binding)) +
@@ -1265,6 +1549,44 @@ ggplot(new_data.b1.s1, aes(x = weight,
        y = &quot;Predicted Binding Percentage&quot;)+
   theme_minimal()</code></pre>
 <p><img src="figure/ELISA_models.Rmd/Visualize%20estimated%20optimal%20parameters-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Visualize-estimated-optimal-parameters-2">
+Past versions of "Visualize estimated optimal parameters-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-Visualize-estimated-optimal-parameters-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/6c530825640b99042822e0bd10cc908427556eb3/docs/figure/ELISA_models.Rmd/Visualize estimated optimal parameters-2.png" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Plot the predicted binding percentage against weight
 ggplot(new_data.b0.s1, aes(x = weight, 
                      y = predicted_binding)) +
@@ -1277,6 +1599,44 @@ ggplot(new_data.b0.s1, aes(x = weight,
        y = &quot;Predicted Binding Percentage&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/ELISA_models.Rmd/Visualize%20estimated%20optimal%20parameters-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Visualize-estimated-optimal-parameters-3">
+Past versions of "Visualize estimated optimal parameters-3.png"
+</button>
+</p>
+<div id="fig-no-spaces-Visualize-estimated-optimal-parameters-3"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/6c530825640b99042822e0bd10cc908427556eb3/docs/figure/ELISA_models.Rmd/Visualize estimated optimal parameters-3.png" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Plot the predicted binding percentage against weight
 ggplot(new_data.b0.s0, aes(x = weight, 
                      y = predicted_binding)) +
@@ -1289,6 +1649,44 @@ ggplot(new_data.b0.s0, aes(x = weight,
        y = &quot;Predicted Binding Percentage&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/ELISA_models.Rmd/Visualize%20estimated%20optimal%20parameters-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Visualize-estimated-optimal-parameters-4">
+Past versions of "Visualize estimated optimal parameters-4.png"
+</button>
+</p>
+<div id="fig-no-spaces-Visualize-estimated-optimal-parameters-4"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/test-3/blob/6c530825640b99042822e0bd10cc908427556eb3/docs/figure/ELISA_models.Rmd/Visualize estimated optimal parameters-4.png" target="_blank">6c53082</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1298,55 +1696,48 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.1.0 (2021-05-18)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19045)
+<pre><code>R version 4.2.2 (2022-10-31)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS 15.0.1
 
 Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
 [1] stats4    stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] bbmle_1.0.25.1     arm_1.14-4         lme4_1.1-32        Matrix_1.3-3      
- [5] MASS_7.3-54        coefplot_1.2.8     RColorBrewer_1.1-3 ggplot2_3.5.1     
- [9] knitr_1.48         dplyr_1.1.2       
+ [1] bbmle_1.0.25.1     arm_1.13-1         lme4_1.1-32        Matrix_1.5-4      
+ [5] MASS_7.3-58.3      coefplot_1.2.8     RColorBrewer_1.1-3 ggplot2_3.4.2     
+ [9] knitr_1.42         dplyr_1.1.2       
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.10         bdsmatrix_1.3-7     mvtnorm_1.3-1      
- [4] lattice_0.20-44     rprojroot_2.0.4     digest_0.6.31      
- [7] utf8_1.2.3          R6_2.5.1            plyr_1.8.9         
-[10] evaluate_1.0.0      coda_0.19-4.1       highr_0.11         
-[13] pillar_1.9.0        rlang_1.1.0         rstudioapi_0.16.0  
-[16] minqa_1.2.5         jquerylib_0.1.4     nloptr_2.0.3       
-[19] rmarkdown_2.28      labeling_0.4.3      splines_4.1.0      
-[22] stringr_1.5.1       useful_1.2.6.1      munsell_0.5.1      
-[25] compiler_4.1.0      numDeriv_2016.8-1.1 httpuv_1.6.9       
-[28] xfun_0.47           pkgconfig_2.0.3     htmltools_0.5.8.1  
-[31] tidyselect_1.2.0    tibble_3.2.1        workflowr_1.7.1    
-[34] fansi_1.0.4         withr_3.0.1         later_1.3.0        
-[37] grid_4.1.0          nlme_3.1-152        jsonlite_1.8.9     
-[40] gtable_0.3.5        lifecycle_1.0.4     git2r_0.31.0       
-[43] magrittr_2.0.3      scales_1.3.0        cli_3.6.1          
-[46] stringi_1.7.12      cachem_1.0.7        farver_2.1.1       
-[49] reshape2_1.4.4      fs_1.5.2            promises_1.2.0.1   
-[52] bslib_0.8.0         generics_0.1.3      vctrs_0.6.5        
-[55] boot_1.3-28         tools_4.1.0         glue_1.6.2         
-[58] abind_1.4-8         fastmap_1.1.1       yaml_2.3.7         
-[61] colorspace_2.1-0    sass_0.4.9         </code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
+ [1] Rcpp_1.0.10         bdsmatrix_1.3-6     mvtnorm_1.1-3      
+ [4] lattice_0.21-8      rprojroot_2.0.3     digest_0.6.31      
+ [7] utf8_1.2.3          R6_2.5.1            plyr_1.8.8         
+[10] evaluate_0.20       coda_0.19-4         highr_0.10         
+[13] pillar_1.9.0        rlang_1.1.0         rstudioapi_0.14    
+[16] minqa_1.2.5         whisker_0.4.1       jquerylib_0.1.4    
+[19] nloptr_2.0.3        rmarkdown_2.21      labeling_0.4.2     
+[22] splines_4.2.2       stringr_1.5.0       useful_1.2.6.1     
+[25] munsell_0.5.0       compiler_4.2.2      numDeriv_2016.8-1.1
+[28] httpuv_1.6.9        xfun_0.39           pkgconfig_2.0.3    
+[31] htmltools_0.5.5     tidyselect_1.2.0    tibble_3.2.1       
+[34] workflowr_1.7.0     fansi_1.0.4         withr_2.5.0        
+[37] later_1.3.0         grid_4.2.2          nlme_3.1-162       
+[40] jsonlite_1.8.4      gtable_0.3.3        lifecycle_1.0.3    
+[43] git2r_0.32.0        magrittr_2.0.3      scales_1.2.1       
+[46] cli_3.6.1           stringi_1.7.12      cachem_1.0.7       
+[49] farver_2.1.1        reshape2_1.4.4      fs_1.6.1           
+[52] promises_1.2.0.1    bslib_0.4.2         generics_0.1.3     
+[55] vctrs_0.6.2         boot_1.3-28.1       tools_4.2.2        
+[58] glue_1.6.2          abind_1.4-5         fastmap_1.1.1      
+[61] yaml_2.3.7          colorspace_2.1-0    sass_0.4.5         </code></pre>
 </div>
 </div>
 </div>

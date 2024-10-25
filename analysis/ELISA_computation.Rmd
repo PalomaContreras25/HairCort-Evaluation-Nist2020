@@ -20,20 +20,23 @@ Here I calculate final cort concentration values using two methods. The first on
 library(dplyr)
 library(knitr)
 library(ggplot2)
+library(broom)
 ```
 
 ```{r setup, include=TRUE, message=FALSE}
-df <- read.csv("./data/Data_QC_flagged.csv")
+df <- read.csv(
+  "/Users/lasisilab/Documents/GitHub/test-3/data/Data_QC_flagged.csv"
+  )
 
 # remove unnecessary information
 data <- df %>% 
-  select(!(c(Wells, Raw.OD, Concentration_pg.ml, SD, SEM))) %>%
+  select(-Wells, -Raw.OD, -Concentration_pg.ml, -SD, -SEM) %>%
   filter(CV.Perc < 15) %>% 
   filter(Binding.Perc < 80 & Binding.Perc > 20)
 
 ```
 
-#A. Calculation
+# A. Calculation
 
 Formula:  ((A/B) * (C/D) * E * 10,000) = F 
 
@@ -57,7 +60,10 @@ data$Vol_methanol_ml <- 1.3/1
 data$Buffer_ml <- c(data$Buffer_nl/1000)
 
 # Calculate final values
-data$final_conc_pg.mg <- c((data$Average_Conc_ug.dL / data$Weight_mg) * data$Vol_methanol_ml * data$Buffer_ml * 10000 )
+data$final_conc_pg.mg <- c(
+    (data$Average_Conc_ug.dL / data$Weight_mg) *
+      data$Vol_methanol_ml * 
+      data$Buffer_ml * 10000)
 
 
 ```
@@ -65,26 +71,40 @@ data$final_conc_pg.mg <- c((data$Average_Conc_ug.dL / data$Weight_mg) * data$Vol
 
 ## A. Results 
 ```{r}
+kable(head(data[ , c("Sample",
+                     "Binding.Perc", 
+                     "Vol_methanol_ml", 
+                     "Buffer_ml",
+                     "final_conc_pg.mg")]))
+
 # plot histogram
 
-kable(head(data))
-hist(data$final_conc_pg.mg, col = "cyan4", main = c("Histogram of cort concentration values, considering weight and dilutions"), xlab = "Cortisol concentrations, pg/mg", ylab = "Count", breaks = 60, xlim = range(0:60))
+hist(data$final_conc_pg.mg, 
+     col = "cyan4", 
+     main = c("Histogram of final cort concentration values"), 
+     xlab = "Cortisol concentrations, pg/mg", 
+     ylab = "Count", 
+     breaks = 60, 
+     xlim = range(0:60))
 
 # scatterplot
 
-ggplot(data, aes(y = final_conc_pg.mg, x = Weight_mg, color = as.factor(Spike))) +
-  geom_point(size = 3) +  # Points with custom color and size
-  geom_smooth(method = "lm", color = "gold3", se = FALSE) +  # Regression line without confidence interval
-  theme_minimal() +  # Minimalistic theme
+ggplot(data, aes(y = final_conc_pg.mg, 
+                 x = Weight_mg, 
+                 color = as.factor(Spike))) +
+  geom_point(size = 3) +  
+  geom_smooth(method = "lm", 
+              color = "gold3", se = FALSE) +  
+  theme_minimal() +  
   labs(
     title = "Final Cort Concentration and Weight",
     y = "Final Concentration (pg/mg)",
     x = "Weight (mg)"  
   ) +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Center title and adjust size
-    axis.title = element_text(size = 14),  # Adjust axis label size
-    axis.text = element_text(size = 12)  # Adjust axis text size
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12)  
   )
 
 # summary for all samples
@@ -93,7 +113,7 @@ summary(data$final_conc_pg.mg)
 
 ```
 
-#B. Recalculation (account for spike)
+# B. Recalculation (account for spike)
 
 In **Nist et al. 2020**, they say "Thus, after pipetting 25μL of standards and samples into the appropriate wells of the 96-well assay plate, we added 25μL of the 0.333ug/dL standard to all samples,
 resulting in a 1:2 dilution of samples. The remainder of the manufacturer’s protocol was
@@ -121,20 +141,25 @@ dSpike <- data
 std.r <- ((3133 + 3146)/2)/10000
 
 # Calculate final values
-dSpike$final_conc_pg.mg <- ifelse(
-  dSpike$Spike == 1,
-    (dSpike$Average_Conc_ug.dL - std.r) / dSpike$Weight_mg * 1.3 / 1 * dSpike$Buffer_ml * 10000 * 2 ,
-  dSpike$final_conc_pg.mg  # Keep existing value if Spike != 1
+dSpike$final_conc_pg.mg <- 
+  ifelse(
+    dSpike$Spike == 1,
+      (dSpike$Average_Conc_ug.dL - std.r) / 
+      dSpike$Weight_mg * 1.3 / 1 * 
+      dSpike$Buffer_ml * 10000 * 2 ,
+    dSpike$final_conc_pg.mg  # Keep value if Spike != 1
 )
 
 ```
 
-##B. Results 
+## B. Results 
 ```{r}
 
 # histogram
-hist(dSpike$final_conc_pg.mg, col = "cyan4", 
-     main = c("Histogram of cort concentration values, considering weight, dilutions and spike"), 
+hist(dSpike$final_conc_pg.mg, 
+     col = "cyan4", 
+     main = c("Final cort values, spike adjusted
+              as in Nist et al. 2020"), 
      xlab = "Cortisol concentrations, pg/mg", 
      ylab = "Count", 
      breaks = 60)
@@ -143,19 +168,26 @@ hist(dSpike$final_conc_pg.mg, col = "cyan4",
 ggplot(dSpike, aes(y = final_conc_pg.mg, 
                    x = Weight_mg, 
                    color = as.factor(Spike))) +
-  geom_point(size = 3) +  # Points with custom color and size
-  geom_smooth(method = "lm", color = "gold3", se = FALSE) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  geom_point(size = 3) +  
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = FALSE) +
+  geom_hline(yintercept = 0, 
+             linetype = "dashed", 
+             color = "red") +
   theme_minimal() +  
   labs(
-    title = "Final Cort Concentration and Weight, considering Spike",
+    title = "Final Cort Concentration and Weight,
+    adjusted for Spike",
     y = "Final Concentration (pg/mg)",
     x = "Weight (mg)"  
   ) +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"), 
-    axis.title = element_text(size = 14),  # Adjust axis label size
-    axis.text = element_text(size = 12)  # Adjust axis text size
+    plot.title = element_text(hjust = 0.5, 
+                              size = 16, 
+                              face = "bold"), 
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12)  
   )
 
 ```
@@ -165,7 +197,7 @@ ggplot(dSpike, aes(y = final_conc_pg.mg,
 summary(dSpike$final_conc_pg.mg)
 
 # summary only for non-spiked samples
-dSpikeSub <- dSpike[dSpike$Spike == 0,]
+dSpikeSub <- dSpike [ dSpike$Spike == 0, ]
 summary(dSpikeSub$final_conc_pg.mg)
 ```
 
@@ -182,8 +214,121 @@ Sample size              X              30                 18
 
 </table>
 
-* removed higher than 29 pg/mg as outliers
+Consider that Nist et al. 2020 removed higher than 29 pg/mg as outliers
 
+
+# Non-spiked samples only
+
+```{r}
+# non-spiked samples only
+data2 <-data[data$Spike == 0, ]
+
+#two datasets, separated by dilution
+data2.06 <- data2[data2$Buffer_ml == 0.06, ]
+data2.25 <- data2[data2$Buffer_ml == 0.25, ]
+
+kable(head(data2[ , c("Sample",
+                     "Binding.Perc", 
+                     "Vol_methanol_ml", 
+                     "Buffer_ml",
+                     "final_conc_pg.mg")]))
+# plot histogram
+hist(data2$final_conc_pg.mg, 
+     col = "cyan4", 
+     main = c("Final cort concentration 
+              values, non-Spiked only"), 
+     xlab = "Cortisol concentrations, pg/mg", 
+     ylab = "Count", 
+     breaks = 60)
+
+
+# fit models 
+model <- lm(final_conc_pg.mg ~ Weight_mg, 
+            data = data2)
+
+# model Buffer = 0.06
+model06 <- lm(final_conc_pg.mg ~ Weight_mg, 
+              data = data2[data2$Buffer_ml == 0.06,])
+r_squared06 <- summary(model06)$r.squared
+
+# model Buffer = 0.25
+model25 <- lm(final_conc_pg.mg ~ Weight_mg, 
+              data = data2[data2$Buffer_ml == 0.25,])
+r_squared25 <- summary(model25)$r.squared
+
+# Calculate residuals
+residuals06 <- residuals(model06)
+residuals25 <- residuals(model25)
+# Quantify residuals
+# Mean Absolute Error
+mae06 <- mean(abs(residuals06))          
+# Root Mean Squared Error
+rmse06 <- sqrt(mean(residuals06^2))   
+# Standard Deviation of Residuals
+std_dev06 <- sd(residuals06)   
+
+# Mean Absolute Error
+mae25 <- mean(abs(residuals25))      
+# Root Mean Squared Error
+rmse25 <- sqrt(mean(residuals25^2))       
+# Standard Deviation of Residuals
+std_dev25 <- sd(residuals25)                      
+
+# scatterplot
+
+ggplot(data2, aes(y = final_conc_pg.mg, 
+                  x = Weight_mg, 
+                  color = as.factor(Buffer_ml), 
+                  fill = as.factor(Buffer_ml))) +
+  geom_point(size = 3) +  
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.1) + 
+  geom_hline(yintercept = mean(data2$final_conc_pg.mg), 
+             color = "gray90",
+             linetype = "dashed") +
+  geom_hline(yintercept = mean(data2.06$final_conc_pg.mg), 
+             color = "lightpink2",
+             linetype = "dashed") +
+  geom_hline(yintercept = mean(data2.25$final_conc_pg.mg), 
+             color = "lightblue3",
+             linetype = "dashed") +
+  theme_minimal() +  
+  labs(
+    title = "Final Cort Concentration and Weight
+    (Non-spiked only)",
+    y = "Final Concentration (pg/mg)",
+    x = "Weight (mg)"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) +
+  # Add R^2 annotation
+  annotate("text", x = max(data2$Weight_mg) * 0.7, y = min(data2$final_conc_pg.mg) * 1.5,
+           label = paste("R² =", round(r_squared06, 3)), size = 5, color = "black") +
+  annotate("text", x = max(data2$Weight_mg) * 0.7, y = max(data2$final_conc_pg.mg) * 0.84,
+           label = paste("R² =", round(r_squared25, 3)), size = 5, color = "black")
+
+```
+
+## buffer = 0.06 mL
+```{r echo = FALSE}
+# Print the results
+cat("Mean Absolute Error (MAE) 0.06 mL:", round(mae06, 3), "\n")
+cat("Root Mean Squared Error (RMSE) 0.06 mL:", round(rmse06, 3), "\n")
+cat("Standard Deviation of Residuals 0.06 mL:", round(std_dev06, 3), "\n")
+```
+## buffer = 0.25 mL
+```{r echo = FALSE}
+cat("Mean Absolute Error (MAE) 0.25 mL:", round(mae25, 3), "\n")
+cat("Root Mean Squared Error (RMSE) 0.25 mL:", round(rmse25, 3), "\n")
+cat("Standard Deviation of Residuals 0.25 mL:", round(std_dev25, 3), "\n")
+
+## Abs error and std dev. are larger for dilution 0.06 mL
+```
 
 ```{r echo = FALSE, include = FALSE}
 # wflow_publish("./analysis/ELISA_Computation.Rmd")

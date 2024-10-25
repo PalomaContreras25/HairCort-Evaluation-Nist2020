@@ -413,6 +413,7 @@ plot(m9, which = 1, main = "m9")
 
 
 # Comparing models 
+
 ## (Akakike's information criteria) 
 
 ```{r AICc}
@@ -629,6 +630,7 @@ curve(k[1] + k[2] * x,
 # Optimal parameters using model 7
 
 The goal is to run essays that result in a 50% binding. Here I can find the weight that gives 50% binding when spike is 0
+
 ```{r Find optimal parameters}
 # choose one model (m7: buffer + weight + spike)
 coef <- coef(m7)
@@ -779,9 +781,6 @@ ggplot(new_data.b0.s0, aes(x = weight,
        y = "Predicted Binding Percentage") +
   theme_minimal()
 ```
-
-
-
 
 
 ```{r echo = FALSE}
