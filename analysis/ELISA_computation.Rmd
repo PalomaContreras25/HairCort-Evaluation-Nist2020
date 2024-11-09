@@ -259,18 +259,15 @@ r_squared25 <- summary(model25)$r.squared
 # Calculate residuals
 residuals06 <- residuals(model06)
 residuals25 <- residuals(model25)
+
 # Quantify residuals
 # Mean Absolute Error
 mae06 <- mean(abs(residuals06))          
-# Root Mean Squared Error
-rmse06 <- sqrt(mean(residuals06^2))   
 # Standard Deviation of Residuals
 std_dev06 <- sd(residuals06)   
 
 # Mean Absolute Error
 mae25 <- mean(abs(residuals25))      
-# Root Mean Squared Error
-rmse25 <- sqrt(mean(residuals25^2))       
 # Standard Deviation of Residuals
 std_dev25 <- sd(residuals25)                      
 
@@ -318,13 +315,11 @@ ggplot(data2, aes(y = final_conc_pg.mg,
 ```{r echo = FALSE}
 # Print the results
 cat("Mean Absolute Error (MAE) 0.06 mL:", round(mae06, 3), "\n")
-cat("Root Mean Squared Error (RMSE) 0.06 mL:", round(rmse06, 3), "\n")
 cat("Standard Deviation of Residuals 0.06 mL:", round(std_dev06, 3), "\n")
 ```
 ## buffer = 0.25 mL
 ```{r echo = FALSE}
 cat("Mean Absolute Error (MAE) 0.25 mL:", round(mae25, 3), "\n")
-cat("Root Mean Squared Error (RMSE) 0.25 mL:", round(rmse25, 3), "\n")
 cat("Standard Deviation of Residuals 0.25 mL:", round(std_dev25, 3), "\n")
 
 ## Abs error and std dev. are larger for dilution 0.06 mL
