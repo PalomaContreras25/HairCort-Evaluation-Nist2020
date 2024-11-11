@@ -1,4 +1,3 @@
-
 ---
 title: "ELISA_computation"
 author: "Paloma"
@@ -9,8 +8,6 @@ editor_options:
 ---
 
 # Summary
-
----
 
 **Data Cleaning and Quality Control (QC)** details how data files are loaded, merged, and cleaned, including the exclusion of unnecessary columns and handling of missing values.
 
@@ -26,8 +23,6 @@ editor_options:
 - Spiking samples does not provide consistent results
 - Dilution of 250uL is preferable over 60uL 
 - Use of samples with a mass of 20mg or higher is recommended
-
-
 
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
@@ -143,7 +138,7 @@ write.csv(failed_samples, "./data/failed_samples.csv", row.names = FALSE)
 
 ```{r setup, include=TRUE, message=FALSE}
 df <- read.csv(
-  "/Users/lasisilab/Documents/GitHub/test-3/data/Data_QC_flagged.csv"
+  "./data/Data_QC_flagged.csv"
   )
 
 # remove unnecessary information

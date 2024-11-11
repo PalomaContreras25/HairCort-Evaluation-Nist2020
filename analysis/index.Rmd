@@ -19,17 +19,13 @@ Our results indicate that the method proposed by Nist et al. 2020 does not give 
 We found that a dilution of 250 uL, not adding a spike, and using between 20 to 35 mg of hair provides the most consistent results. 
 
 
-- QC and final cortisol concentration calculation [link](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_QC.html) 
-
-- How final cortisol concentrations were calculated: [link](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_computation.html) 
+- QC and final cortisol concentration calculation [link](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_computation.html) 
 
 - Results: [link](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_visualizations.html)
 
 - Models to understand how each variable affects cortisol values: [link](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_models.html)
 
-
-
-You can click this [link](http://palomacontreras25.github.io/test-3/docs/about.html) to read a more detailed description of this experiment. 
+You can click this [link](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/about.html) to read a more detailed description of this experiment. 
 
 
 ---
