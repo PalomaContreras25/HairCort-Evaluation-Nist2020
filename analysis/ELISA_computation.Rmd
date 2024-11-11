@@ -8,11 +8,26 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Introduction
+# Summary
 
 ---
 
-Here I calculate final cort concentration values using two methods. The first one (A) is the standard one, that does not correct for spike. The second one (B) does correct for spike on those samples that were spiked. 
+**Data Cleaning and Quality Control (QC)** details how data files are loaded, merged, and cleaned, including the exclusion of unnecessary columns and handling of missing values.
+
+**Cortisol value calculations** were conducted using two methods:
+
+- **Standard Method (Method A)**: Calculates cortisol concentration without correction for spiked samples.
+- **Spike-Corrected Method (Method B)**: Adjusts for spiked samples to account for additional cortisol added for testing accuracy.
+
+**Results**: The formula to account for the spike added to some samples results in final cortisol concentration values become negative, which would mean that there is no cortisol in original samples. We believe that this is an artifact of an extremely high absorbance level. Non-spiked samples, however, result in values that are within the range found in other studies of cortisol in human hair. After accounting for differences in dilution and weight, our results suggest some optimal parameters. 
+
+**Conclusions**: 
+
+- Spiking samples does not provide consistent results
+- Dilution of 250uL is preferable over 60uL 
+- Use of samples with a mass of 20mg or higher is recommended
+
+
 
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
@@ -22,6 +37,109 @@ library(knitr)
 library(ggplot2)
 library(broom)
 ```
+
+# Data Cleaning and QC
+
+
+```{r}
+# Load files
+layout <- read.csv("./data/layout_wells_test3_091524.csv", stringsAsFactors = TRUE, na.strings = c("", " "))
+results <- read.csv("./data/myassays_table_test3_091524.csv", stringsAsFactors = TRUE, na.strings = c("", " ", "-"))
+info <- read.csv("./data/sample_info_test3_091524.csv", stringsAsFactors = TRUE, na.strings = c("", " "))
+
+#kable(summary(c(layout, results, info)))
+
+```
+
+
+```{r}
+
+# Merge and clean files
+kable(head(layout)) 
+kable(head(results)) 
+dim(results)
+results <- results %>% 
+  select(!Sample) 
+
+m <- merge(layout, results, by = "Wells")
+kable(head(m)) 
+dim(m)
+
+m <- merge(m, info, by = c("Sample", "Wells"))
+m <- na.omit(m)
+kable(head(m)) 
+dim(m)
+
+
+colnames(m) <- c("Sample", "Wells", "Raw.OD", "Binding.Perc", "Concentration_pg/ml","Average_Conc_pg/ml", "CV.Perc", "SD", "SEM", "Weight_mg", "Buffer_nl", "Spike") 
+
+m[, 3:11] <- lapply(m[, 3:11], function(x) as.numeric(as.character(x)))
+m$Spike <- as.factor(m$Spike)
+
+
+```
+
+
+
+### Duplicates with high CV
+
+```{r}
+# define high Coef. of variation as higher than 15%
+CV_threshold <- 15.0
+cv_high <- m %>% 
+  filter(CV.Perc > CV_threshold) %>% 
+  arrange(desc(CV.Perc))
+
+kable(cv_high)
+
+# flag high CV
+
+m1 <- m %>%
+  mutate(CV_categ = ifelse(CV.Perc > CV_threshold, "HIGH CV", NA))
+
+```
+
+### Samples outside the curve
+
+```{r}
+
+out_curve <- m %>% 
+  filter(Binding.Perc < 20.0 | Binding.Perc > 80.0) %>% 
+  arrange(desc(Binding.Perc))
+
+kable(out_curve)
+
+
+# flag samples outside the curve
+
+m2 <- m1 %>%
+  mutate(Binding.Perc_categ = ifelse(Binding.Perc > 80, "ABOVE 80% binding", ifelse(Binding.Perc < 20, "UNDER 20% binding", NA)))
+
+m2 <- m2 %>%
+  mutate(Failed_samples = ifelse(!is.na(CV_categ) & !is.na(Binding.Perc_categ), 
+                             paste(CV_categ, Binding.Perc_categ, sep = ";"), 
+                             coalesce(CV_categ, Binding.Perc_categ))) %>%
+  select(!c(CV_categ, Binding.Perc_categ))
+
+# dataset with problematic samples flagged
+
+kable(head(m2))
+write.csv(m2, "./data/Data_QC_flagged.csv", row.names = FALSE) 
+
+
+# dataset with high cv samples removed
+data.no_cv <- m2 %>% 
+ filter(CV.Perc < CV_threshold) 
+
+
+write.csv(data.no_cv, "./data/Data_QC_filtered.csv", row.names = FALSE) 
+
+# table with samples that failed
+failed_samples <- rbind(cv_high, out_curve)
+write.csv(failed_samples, "./data/failed_samples.csv", row.names = FALSE) 
+
+```
+
 
 ```{r setup, include=TRUE, message=FALSE}
 df <- read.csv(
@@ -36,9 +154,11 @@ data <- df %>%
 
 ```
 
-# A. Calculation
+# (A) Standard Calculation
 
-Formula:  ((A/B) * (C/D) * E * 10,000) = F 
+Formula: 
+
+((A/B) * (C/D) * E * 10,000) = F 
 
 - A = μg/dl from assay output;
 - B = weight (in mg) of hair subjected to extraction;
@@ -69,7 +189,7 @@ data$final_conc_pg.mg <- c(
 ```
 
 
-## A. Results 
+## Results 
 ```{r}
 kable(head(data[ , c("Sample",
                      "Binding.Perc", 
@@ -113,9 +233,11 @@ summary(data$final_conc_pg.mg)
 
 ```
 
-# B. Recalculation (account for spike)
+# (B) Calculation accounting for spike
 
-In **Nist et al. 2020**, they say "Thus, after pipetting 25μL of standards and samples into the appropriate wells of the 96-well assay plate, we added 25μL of the 0.333ug/dL standard to all samples,
+We followed the procedure described in **Nist et al. 2020**:
+
+"Thus, after pipetting 25μL of standards and samples into the appropriate wells of the 96-well assay plate, we added 25μL of the 0.333ug/dL standard to all samples,
 resulting in a 1:2 dilution of samples. The remainder of the manufacturer’s protocol was
 unchanged. We analyzed the assay plate in a Powerwave plate reader (BioTek, Winooski,
 VT) at 450nm and subtracted background values from all assay wells. In the calculations, we
@@ -152,7 +274,7 @@ dSpike$final_conc_pg.mg <-
 
 ```
 
-## B. Results 
+## Results 
 ```{r}
 
 # histogram
@@ -201,6 +323,7 @@ dSpikeSub <- dSpike [ dSpike$Spike == 0, ]
 summary(dSpikeSub$final_conc_pg.mg)
 ```
 
+# Comparing A and B
 
 <table>
 <caption><span id="tab:table">Comparing results </span></caption>
@@ -217,7 +340,9 @@ Sample size              X              30                 18
 Consider that Nist et al. 2020 removed higher than 29 pg/mg as outliers
 
 
-# Non-spiked samples only
+# Cortisol concentrations, non-spiked samples only
+
+Since all spiked samples produce negative values, we will continue our analyses using only non-spiked samples, which produced values more similar to what is expected from hair cortisol in humans.
 
 ```{r}
 # non-spiked samples only
@@ -311,19 +436,22 @@ ggplot(data2, aes(y = final_conc_pg.mg,
 
 ```
 
-## buffer = 0.06 mL
+## Optimal dilution
+
+**Error using 0.06 mL buffer**
 ```{r echo = FALSE}
 # Print the results
 cat("Mean Absolute Error (MAE) 0.06 mL:", round(mae06, 3), "\n")
 cat("Standard Deviation of Residuals 0.06 mL:", round(std_dev06, 3), "\n")
 ```
-## buffer = 0.25 mL
+**Error using 0.25 mL buffer**
 ```{r echo = FALSE}
-cat("Mean Absolute Error (MAE) 0.25 mL:", round(mae25, 3), "\n")
+cat("Mean Absolute Error (MAE) 0.25 mL:", round(mae25, 3), "\n") 
 cat("Standard Deviation of Residuals 0.25 mL:", round(std_dev25, 3), "\n")
 
 ## Abs error and std dev. are larger for dilution 0.06 mL
 ```
+From this we conclude that using **a 250 uL dilution provides more consistent results**
 
 ```{r echo = FALSE, include = FALSE}
 # wflow_publish("./analysis/ELISA_Computation.Rmd")

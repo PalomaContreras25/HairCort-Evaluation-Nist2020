@@ -1,25 +1,27 @@
----
-title: "About"
-output:
-  workflowr::wflow_html:
-    toc: false
-editor_options:
-  chunk_output_type: console
----
-
-
-
-
-The output from the plate reader, as well as all the information to interpret it, are stored in this repository. We used the original output from Myassays as it provides a better fitting curve than one calculated manually.
-
-All samples in this essay were obtained from the same person, and were extracted using the same protocol. The parameters that we want to optimize vary for different samples:
-
-- The buffer volume for the reconstitution
-- The weight of each sample
 - Addition (or not) of a spike using same dilution as for STD 1.
 
 
 Visualizations were conducted using dataset obtained from Myassays.com, i.e. before calculating final values including weight, buffer vol, and spike. This was because I wanted to look at the general performance of the assay, as well as visualizing the influence of different parameters of interest before controlling for them.
 
 
+
+
+
+## Sample Preparation
+1. **Hair Collection**: Hair samples are collected from participants and stored in a cool, dry environment until processing.
+2. **Sample Processing**: Each sample is washed, dried, and ground into a fine powder to ensure homogeneity.
+3. **Cortisol Extraction**: Cortisol is extracted using methanol, following standard lab procedures to ensure consistent recovery.
+
+## ELISA Protocol Summary
+The ELISA assay is run on a microplate using a cortisol-specific antibody. Samples are prepared in multiple formats:
+
+- **Spiked Samples**: 25 µL of a known cortisol standard is added to 25 uL of sample.
+- **Non-Spiked Samples**: 50 µL of unaltered sample for actual measurement.
+- **Dilution**: reconstitution using 60 uL, or using 250 uL
+- **Weight**: varies between 11 and 37.1 mg (mean=23.22)
+
+After incubation, absorbance readings are measured, and cortisol concentrations are calculated using a standard curve.
+
+The output from the plate reader, as well as all the information to interpret it, are stored in this repository. We used the original output from Myassays as it provides a better fitting curve than one calculated manually.
+For further details on calculations and models used in analysis, refer to `ELISA_computation.Rmd` and `ELISA_models.Rmd`.
 

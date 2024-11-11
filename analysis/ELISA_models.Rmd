@@ -24,6 +24,10 @@ library(bbmle)
 
 ```
 
+Overview of Model Types: Introduce each model with a summary of its purpose.
+Model Fitting and Diagnostics: Clearly separate code for each model and add explanations.
+Model Comparison: Summarize key findings from model diagnostics.
+
 ```{r coef tab function, echo = FALSE}
 
 coeftab <- function(... ,
