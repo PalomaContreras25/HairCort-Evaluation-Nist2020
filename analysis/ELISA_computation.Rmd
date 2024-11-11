@@ -43,7 +43,6 @@ results <- read.csv("./data/myassays_table_test3_091524.csv", stringsAsFactors =
 info <- read.csv("./data/sample_info_test3_091524.csv", stringsAsFactors = TRUE, na.strings = c("", " "))
 
 #kable(summary(c(layout, results, info)))
-
 ```
 
 
@@ -267,6 +266,7 @@ dSpike$final_conc_pg.mg <-
     dSpike$final_conc_pg.mg  # Keep value if Spike != 1
 )
 
+write.csv(dSpike, "./data/Data_cort_values.csv", row.names = F)
 ```
 
 ## Results 
