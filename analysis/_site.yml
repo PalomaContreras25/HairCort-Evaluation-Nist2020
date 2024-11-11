@@ -1,7 +1,7 @@
-name: "test-3"
+name: HairCort-Evaluation-Nist2020
 output_dir: ../docs
 navbar:
-  title: "test-3"
+  title: HairCort-Evaluation-Nist2020
   left:
   - text: Home
     href: index.html
