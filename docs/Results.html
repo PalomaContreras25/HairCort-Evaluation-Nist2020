@@ -1,0 +1,2928 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Paloma" />
+
+<meta name="date" content="2024-10-16" />
+
+<title>ELISA_Visualizations</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HairCort-Evaluation-Nist2020</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">ELISA_Visualizations</h1>
+<h4 class="author">Paloma</h4>
+<h4 class="date">2024-10-16</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2024-11-11
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>HairCort-Evaluation-Nist2020/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241016code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241016)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241016code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241016)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treef033eb803422f17a8ffc558dedff7a8b9aa0ff64targetblankf033eb8a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/f033eb803422f17a8ffc558dedff7a8b9aa0ff64" target="_blank">f033eb8</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treef033eb803422f17a8ffc558dedff7a8b9aa0ff64targetblankf033eb8a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/f033eb803422f17a8ffc558dedff7a8b9aa0ff64" target="_blank">f033eb8</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+
+Untracked files:
+    Untracked:  data/Data_cort_values.csv
+
+Unstaged changes:
+    Modified:   analysis/ELISA_computation.Rmd
+    Modified:   analysis/ELISA_visualizations.Rmd
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/ELISA_visualizations.Rmd</code>)
+and HTML (<code>docs/ELISA_visualizations.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/ELISA_visualizations.html" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dc9bc1f3e6615c792000ed39e44f4be492579a6c/analysis/ELISA_visualizations.Rmd" target="_blank">dc9bc1f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+<td>
+wflow_publish("./analysis/ELISA_visualizations.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/7801ea937d8cf51f24f28b3baabfe0f80998ab0f/docs/ELISA_visualizations.html" target="_blank">7801ea9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/a327e872e18ea56bb3130a239b7e5cc353021ffb/analysis/ELISA_visualizations.Rmd" target="_blank">a327e87</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-18
+</td>
+<td>
+wflow_publish("./analysis/ELISA_visualizations.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/a59d14d0fe81de81b12b47d6df59acb2255b3e1b/analysis/ELISA_visualizations.Rmd" target="_blank">a59d14d</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-18
+</td>
+<td>
+visualizations-updated
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/a59d14d0fe81de81b12b47d6df59acb2255b3e1b/docs/ELISA_visualizations.html" target="_blank">a59d14d</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-18
+</td>
+<td>
+visualizations-updated
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/8e3a6558020e4c496552a0d0239a0ef5b5ada3f1/docs/ELISA_visualizations.html" target="_blank">8e3a655</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-17
+</td>
+<td>
+update plots
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/de44ed640c8384a8b5924ce90fc56f404710e04c/analysis/ELISA_visualizations.Rmd" target="_blank">de44ed6</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-17
+</td>
+<td>
+wflow_publish("./analysis/ELISA_visualizations.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/98024d26f326fa1092bf940c8d27aebdd174ede6/docs/ELISA_visualizations.html" target="_blank">98024d2</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/1953f30438af2235c7c9a7544e0c4dc4897236ab/analysis/ELISA_visualizations.Rmd" target="_blank">1953f30</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+wflow_publish("./analysis/ELISA_visualizations.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/b08a78b9b6e17dea0511c7a1999b4fb9b9769da2/docs/ELISA_visualizations.html" target="_blank">b08a78b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0d06b4668a82f24f277d4c9f7e5f4bc325cf0e0e/analysis/ELISA_visualizations.Rmd" target="_blank">0d06b46</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+wflow_publish("./analysis/ELISA_visualizations.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/b03e1438cf6f34249e0b47124233e12b7b369398/analysis/ELISA_visualizations.Rmd" target="_blank">b03e143</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+creating plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/b03e1438cf6f34249e0b47124233e12b7b369398/docs/ELISA_visualizations.html" target="_blank">b03e143</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+creating plots
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a/analysis/ELISA_visualizations.Rmd" target="_blank">2cbdcc9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+merged data, cleaned, visualized some results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a/docs/ELISA_visualizations.html" target="_blank">2cbdcc9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+<td>
+merged data, cleaned, visualized some results
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Here I use QCed results from an ELISA plate. All hair samples were
+obtained from the same person. I tested 3 variables:</p>
+<ul>
+<li><p>dilution (60 nL vs 250 nL, coded as 0 and 1,
+respectively)</p></li>
+<li><p>weight (11 to 37.1 mg)</p></li>
+<li><p>spike (25 nL stock solution (1:10) added to some wells, coded as
+0 and 1, meaning not-spiked and spiked)</p></li>
+</ul>
+<p>I removed the samples that have a Coef of variation higher than
+15%.</p>
+</div>
+<div id="summary-of-results" class="section level1">
+<h1>Summary of results</h1>
+<p>The <strong>figures</strong> below were used to decide that the
+<strong>optimal parameters</strong> are:</p>
+<ul>
+<li><strong>Weight</strong> higher than 20, ideally. Binding deviation
+goes down with higher weight.</li>
+<li><strong>Dilution</strong> between 60 and 250 ul (higher dilution
+provides lower coef. of variation, more lower dilutions locate samples
+closer to 50% binding. An intermedieate value would be best)</li>
+<li><strong>Spike</strong> Non-spiked samples provide lower binding
+deviation from 50% (i.e. measures are close to falling outside the
+curve)</li>
+</ul>
+<p><img src="figure/ELISA_visualizations.Rmd/scatterplot%202-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-scatterplot-2-1">
+Past versions of "scatterplot 2-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-scatterplot-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/scatterplot 2-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here we see the effect of the spike more clearly: adding a spike may
+not be necessary unless we have very small samples.</p>
+<p>Spiked samples were removed due to inconsistent results.</p>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/unnamed-chunk-1-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/unnamed-chunk-2-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/b08a78b9b6e17dea0511c7a1999b4fb9b9769da2/docs/figure/ELISA_visualizations.Rmd/unnamed-chunk-2-1.png" target="_blank">b08a78b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/b03e1438cf6f34249e0b47124233e12b7b369398/docs/figure/ELISA_visualizations.Rmd/unnamed-chunk-2-1.png" target="_blank">b03e143</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/2cbdcc9e970a36c0f849ccb2a3ec79d25b955c9a/docs/figure/ELISA_visualizations.Rmd/unnamed-chunk-2-1.png" target="_blank">2cbdcc9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The following plots were made considering that having a binding of
+50% is ideal. Data points that are over 80% or under 20% are not within
+the curve, and predictions are less accurate.</p>
+<div id="binding-percentages" class="section level2">
+<h2>Binding percentages</h2>
+<div id="binding-percentage-by-different-variables"
+class="section level3">
+<h3>Binding percentage by different variables</h3>
+<p><img src="figure/ELISA_visualizations.Rmd/scatterplot%201-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-scatterplot-1-1">
+Past versions of "scatterplot 1-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-scatterplot-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/scatterplot 1-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li><p><strong>Spiked</strong> samples (turquoise) have lower binding,
+because they have higher levels of cortisol than non spiked (pink)
+samples.</p></li>
+<li><p><strong>Dilution</strong>: effect is less clear. We see samples
+with both 60 uL and 250 uL binding at very high and very low
+levels.</p></li>
+<li><p><strong>Trends</strong>: within non-spiked samples with a similar
+weight and diluted at 60uL (pink circles), we do not obtain consistent
+binding percentages. However, non-spiked samples with similar weights do
+obtain similar bindings, and the lines are in the expected direction
+(higher weight, lower binding), except by a few outliers that would be
+removed from the analysis anyway (for having binding over 80%)</p></li>
+<li><p><strong>Conclusion</strong>: samples across different weights,
+<strong>non-spiked, and diluted in 250 uL buffer seem to provide the
+best results</strong>, particularly if samples <strong>weigh more than
+15 mg</strong>. Using less than that may be risky, and in those cases,
+it may be better to use less buffer to concentrate the samples a bit
+more.</p></li>
+</ul>
+</div>
+<div id="value-distributions-by-group-boxplots" class="section level3">
+<h3>Value distributions by group (boxplots)</h3>
+<p><img src="figure/ELISA_visualizations.Rmd/boxplot1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-boxplot1-1">
+Past versions of boxplot1-1.png
+</button>
+</p>
+<div id="fig-boxplot1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/boxplot1-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here we also see that the impact of the spike on the values is larger
+than the impact of using a different dilution</p>
+</div>
+</div>
+<div id="coef.-of-variation-percentage" class="section level2">
+<h2>Coef. of variation percentage</h2>
+<p>The coefficient of variation or CV is a standardized measure of the
+difference between duplicates (same sample, same weight, same dilution,
+same everything). Some variables may make duplicates more variable, so
+this is what will be tested below.</p>
+<div id="coef.-of-variation-by-group" class="section level3">
+<h3>Coef. of variation by group</h3>
+<p><img src="figure/ELISA_visualizations.Rmd/CVbyGroup-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-CVbyGroup-1">
+Past versions of CVbyGroup-1.png
+</button>
+</p>
+<div id="fig-CVbyGroup-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/CVbyGroup-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Conclusion</strong> diluting the sample less seems to lead to
+higher differences between duplicates, which is something we want to
+avoid. We also see less variation for the group of spiked samples, with
+the lowest average of the four groups. Yet, we also must note that the
+spiked, 250 uL group has only 6 samples, as we see on the table
+below.</p>
+<table>
+<caption>
+<span id="tab:table">Num_of_samples </span>
+</caption>
+<table>
+<thead>
+<tr class="header">
+<th>Dilution:</th>
+<th align="center">No spike</th>
+<th align="right">Spiked</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>60 uL</td>
+<td align="center">7</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td>250 uL</td>
+<td align="center">12</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td>Total: 32 samples</td>
+<td align="center"></td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center"></td>
+<td align="right"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="coef.-of-variation-by-different-variables"
+class="section level3">
+<h3>Coef. of variation by different variables</h3>
+<p><img src="figure/ELISA_visualizations.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/unnamed-chunk-3-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/a59d14d0fe81de81b12b47d6df59acb2255b3e1b/docs/figure/ELISA_visualizations.Rmd/unnamed-chunk-3-1.png" target="_blank">a59d14d</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Lower CV</strong> is seen in spiked + 250 uL group,
+particularly for samples with low weight. Yet, non spiked, diluted in
+250uL samples have very low CV if weight is over 30.</p>
+</div>
+</div>
+<div id="deviation-from-50-binding" class="section level2">
+<h2>Deviation from 50% binding</h2>
+<p>Here I calculate a “binding” deviation score, to have a better idea
+of the “distance” between the values obtained and what I should aim for:
+50% binding. Here an example of how this score works:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Sample</th>
+<th align="right">Binding.Perc</th>
+<th align="right">Binding_deviation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">22</td>
+<td align="left">32</td>
+<td align="right">50.0</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="even">
+<td align="left">21</td>
+<td align="left">31</td>
+<td align="right">51.2</td>
+<td align="right">1.2</td>
+</tr>
+<tr class="odd">
+<td align="left">24</td>
+<td align="left">34</td>
+<td align="right">51.7</td>
+<td align="right">1.7</td>
+</tr>
+<tr class="even">
+<td align="left">23</td>
+<td align="left">33</td>
+<td align="right">52.3</td>
+<td align="right">2.3</td>
+</tr>
+<tr class="odd">
+<td align="left">25</td>
+<td align="left">36</td>
+<td align="right">53.2</td>
+<td align="right">3.2</td>
+</tr>
+<tr class="even">
+<td align="left">15</td>
+<td align="left">27</td>
+<td align="right">46.0</td>
+<td align="right">4.0</td>
+</tr>
+</tbody>
+</table>
+<p><img src="figure/ELISA_visualizations.Rmd/plot_deviation-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot_deviation-1">
+Past versions of plot_deviation-1.png
+</button>
+</p>
+<div id="fig-plot_deviation-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/plot_deviation-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>This plot suggests that for samples of weight lower than 20 mg,
+adding a spike lowers the binding deviation. This effect is lost if
+samples are heaver than 20 mg.</p>
+<p><img src="figure/ELISA_visualizations.Rmd/dev.%20scatter-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-dev.-scatter-1">
+Past versions of "dev. scatter-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-dev.-scatter-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/dev. scatter-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We observe that spiked samples have a higher deviation from the ideal
+binding. We also observe that having larger samples leads to values
+closer to 50%. It is interesting to see that error does not go below 15%
+if we look at samples with weight under 20mg. Yet, we know that a
+deviation of up to 30% is acceptable.</p>
+<p><img src="figure/ELISA_visualizations.Rmd/boxplot_deviation-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-boxplot_deviation-1">
+Past versions of boxplot_deviation-1.png
+</button>
+</p>
+<div id="fig-boxplot_deviation-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/boxplot_deviation-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here we see how the lowest (best) scores are obtained by the
+non-spiked groups. Even better results are obtained if the dilution is
+250 uL.</p>
+<ul>
+<li><strong>Conclusion</strong>: using a <strong>250 uL dilution,
+without spikes</strong>, will lead to <strong>better results</strong>
+that fall in the middle of the curve, and allow for more precise
+calculations of cortisol concentration.</li>
+</ul>
+</div>
+</div>
+<div id="analysis-linear-models" class="section level1">
+<h1>Analysis: linear models</h1>
+<p>To explore the effects of each variable more systematically, I run
+multiple models and compared them using AIC Akakikes’ coefficient. I
+removed samples with a binding over 80% or under 20%.</p>
+<p><img src="figure/ELISA_visualizations.Rmd/qqplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-qqplot-1">
+Past versions of qqplot-1.png
+</button>
+</p>
+<div id="fig-qqplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/qqplot-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>First, I looked at the distribution of the data (binding percentage).
+I am not sure how to describe it, but it does not look very linear. I
+will test different distributions at another time, but for now, I will
+run and compare simple models that should allow me to understand which
+variables have a greater impact on binding percentages.</p>
+<div id="comparing-models" class="section level2">
+<h2>Comparing models</h2>
+<pre class="r"><code># creating function to extract coeffs
+extract_coefs &lt;- function(model, model_name) {
+  # Extract summary of the model
+  coef_summary &lt;- summary(model)$coefficients
+  
+  # Create a data frame with term names, estimates, and standard errors
+  coef_df &lt;- data.frame(
+    term = rownames(coef_summary),
+    estimate = coef_summary[, &quot;Estimate&quot;],
+    std.error = coef_summary[, &quot;Std. Error&quot;],
+    model = model_name  # Add the model name as a new column
+  )
+  
+  # Return the data frame
+  return(coef_df)
+}</code></pre>
+<pre class="r"><code>binding &lt;- data$Binding.Perc
+weight &lt;- data$Weight_mg
+spike &lt;- data$Spike
+buffer &lt;- data$Buffer_nl
+
+# model 1
+
+m1 &lt;- lm(binding ~ weight)
+summary(m1)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-19.39 -14.46  -5.65  12.69  30.62 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  51.6739     9.2460   5.589 5.56e-06 ***
+weight       -0.2934     0.3732  -0.786    0.438    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 15.77 on 28 degrees of freedom
+Multiple R-squared:  0.0216,    Adjusted R-squared:  -0.01335 
+F-statistic: 0.618 on 1 and 28 DF,  p-value: 0.4384</code></pre>
+<pre class="r"><code>confint(m1, level = 0.95)</code></pre>
+<pre><code>                2.5 %     97.5 %
+(Intercept) 32.734311 70.6134504
+weight      -1.057979  0.4711297</code></pre>
+<pre class="r"><code># model 2
+
+m2 &lt;- lm(binding ~ spike)
+summary(m2)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ spike)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-21.6889  -3.6222  -0.2333   3.8667  23.6111 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   54.189      2.490  21.765  &lt; 2e-16 ***
+spike1       -23.556      3.937  -5.984 1.91e-06 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 10.56 on 28 degrees of freedom
+Multiple R-squared:  0.5612,    Adjusted R-squared:  0.5455 
+F-statistic: 35.81 on 1 and 28 DF,  p-value: 1.912e-06</code></pre>
+<pre class="r"><code>confint(m2, level = 0.95)</code></pre>
+<pre><code>                2.5 %    97.5 %
+(Intercept)  49.08898  59.28880
+spike1      -31.61922 -15.49189</code></pre>
+<pre class="r"><code># model 3
+
+m3 &lt;- lm(binding ~ buffer)
+summary(m3)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ buffer)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-19.165 -14.670  -3.835   9.970  31.515 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   40.585      4.296   9.447 3.33e-10 ***
+buffer1        7.380      5.707   1.293    0.207    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 15.49 on 28 degrees of freedom
+Multiple R-squared:  0.05636,   Adjusted R-squared:  0.02266 
+F-statistic: 1.672 on 1 and 28 DF,  p-value: 0.2065</code></pre>
+<pre class="r"><code>confint(m3, level = 0.95)</code></pre>
+<pre><code>                2.5 %   97.5 %
+(Intercept) 31.784638 49.38459
+buffer1     -4.309996 19.07018</code></pre>
+<pre class="r"><code># model 4
+
+m4 &lt;- lm(binding ~ weight + spike)
+summary(m4)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight + spike)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-21.621  -4.416   1.329   6.013  14.585 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  76.6215     5.7290  13.374 2.00e-13 ***
+weight       -0.8763     0.2100  -4.172  0.00028 ***
+spike1      -28.0684     3.3078  -8.485 4.25e-09 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 8.388 on 27 degrees of freedom
+Multiple R-squared:  0.7332,    Adjusted R-squared:  0.7134 
+F-statistic: 37.09 on 2 and 27 DF,  p-value: 1.795e-08</code></pre>
+<pre class="r"><code>confint(m4, level = 0.95)</code></pre>
+<pre><code>                 2.5 %      97.5 %
+(Intercept)  64.866499  88.3764142
+weight       -1.307243  -0.4453015
+spike1      -34.855427 -21.2812872</code></pre>
+<pre class="r"><code># model 5 
+
+m5 &lt;- lm(binding ~ weight + buffer)
+summary(m5)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight + buffer)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-20.5867 -13.8305   0.2964  10.4043  28.5410 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  49.3231     9.1936   5.365 1.14e-05 ***
+weight       -0.4003     0.3726  -1.074    0.292    
+buffer1       8.5875     5.8012   1.480    0.150    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 15.45 on 27 degrees of freedom
+Multiple R-squared:  0.09504,   Adjusted R-squared:  0.02801 
+F-statistic: 1.418 on 2 and 27 DF,  p-value: 0.2597</code></pre>
+<pre class="r"><code>confint(m5, level = 0.95)</code></pre>
+<pre><code>                2.5 %     97.5 %
+(Intercept) 30.459445 68.1867374
+weight      -1.164810  0.3642451
+buffer1     -3.315599 20.4905160</code></pre>
+<pre class="r"><code># model 6
+
+m6 &lt;- lm(binding ~ spike + buffer)
+summary(m6)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ spike + buffer)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-17.230  -5.022  -1.865   4.197  22.370 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   49.730      3.093  16.077 2.37e-15 ***
+spike1       -23.778      3.693  -6.438 6.73e-07 ***
+buffer1        8.026      3.651   2.198   0.0367 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 9.907 on 27 degrees of freedom
+Multiple R-squared:  0.6278,    Adjusted R-squared:  0.6002 
+F-statistic: 22.77 on 2 and 27 DF,  p-value: 1.607e-06</code></pre>
+<pre class="r"><code>confint(m6, level = 0.95)</code></pre>
+<pre><code>                  2.5 %    97.5 %
+(Intercept)  43.3835259  56.07685
+spike1      -31.3568589 -16.20012
+buffer1       0.5335106  15.51781</code></pre>
+<pre class="r"><code># model 7
+
+m7 &lt;- lm(binding ~ weight + buffer + spike)
+summary(m7)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight + buffer + spike)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-16.2258  -2.0491   0.4047   3.4737  12.5351 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  74.5586     4.2587  17.507 6.57e-16 ***
+weight       -1.0412     0.1591  -6.546 6.11e-07 ***
+buffer1      11.3144     2.3411   4.833 5.22e-05 ***
+spike1      -29.2322     2.4583 -11.891 5.13e-12 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 6.204 on 26 degrees of freedom
+Multiple R-squared:  0.8594,    Adjusted R-squared:  0.8432 
+F-statistic: 52.99 on 3 and 26 DF,  p-value: 3.261e-11</code></pre>
+<pre class="r"><code>confint(m7, level = 0.95)</code></pre>
+<pre><code>                 2.5 %      97.5 %
+(Intercept)  65.804710  83.3124949
+weight       -1.368173  -0.7142862
+buffer1       6.502196  16.1265526
+spike1      -34.285345 -24.1790066</code></pre>
+<pre class="r"><code># model 8
+
+sp1 &lt;- data[data$Spike == 1,]
+sp0 &lt;- data[data$Spike == 0,]
+
+binding1 &lt;- sp1$Binding.Perc
+weight1 &lt;- sp1$Weight_mg
+spike1 &lt;- sp1$Spike
+buffer1 &lt;- sp1$Buffer_nl
+
+m8 &lt;- lm(binding1 ~  buffer1 + weight1)
+summary(m8)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding1 ~ buffer1 + weight1)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-2.343 -1.448 -0.262  1.241  2.886 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  37.0130     2.1167  17.486 2.96e-08 ***
+buffer11      2.3673     1.2525   1.890  0.09133 .  
+weight1      -0.3795     0.1032  -3.678  0.00509 ** 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 2.055 on 9 degrees of freedom
+Multiple R-squared:  0.6144,    Adjusted R-squared:  0.5287 
+F-statistic:  7.17 on 2 and 9 DF,  p-value: 0.01373</code></pre>
+<pre class="r"><code># model 9
+binding0 &lt;- sp0$Binding.Perc
+weight0 &lt;- sp0$Weight_mg
+spike0 &lt;- sp0$Spike
+buffer0 &lt;- sp0$Buffer_nl
+
+m9 &lt;- lm(binding0 ~  buffer0 + weight0)
+summary(m9)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding0 ~ buffer0 + weight0)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-14.6241  -2.2477   0.1961   3.0228  12.8202 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  77.5421     4.6585  16.645 4.43e-11 ***
+buffer01     16.4037     2.8246   5.807 3.45e-05 ***
+weight0      -1.2682     0.1745  -7.269 2.74e-06 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 5.851 on 15 degrees of freedom
+Multiple R-squared:  0.8303,    Adjusted R-squared:  0.8077 
+F-statistic: 36.69 on 2 and 15 DF,  p-value: 1.67e-06</code></pre>
+<pre class="r"><code>coef_df1 &lt;- extract_coefs(m1, &quot;Model 1&quot;)
+coef_df2 &lt;- extract_coefs(m2, &quot;Model 2&quot;)
+coef_df3 &lt;- extract_coefs(m3, &quot;Model 3&quot;)
+coef_df4 &lt;- extract_coefs(m4, &quot;Model 4&quot;)
+coef_df5 &lt;- extract_coefs(m5, &quot;Model 5&quot;)
+coef_df6 &lt;- extract_coefs(m6, &quot;Model 6&quot;)
+coef_df7 &lt;- extract_coefs(m7, &quot;Model 7&quot;)
+coef_df8 &lt;- extract_coefs(m8, &quot;Model 8&quot;)
+coef_df9 &lt;- extract_coefs(m9, &quot;Model 9&quot;)
+
+# Combine the data frames for plotting
+coef_df &lt;- rbind(coef_df1, coef_df2, coef_df3, coef_df4)</code></pre>
+</div>
+<div id="plot-regression-coefs" class="section level2">
+<h2>Plot regression coefs</h2>
+<div id="plot-model-1-to-4" class="section level3">
+<h3>Plot model 1 to 4</h3>
+<pre class="r"><code>ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
+  geom_point(position = position_dodge(width = 4)) +  # Points for the estimates
+  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, ymax = estimate + 1.96 * std.error),
+                position = position_dodge(width = 0.85), width = 1) +  # Error bars for confidence intervals
+  theme_minimal() +
+  coord_flip() +  # Flip the coordinates for better readability
+  facet_wrap(~ model, ncol = 1) +  # One model per line
+  labs(title = &quot;Coefficient Plot for Models 1-4&quot;,
+       x = &quot;Terms&quot;,
+       y = &quot;Estimates&quot;) +
+  theme(legend.position = &quot;none&quot;) +
+  geom_hline(yintercept = 0, color = &quot;gray&quot;, linetype = &quot;dashed&quot;) +  # Gray line at zero
+  expand_limits(y = c(-58, 58)) +
+  theme(
+    axis.text.x = element_text(size = 12),        # X-axis text size
+    axis.text.y = element_text(size = 12),        # Y-axis text size
+    axis.title.x = element_text(size = 14),       # X-axis title size
+    axis.title.y = element_text(size = 14),       # Y-axis title size
+    plot.title = element_text(size = 16, hjust = 0.5),  # Plot title size and centering
+    strip.text = element_text(size = 14)          # Facet label text size
+  )</code></pre>
+<pre><code>Warning: `position_dodge()` requires non-overlapping x intervals
+`position_dodge()` requires non-overlapping x intervals
+`position_dodge()` requires non-overlapping x intervals
+`position_dodge()` requires non-overlapping x intervals</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/Plot%20model%201%20to%204-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Plot-model-1-to-4-1">
+Past versions of "Plot model 1 to 4-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Plot-model-1-to-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/Plot model 1 to 4-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="plot-model-5-to-9" class="section level3">
+<h3>Plot model 5 to 9</h3>
+<pre class="r"><code># Combine the data frames for plotting
+coef_df &lt;- rbind(coef_df5, coef_df6, coef_df7, coef_df8,coef_df9)
+
+ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
+  geom_point(position = position_dodge(width = 3)) +  # Points for the estimates
+  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, ymax = estimate + 1.96 * std.error),
+                position = position_dodge(width = 0.9), width = 0.85) +  # Error bars for confidence intervals
+  theme_minimal() +
+  coord_flip() +  # Flip the coordinates for better readability
+  facet_wrap(~ model, ncol = 1) +  # One model per line
+  labs(title = &quot;Coefficient Plot for Model 5 to 9&quot;,
+       x = &quot;Terms&quot;,
+       y = &quot;Estimates&quot;) +
+  theme(legend.position = &quot;none&quot;) +
+  geom_hline(yintercept = 0, color = &quot;gray&quot;, linetype = &quot;dashed&quot;) +  # Gray line at zero
+  expand_limits(y = c(-60, 60)) +
+  theme(
+    axis.text.x = element_text(size = 12),        # X-axis text size
+    axis.text.y = element_text(size = 12),        # Y-axis text size
+    axis.title.x = element_text(size = 14),       # X-axis title size
+    axis.title.y = element_text(size = 14),       # Y-axis title size
+    plot.title = element_text(size = 16, hjust = 0.5),  # Plot title size and centering
+    strip.text = element_text(size = 14)          # Facet label text size
+  )</code></pre>
+<pre><code>Warning: `position_dodge()` requires non-overlapping x intervals
+`position_dodge()` requires non-overlapping x intervals
+`position_dodge()` requires non-overlapping x intervals
+`position_dodge()` requires non-overlapping x intervals</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/Plot%20model%205%20to%209-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Plot-model-5-to-9-1">
+Past versions of "Plot model 5 to 9-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Plot-model-5-to-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/Plot model 5 to 9-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="summarize-info-multiple-models" class="section level2">
+<h2>Summarize info multiple models</h2>
+<pre class="r"><code>model_names &lt;- paste(&quot;m&quot;, 1:9, sep=&quot;&quot;)
+r_values &lt;- 1:9
+all_models &lt;- list(m1, m2, m3, m4, m5, m6, m7, m8, m9)
+model_info &lt;- c(&quot;weight&quot;, &quot;spike&quot;, &quot;buffer&quot;, &quot;weight + spike&quot;, &quot;weight + buffer&quot;, &quot;spike + buffer&quot;, &quot;spike + buffer + weight&quot;, &quot;buffer + weight, spiked only&quot;,&quot;buffer + weight, NOT spiked only&quot;)
+sum_models &lt;- as.data.frame(r_values, row.names=model_names)
+sum_models$res_std_error &lt;- 1:length(model_names)
+sum_models$info &lt;- model_info
+
+for (i in 1:length(model_names)) {
+    sum_models$r_values[i]      &lt;- summary(all_models[[i]])$adj.r.squared
+    sum_models$res_std_error[i] &lt;- summary(all_models[[i]])$sigma
+}
+
+kable(sum_models[order(sum_models$r_values, decreasing = TRUE), ]) </code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">r_values</th>
+<th align="right">res_std_error</th>
+<th align="left">info</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">m7</td>
+<td align="right">0.8432246</td>
+<td align="right">6.203728</td>
+<td align="left">spike + buffer + weight</td>
+</tr>
+<tr class="even">
+<td align="left">m9</td>
+<td align="right">0.8076695</td>
+<td align="right">5.850626</td>
+<td align="left">buffer + weight, NOT spiked only</td>
+</tr>
+<tr class="odd">
+<td align="left">m4</td>
+<td align="right">0.7134063</td>
+<td align="right">8.387781</td>
+<td align="left">weight + spike</td>
+</tr>
+<tr class="even">
+<td align="left">m6</td>
+<td align="right">0.6001972</td>
+<td align="right">9.906874</td>
+<td align="left">spike + buffer</td>
+</tr>
+<tr class="odd">
+<td align="left">m2</td>
+<td align="right">0.5454965</td>
+<td align="right">10.562881</td>
+<td align="left">spike</td>
+</tr>
+<tr class="even">
+<td align="left">m8</td>
+<td align="right">0.5287000</td>
+<td align="right">2.054609</td>
+<td align="left">buffer + weight, spiked only</td>
+</tr>
+<tr class="odd">
+<td align="left">m5</td>
+<td align="right">0.0280065</td>
+<td align="right">15.447046</td>
+<td align="left">weight + buffer</td>
+</tr>
+<tr class="even">
+<td align="left">m3</td>
+<td align="right">0.0226583</td>
+<td align="right">15.489485</td>
+<td align="left">buffer</td>
+</tr>
+<tr class="odd">
+<td align="left">m1</td>
+<td align="right">-0.0133472</td>
+<td align="right">15.772222</td>
+<td align="left">weight</td>
+</tr>
+</tbody>
+</table>
+<div id="comparing-models-using-akakikes-information-criteria"
+class="section level3">
+<h3>Comparing models using Akakike’s information criteria</h3>
+<pre class="r"><code># computing bias-adjusted version of AIC (AICc) Akakaike&#39;s information criteria table
+AICc_compare &lt;-AICtab(m1, m2, m3, m4, m5, m6, m7, m8, m9, 
+        base = TRUE,
+        weights = TRUE,
+        logLik  = TRUE,
+        #indicate number of observations
+        nobs = 30)
+kable(AICc_compare)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">logLik</th>
+<th align="right">AIC</th>
+<th align="right">dLogLik</th>
+<th align="right">dAIC</th>
+<th align="right">df</th>
+<th align="right">weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">m8</td>
+<td align="right">-23.94220</td>
+<td align="right">55.8844</td>
+<td align="right">100.3385734</td>
+<td align="right">0.00000</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">m9</td>
+<td align="right">-55.69788</td>
+<td align="right">119.3958</td>
+<td align="right">68.5828959</td>
+<td align="right">63.51136</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m7</td>
+<td align="right">-95.17615</td>
+<td align="right">200.3523</td>
+<td align="right">29.1046184</td>
+<td align="right">144.46791</td>
+<td align="right">5</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">m4</td>
+<td align="right">-104.79103</td>
+<td align="right">217.5821</td>
+<td align="right">19.4897423</td>
+<td align="right">161.69766</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m6</td>
+<td align="right">-109.78461</td>
+<td align="right">227.5692</td>
+<td align="right">14.4961574</td>
+<td align="right">171.68483</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">m2</td>
+<td align="right">-112.25364</td>
+<td align="right">230.5073</td>
+<td align="right">12.0271289</td>
+<td align="right">174.62289</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m3</td>
+<td align="right">-123.73810</td>
+<td align="right">253.4762</td>
+<td align="right">0.5426679</td>
+<td align="right">197.59181</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">m5</td>
+<td align="right">-123.11028</td>
+<td align="right">254.2206</td>
+<td align="right">1.1704906</td>
+<td align="right">198.33617</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m1</td>
+<td align="right">-124.28077</td>
+<td align="right">254.5615</td>
+<td align="right">0.0000000</td>
+<td align="right">198.67715</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># Coef table 
+coeftab(m1, m2, m3, m4, m5, m6, m7, m8, m9) -&gt; coeftabs
+kable(coeftabs)</code></pre>
+<table>
+<colgroup>
+<col width="3%" />
+<col width="14%" />
+<col width="12%" />
+<col width="11%" />
+<col width="11%" />
+<col width="10%" />
+<col width="12%" />
+<col width="10%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">(Intercept)</th>
+<th align="right">weight</th>
+<th align="right">spike1</th>
+<th align="right">buffer1</th>
+<th align="right">buffer11</th>
+<th align="right">weight1</th>
+<th align="right">buffer01</th>
+<th align="right">weight0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">m1</td>
+<td align="right">51.67388</td>
+<td align="right">-0.2934245</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">m2</td>
+<td align="right">54.18889</td>
+<td align="right">NA</td>
+<td align="right">-23.55556</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">m3</td>
+<td align="right">40.58462</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">7.380090</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">m4</td>
+<td align="right">76.62146</td>
+<td align="right">-0.8762722</td>
+<td align="right">-28.06836</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">m5</td>
+<td align="right">49.32309</td>
+<td align="right">-0.4002825</td>
+<td align="right">NA</td>
+<td align="right">8.587459</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">m6</td>
+<td align="right">49.73019</td>
+<td align="right">NA</td>
+<td align="right">-23.77849</td>
+<td align="right">8.025660</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">m7</td>
+<td align="right">74.55860</td>
+<td align="right">-1.0412296</td>
+<td align="right">-29.23218</td>
+<td align="right">11.314374</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">m8</td>
+<td align="right">37.01296</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">2.367304</td>
+<td align="right">-0.3794893</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">m9</td>
+<td align="right">77.54213</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">16.40368</td>
+<td align="right">-1.268219</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>par(mfrow = c(3, 3))
+
+plot(m1, which = 1)  
+plot(m2, which = 1, main = &quot;m2&quot;)  
+plot(m3, which = 1, main = &quot;m3&quot;)  
+plot(m4, which = 1, main = &quot;m4&quot;)
+plot(m5, which = 1, main = &quot;m5&quot;) 
+plot(m6, which = 1, main = &quot;m6&quot;)
+plot(m7, which = 1, main = &quot;m7&quot;)
+plot(m8, which = 1, main = &quot;m8&quot;)
+plot(m9, which = 1, main = &quot;m9&quot;)</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/AICc-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-AICc-1">
+Past versions of AICc-1.png
+</button>
+</p>
+<div id="fig-AICc-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/AICc-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>model &lt;- list(m1, m2, m3, m4, m5, m6, m7, m8, m9)
+
+par(mfrow = c(3, 3))
+
+for (i in 1:length(model)) {
+  # Create a Q-Q plot for the residuals of the i-th model
+  qqnorm(residuals(model[[i]]), main = paste(&quot;Q-Q Plot, m&quot;, i, sep = &quot;&quot;))
+  qqline(residuals(model[[i]]), col = &quot;red&quot;)
+}</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/AICc-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-AICc-2">
+Past versions of AICc-2.png
+</button>
+</p>
+<div id="fig-AICc-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/AICc-2.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>Model 7 has the highest weight, a measure of certainty in the
+model</em>. However, we need to consider that the distribution of the
+data is not normal. Perhaps I should try using other distributions
+(binom, posson, )</p>
+<pre class="r"><code>#scale variable
+
+d2 &lt;- data
+d2$y &lt;- data$Binding.Perc/100 
+
+nll_beta &lt;- function(mu, phi) {
+  a &lt;- mu * phi
+  b &lt;- (1 - mu) * phi
+  -sum(dbeta(d2$y, a, b, log = TRUE))
+}
+
+# Fit models using mle2
+
+fit &lt;- mle2(nll_beta, start = list(mu = 0.5, phi = 1), data = d2)</code></pre>
+<pre><code>Warning in dbeta(d2$y, a, b, log = TRUE): NaNs produced
+
+Warning in dbeta(d2$y, a, b, log = TRUE): NaNs produced
+
+Warning in dbeta(d2$y, a, b, log = TRUE): NaNs produced
+
+Warning in dbeta(d2$y, a, b, log = TRUE): NaNs produced
+
+Warning in dbeta(d2$y, a, b, log = TRUE): NaNs produced</code></pre>
+<pre class="r"><code>summary(fit)</code></pre>
+<pre><code>Maximum likelihood estimation
+
+Call:
+mle2(minuslogl = nll_beta, start = list(mu = 0.5, phi = 1), data = d2)
+
+Coefficients:
+     Estimate Std. Error z value     Pr(z)    
+mu   0.450562   0.027216  16.555 &lt; 2.2e-16 ***
+phi 10.074474   2.483221   4.057  4.97e-05 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+-2 log L: -29.41959 </code></pre>
+<pre class="r"><code>m0n &lt;- mle2(d2$y ~ dnorm(mean = a, sd = sd(d2$y)), start = list(a = mean(d2$y)), data = d2) 
+
+# percent cover as predictor, use normal distribution
+mcn &lt;- mle2(d2$y ~ dnorm(mean = a + b * d2$Weight_mg, sd = sd(d2$y)), start = list(a = mean(d2$y), b = 0, s = sd(d2$y)), data = d2)
+
+# scatter plot of 
+
+plot(d2$y ~ d2$Weight_mg, 
+     xlab = &quot;Buffer&quot;,
+     ylab = &quot;% binding&quot;,
+     col = &quot;salmon&quot;,
+     pch = 16, 
+     las = 1)
+
+#m0n
+k &lt;-coef(m0n)
+curve(k[1] + 0 * x, 
+      from = 0, to = 100, 
+      add=T, lwd = 3, 
+      col = &quot;black&quot;)
+
+#mcn
+k &lt;-coef(mcn)
+curve(k[1] + k[2] * x, 
+      from = 0, to = 100, 
+      add=T, lwd = 2, 
+      col = &quot;lightgreen&quot;, 
+      lty = &quot;dashed&quot;)</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/Models%20mle2%20and%20dif%20distributions-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Models-mle2-and-dif-distributions-1">
+Past versions of "Models mle2 and dif distributions-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Models-mle2-and-dif-distributions-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/Models mle2 and dif distributions-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="finding-optimal-parameters-using-model-7"
+class="section level3">
+<h3>Finding optimal parameters using model 7</h3>
+<p>The goal is to run essays that result in a 50% binding.</p>
+<pre class="r"><code># choose one model (m7: buffer + weight + spike)
+coef &lt;- coef(m7)
+
+# Set target binding
+target_binding &lt;- 50
+
+# FUNCTION to Solve for weight, assuming spike = 0
+# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
+
+solve_for_weight &lt;- function(dilution_value, spike_value = 0) {
+  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
+}
+
+# Find the weight that gives 50% binding whenspike is 0
+# dilution = 250
+optimal_weight &lt;- solve_for_weight(dilution_value = 1)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+   34.45251 </code></pre>
+<pre class="r"><code># dilution = 60
+optimal_weight &lt;- solve_for_weight(dilution_value = 0)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+   23.58616 </code></pre>
+<pre class="r"><code># Find the weight that gives 50% binding when spike is 1
+# dilution = 250
+optimal_weight &lt;- solve_for_weight(dilution_value = 1, spike_value = 1)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+   6.377845 </code></pre>
+<pre class="r"><code># dilution = 60
+optimal_weight &lt;- solve_for_weight(dilution_value = 0, spike_value = 1)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+  -4.488514 </code></pre>
+<pre class="r"><code># visualize results
+## Buffer = 1, Spike = 0
+new_data &lt;- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(1), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding &lt;- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # Highlight 50% binding
+  labs(title = &quot;Predicted Binding Percentage vs Weight (dilution = 60, spike = 1)&quot;,
+       x = &quot;Weight&quot;,
+       y = &quot;Predicted Binding Percentage&quot;)</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/Find%20optimal%20parameters-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Find-optimal-parameters-1">
+Past versions of "Find optimal parameters-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Find-optimal-parameters-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/Find optimal parameters-1.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>## Buffer = 1, Spike = 1
+new_data &lt;- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(1), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding &lt;- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # Highlight 50% binding
+  labs(title = &quot;Predicted Binding Percentage vs Weight (dilution = 250, spike = 1)&quot;,
+       x = &quot;Weight&quot;,
+       y = &quot;Predicted Binding Percentage&quot;)</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/Find%20optimal%20parameters-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Find-optimal-parameters-2">
+Past versions of "Find optimal parameters-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-Find-optimal-parameters-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/Find optimal parameters-2.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>## Buffer = 0, Spike = 1
+
+new_data &lt;- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(0), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding &lt;- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # Highlight 50% binding
+  labs(title = &quot;Predicted Binding Percentage vs Weight (dilution = 250, spike = 0)&quot;,
+       x = &quot;Weight&quot;,
+       y = &quot;Predicted Binding Percentage&quot;)</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/Find%20optimal%20parameters-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Find-optimal-parameters-3">
+Past versions of "Find optimal parameters-3.png"
+</button>
+</p>
+<div id="fig-no-spaces-Find-optimal-parameters-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/Find optimal parameters-3.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>## Buffer = 0, Spike = 0
+
+new_data &lt;- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(0), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding &lt;- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # Highlight 50% binding
+  labs(title = &quot;Predicted Binding Percentage vs Weight (dilution = 60, spike = 0)&quot;,
+       x = &quot;Weight&quot;,
+       y = &quot;Predicted Binding Percentage&quot;)</code></pre>
+<p><img src="figure/ELISA_visualizations.Rmd/Find%20optimal%20parameters-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Find-optimal-parameters-4">
+Past versions of "Find optimal parameters-4.png"
+</button>
+</p>
+<div id="fig-no-spaces-Find-optimal-parameters-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0f92d74de2035b897a8e5a121e8a5e00c5d59fe9/docs/figure/ELISA_visualizations.Rmd/Find optimal parameters-4.png" target="_blank">0f92d74</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code># FUNCTION to Solve for weight, assuming spike = 0
+# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
+
+solve_for_weight &lt;- function(dilution_value, spike_value = 0) {
+  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
+}
+
+
+# Loop over different dilution values to find the optimal weight for 50% binding
+# here, dilution 0 means 60uL, and 1 is 250 uL
+for (buffer in seq(0, 1, by = 0.1)) {
+  optimal_weight &lt;- solve_for_weight(buffer)
+  cat(&quot;Dilution:&quot;, buffer, &quot;-&gt; Optimal Weight for 50% Binding:&quot;, optimal_weight, &quot;\n&quot;)
+}</code></pre>
+<pre><code>Dilution: 0 -&gt; Optimal Weight for 50% Binding: 23.58616 
+Dilution: 0.1 -&gt; Optimal Weight for 50% Binding: 24.67279 
+Dilution: 0.2 -&gt; Optimal Weight for 50% Binding: 25.75943 
+Dilution: 0.3 -&gt; Optimal Weight for 50% Binding: 26.84606 
+Dilution: 0.4 -&gt; Optimal Weight for 50% Binding: 27.9327 
+Dilution: 0.5 -&gt; Optimal Weight for 50% Binding: 29.01933 
+Dilution: 0.6 -&gt; Optimal Weight for 50% Binding: 30.10597 
+Dilution: 0.7 -&gt; Optimal Weight for 50% Binding: 31.19261 
+Dilution: 0.8 -&gt; Optimal Weight for 50% Binding: 32.27924 
+Dilution: 0.9 -&gt; Optimal Weight for 50% Binding: 33.36588 
+Dilution: 1 -&gt; Optimal Weight for 50% Binding: 34.45251 </code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.2 (2022-10-31)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS 15.0.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] bbmle_1.0.25.1     arm_1.13-1         lme4_1.1-32        Matrix_1.5-4      
+ [5] MASS_7.3-58.3      coefplot_1.2.8     RColorBrewer_1.1-3 ggplot2_3.4.2     
+ [9] knitr_1.42         dplyr_1.1.2       
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.10         bdsmatrix_1.3-6     mvtnorm_1.1-3      
+ [4] lattice_0.21-8      rprojroot_2.0.3     digest_0.6.31      
+ [7] utf8_1.2.3          R6_2.5.1            plyr_1.8.8         
+[10] evaluate_0.20       coda_0.19-4         highr_0.10         
+[13] pillar_1.9.0        rlang_1.1.0         rstudioapi_0.14    
+[16] minqa_1.2.5         whisker_0.4.1       jquerylib_0.1.4    
+[19] nloptr_2.0.3        rmarkdown_2.21      labeling_0.4.2     
+[22] splines_4.2.2       stringr_1.5.0       useful_1.2.6.1     
+[25] munsell_0.5.0       compiler_4.2.2      numDeriv_2016.8-1.1
+[28] httpuv_1.6.9        xfun_0.39           pkgconfig_2.0.3    
+[31] mgcv_1.8-42         htmltools_0.5.5     tidyselect_1.2.0   
+[34] tibble_3.2.1        workflowr_1.7.0     fansi_1.0.4        
+[37] withr_2.5.0         later_1.3.0         grid_4.2.2         
+[40] nlme_3.1-162        jsonlite_1.8.4      gtable_0.3.3       
+[43] lifecycle_1.0.3     git2r_0.32.0        magrittr_2.0.3     
+[46] scales_1.2.1        cli_3.6.1           stringi_1.7.12     
+[49] cachem_1.0.7        farver_2.1.1        reshape2_1.4.4     
+[52] fs_1.6.1            promises_1.2.0.1    bslib_0.4.2        
+[55] generics_0.1.3      vctrs_0.6.2         boot_1.3-28.1      
+[58] tools_4.2.2         glue_1.6.2          abind_1.4-5        
+[61] fastmap_1.1.1       yaml_2.3.7          colorspace_2.1-0   
+[64] sass_0.4.5         </code></pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
