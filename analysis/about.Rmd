@@ -1,10 +1,23 @@
+---
+title: "About"
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+## Background
+This document provides an overview of the ELISA protocol employed to measure cortisol concentrations in hair samples. Hair cortisol is a valuable biomarker for long-term stress exposure, offering insights into chronic physiological stress. This protocol was tested with different sample masses and dilutions to optimize accuracy for low-weight samples.
+
+## Objectives
+The goal of this protocol is to accurately quantify hair cortisol concentrations and validate the effectiveness of Nist et al. 2020 method for measuring physiological stress. The following analyses document each step from sample preparation to data processing and statistical modeling.
+
+## Strategy 
+All samples in this essay were obtained from the same person, and were extracted using the same protocol. The parameters that we want to optimize vary for different samples:
+
+- The buffer volume for the reconstitution
+- The weight of each sample
 - Addition (or not) of a spike using same dilution as for STD 1.
-
-
-Visualizations were conducted using dataset obtained from Myassays.com, i.e. before calculating final values including weight, buffer vol, and spike. This was because I wanted to look at the general performance of the assay, as well as visualizing the influence of different parameters of interest before controlling for them.
-
-
-
 
 
 ## Sample Preparation
