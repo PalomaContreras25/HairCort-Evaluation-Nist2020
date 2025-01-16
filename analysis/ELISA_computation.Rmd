@@ -225,6 +225,7 @@ ggplot(data, aes(y = final_conc_pg.mg,
 
 summary(data$final_conc_pg.mg)
 
+write.csv(data, "./data/Data_cort_values_methodA.csv", row.names = F)
 ```
 
 # (B) Calculation accounting for spike
@@ -266,7 +267,7 @@ dSpike$final_conc_pg.mg <-
     dSpike$final_conc_pg.mg  # Keep value if Spike != 1
 )
 
-write.csv(dSpike, "./data/Data_cort_values.csv", row.names = F)
+write.csv(dSpike, "./data/Data_cort_values_methodB.csv", row.names = F)
 ```
 
 ## Results 
