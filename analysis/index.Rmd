@@ -10,7 +10,7 @@ editor_options:
 
 ## Evaluation of hair cortisol ELISA protocol proposed by Nist et al. 2020
 
-This protocol includes additional steps that would make possible to quantify low-mass hair samples (i.e. less than 20 mg). Specifically, that study quantifies cortisol in hair samples form neonates. 
+This protocol includes additional steps that would make possible to quantify low-mass hair samples (i.e. less than 20 mg). Specifically, Nist et al. 2020 quantifies cortisol in hair samples form neonates. 
 
 We tested this protocol by running an ELISA plate with 40 samples from one adult individual. In order to find optimal parameters, we tested different mass, dilution, and addition (or not) of a spike. 
 
