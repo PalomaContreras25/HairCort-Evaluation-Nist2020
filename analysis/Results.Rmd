@@ -41,10 +41,10 @@ The **figures** below were used to decide that the **optimal parameters** are:
 
 
 
-```{r scatterplot 2, message=FALSE, echo=FALSE, fig.height = 4.5, fig.width = 7}
+```{r scatterplot 2, message=FALSE, fig.height = 4.5, fig.width = 7}
 
 data <- read.csv(
-  "./data/Data_cort_values.csv"
+  "./data/Data_QC_filtered.csv"
   )
 
 # Scatter plot of Binding Percentage vs Weight
@@ -68,118 +68,13 @@ ggplot(data, aes(x = Weight_mg,
 Here we see the effect of the spike more clearly: adding a spike may not be necessary unless we have very small samples.
 
 
-Spiked samples were removed due to inconsistent results.
-
-
-
-```{r echo=FALSE, message = FALSE}
-
-# non-spiked samples only
-data2 <-data[data$Spike == 0, ]
-
-#two datasets, separated by dilution
-data2.06 <- data2[data2$Buffer_ml == 0.06, ]
-data2.25 <- data2[data2$Buffer_ml == 0.25, ]
-
-final_conc_pg.mg <- data2$final_conc_pg.mg 
-Weight_mg <- data2$Weight_mg
-# fit models 
-model <- lm(final_conc_pg.mg ~ Weight_mg, 
-            data = data2)
-
-# model Buffer = 0.06
-model06 <- lm(final_conc_pg.mg ~ Weight_mg, 
-              data = data2[data2$Buffer_ml == 0.06,])
-r_squared06 <- summary(model06)$r.squared
-
-# model Buffer = 0.25
-model25 <- lm(final_conc_pg.mg ~ Weight_mg, 
-              data = data2[data2$Buffer_ml == 0.25,])
-r_squared25 <- summary(model25)$r.squared
-
-# Calculate residuals
-residuals06 <- residuals(model06)
-residuals25 <- residuals(model25)
-
-# Quantify residuals
-# Mean Absolute Error
-mae06 <- mean(abs(residuals06))          
-# Standard Deviation of Residuals
-std_dev06 <- sd(residuals06)   
-
-# Mean Absolute Error
-mae25 <- mean(abs(residuals25))      
-# Standard Deviation of Residuals
-std_dev25 <- sd(residuals25)                      
-
-# scatterplot
-
-ggplot(data2, aes(y = final_conc_pg.mg, 
-                  x = Weight_mg, 
-                  color = as.factor(Buffer_ml), 
-                  fill = as.factor(Buffer_ml))) +
-  geom_point(size = 3) +  
-  geom_smooth(method = "lm", 
-              color = "gold3", 
-              se = TRUE,
-              alpha = 0.1) + 
-  geom_hline(yintercept = mean(data2$final_conc_pg.mg), 
-             color = "gray90",
-             linetype = "dashed") +
-  geom_hline(yintercept = mean(data2.06$final_conc_pg.mg), 
-             color = "lightpink2",
-             linetype = "dashed") +
-  geom_hline(yintercept = mean(data2.25$final_conc_pg.mg), 
-             color = "lightblue3",
-             linetype = "dashed") +
-  theme_minimal() +  
-  labs(
-    title = "Final Cort Concentration and Weight
-    (Non-spiked only)",
-    y = "Final Concentration (pg/mg)",
-    x = "Weight (mg)" 
-    ) +
-  scale_color_discrete(name = "Buffer (ml)")+
-  scale_fill_discrete(guide = "none") +
-  theme(
-    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
-    axis.title = element_text(size = 14),  
-    axis.text = element_text(size = 12) 
-  ) +
-  # Add R^2 annotation
-  annotate("text", x = max(data2$Weight_mg) * 0.7, y = min(data2$final_conc_pg.mg) * 1.5,
-           label = paste("R² =", round(r_squared06, 3)), size = 5, color = "black") +
-  annotate("text", x = max(data2$Weight_mg) * 0.7, y = max(data2$final_conc_pg.mg) * 0.84,
-           label = paste("R² =", round(r_squared25, 3)), size = 5, color = "black")
-
-```
-
-# Results
-
-```{r echo = FALSE}
-
-# load dataset
-data <- read.csv("./data/Data_QC_filtered.csv")
-
-# Since Buffer and spike are not continuous variables, 
-# change from numeric to factors
-data$Buffer_nl <- ifelse(data$Buffer_nl == 250, 1, 0) # Large
-data$Buffer_nl <- as.factor(data$Buffer_nl)
-data$Spike <- as.factor(data$Spike)
-
-# Histogram
-hist(data$Binding.Perc, breaks=30, main="Histogram of Binding percentages", xlab="Binding %", col="lightblue4", xlim = range(0:100))
-```
-
-
-
 The following plots were made considering that having a binding of 50% is ideal. Data points that are over 80% or under 20% are not within the curve, and predictions are less accurate. 
 
 
 ## Binding percentages
 ### Binding percentage by different variables
 
-```{r scatterplot 1, message =FALSE, echo=FALSE}
+```{r scatterplot 1, message =FALSE}
 
 # Scatter plot of Binding Percentage vs Weight, 4 groups
 
@@ -390,11 +285,6 @@ To explore the effects of each variable more systematically, I run multiple mode
 
 ```{r qqplot, echo = FALSE}
 
-# remove samples w/ binding higher than 80%
-
-d <- data[is.na(data$Failed_samples), ]
-data <- d  
-
 weight <- data$Weight_mg
 binding <- data$Binding.Perc
 x <- mean(binding)
@@ -524,11 +414,11 @@ abline(mod, col = "red", lwd = 1.5)
 
 ```
 
-## Comparing models
+## Comparing models -- MISTAKE
 
-```{r function to extract coefs}
+{r function to extract coefs}
 
-# creating function to extract coeffs
+creating function to extract coeffs
 extract_coefs <- function(model, model_name) {
   # Extract summary of the model
   coef_summary <- summary(model)$coefficients
@@ -622,6 +512,8 @@ buffer0 <- sp0$Buffer_nl
 m9 <- lm(binding0 ~  buffer0 + weight0)
 summary(m9)
 
+```
+# FIX 
 coef_df1 <- extract_coefs(m1, "Model 1")
 coef_df2 <- extract_coefs(m2, "Model 2")
 coef_df3 <- extract_coefs(m3, "Model 3")
@@ -635,10 +527,10 @@ coef_df9 <- extract_coefs(m9, "Model 9")
 # Combine the data frames for plotting
 coef_df <- rbind(coef_df1, coef_df2, coef_df3, coef_df4)
 
-```
+
 
 ##  Plot regression coefs 
-```{r Plot reg coefs, echo = FALSE, include = FALSE}
+{r Plot reg coefs, echo = FALSE, include = FALSE}
 
 ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
   geom_point(position = position_dodge(width = 0.5)) +  # Points for the estimates
@@ -656,7 +548,7 @@ ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
 
 ### Plot model 1 to 4
 
-```{r Plot model 1 to 4, fig.height = 6, fig.width = 6 }
+{r Plot model 1 to 4, fig.height = 6, fig.width = 6 }
 
 ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
   geom_point(position = position_dodge(width = 4)) +  # Points for the estimates
@@ -681,12 +573,10 @@ ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
   )
   
 
-```
-
 ### Plot model 5 to 9
 
-```{r Plot model 5 to 9, fig.height = 8.5, fig.width = 7 }
-# Combine the data frames for plotting
+{r Plot model 5 to 9, fig.height = 8.5, fig.width = 7 }
+ Combine the data frames for plotting
 coef_df <- rbind(coef_df5, coef_df6, coef_df7, coef_df8,coef_df9)
 
 ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
@@ -712,9 +602,6 @@ ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
   )
 
 
-
-``` 
-
 ## Summarize info multiple models
 ```{r}
 
@@ -734,7 +621,7 @@ for (i in 1:length(model_names)) {
 kable(sum_models[order(sum_models$r_values, decreasing = TRUE), ]) 
 ```
 
-```{r coef tab function, include = FALSE}
+{r coef tab function, include = FALSE}
 
 coeftab <- function(... ,
                     se = FALSE ,
@@ -833,13 +720,13 @@ coeftab <- function(... ,
 }
 
 
-```
+
 
 ### Comparing models using Akakike's information criteria 
 
-```{r AICc, fig.height = 8, fig.width = 7}
+{r AICc, fig.height = 8, fig.width = 7}
 
-# computing bias-adjusted version of AIC (AICc) Akakaike's information criteria table
+ computing bias-adjusted version of AIC (AICc) Akakaike's information criteria table
 AICc_compare <-AICtab(m1, m2, m3, m4, m5, m6, m7, m8, m9, 
         base = TRUE,
         weights = TRUE,
@@ -848,7 +735,7 @@ AICc_compare <-AICtab(m1, m2, m3, m4, m5, m6, m7, m8, m9,
         nobs = 30)
 kable(AICc_compare)
 
-# Coef table 
+ Coef table 
 coeftab(m1, m2, m3, m4, m5, m6, m7, m8, m9) -> coeftabs
 kable(coeftabs)
 
@@ -869,11 +756,11 @@ model <- list(m1, m2, m3, m4, m5, m6, m7, m8, m9)
 par(mfrow = c(3, 3))
 
 for (i in 1:length(model)) {
-  # Create a Q-Q plot for the residuals of the i-th model
+   Create a Q-Q plot for the residuals of the i-th model
   qqnorm(residuals(model[[i]]), main = paste("Q-Q Plot, m", i, sep = ""))
   qqline(residuals(model[[i]]), col = "red")
 }
-```
+
 
 *Model 7 has the highest weight, a measure of certainty in the model*. However, we need to consider that the distribution of the data is not normal. Perhaps I should try using other distributions (binom, posson, )
 
@@ -928,48 +815,49 @@ curve(k[1] + k[2] * x,
 ```
 
 ### Finding optimal parameters using model 7
-The goal is to run essays that result in a 50% binding.
-```{r Find optimal parameters}
 
-# choose one model (m7: buffer + weight + spike)
+The goal is to run essays that result in a 50% binding.
+{r Find optimal parameters}
+
+-# choose one model (m7: buffer + weight + spike)
 coef <- coef(m7)
 
-# Set target binding
+-# Set target binding
 target_binding <- 50
 
-# FUNCTION to Solve for weight, assuming spike = 0
-# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
+-# FUNCTION to Solve for weight, assuming spike = 0
+-# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
 
 solve_for_weight <- function(dilution_value, spike_value = 0) {
   (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
 }
 
-# Find the weight that gives 50% binding whenspike is 0
-# dilution = 250
+-# Find the weight that gives 50% binding whenspike is 0
+-# dilution = 250
 optimal_weight <- solve_for_weight(dilution_value = 1)
 optimal_weight
-# dilution = 60
+-# dilution = 60
 optimal_weight <- solve_for_weight(dilution_value = 0)
 optimal_weight
 
-# Find the weight that gives 50% binding when spike is 1
-# dilution = 250
+-# Find the weight that gives 50% binding when spike is 1
+-# dilution = 250
 optimal_weight <- solve_for_weight(dilution_value = 1, spike_value = 1)
 optimal_weight
-# dilution = 60
+-# dilution = 60
 optimal_weight <- solve_for_weight(dilution_value = 0, spike_value = 1)
 optimal_weight
 
 
 # visualize results
-## Buffer = 1, Spike = 0
+-## Buffer = 1, Spike = 0
 new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
                         buffer = as.factor(1), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
 
-# Predict the binding percentage for the new data
+-# Predict the binding percentage for the new data
 new_data$predicted_binding <- predict(m7, newdata = new_data)
 
-# Plot the predicted binding percentage against weight
+-# Plot the predicted binding percentage against weight
 ggplot(new_data, aes(x = weight, y = predicted_binding)) +
   geom_line() +
   geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
@@ -977,14 +865,14 @@ ggplot(new_data, aes(x = weight, y = predicted_binding)) +
        x = "Weight",
        y = "Predicted Binding Percentage")
 
-## Buffer = 1, Spike = 1
+-## Buffer = 1, Spike = 1
 new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
                         buffer = as.factor(1), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
 
-# Predict the binding percentage for the new data
+-# Predict the binding percentage for the new data
 new_data$predicted_binding <- predict(m7, newdata = new_data)
 
-# Plot the predicted binding percentage against weight
+-# Plot the predicted binding percentage against weight
 ggplot(new_data, aes(x = weight, y = predicted_binding)) +
   geom_line() +
   geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
@@ -993,15 +881,15 @@ ggplot(new_data, aes(x = weight, y = predicted_binding)) +
        y = "Predicted Binding Percentage")
 
 
-## Buffer = 0, Spike = 1
+-## Buffer = 0, Spike = 1
 
 new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
                         buffer = as.factor(0), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
 
-# Predict the binding percentage for the new data
+-# Predict the binding percentage for the new data
 new_data$predicted_binding <- predict(m7, newdata = new_data)
 
-# Plot the predicted binding percentage against weight
+-# Plot the predicted binding percentage against weight
 ggplot(new_data, aes(x = weight, y = predicted_binding)) +
   geom_line() +
   geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
@@ -1009,15 +897,15 @@ ggplot(new_data, aes(x = weight, y = predicted_binding)) +
        x = "Weight",
        y = "Predicted Binding Percentage")
 
-## Buffer = 0, Spike = 0
+-## Buffer = 0, Spike = 0
 
 new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
                         buffer = as.factor(0), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
 
-# Predict the binding percentage for the new data
+-# Predict the binding percentage for the new data
 new_data$predicted_binding <- predict(m7, newdata = new_data)
 
-# Plot the predicted binding percentage against weight
+-# Plot the predicted binding percentage against weight
 ggplot(new_data, aes(x = weight, y = predicted_binding)) +
   geom_line() +
   geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
@@ -1027,16 +915,16 @@ ggplot(new_data, aes(x = weight, y = predicted_binding)) +
 
 
 
-# FUNCTION to Solve for weight, assuming spike = 0
-# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
+-# FUNCTION to Solve for weight, assuming spike = 0
+-# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
 
 solve_for_weight <- function(dilution_value, spike_value = 0) {
   (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
 }
 
 
-# Loop over different dilution values to find the optimal weight for 50% binding
-# here, dilution 0 means 60uL, and 1 is 250 uL
+-# Loop over different dilution values to find the optimal weight for 50% binding
+-# here, dilution 0 means 60uL, and 1 is 250 uL
 for (buffer in seq(0, 1, by = 0.1)) {
   optimal_weight <- solve_for_weight(buffer)
   cat("Dilution:", buffer, "-> Optimal Weight for 50% Binding:", optimal_weight, "\n")

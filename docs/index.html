@@ -13,7 +13,7 @@
 
 <title>Home</title>
 
-<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -281,7 +281,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -292,8 +292,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -302,13 +302,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-11-11
+<strong>Last updated:</strong> 2025-01-29
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -321,7 +321,7 @@ title="This is the local directory in which the code in this file was executed."
 This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
 analysis was created with <a
   href="https://github.com/workflowr/workflowr">workflowr</a> (version
-1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
 that were applied when the results were created. The <em>Past
 versions</em> tab lists the development history.
 </p>
@@ -332,33 +332,36 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree436d20beb275997fd7e16f57a75d13eafa73d3fctargetblank436d20ba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treee23d3a3efc2578232a352fffb2fb7f1f8192dfabtargetblanke23d3a3a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/436d20beb275997fd7e16f57a75d13eafa73d3fc" target="_blank">436d20b</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/e23d3a3efc2578232a352fffb2fb7f1f8192dfab" target="_blank">e23d3a3</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree436d20beb275997fd7e16f57a75d13eafa73d3fctargetblank436d20ba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treee23d3a3efc2578232a352fffb2fb7f1f8192dfabtargetblanke23d3a3a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -368,7 +371,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/436d20beb275997fd7e16f57a75d13eafa73d3fc" target="_blank">436d20b</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/e23d3a3efc2578232a352fffb2fb7f1f8192dfab" target="_blank">e23d3a3</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -384,7 +387,9 @@ were generated:
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
-    Ignored:    .Rhistory
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -399,7 +404,6 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
 These are the previous versions of the repository in which changes were
 made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
@@ -429,6 +433,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/5c064f56b7653211eed2c71e86ea0bc65f42d3b0/analysis/index.Rmd" target="_blank">5c064f5</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-01-16
+</td>
+<td>
+update description
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/76f7f11b977613831cf94cc48918842b45e78ceb/docs/index.html" target="_blank">76f7f11</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+<td>
+afd
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -980,35 +1018,71 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<div
-id="evaluation-of-hair-cortisol-elisa-protocol-proposed-by-nist-et-al.-2020"
-class="section level2">
-<h2>Evaluation of hair cortisol ELISA protocol proposed by Nist et
-al. 2020</h2>
-<p>This protocol includes additional steps that would make possible to
-quantify low-mass hair samples (i.e. less than 20 mg). Specifically,
-that study quantifies cortisol in hair samples form neonates.</p>
-<p>We tested this protocol by running an ELISA plate with 40 samples
-from one adult individual. In order to find optimal parameters, we
-tested different mass, dilution, and addition (or not) of a spike.</p>
-<p>Our results indicate that the method proposed by Nist et al. 2020
-does not give us reliable results, and does not allow us to quantify
-cortisol from low-mass hair from adults.</p>
-<p>We found that a dilution of 250 uL, not adding a spike, and using
-between 20 to 35 mg of hair provides the most consistent results.</p>
+<div id="evaluation-of-nist-et-al.-2020" class="section level2">
+<h2>Evaluation of Nist et al. 2020</h2>
+<p>This protocol is different from others in that it should make
+possible to quantify cortisol in low-mass hair samples (i.e. less than
+20 mg). The study conducted by Nist et al. quantifies cortisol in hair
+samples form neonates, but to our knowledge, it has not been tested with
+low-mass adult samples.</p>
+<p>The increased sensibility of Nist et al. 2020 is provided by two
+modifications in the traditional protocol:</p>
 <ul>
-<li><p>QC and final cortisol concentration calculation: <a
-href="http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_computation.html">link</a></p></li>
-<li><p>Results: <a
-href="http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/Results.html">link</a></p></li>
-<li><p>Models to understand how each variable affects cortisol values:
-<a
-href="http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_models.html">link</a></p></li>
+<li>extraction using methanol is conducted twice</li>
+<li>a spike of a known amount of cortisol is added</li>
 </ul>
-<p>You can click this <a
-href="http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/about.html">link</a>
-to read a more detailed description of this experiment.</p>
+<p>I tested this protocol by running an ELISA plate with 40 samples from
+one adult individual. In order to find optimal parameters for my adult
+samples, I tested different mass, dilution, and the addition (or not) of
+a spike.</p>
+<p>The results suggest that the method proposed by Nist et al. 2020 does
+not produce reliable results, and does not allow us to quantify cortisol
+from adult hair. However, <strong>it remains a question if using
+lower-mass samples would result in accurate results</strong> (more
+testing forthcoming).</p>
+<p>Among the non-spiked samples, and using a double extraction, we found
+that a dilution of 250 uL, and using between 20 to 35 mg of hair
+provides the most consistent results.</p>
+<p>This is how data is obtained:</p>
+<pre><code> Plate reader
+|
+|____ optical density (absorbance) 
+     |
+     |___ Myassays.com (data quality, 
+         |              binding percentages, 
+         |              conc. values (without accounting 
+         |              for weight/dilution/spike)) 
+         |              
+         |___ Data cleaning and calculation of 
+                   cortisol values using R              </code></pre>
+<p>Find more details in the pages below:</p>
+<ul>
+<li><p><a
+href="https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/about.html">Background
+information and experimental design</a></p></li>
+<li><p><a
+href="http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/Results.html">Analysis
+of raw results</a> Exploration of raw results as binding percentages,
+with the goal of identifying optimal variable values for data
+generation, so they fall within the ranges measured accurately by the
+ELISA.</p></li>
+<li><p><a
+href="http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_computation.html">Data
+cleaning and calculation of cortisol values</a>: Transformation of raw
+values obtained from ELISA to cortisol concentration in pg/mL.
+Visualization of final cortisol values in relation to the three
+variables under study: 1) Weight, 2) Dilution, 3) Spike</p></li>
+<li><p><a
+href="http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_models.html">Models
+using binding percentages</a> Exploration of the effects of each
+variable on the binding percentages obtained.</p></li>
+</ul>
 <hr />
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
 
