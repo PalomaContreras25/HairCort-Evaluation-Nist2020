@@ -33,11 +33,15 @@ This could be an artifact of an extremely high absorbance level. Non-spiked samp
 
 **Conclusions**: 
 
-- Spiking samples does not provide consistent results
-- Could be explained by the higher weight of our samples 
 - Dilution of 250uL is preferable over 60uL 
 - Non-spiked samples seem to generate expected results
-- Use of samples with a mass of 20mg or higher is recommended
+
+
+**Concerns**
+
+- Spike results in unrealistic values
+- Could be explained by the higher weight of our samples 
+- Dilution of 250uL results in values that are twice as big as with 60uL, but they should be very similar or at least overlap
 
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
@@ -46,6 +50,7 @@ library(dplyr)
 library(knitr)
 library(ggplot2)
 library(broom)
+library(paletteer)
 ```
 
 # Data Cleaning and QC
@@ -285,14 +290,16 @@ kable(head(dSpike, 10))
 # scatterplot method A
 data$Spike <- replace(data$Spike, data$Spike == 1, 'Yes')
 data$Spike <- replace(data$Spike, data$Spike == 0, 'No')
-data$Buffer_ml <- replace(data$Buffer_ml, data$Buffer_ml == 0.06, '60 uL')
-data$Buffer_ml <- replace(data$Buffer_ml, data$Buffer_ml == 0.25, '250 uL')
+data$Buffer <- data$Buffer_ml
+data$Buffer <- replace(data$Buffer, data$Buffer == 0.06, '60 uL')
+data$Buffer <- replace(data$Buffer, data$Buffer == 0.25, '250 uL')
+
 
 ggplot(data, aes(y = Final_conc_pg.mg, 
                  x = Weight_mg, 
                  color = Spike,
-                 shape = Buffer_ml)) +
-  geom_point(size = 3) +  
+                 shape = Buffer)) +
+  geom_point(size = 3.5) +  
   xlim(5, max(data$Weight_mg)+4) + 
   ylim(0, max(data$Final_conc_pg.mg)+4) + 
     theme_minimal() +  
@@ -305,8 +312,8 @@ ggplot(data, aes(y = Final_conc_pg.mg,
                               size = 17, face = "bold"),
     axis.title = element_text(size = 14),  
     axis.text = element_text(size = 12)  
-  )
-
+  ) + 
+  scale_color_paletteer_d("vangogh::CafeTerrace")
 ```
 
 ## (B) Accounting for Spike
@@ -314,15 +321,16 @@ ggplot(data, aes(y = Final_conc_pg.mg,
 
 dSpike$Spike <- replace(dSpike$Spike, dSpike$Spike == 1, 'Yes')
 dSpike$Spike <- replace(dSpike$Spike, dSpike$Spike == 0, 'No')
-dSpike$Buffer_ml <- replace(dSpike$Buffer_ml, dSpike$Buffer_ml == 0.06, '60 uL')
-dSpike$Buffer_ml <- replace(dSpike$Buffer_ml, dSpike$Buffer_ml == 0.25, '250 uL')
+dSpike$Buffer <- dSpike$Buffer_ml
+dSpike$Buffer <- replace(dSpike$Buffer, dSpike$Buffer == 0.06, '60 uL')
+dSpike$Buffer <- replace(dSpike$Buffer, dSpike$Buffer == 0.25, '250 uL')
 
 # scatterplot
 ggplot(dSpike, aes(y = Final_conc_pg.mg, 
                  x = Weight_mg, 
                  color = Spike,
-                 shape = Buffer_ml)) +
-  geom_point(size = 3) +  
+                 shape = Buffer)) +
+  geom_point(size = 3.5) +  
   xlim(5, max(dSpike$Weight_mg)+4) + 
   ylim(min(dSpike$Final_conc_pg.mg)-2,
        max(dSpike$Final_conc_pg.mg)+2) + 
@@ -338,10 +346,124 @@ ggplot(dSpike, aes(y = Final_conc_pg.mg,
                               size = 17, face = "bold"),
     axis.title = element_text(size = 14),  
     axis.text = element_text(size = 12)  
-  )
+  )+ 
+  scale_color_paletteer_d("vangogh::CafeTerrace")
 
 ```
 
+
+
+# Evaluation Non-spiked Samples Only
+
+Since all spiked samples produce negative values, we will continue our analyses using only non-spiked samples.
+
+```{r message=FALSE}
+# non-spiked samples only
+data2 <-data[data$Spike == "No", ]
+
+#two datasets, separated by dilution
+data2.06 <- data2[data2$Buffer == "60 uL", ]
+data2.25 <- data2[data2$Buffer == "250 uL", ]
+
+#### fit models ####
+
+# model Buffer = 0.06
+model06 <- lm(Final_conc_pg.mg ~ Weight_mg, 
+              data = data2.06)
+r_squared06 <- summary(model06)$r.squared
+
+# model Buffer = 0.25
+model25 <- lm(Final_conc_pg.mg ~ Weight_mg, 
+              data = data2.25)
+r_squared25 <- summary(model25)$r.squared
+
+# Calculate residuals
+residuals06 <- residuals(model06)
+residuals25 <- residuals(model25)
+
+# Quantify residuals
+# Mean Absolute Error
+mae06 <- mean(abs(residuals06))          
+# Standard Deviation of Residuals
+std_dev06 <- sd(residuals06)   
+
+# Mean Absolute Error
+mae25 <- mean(abs(residuals25))      
+# Standard Deviation of Residuals
+std_dev25 <- sd(residuals25)                      
+
+
+
+# scatterplot
+
+ggplot(data2, aes(y = Final_conc_pg.mg, 
+                  x = Weight_mg, 
+                  color = Buffer, 
+                  fill = Buffer)) +
+  geom_point(size = 3) +  
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.1) + 
+  geom_hline(yintercept = mean(data2$Final_conc_pg.mg), 
+             color = "gray80",
+             linetype = "dashed") +
+  geom_hline(yintercept = mean(data2.06$Final_conc_pg.mg), 
+             color = "lightblue3",
+             linetype = "dashed") +
+  geom_hline(yintercept = mean(data2.25$Final_conc_pg.mg), 
+             color = "lightpink3",
+             linetype = "dashed") +
+  theme_minimal() +  
+  xlim(5, max(data2$Weight_mg) + 4) +
+  ylim(0, max(data2$Final_conc_pg.mg)+4) + 
+  labs(
+    title = "Final Cort Concentration and Weight
+    (Non-spiked only)",
+    y = "Final Concentration (pg/mg)",
+    x = "Weight (mg)"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) +
+  # Add R^2 annotation
+  annotate("text", x = max(data2$Weight_mg) * 0.7, 
+           y = min(data2$Final_conc_pg.mg) * 1.5,
+           label = paste("R² =", round(r_squared06, 3)), 
+           size = 5, color = "black") +
+  annotate("text", x = max(data2$Weight_mg) * 0.7, 
+           y = max(data2$Final_conc_pg.mg) * 0.84,
+           label = paste("R² =", round(r_squared25, 3)), 
+           size = 5, color = "black")
+
+```
+
+The previous figure shows that: 
+
+- results are very stable across weights, particularly for the samples where a dilution of 250 uL was used 
+- there is more error when using a dilution of 60 uL   
+- dilution affects estimation of cortisol concentration in a significant way: even though final concentration numbers account for differences in the dilutions, the results we observe for each group do not overlap
+- the average value when using 250 uL of buffer is twice as big as when using 60 uL
+
+
+## Optimal dilution
+
+**Error using 0.06 mL buffer**
+```{r echo = FALSE}
+# Print the results
+cat("Mean Absolute Error (MAE) 0.06 mL:", round(mae06, 3), "\n")
+cat("Standard Deviation of Residuals 0.06 mL:", round(std_dev06, 3), "\n")
+```
+**Error using 0.25 mL buffer**
+```{r echo = FALSE}
+cat("Mean Absolute Error (MAE) 0.25 mL:", round(mae25, 3), "\n") 
+cat("Standard Deviation of Residuals 0.25 mL:", round(std_dev25, 3), "\n")
+
+## Abs error and std dev. are larger for dilution 0.06 mL
+```
+From this we conclude that using **a 250 uL dilution provides more consistent results**
 
 ```{r echo = FALSE, include = FALSE}
 # wflow_publish("./analysis/ELISA_Computation.Rmd")
