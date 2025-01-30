@@ -10,11 +10,11 @@ editor_options:
 
 Here I use QCed results from an ELISA plate. All hair samples were obtained from the same person. I tested 3 variables:
 
-- dilution (60 nL vs 250 nL, coded as 0 and 1, respectively)
+- dilution (60 uL vs 250 uL, coded as 0 and 1, respectively)
 
 - weight (11 to 37.1 mg)
 
-- spike (25 nL stock solution (1:10) added to some wells, coded as 0 and 1, meaning not-spiked and spiked)
+- spike (25 uL stock solution (1:10) added to some wells, coded as 0 and 1, meaning not-spiked and spiked)
 
 
 I removed the samples that have a Coef of variation higher than 15%.
@@ -58,7 +58,7 @@ ggplot(data, aes(x = Weight_mg,
              color = "gray", linewidth = 1) +  # Add horizontal line 
   labs(title = "Results separated by spiked/non-spiked",
        x = "Weight (mg)", y = "Binding Percentage",
-       shape = "Buffer Amount (nl)") +
+       shape = "Buffer Amount (ul)") +
   scale_y_continuous(n.breaks = 10) +  
   scale_shape_discrete(labels = c("60 uL", "250 uL")) +
   facet_grid( ~ Spike, labeller = as_labeller(c("0" = "Not spiked", "1" = "Spiked"))) +
@@ -90,7 +90,7 @@ ggplot(data, aes(x = Weight_mg,
        x = "Weight (mg)", 
        y = "Binding Percentage",
        color = "Spike Status",  
-       shape = "Buffer Amount (nl)") +
+       shape = "Buffer Amount (ul)") +
   scale_y_continuous(n.breaks = 10) +  
   theme_minimal() +
   # Change the labels in the legend using labs
@@ -186,7 +186,7 @@ ggplot(data, aes(x = Weight_mg,
        x = "Weight (mg)", 
        y = "Coef. of variation (%)",
        color = "Spike Status",  
-       shape = "Buffer Amount (nl)") +
+       shape = "Buffer Amount (ul)") +
   scale_y_continuous(n.breaks = 10) +  
   theme_minimal() +
   # Change the labels in the legend using labs
@@ -226,7 +226,7 @@ ggplot(data, aes(x = Weight_mg,
        x = "Weight (mg)", 
        y = "Binding Deviation",
        color = "Spike Status",  
-       shape = "Buffer Amount (nl)") +
+       shape = "Buffer Amount (ul)") +
   scale_y_continuous(n.breaks = 10) +  
   theme_minimal() +
   # Change the labels in the legend using labs
@@ -248,7 +248,7 @@ ggplot(data, aes(x = Weight_mg,
   geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, color = "orange2") +  # Add a trend line
    labs(title = "Binding Percentage vs Weight, 2 groups (by spike)",
        x = "Weight (mg)", y = "Binding Deviation",
-       shape = "Buffer Amount (nl)") +
+       shape = "Buffer Amount (ul)") +
   scale_y_continuous(n.breaks = 10) +  
   scale_shape_discrete(labels = c("60 uL", "250 uL")) +
   facet_grid( ~ Spike, labeller = as_labeller(c("0" = "Not spiked", "1" = "Spiked"))) 
