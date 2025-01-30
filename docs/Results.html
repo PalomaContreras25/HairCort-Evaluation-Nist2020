@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -386,9 +386,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -412,18 +412,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -514,15 +517,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treee3f35cb2c246505512bb40dc898b14259fcbb4e0targetblanke3f35cba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree512297a371b7fc80c64fa38a243cbadf469fc997targetblank512297aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/e3f35cb2c246505512bb40dc898b14259fcbb4e0" target="_blank">e3f35cb</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/512297a371b7fc80c64fa38a243cbadf469fc997" target="_blank">512297a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treee3f35cb2c246505512bb40dc898b14259fcbb4e0targetblanke3f35cba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree512297a371b7fc80c64fa38a243cbadf469fc997targetblank512297aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -532,7 +535,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/e3f35cb2c246505512bb40dc898b14259fcbb4e0" target="_blank">e3f35cb</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/512297a371b7fc80c64fa38a243cbadf469fc997" target="_blank">512297a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -550,7 +553,11 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .RData
     Ignored:    .Rhistory
+    Ignored:    analysis/figure/
     Ignored:    data/.DS_Store
+
+Unstaged changes:
+    Modified:   analysis/Results.Rmd
 
 </code></pre>
 <p>
@@ -595,6 +602,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/512297a371b7fc80c64fa38a243cbadf469fc997/docs/Results.html" target="_blank">512297a</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-01-30
+</td>
+<td>
+azdf
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -804,6 +828,15 @@ respectively)</p></li>
 </ul>
 <p>I removed the samples that have a Coef of variation higher than
 15%.</p>
+<pre class="r"><code># Install libraries
+library(dplyr)
+library(knitr)
+library(ggplot2)
+library(RColorBrewer)
+library(stats)
+library(coefplot)
+library(arm)
+library(bbmle)</code></pre>
 </div>
 <div id="summary-of-results" class="section level1">
 <h1>Summary of results</h1>
@@ -819,9 +852,111 @@ closer to 50% binding. An intermedieate value would be best)</li>
 deviation from 50% (i.e. measures are close to falling outside the
 curve)</li>
 </ul>
-<pre class="r"><code>data &lt;- read.csv(&quot;./data/Data_QC_filtered.csv&quot;)
+<pre class="r"><code># Loading data
+data &lt;- read.csv(&quot;./data/Data_QC_filtered.csv&quot;)
+std &lt;- read.csv(&quot;./data/standard_data.csv&quot;)
 
-# Scatter plot of Binding Percentage vs Weight
+
+#Inclusion of standard readings in plot
+data1 &lt;- data[,c(&quot;Wells&quot;,&quot;Binding.Perc&quot;, &quot;Ave_Conc_pg.ml&quot;, &quot;Weight_mg&quot;, &quot;Buffer_nl&quot;, &quot;Spike&quot;)]
+std1 &lt;- std[,c(&quot;Wells&quot;, &quot;Binding.Perc&quot;, &quot;Backfit&quot;)] 
+std1$Binding.Perc &lt;- std1$Binding.Perc*100
+std1$Spike &lt;- 2
+std1$Buffer_nl &lt;- 250
+std1$Weight_mg &lt;- 20
+colnames(std1)[3]&lt;- c(&quot;Ave_Conc_pg.ml&quot;)
+
+library(plyr)</code></pre>
+<pre><code>------------------------------------------------------------------------------</code></pre>
+<pre><code>You have loaded plyr after dplyr - this is likely to cause problems.
+If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+library(plyr); library(dplyr)</code></pre>
+<pre><code>------------------------------------------------------------------------------</code></pre>
+<pre><code>
+Attaching package: &#39;plyr&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:dplyr&#39;:
+
+    arrange, count, desc, failwith, id, mutate, rename, summarise,
+    summarize</code></pre>
+<pre class="r"><code>data_std &lt;- join(data1, std1, type = &quot;full&quot;) </code></pre>
+<pre><code>Joining by: Wells, Binding.Perc, Ave_Conc_pg.ml, Weight_mg, Buffer_nl, Spike</code></pre>
+<pre class="r"><code># Scatter plot of Binding Percentage vs Weight
+
+ggplot(data_std, aes(x = Ave_Conc_pg.ml, 
+                 y = Binding.Perc, color = factor((Spike)))) +
+  geom_jitter(size = 3, width = 0.4) +
+  geom_smooth(linewidth = 0.5, color = &quot;orange&quot;) +  # Add a trend line
+  geom_hline(yintercept = 80, linetype = &quot;dashed&quot;, 
+             color = &quot;gray&quot;, linewidth = 1) +  
+  geom_hline(yintercept = 20, linetype = &quot;dashed&quot;, 
+             color = &quot;gray&quot;, linewidth = 1) +  # Add horizontal line 
+  labs(title = &quot;Results&quot;,
+       x = &quot;Ave. Concentration (pg.ml)&quot;, y = &quot;Binding Percentage&quot;) +
+  scale_y_continuous(n.breaks = 10) +  
+  scale_color_discrete(name = &quot;&quot;, labels = c(&quot;Not-spiked&quot;,&quot;Spiked&quot;, &quot;Standard&quot;)) +
+  theme_minimal() </code></pre>
+<pre><code>`geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/Results.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e9a8f2cf7621bd52291b598a4f04d45b2ae11c86/docs/figure/Results.Rmd/unnamed-chunk-1-1.png" target="_blank">e9a8f2c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-01-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d314be6a7b0b17a38d8aa175863e009ed6dc1aa9/docs/figure/Results.Rmd/unnamed-chunk-1-1.png" target="_blank">d314be6</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-01-29
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/unnamed-chunk-1-1.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code># Scatter plot of Binding Percentage vs Weight
 
 ggplot(data, aes(x = Weight_mg, 
                  y = Binding.Perc, 
@@ -1010,6 +1145,23 @@ more.</p></li>
 </div>
 <div id="value-distributions-by-group-boxplots" class="section level3">
 <h3>Value distributions by group (boxplots)</h3>
+<pre class="r"><code>## Boxplot of Binding Percentage by dilution
+
+ggplot(data, aes(x = factor(Spike), 
+                 y = Binding.Perc, 
+                 fill = factor(Spike))) +
+  geom_boxplot() +
+  geom_hline(yintercept = 50, linetype = &quot;dashed&quot;, 
+             color = &quot;gray&quot;, linewidth = 1) + 
+  labs(title = &quot;Binding Percentage by Dilution&quot;,
+       x = &quot;&quot;, 
+       y = &quot;Bindings Percentage&quot;) +
+  scale_y_continuous(n.breaks = 10) +  
+  theme(legend.position = &quot;none&quot;) +
+  facet_wrap(~ Buffer_nl,  
+             labeller = as_labeller(c(&quot;60&quot; = &quot;60 uL&quot;, 
+                                      &quot;250&quot; = &quot;250 uL&quot;))) +
+    scale_x_discrete(labels = c(&quot;Not spiked&quot;, &quot;Spiked&quot;)) </code></pre>
 <p><img src="figure/Results.Rmd/boxplot1-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-boxplot1-1">
@@ -1165,13 +1317,13 @@ below.</p>
 <div id="coef.-of-variation-by-different-variables"
 class="section level3">
 <h3>Coef. of variation by different variables</h3>
-<p><img src="figure/Results.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/Results.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
-Past versions of unnamed-chunk-1-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div id="fig-unnamed-chunk-2-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1190,18 +1342,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e9a8f2cf7621bd52291b598a4f04d45b2ae11c86/docs/figure/Results.Rmd/unnamed-chunk-1-1.png" target="_blank">e9a8f2c</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-01-30
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d314be6a7b0b17a38d8aa175863e009ed6dc1aa9/docs/figure/Results.Rmd/unnamed-chunk-1-1.png" target="_blank">d314be6</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d314be6a7b0b17a38d8aa175863e009ed6dc1aa9/docs/figure/Results.Rmd/unnamed-chunk-2-1.png" target="_blank">d314be6</a>
 </td>
 <td>
 Paloma
@@ -1212,7 +1353,7 @@ Paloma
 </tr>
 <tr>
 <td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/unnamed-chunk-1-1.png" target="_blank">dbfcd66</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/unnamed-chunk-2-1.png" target="_blank">dbfcd66</a>
 </td>
 <td>
 Paloma
@@ -1283,6 +1424,24 @@ of the “distance” between the values obtained and what I should aim for:
 </tr>
 </tbody>
 </table>
+<pre class="r"><code># Scatter plot of Binding Deviation vs Weight, 4 groups
+
+ggplot(data, aes(x = Weight_mg, 
+                 y = Binding_deviation, 
+                 color = factor(Spike), 
+                 shape = factor(Buffer_nl))) +
+  geom_point(size = 3) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, linewidth = 0.5) +  
+  labs(title = &quot;Binding Deviation vs Weight, 4 groups&quot;,
+       x = &quot;Weight (mg)&quot;, 
+       y = &quot;Binding Deviation&quot;,
+       color = &quot;Spike Status&quot;,  
+       shape = &quot;Buffer Amount (ul)&quot;) +
+  scale_y_continuous(n.breaks = 10) +  
+  theme_minimal() +
+  # Change the labels in the legend using labs
+  scale_color_discrete(labels = c(&quot;No Spike&quot;, &quot;Spike Added&quot;)) +  # Change color legend labels
+  scale_shape_discrete(labels = c(&quot;60 uL&quot;, &quot;250 uL&quot;))  </code></pre>
 <p><img src="figure/Results.Rmd/plot_deviation-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot_deviation-1">
@@ -1411,6 +1570,19 @@ binding. We also observe that having larger samples leads to values
 closer to 50%. It is interesting to see that error does not go below 15%
 if we look at samples with weight under 20mg. Yet, we know that a
 deviation of up to 30% is acceptable.</p>
+<pre class="r"><code>ggplot(data, aes(x = factor(Spike), 
+                 y = Binding_deviation, 
+                 fill = factor(Spike))) +
+  geom_boxplot() +
+  labs(title = &quot;Binding deviation, by dilution and spike&quot;,
+       x = &quot;&quot;, 
+       y = &quot;Binding deviation&quot;) +
+  scale_y_continuous(n.breaks = 10) +  
+  theme(legend.position = &quot;none&quot;) +
+  facet_wrap(~ Buffer_nl,  
+                labeller = as_labeller(c(&quot;60&quot; = &quot;60 uL&quot;, 
+                                      &quot;250&quot; = &quot;250 uL&quot;)))  +
+    scale_x_discrete(labels = c(&quot;Not spiked&quot;, &quot;Spiked&quot;)) </code></pre>
 <p><img src="figure/Results.Rmd/boxplot_deviation-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-boxplot_deviation-1">
@@ -1474,8 +1646,15 @@ calculations of cortisol concentration.</li>
 <div id="analysis-linear-models" class="section level1">
 <h1>Analysis: linear models</h1>
 <p>To explore the effects of each variable more systematically, I run
-multiple models and compared them using AIC Akakikes’ coefficient. I
-removed samples with a binding over 80% or under 20%.</p>
+multiple models and compared them using AIC Akakikes’ coefficient.</p>
+<pre class="r"><code>weight &lt;- data$Weight_mg
+binding &lt;- data$Binding.Perc
+x &lt;- mean(binding)
+
+
+# Q-Q Plot
+qqnorm(binding, pch = 16, col = &quot;gray40&quot;)
+qqline(binding, col = &quot;orange3&quot;, lwd = 1.5)</code></pre>
 <p><img src="figure/Results.Rmd/qqplot-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-qqplot-1">
@@ -1519,7 +1698,1601 @@ I am not sure how to describe it, but it does not look very linear. I
 will test different distributions at another time, but for now, I will
 run and compare simple models that should allow me to understand which
 variables have a greater impact on binding percentages.</p>
-<p>#Work in progress after this line ______________________</p>
+<pre class="r"><code>mod &lt;- lm(binding ~ weight)
+summary(mod)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-19.39 -14.46  -5.65  12.69  30.62 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  51.6739     9.2460   5.589 5.56e-06 ***
+weight       -0.2934     0.3732  -0.786    0.438    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 15.77 on 28 degrees of freedom
+Multiple R-squared:  0.0216,    Adjusted R-squared:  -0.01335 
+F-statistic: 0.618 on 1 and 28 DF,  p-value: 0.4384</code></pre>
+<pre class="r"><code>plot(weight, binding,
+     main = &quot;Linear regression ~ weight&quot;,
+     xlab = &quot;Weight&quot;,
+     ylab = &quot;binding %&quot;,
+     pch = 16,
+     cex = 1.3, 
+     col = &quot;gray40&quot;)
+
+abline(mod, col = &quot;orange3&quot;, lwd = 1.5)</code></pre>
+<p><img src="figure/Results.Rmd/models%20dif%20weights-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-models-dif-weights-1">
+Past versions of "models dif weights-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-models-dif-weights-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/models dif weights-1.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code># filter by weight (20-29.9 mg)
+d&lt;- data[c(data$Weight_mg &gt;= 20 &amp; data$Weight_mg &lt;= 29.9), ]
+weight &lt;- d$Weight_mg
+binding &lt;- d$Binding.Perc
+
+# Q-Q Plot
+qqnorm(binding, pch = 16, col = &quot;cyan3&quot;)
+qqline(binding, col = &quot;red&quot;, lwd = 1.5)</code></pre>
+<p><img src="figure/Results.Rmd/models%20dif%20weights-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-models-dif-weights-2">
+Past versions of "models dif weights-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-models-dif-weights-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/models dif weights-2.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>## Linear regression
+mod &lt;- lm(binding ~ weight)
+summary(mod)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-15.3218 -10.9401  -0.0469   6.8640  21.5852 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)   96.860     30.175   3.210  0.00933 **
+weight        -2.339      1.257  -1.861  0.09242 . 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 13.23 on 10 degrees of freedom
+Multiple R-squared:  0.2572,    Adjusted R-squared:  0.1829 
+F-statistic: 3.462 on 1 and 10 DF,  p-value: 0.09242</code></pre>
+<pre class="r"><code>plot(weight, binding,
+     main = &quot;Linear regression, weight 20 - 29.9 mg&quot;,
+     xlab = &quot;weight&quot;,
+     ylab = &quot;binding %&quot;,
+     pch = 16,
+     cex = 1, 
+     col = &quot;darkgreen&quot;)
+
+abline(mod, col = &quot;red&quot;, lty = &#39;dashed&#39;)</code></pre>
+<p><img src="figure/Results.Rmd/models%20dif%20weights-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-models-dif-weights-3">
+Past versions of "models dif weights-3.png"
+</button>
+</p>
+<div id="fig-no-spaces-models-dif-weights-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/models dif weights-3.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code># more than 30 mg
+
+## Linear regression, by weight group
+d&lt;- data[c(data$Weight_mg &gt; 29.9), ]
+weight &lt;- d$Weight_mg
+binding &lt;- d$Binding.Perc
+
+# Q-Q Plot
+qqnorm(binding, pch = 16, col = &quot;cyan3&quot;)
+qqline(binding, col = &quot;red&quot;, lwd = 1.5)</code></pre>
+<p><img src="figure/Results.Rmd/models%20dif%20weights-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-models-dif-weights-4">
+Past versions of "models dif weights-4.png"
+</button>
+</p>
+<div id="fig-no-spaces-models-dif-weights-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/models dif weights-4.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>## Linear regression
+mod &lt;- lm(binding ~ weight)
+summary(mod)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-12.830  -8.875   5.782   6.585   7.765 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  71.1761    49.2217   1.446    0.198
+weight       -0.7449     1.4526  -0.513    0.626
+
+Residual standard error: 9.92 on 6 degrees of freedom
+Multiple R-squared:  0.04199,   Adjusted R-squared:  -0.1177 
+F-statistic: 0.263 on 1 and 6 DF,  p-value: 0.6264</code></pre>
+<pre class="r"><code>plot(weight, binding,
+     main = &quot;Linear regression, weight over 30 mg&quot;,
+     xlab = &quot;weight&quot;,
+     ylab = &quot;binding %&quot;,
+     pch = 16,
+     cex = 1, 
+     col = &quot;darkgreen&quot;)
+
+abline(mod, col = &quot;red&quot;, lty = &#39;dashed&#39;)</code></pre>
+<p><img src="figure/Results.Rmd/models%20dif%20weights-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-models-dif-weights-5">
+Past versions of "models dif weights-5.png"
+</button>
+</p>
+<div id="fig-no-spaces-models-dif-weights-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/models dif weights-5.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="linear-regression-by-spike" class="section level3">
+<h3>Linear regression, by spike</h3>
+<pre class="r"><code>## SPIKED
+d&lt;- data[c(data$Spike == 1), ]
+weight &lt;- d$Weight_mg
+binding &lt;- d$Binding.Perc
+
+# Q-Q Plot
+qqnorm(binding, pch = 16, col = &quot;cyan3&quot;, main = &quot;qqplot, spiked samples&quot;)
+qqline(binding, col = &quot;red&quot;, lwd = 1.5)</code></pre>
+<p><img src="figure/Results.Rmd/models%20dif%20spike-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-models-dif-spike-1">
+Past versions of "models dif spike-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-models-dif-spike-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/models dif spike-1.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>## Linear regression
+mod &lt;- lm(binding ~ weight)
+summary(mod)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.1104 -1.1097  0.2364  1.3247  3.4221 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  37.2842     2.3680  15.745 2.19e-08 ***
+weight       -0.3252     0.1111  -2.927   0.0151 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 2.304 on 10 degrees of freedom
+Multiple R-squared:  0.4613,    Adjusted R-squared:  0.4075 
+F-statistic: 8.564 on 1 and 10 DF,  p-value: 0.01513</code></pre>
+<pre class="r"><code>plot(weight, binding,
+     main = &quot;Linear regression, spiked&quot;,
+     xlab = &quot;weight&quot;,
+     ylab = &quot;binding %&quot;,
+     pch = 16,
+     cex = 1, 
+     col = &quot;darkgreen&quot;)
+
+abline(mod, col = &quot;red&quot;, lty = &#39;dashed&#39;)</code></pre>
+<p><img src="figure/Results.Rmd/models%20dif%20spike-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-models-dif-spike-2">
+Past versions of "models dif spike-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-models-dif-spike-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/models dif spike-2.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>## Linear regression, by spike
+## NO
+
+d &lt;- data[c(data$Spike == 0), ]
+weight &lt;- d$Weight_mg
+binding &lt;- d$Binding.Perc
+
+# Q-Q Plot
+qqnorm(binding, pch = 16, col = &quot;cyan3&quot;, main = &quot;qqplot, NONspiked samples&quot;)
+qqline(binding, col = &quot;red&quot;, lwd = 1.5)</code></pre>
+<p><img src="figure/Results.Rmd/models%20dif%20spike-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-models-dif-spike-3">
+Past versions of "models dif spike-3.png"
+</button>
+</p>
+<div id="fig-no-spaces-models-dif-spike-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/models dif spike-3.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>## Linear regression
+mod &lt;- lm(binding ~ weight)
+summary(mod)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-22.718  -7.360   5.027   7.309  12.492 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  81.8251     8.0270  10.194  2.1e-08 ***
+weight       -1.0795     0.2991  -3.609  0.00235 ** 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 10.21 on 16 degrees of freedom
+Multiple R-squared:  0.4487,    Adjusted R-squared:  0.4143 
+F-statistic: 13.02 on 1 and 16 DF,  p-value: 0.002355</code></pre>
+<pre class="r"><code>plot(weight, binding,
+     main = &quot;Linear regression, not spiked&quot;,
+     xlab = &quot;weight&quot;,
+     ylab = &quot;binding %&quot;,
+     pch = 16,
+     cex = 1, 
+     col = &quot;darkgreen&quot;)
+
+abline(mod, col = &quot;red&quot;, lwd = 1.5)</code></pre>
+<p><img src="figure/Results.Rmd/models%20dif%20spike-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-models-dif-spike-4">
+Past versions of "models dif spike-4.png"
+</button>
+</p>
+<div id="fig-no-spaces-models-dif-spike-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/models dif spike-4.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="comparing-models" class="section level2">
+<h2>Comparing models</h2>
+<pre class="r"><code>#creating function to extract coeffs
+extract_coefs &lt;- function(model, model_name) {
+# Extract summary of the model
+  coef_summary &lt;- summary(model)$coefficients
+  
+# Create a data frame with term names, estimates, and standard errors
+  coef_df &lt;- data.frame(
+    term = rownames(coef_summary),
+    estimate = coef_summary[, &quot;Estimate&quot;],
+    std.error = coef_summary[, &quot;Std. Error&quot;],
+    model = model_name  # Add the model name as a new column
+  )
+  
+  # Return the data frame
+  return(coef_df)
+}</code></pre>
+<pre class="r"><code>binding &lt;- data$Binding.Perc
+weight &lt;- data$Weight_mg
+spike &lt;- data$Spike
+buffer &lt;- data$Buffer_nl
+
+# model 1
+
+m1 &lt;- lm(binding ~ weight)
+summary(m1)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-19.39 -14.46  -5.65  12.69  30.62 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  51.6739     9.2460   5.589 5.56e-06 ***
+weight       -0.2934     0.3732  -0.786    0.438    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 15.77 on 28 degrees of freedom
+Multiple R-squared:  0.0216,    Adjusted R-squared:  -0.01335 
+F-statistic: 0.618 on 1 and 28 DF,  p-value: 0.4384</code></pre>
+<pre class="r"><code>confint(m1, level = 0.95)</code></pre>
+<pre><code>                2.5 %     97.5 %
+(Intercept) 32.734311 70.6134504
+weight      -1.057979  0.4711297</code></pre>
+<pre class="r"><code># model 2
+
+m2 &lt;- lm(binding ~ spike)
+summary(m2)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ spike)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-21.6889  -3.6222  -0.2333   3.8667  23.6111 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   54.189      2.490  21.765  &lt; 2e-16 ***
+spike        -23.556      3.937  -5.984 1.91e-06 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 10.56 on 28 degrees of freedom
+Multiple R-squared:  0.5612,    Adjusted R-squared:  0.5455 
+F-statistic: 35.81 on 1 and 28 DF,  p-value: 1.912e-06</code></pre>
+<pre class="r"><code>confint(m2, level = 0.95)</code></pre>
+<pre><code>                2.5 %    97.5 %
+(Intercept)  49.08898  59.28880
+spike       -31.61922 -15.49189</code></pre>
+<pre class="r"><code># model 3
+
+m3 &lt;- lm(binding ~ buffer)
+summary(m3)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ buffer)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-19.165 -14.670  -3.835   9.970  31.515 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 38.25406    5.77579   6.623 3.48e-07 ***
+buffer       0.03884    0.03004   1.293    0.207    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 15.49 on 28 degrees of freedom
+Multiple R-squared:  0.05636,   Adjusted R-squared:  0.02266 
+F-statistic: 1.672 on 1 and 28 DF,  p-value: 0.2065</code></pre>
+<pre class="r"><code>confint(m3, level = 0.95)</code></pre>
+<pre><code>                  2.5 %     97.5 %
+(Intercept) 26.42288169 50.0852393
+buffer      -0.02268419  0.1003694</code></pre>
+<pre class="r"><code># model 4
+
+m4 &lt;- lm(binding ~ weight + spike)
+summary(m4)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight + spike)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-21.621  -4.416   1.329   6.013  14.585 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  76.6215     5.7290  13.374 2.00e-13 ***
+weight       -0.8763     0.2100  -4.172  0.00028 ***
+spike       -28.0684     3.3078  -8.485 4.25e-09 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 8.388 on 27 degrees of freedom
+Multiple R-squared:  0.7332,    Adjusted R-squared:  0.7134 
+F-statistic: 37.09 on 2 and 27 DF,  p-value: 1.795e-08</code></pre>
+<pre class="r"><code>confint(m4, level = 0.95)</code></pre>
+<pre><code>                 2.5 %      97.5 %
+(Intercept)  64.866499  88.3764142
+weight       -1.307243  -0.4453015
+spike       -34.855427 -21.2812872</code></pre>
+<pre class="r"><code># model 5 
+
+m5 &lt;- lm(binding ~ weight + buffer)
+summary(m5)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight + buffer)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-20.5867 -13.8305   0.2964  10.4043  28.5410 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 46.61126    9.67968   4.815    5e-05 ***
+weight      -0.40028    0.37261  -1.074    0.292    
+buffer       0.04520    0.03053   1.480    0.150    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 15.45 on 27 degrees of freedom
+Multiple R-squared:  0.09504,   Adjusted R-squared:  0.02801 
+F-statistic: 1.418 on 2 and 27 DF,  p-value: 0.2597</code></pre>
+<pre class="r"><code>confint(m5, level = 0.95)</code></pre>
+<pre><code>                  2.5 %     97.5 %
+(Intercept) 26.75019226 66.4723321
+weight      -1.16481019  0.3642451
+buffer      -0.01745052  0.1078448</code></pre>
+<pre class="r"><code># model 6
+
+m6 &lt;- lm(binding ~ spike + buffer)
+summary(m6)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ spike + buffer)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-17.230  -5.022  -1.865   4.197  22.370 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  47.19577    3.94659  11.959 2.69e-12 ***
+spike       -23.77849    3.69347  -6.438 6.73e-07 ***
+buffer        0.04224    0.01922   2.198   0.0367 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 9.907 on 27 degrees of freedom
+Multiple R-squared:  0.6278,    Adjusted R-squared:  0.6002 
+F-statistic: 22.77 on 2 and 27 DF,  p-value: 1.607e-06</code></pre>
+<pre class="r"><code>confint(m6, level = 0.95)</code></pre>
+<pre><code>                    2.5 %       97.5 %
+(Intercept)  39.098031857  55.29350737
+spike       -31.356858924 -16.20012221
+buffer        0.002807951   0.08167268</code></pre>
+<pre class="r"><code># model 7
+
+m7 &lt;- lm(binding ~ weight + buffer + spike)
+summary(m7)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding ~ weight + buffer + spike)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-16.2258  -2.0491   0.4047   3.4737  12.5351 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  70.98564    4.39479  16.152 4.50e-15 ***
+weight       -1.04123    0.15906  -6.546 6.11e-07 ***
+buffer        0.05955    0.01232   4.833 5.22e-05 ***
+spike       -29.23218    2.45833 -11.891 5.13e-12 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 6.204 on 26 degrees of freedom
+Multiple R-squared:  0.8594,    Adjusted R-squared:  0.8432 
+F-statistic: 52.99 on 3 and 26 DF,  p-value: 3.261e-11</code></pre>
+<pre class="r"><code>confint(m7, level = 0.95)</code></pre>
+<pre><code>                   2.5 %       97.5 %
+(Intercept)  61.95201200  80.01927215
+weight       -1.36817295  -0.71428618
+buffer        0.03422208   0.08487659
+spike       -34.28534532 -24.17900665</code></pre>
+<pre class="r"><code># model 8
+
+sp1 &lt;- data[data$Spike == 1,]
+sp0 &lt;- data[data$Spike == 0,]
+
+binding1 &lt;- sp1$Binding.Perc
+weight1 &lt;- sp1$Weight_mg
+spike1 &lt;- sp1$Spike
+buffer1 &lt;- sp1$Buffer_nl
+
+m8 &lt;- lm(binding1 ~  buffer1 + weight1)
+summary(m8)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding1 ~ buffer1 + weight1)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-2.343 -1.448 -0.262  1.241  2.886 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 36.265393   2.179575  16.639 4.57e-08 ***
+buffer1      0.012459   0.006592   1.890  0.09133 .  
+weight1     -0.379489   0.103187  -3.678  0.00509 ** 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 2.055 on 9 degrees of freedom
+Multiple R-squared:  0.6144,    Adjusted R-squared:  0.5287 
+F-statistic:  7.17 on 2 and 9 DF,  p-value: 0.01373</code></pre>
+<pre class="r"><code># model 9
+binding0 &lt;- sp0$Binding.Perc
+weight0 &lt;- sp0$Weight_mg
+spike0 &lt;- sp0$Spike
+buffer0 &lt;- sp0$Buffer_nl
+
+m9 &lt;- lm(binding0 ~  buffer0 + weight0)
+summary(m9)</code></pre>
+<pre><code>
+Call:
+lm(formula = binding0 ~ buffer0 + weight0)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-14.6241  -2.2477   0.1961   3.0228  12.8202 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 72.36202    4.87984  14.829 2.28e-10 ***
+buffer0      0.08634    0.01487   5.807 3.45e-05 ***
+weight0     -1.26822    0.17446  -7.269 2.74e-06 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 5.851 on 15 degrees of freedom
+Multiple R-squared:  0.8303,    Adjusted R-squared:  0.8077 
+F-statistic: 36.69 on 2 and 15 DF,  p-value: 1.67e-06</code></pre>
+<pre class="r"><code>coef_df1 &lt;- extract_coefs(m1, &quot;Model 1&quot;)
+coef_df2 &lt;- extract_coefs(m2, &quot;Model 2&quot;)
+coef_df3 &lt;- extract_coefs(m3, &quot;Model 3&quot;)
+coef_df4 &lt;- extract_coefs(m4, &quot;Model 4&quot;)
+coef_df5 &lt;- extract_coefs(m5, &quot;Model 5&quot;)
+coef_df6 &lt;- extract_coefs(m6, &quot;Model 6&quot;)
+coef_df7 &lt;- extract_coefs(m7, &quot;Model 7&quot;)
+coef_df8 &lt;- extract_coefs(m8, &quot;Model 8&quot;)
+coef_df9 &lt;- extract_coefs(m9, &quot;Model 9&quot;)
+
+#Combine the data frames for plotting
+coef_df &lt;- rbind(coef_df1, coef_df2, coef_df3, coef_df4)</code></pre>
+</div>
+<div id="plot-regression-coefs" class="section level2">
+<h2>Plot regression coefs</h2>
+<pre class="r"><code>ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
+  geom_point(position = position_dodge(width = 0.5)) +  # Points for the estimates
+  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, ymax = estimate + 1.96 * std.error),
+                position = position_dodge(width = 0.5), width = 0.2) +  # Error bars for confidence intervals
+  theme_minimal() +
+  coord_flip() +  # Flip the coordinates for better readability
+  labs(title = &quot;Coefficient Plot for Multiple Models&quot;,
+       x = &quot;Terms&quot;,
+       y = &quot;Estimates&quot;) +
+  geom_hline(yintercept = 0, color = &quot;gray&quot;, linetype = &quot;dashed&quot;) +  # Gray line at zero
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="figure/Results.Rmd/Plot%20reg%20coefs-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Plot-reg-coefs-1">
+Past versions of "Plot reg coefs-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Plot-reg-coefs-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d314be6a7b0b17a38d8aa175863e009ed6dc1aa9/docs/figure/Results.Rmd/Plot reg coefs-1.png" target="_blank">d314be6</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-01-29
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/Plot reg coefs-1.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="plot-model-1-to-4" class="section level3">
+<h3>Plot model 1 to 4</h3>
+<pre class="r"><code>ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
+  geom_point(position = position_dodge(width = 4)) +  # Points for the estimates
+  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, ymax = estimate + 1.96 * std.error),
+                position = position_dodge(width = 0.85), width = 1) +  # Error bars for confidence intervals
+  theme_minimal() +
+  coord_flip() +  # Flip the coordinates for better readability
+  facet_wrap(~ model, ncol = 1) +  # One model per line
+  labs(title = &quot;Coefficient Plot for Models 1-4&quot;,
+       x = &quot;Terms&quot;,
+       y = &quot;Estimates&quot;) +
+  theme(legend.position = &quot;none&quot;) +
+  geom_hline(yintercept = 0, color = &quot;gray&quot;, linetype = &quot;dashed&quot;) +  # Gray line at zero
+  expand_limits(y = c(-58, 58)) +
+  theme(
+    axis.text.x = element_text(size = 12),        # X-axis text size
+    axis.text.y = element_text(size = 12),        # Y-axis text size
+    axis.title.x = element_text(size = 14),       # X-axis title size
+    axis.title.y = element_text(size = 14),       # Y-axis title size
+    plot.title = element_text(size = 16, hjust = 0.5),  # Plot title size and centering
+    strip.text = element_text(size = 14)          # Facet label text size
+  )</code></pre>
+<pre><code>Warning: `position_dodge()` requires non-overlapping x intervals.
+`position_dodge()` requires non-overlapping x intervals.
+`position_dodge()` requires non-overlapping x intervals.
+`position_dodge()` requires non-overlapping x intervals.</code></pre>
+<p><img src="figure/Results.Rmd/Plot%20model%201%20to%204-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Plot-model-1-to-4-1">
+Past versions of "Plot model 1 to 4-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Plot-model-1-to-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d314be6a7b0b17a38d8aa175863e009ed6dc1aa9/docs/figure/Results.Rmd/Plot model 1 to 4-1.png" target="_blank">d314be6</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-01-29
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/Plot model 1 to 4-1.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="plot-model-5-to-9" class="section level3">
+<h3>Plot model 5 to 9</h3>
+<pre class="r"><code># Combine the data frames for plotting
+coef_df &lt;- rbind(coef_df5, coef_df6, coef_df7, coef_df8,coef_df9)
+
+ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
+  geom_point(position = position_dodge(width = 3)) +  # Points for the estimates
+  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, ymax = estimate + 1.96 * std.error),
+                position = position_dodge(width = 0.9), width = 0.85) +  # Error bars for confidence intervals
+  theme_minimal() +
+  coord_flip() +  # Flip the coordinates for better readability
+  facet_wrap(~ model, ncol = 1) +  # One model per line
+  labs(title = &quot;Coefficient Plot for Model 5 to 9&quot;,
+       x = &quot;Terms&quot;,
+       y = &quot;Estimates&quot;) +
+  theme(legend.position = &quot;none&quot;) +
+  geom_hline(yintercept = 0, color = &quot;gray&quot;, linetype = &quot;dashed&quot;) +  # Gray line at zero
+  expand_limits(y = c(-60, 60)) +
+  theme(
+    axis.text.x = element_text(size = 12),        # X-axis text size
+    axis.text.y = element_text(size = 12),        # Y-axis text size
+    axis.title.x = element_text(size = 14),       # X-axis title size
+    axis.title.y = element_text(size = 14),       # Y-axis title size
+    plot.title = element_text(size = 16, hjust = 0.5),  # Plot title size and centering
+    strip.text = element_text(size = 14)          # Facet label text size
+  )</code></pre>
+<pre><code>Warning: `position_dodge()` requires non-overlapping x intervals.
+`position_dodge()` requires non-overlapping x intervals.
+`position_dodge()` requires non-overlapping x intervals.
+`position_dodge()` requires non-overlapping x intervals.</code></pre>
+<p><img src="figure/Results.Rmd/Plot%20model%205%20to%209-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Plot-model-5-to-9-1">
+Past versions of "Plot model 5 to 9-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Plot-model-5-to-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d314be6a7b0b17a38d8aa175863e009ed6dc1aa9/docs/figure/Results.Rmd/Plot model 5 to 9-1.png" target="_blank">d314be6</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-01-29
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/Plot model 5 to 9-1.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="summarize-info-multiple-models" class="section level2">
+<h2>Summarize info multiple models</h2>
+<pre class="r"><code>model_names &lt;- paste(&quot;m&quot;, 1:9, sep=&quot;&quot;)
+r_values &lt;- 1:9
+all_models &lt;- list(m1, m2, m3, m4, m5, m6, m7, m8, m9)
+model_info &lt;- c(&quot;weight&quot;, &quot;spike&quot;, &quot;buffer&quot;, &quot;weight + spike&quot;, &quot;weight + buffer&quot;, &quot;spike + buffer&quot;, &quot;spike + buffer + weight&quot;, &quot;buffer + weight, spiked only&quot;,&quot;buffer + weight, NOT spiked only&quot;)
+sum_models &lt;- as.data.frame(r_values, row.names=model_names)
+sum_models$res_std_error &lt;- 1:length(model_names)
+sum_models$info &lt;- model_info
+
+for (i in 1:length(model_names)) {
+    sum_models$r_values[i]      &lt;- summary(all_models[[i]])$adj.r.squared
+    sum_models$res_std_error[i] &lt;- summary(all_models[[i]])$sigma
+}
+
+kable(sum_models[order(sum_models$r_values, decreasing = TRUE), ]) </code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">r_values</th>
+<th align="right">res_std_error</th>
+<th align="left">info</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">m7</td>
+<td align="right">0.8432246</td>
+<td align="right">6.203728</td>
+<td align="left">spike + buffer + weight</td>
+</tr>
+<tr class="even">
+<td align="left">m9</td>
+<td align="right">0.8076695</td>
+<td align="right">5.850626</td>
+<td align="left">buffer + weight, NOT spiked only</td>
+</tr>
+<tr class="odd">
+<td align="left">m4</td>
+<td align="right">0.7134063</td>
+<td align="right">8.387781</td>
+<td align="left">weight + spike</td>
+</tr>
+<tr class="even">
+<td align="left">m6</td>
+<td align="right">0.6001972</td>
+<td align="right">9.906874</td>
+<td align="left">spike + buffer</td>
+</tr>
+<tr class="odd">
+<td align="left">m2</td>
+<td align="right">0.5454965</td>
+<td align="right">10.562881</td>
+<td align="left">spike</td>
+</tr>
+<tr class="even">
+<td align="left">m8</td>
+<td align="right">0.5287000</td>
+<td align="right">2.054609</td>
+<td align="left">buffer + weight, spiked only</td>
+</tr>
+<tr class="odd">
+<td align="left">m5</td>
+<td align="right">0.0280065</td>
+<td align="right">15.447046</td>
+<td align="left">weight + buffer</td>
+</tr>
+<tr class="even">
+<td align="left">m3</td>
+<td align="right">0.0226583</td>
+<td align="right">15.489485</td>
+<td align="left">buffer</td>
+</tr>
+<tr class="odd">
+<td align="left">m1</td>
+<td align="right">-0.0133472</td>
+<td align="right">15.772222</td>
+<td align="left">weight</td>
+</tr>
+</tbody>
+</table>
+<div id="comparing-models-using-akakikes-information-criteria"
+class="section level3">
+<h3>Comparing models using Akakike’s information criteria</h3>
+<pre class="r"><code># computing bias-adjusted version of AIC (AICc) Akakaike&#39;s information criteria table
+AICc_compare &lt;-AICtab(m1, m2, m3, m4, m5, m6, m7, m8, m9, 
+        base = TRUE,
+        weights = TRUE,
+        logLik  = TRUE,
+        #indicate number of observations
+        nobs = 30)
+kable(AICc_compare)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">logLik</th>
+<th align="right">AIC</th>
+<th align="right">dLogLik</th>
+<th align="right">dAIC</th>
+<th align="right">df</th>
+<th align="right">weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">m8</td>
+<td align="right">-23.94220</td>
+<td align="right">55.8844</td>
+<td align="right">100.3385734</td>
+<td align="right">0.00000</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">m9</td>
+<td align="right">-55.69788</td>
+<td align="right">119.3958</td>
+<td align="right">68.5828959</td>
+<td align="right">63.51136</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m7</td>
+<td align="right">-95.17615</td>
+<td align="right">200.3523</td>
+<td align="right">29.1046184</td>
+<td align="right">144.46791</td>
+<td align="right">5</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">m4</td>
+<td align="right">-104.79103</td>
+<td align="right">217.5821</td>
+<td align="right">19.4897423</td>
+<td align="right">161.69766</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m6</td>
+<td align="right">-109.78461</td>
+<td align="right">227.5692</td>
+<td align="right">14.4961574</td>
+<td align="right">171.68483</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">m2</td>
+<td align="right">-112.25364</td>
+<td align="right">230.5073</td>
+<td align="right">12.0271289</td>
+<td align="right">174.62289</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m3</td>
+<td align="right">-123.73810</td>
+<td align="right">253.4762</td>
+<td align="right">0.5426679</td>
+<td align="right">197.59181</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">m5</td>
+<td align="right">-123.11028</td>
+<td align="right">254.2206</td>
+<td align="right">1.1704906</td>
+<td align="right">198.33617</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">m1</td>
+<td align="right">-124.28077</td>
+<td align="right">254.5615</td>
+<td align="right">0.0000000</td>
+<td align="right">198.67715</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># Coef table 
+coeftab(m1, m2, m3, m4, m5, m6, m7, m8, m9) -&gt; coeftabs
+kable(coeftabs)</code></pre>
+<table>
+<colgroup>
+<col width="3%" />
+<col width="13%" />
+<col width="12%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="12%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">(Intercept)</th>
+<th align="right">weight</th>
+<th align="right">spike</th>
+<th align="right">buffer</th>
+<th align="right">buffer1</th>
+<th align="right">weight1</th>
+<th align="right">buffer0</th>
+<th align="right">weight0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">m1</td>
+<td align="right">51.67388</td>
+<td align="right">-0.2934245</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">m2</td>
+<td align="right">54.18889</td>
+<td align="right">NA</td>
+<td align="right">-23.55556</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">m3</td>
+<td align="right">38.25406</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.0388426</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">m4</td>
+<td align="right">76.62146</td>
+<td align="right">-0.8762722</td>
+<td align="right">-28.06836</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">m5</td>
+<td align="right">46.61126</td>
+<td align="right">-0.4002825</td>
+<td align="right">NA</td>
+<td align="right">0.0451972</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">m6</td>
+<td align="right">47.19577</td>
+<td align="right">NA</td>
+<td align="right">-23.77849</td>
+<td align="right">0.0422403</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">m7</td>
+<td align="right">70.98564</td>
+<td align="right">-1.0412296</td>
+<td align="right">-29.23218</td>
+<td align="right">0.0595493</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">m8</td>
+<td align="right">36.26539</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.0124595</td>
+<td align="right">-0.3794893</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">m9</td>
+<td align="right">72.36202</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.0863352</td>
+<td align="right">-1.268219</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>par(mfrow = c(3, 3))
+
+plot(m1, which = 1)  
+plot(m2, which = 1, main = &quot;m2&quot;)  
+plot(m3, which = 1, main = &quot;m3&quot;)  
+plot(m4, which = 1, main = &quot;m4&quot;)
+plot(m5, which = 1, main = &quot;m5&quot;) 
+plot(m6, which = 1, main = &quot;m6&quot;)
+plot(m7, which = 1, main = &quot;m7&quot;)
+plot(m8, which = 1, main = &quot;m8&quot;)
+plot(m9, which = 1, main = &quot;m9&quot;)</code></pre>
+<p><img src="figure/Results.Rmd/AICc-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-AICc-1">
+Past versions of AICc-1.png
+</button>
+</p>
+<div id="fig-AICc-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/AICc-1.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>model &lt;- list(m1, m2, m3, m4, m5, m6, m7, m8, m9)
+
+par(mfrow = c(3, 3))
+
+for (i in 1:length(model)) {
+ #  Create a Q-Q plot for the residuals of the i-th model
+  qqnorm(residuals(model[[i]]), main = paste(&quot;Q-Q Plot, m&quot;, i, sep = &quot;&quot;))
+  qqline(residuals(model[[i]]), col = &quot;red&quot;)
+}</code></pre>
+<p><img src="figure/Results.Rmd/AICc-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-AICc-2">
+Past versions of AICc-2.png
+</button>
+</p>
+<div id="fig-AICc-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/AICc-2.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>Model 7 has the highest weight, a measure of certainty in the
+model</em>. However, we need to consider that the distribution of the
+data is not normal. Perhaps I should try using other distributions
+(binom, posson, )</p>
+<pre class="r"><code>#scale variable
+
+d2 &lt;- data
+d2$y &lt;- data$Binding.Perc/100 
+
+nll_beta &lt;- function(mu, phi) {
+  a &lt;- mu * phi
+  b &lt;- (1 - mu) * phi
+  -sum(dbeta(d2$y, a, b, log = TRUE))
+}
+
+# Fit models using mle2
+
+fit &lt;- mle2(nll_beta, start = list(mu = 0.5, phi = 1), data = d2)</code></pre>
+<pre><code>Warning in dbeta(d2$y, a, b, log = TRUE): NaNs produced
+Warning in dbeta(d2$y, a, b, log = TRUE): NaNs produced
+Warning in dbeta(d2$y, a, b, log = TRUE): NaNs produced
+Warning in dbeta(d2$y, a, b, log = TRUE): NaNs produced
+Warning in dbeta(d2$y, a, b, log = TRUE): NaNs produced</code></pre>
+<pre class="r"><code>summary(fit)</code></pre>
+<pre><code>Maximum likelihood estimation
+
+Call:
+mle2(minuslogl = nll_beta, start = list(mu = 0.5, phi = 1), data = d2)
+
+Coefficients:
+     Estimate Std. Error z value     Pr(z)    
+mu   0.450562   0.027216  16.555 &lt; 2.2e-16 ***
+phi 10.074474   2.483221   4.057  4.97e-05 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+-2 log L: -29.41959 </code></pre>
+<pre class="r"><code>m0n &lt;- mle2(d2$y ~ dnorm(mean = a, sd = sd(d2$y)), start = list(a = mean(d2$y)), data = d2) 
+
+# percent cover as predictor, use normal distribution
+mcn &lt;- mle2(d2$y ~ dnorm(mean = a + b * d2$Weight_mg, sd = sd(d2$y)), start = list(a = mean(d2$y), b = 0, s = sd(d2$y)), data = d2)
+
+# scatter plot  
+
+plot(d2$y ~ d2$Weight_mg, 
+     xlab = &quot;Buffer&quot;,
+     ylab = &quot;% binding&quot;,
+     col = &quot;salmon&quot;,
+     pch = 16, 
+     las = 1)
+
+#m0n
+k &lt;-coef(m0n)
+curve(k[1] + 0 * x, 
+      from = 0, to = 100, 
+      add=T, lwd = 3, 
+      col = &quot;black&quot;)
+
+#mcn
+k &lt;-coef(mcn)
+curve(k[1] + k[2] * x, 
+      from = 0, to = 100, 
+      add=T, lwd = 2, 
+      col = &quot;lightgreen&quot;, 
+      lty = &quot;dashed&quot;)</code></pre>
+<p><img src="figure/Results.Rmd/Models%20mle2%20and%20dif%20distributions-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Models-mle2-and-dif-distributions-1">
+Past versions of "Models mle2 and dif distributions-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Models-mle2-and-dif-distributions-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dbfcd665b01052b3f425b6be1d2811c0e7f4028b/docs/figure/Results.Rmd/Models mle2 and dif distributions-1.png" target="_blank">dbfcd66</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2024-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="finding-optimal-parameters-using-model-7"
+class="section level3">
+<h3>Finding optimal parameters using model 7</h3>
+<p>The goal is to run essays that result in a 50% binding.</p>
+<pre class="r"><code># choose one model (m7: buffer + weight + spike)
+coef &lt;- coef(m7)
+
+# Set target binding
+target_binding &lt;- 50
+
+# FUNCTION to Solve for weight, assuming spike = 0
+# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
+
+solve_for_weight &lt;- function(dilution_value, spike_value = 0) {
+  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
+}
+
+# Find the weight that gives 50% binding whenspike is 0
+# dilution = 250
+optimal_weight &lt;- solve_for_weight(dilution_value = 1)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+   20.21187 </code></pre>
+<pre class="r"><code># dilution = 60
+optimal_weight &lt;- solve_for_weight(dilution_value = 0)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+   20.15467 </code></pre>
+<pre class="r"><code># Find the weight that gives 50% binding when spike is 1
+# dilution = 250
+optimal_weight &lt;- solve_for_weight(dilution_value = 1, spike_value = 1)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+  -7.862805 </code></pre>
+<pre class="r"><code># dilution = 60
+optimal_weight &lt;- solve_for_weight(dilution_value = 0, spike_value = 1)
+optimal_weight</code></pre>
+<pre><code>(Intercept) 
+  -7.919996 </code></pre>
+<p>#Work in progress after this line</p>
+<hr />
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1548,9 +3321,9 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] bbmle_1.0.25.1     arm_1.14-4         lme4_1.1-36        Matrix_1.7-1      
- [5] MASS_7.3-61        coefplot_1.2.8     RColorBrewer_1.1-3 ggplot2_3.5.1     
- [9] knitr_1.49         dplyr_1.1.4       
+ [1] plyr_1.8.9         bbmle_1.0.25.1     arm_1.14-4         lme4_1.1-36       
+ [5] Matrix_1.7-1       MASS_7.3-61        coefplot_1.2.8     RColorBrewer_1.1-3
+ [9] ggplot2_3.5.1      knitr_1.49         dplyr_1.1.4       
 
 loaded via a namespace (and not attached):
  [1] gtable_0.3.6        xfun_0.49           bslib_0.8.0        
@@ -1574,7 +3347,9 @@ loaded via a namespace (and not attached):
 [55] evaluate_1.0.1      rbibutils_2.3       mgcv_1.9-1         
 [58] rlang_1.1.4         Rcpp_1.0.13-1       glue_1.8.0         
 [61] rstudioapi_0.17.1   minqa_1.2.8         jsonlite_1.8.9     
-[64] R6_2.5.1            plyr_1.8.9          fs_1.6.5           </code></pre>
+[64] R6_2.5.1            fs_1.6.5           </code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
