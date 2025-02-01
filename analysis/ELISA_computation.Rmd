@@ -400,7 +400,8 @@ ggplot(data2, aes(y = Final_conc_pg.mg,
                   x = Weight_mg, 
                   color = Buffer, 
                   fill = Buffer)) +
-  geom_point(size = 3) +  
+  geom_point(size = 2.5) +  
+  geom_text(label = c(data2$Sample), nudge_y = 0.75, nudge_x = -0.5) +
   geom_smooth(method = "lm", 
               color = "gold3", 
               se = TRUE,
