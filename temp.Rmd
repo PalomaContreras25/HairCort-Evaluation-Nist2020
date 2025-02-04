@@ -1,0 +1,239 @@
+---
+title: "temp"
+output: html_document
+date: "2025-01-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Finding optimal parameters using model 7
+
+#The goal is to run essays that result in a 50% binding.
+```{r Find optimal parameters model 7}
+
+# choose one model (m7: buffer + weight + spike)
+coef <- coef(m7)
+
+# Set target binding
+target_binding <- 50
+
+# FUNCTION to Solve for weight, assuming spike = 0
+# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
+
+solve_for_weight <- function(dilution_value, spike_value = 0) {
+  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
+}
+
+# Find the weight that gives 50% binding whenspike is 0
+# dilution = 250
+optimal_weight <- solve_for_weight(dilution_value = 1)
+optimal_weight
+# dilution = 60
+optimal_weight <- solve_for_weight(dilution_value = 0)
+optimal_weight
+
+# Find the weight that gives 50% binding when spike is 1
+# dilution = 250
+optimal_weight <- solve_for_weight(dilution_value = 1, spike_value = 1)
+optimal_weight
+# dilution = 60
+optimal_weight <- solve_for_weight(dilution_value = 0, spike_value = 1)
+optimal_weight
+
+```
+
+
+# visualize results
+
+```{r}
+
+## Buffer = 1, Spike = 0
+new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(1), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding <- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
+  labs(title = "Predicted Binding Percentage vs Weight (dilution = 60, spike = 1)",
+       x = "Weight",
+       y = "Predicted Binding Percentage")
+
+## Buffer = 1, Spike = 1
+new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(1), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding <- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
+  labs(title = "Predicted Binding Percentage vs Weight (dilution = 250, spike = 1)",
+       x = "Weight",
+       y = "Predicted Binding Percentage")
+
+
+## Buffer = 0, Spike = 1
+
+new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(0), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding <- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
+  labs(title = "Predicted Binding Percentage vs Weight (dilution = 250, spike = 0)",
+       x = "Weight",
+       y = "Predicted Binding Percentage")
+
+## Buffer = 0, Spike = 0
+
+new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(0), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding <- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
+  labs(title = "Predicted Binding Percentage vs Weight (dilution = 60, spike = 0)",
+       x = "Weight",
+       y = "Predicted Binding Percentage")
+
+
+
+# FUNCTION to Solve for weight, assuming spike = 0
+# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
+
+solve_for_weight <- function(dilution_value, spike_value = 0) {
+  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
+}
+
+
+# Loop over different dilution values to find the optimal weight for 50% binding
+# here, dilution 0 means 60uL, and 1 is 250 uL
+for (buffer in seq(0, 1, by = 0.1)) {
+  optimal_weight <- solve_for_weight(buffer)
+  cat("Dilution:", buffer, "-> Optimal Weight for 50% Binding:", optimal_weight, "\n")
+}
+```
+
+
+# visualize results
+## Buffer = 1, Spike = 0
+new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(1), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding <- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
+  labs(title = "Predicted Binding Percentage vs Weight (dilution = 60, spike = 1)",
+       x = "Weight",
+       y = "Predicted Binding Percentage")
+
+## Buffer = 1, Spike = 1
+new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(1), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding <- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
+  labs(title = "Predicted Binding Percentage vs Weight (dilution = 250, spike = 1)",
+       x = "Weight",
+       y = "Predicted Binding Percentage")
+
+
+## Buffer = 0, Spike = 1
+
+new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(0), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding <- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
+  labs(title = "Predicted Binding Percentage vs Weight (dilution = 250, spike = 0)",
+       x = "Weight",
+       y = "Predicted Binding Percentage")
+
+## Buffer = 0, Spike = 0
+
+new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
+                        buffer = as.factor(0), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
+
+# Predict the binding percentage for the new data
+new_data$predicted_binding <- predict(m7, newdata = new_data)
+
+# Plot the predicted binding percentage against weight
+ggplot(new_data, aes(x = weight, y = predicted_binding)) +
+  geom_line() +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
+  labs(title = "Predicted Binding Percentage vs Weight (dilution = 60, spike = 0)",
+       x = "Weight",
+       y = "Predicted Binding Percentage")
+
+
+
+# FUNCTION to Solve for weight, assuming spike = 0
+# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
+
+solve_for_weight <- function(dilution_value, spike_value = 0) {
+  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
+}
+
+
+# Loop over different dilution values to find the optimal weight for 50% binding
+# here, dilution 0 means 60uL, and 1 is 250 uL
+for (buffer in seq(0, 1, by = 0.1)) {
+  optimal_weight <- solve_for_weight(buffer)
+  cat("Dilution:", buffer, "-> Optimal Weight for 50% Binding:", optimal_weight, "\n")
+}
+
+```
+
+
+
+Work in progress 
+after this line
+______________________
+```{r echo = FALSE}
+
+
+
+
+```
+
+```{r echo = FALSE}
+
+
+
+#wflow_publish("./analysis/ELISA_visualizations.Rmd")
+
+#wflow_status()
+
+
+```
+
