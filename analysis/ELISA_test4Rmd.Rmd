@@ -1,0 +1,14 @@
+---
+title: "Test4"
+output: html_document
+date: "2025-03-18"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##
+elisa <- read_excel("data/Test_4/ELISA_250219_001.xlsx")
+elisa[-c(1:45),-c(1,2,4,10:15)]
+
