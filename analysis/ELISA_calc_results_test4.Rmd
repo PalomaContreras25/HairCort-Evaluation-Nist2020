@@ -1,0 +1,233 @@
+---
+title: "Results - test4"
+author: "Paloma"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+# Introduction
+
+```{r}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+```{r libraries, echo = FALSE, warning = FALSE, message=FALSE}
+# Install libraries
+
+library(knitr)
+library(RColorBrewer)
+library(stats)
+library(coefplot)
+library(arm)
+library(bbmle)
+library(plyr)
+library(dplyr)
+library(ggpmisc)
+library(ggplot2)
+```
+
+```{r loading}
+# loading info
+# Loading data
+std <- read.csv("./data/Test4/standard_data_test4.csv")
+cort_valsA<- read.csv("./data/Test4/Data_cort_values_methodA.csv")
+cort_valsB<- read.csv("./data/Test4/Data_cort_values_methodB.csv")
+```
+
+```{r loading valsA}
+# remove NSB
+data <- cort_valsA[!(cort_valsA$Sample == "NSB"),]
+
+#Inclusion of standard readings in plot
+data <- data[,c("Sample", "Category", "Binding.Perc", "Final_conc_pg.mg", "Weight_mg", "Buffer_ml", "Spike", "Failed_samples")]
+```
+
+# Summary of results (method A)
+
+```{r expABCD.Final_conc_pg.mg, fig.width=8, fig.height=6}
+# Scatter plot of Experiment A and B, observed binding % 
+a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Final_conc_pg.mg)) 
+a$Sample_num <- 1:length(a$Sample)
+## Expected vals A
+a$Exp <- c(17.31, 8.655, 4.3275, 2.16375, 1.081875, 0.5409375, 0.2704687,
+           19.25, 9.62625, 4.813125, 2.406563, 1.203281, 0.6016405, 0.3008203,
+           9.2512500, 4.625625, 2.312813, 1.156406, 0.578203, 0.2891015, 0.1445508,
+           17.193, 8.5965, 4.29825, 2.149125, 1.074563, 0.5372815, 0.2686407)
+
+## PLOT ## 
+ggplot(a, aes(x = Sample_num, 
+                 y = Final_conc_pg.mg, color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
+  geom_smooth(formula = y ~ log(x), se = TRUE, linewidth = 0.5, linetype = 2, alpha = 0.1) +
+  geom_hline(yintercept = 0, linetype = "dashed", 
+                  color = "red", linewidth = 1) + 
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray30") +
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+               formula = y ~ x, parse = TRUE, size = 2.5) +
+  labs(title = "All serial dilutions Final_conc_pg.mg A",
+       subtitle = "Complete dataset",
+       x = "Sample", y = "Final_conc_pg.mg Method A") +
+  coord_cartesian(ylim = c(-5, 28)) +
+  theme_minimal() 
+
+exp <- a %>%
+  filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2"))
+
+ggplot(exp, aes(x = Sample_num, 
+                 y = Final_conc_pg.mg, color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
+  geom_smooth(formula = y ~ log(x), se = TRUE, linewidth = 0.5, linetype = 2, alpha = 0.1) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 0, linetype = "dashed", 
+                  color = "red", linewidth = 1) + 
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+               formula = y ~ x, parse = TRUE, size = 2) +
+  labs(title = "All serial dilutions, Final_conc_pg.mg A",
+       subtitle = "removed high CV samples",
+       x = "Sample", y = "Final_conc_pg.mg, Method A") +
+  scale_y_continuous(n.breaks = 10) + 
+  coord_cartesian(ylim = c(-5, 28)) +
+  theme_minimal() 
+
+```
+
+```{r expABCD.conc.expect.vs.observed}
+ggplot(a, aes(x = Exp, 
+                 y = (Final_conc_pg.mg), color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.1, linetype = 5) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray70") +
+ geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gold") +
+  geom_point(size = 2) +
+  stat_poly_eq(aes(x = Exp, label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 3) +
+
+  labs(title = "All serial dilutions: expected vs observed cortisol concentrations",
+       subtitle = "Complete dataset, final vals, method A",
+       x = "Expected vals (pg/mL)", y = "Observed vals (pg/mL)") +
+  theme_bw() + 
+  facet_wrap(~ Category)
+
+
+exp <- a %>%
+  filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "TD7", "TD6"))
+
+
+ggplot(exp, aes(x = (Exp), 
+                 y = (Final_conc_pg.mg), color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.04) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray50") +
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(title = "All serial dilutions: expected vs observed cortisol concentrations",
+       subtitle = "Removed low quality samples, final vals, methodA",
+       x = "Expected vals", y = "Observed vals") +
+  theme_bw() + 
+  facet_wrap(~ Category)
+``` 
+
+
+# Summary of results (method B)
+
+```{r loading valsB}
+# remove NSB
+data <- cort_valsB[!(cort_valsB$Sample == "NSB"),]
+
+#Inclusion of standard readings in plot
+data <- data[,c("Sample", "Category", "Binding.Perc", "Final_conc_pg.mg", "Weight_mg", "Buffer_ml", "Spike", "Failed_samples")]
+```
+
+```{r expABCD.Final_conc_pg.mg_B, fig.width=8, fig.height=6}
+# Scatter plot of Experiment A and B, observed binding % 
+a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Final_conc_pg.mg)) 
+a$Sample_num <- 1:length(a$Sample)
+## Expected vals B
+a$Exp <- c(17.31, 8.655, 4.3275, 2.16375, 1.081875, 0.5409375, 0.2704687,
+           25.0185000, 12.50925, 6.254625, 3.127312, 1.563656, 0.781828, 0.390914,
+           -9.6525000, -4.82625, -2.413125, -1.206562,  -0.603281, -0.3016405,  -0.1508202,
+           13.7065500, 8.5965, 4.29825, 2.149125, 1.074563, 0.5372815, 0.2686407)
+
+## PLOT ## 
+ggplot(a, aes(x = Sample_num, 
+                 y = Final_conc_pg.mg, color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
+  geom_smooth(formula = y ~ log(x), se = TRUE, linewidth = 0.5, linetype = 2, alpha = 0.1) +
+  geom_hline(yintercept = 0, linetype = "dashed", 
+                  color = "red", linewidth = 1) + 
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray30") +
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+               formula = y ~ x, parse = TRUE, size = 2.5) +
+  labs(title = "All serial dilutions Final_conc_pg.mg B",
+       subtitle = "Complete dataset",
+       x = "Sample", y = "Final_conc_pg.mg Method B") +
+  #coord_cartesian(ylim = c(-5, 28)) +
+  theme_minimal() 
+
+exp <- a %>%
+  filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2"))
+
+ggplot(exp, aes(x = Sample_num, 
+                 y = Final_conc_pg.mg, color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
+  geom_smooth(formula = y ~ log(x), se = TRUE, linewidth = 0.5, linetype = 2, alpha = 0.1) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 0, linetype = "dashed", 
+                  color = "red", linewidth = 1) + 
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+               formula = y ~ x, parse = TRUE, size = 2) +
+  labs(title = "All serial dilutions, Final_conc_pg.mg B",
+       subtitle = "removed high CV samples",
+       x = "Sample", y = "Final_conc_pg.mg, Method B") +
+  scale_y_continuous(n.breaks = 10) + 
+ # coord_cartesian(ylim = c(-5, 28)) +
+  theme_minimal() 
+
+```
+
+```{r expABCD.conc.expect.vs.observed_B}
+ggplot(a, aes(x = Exp, 
+                 y = (Final_conc_pg.mg), color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.8, alpha = 0.1) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray70") +
+ geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gold") +
+  geom_point(size = 2) +
+    geom_hline(yintercept = 0, linetype = "dashed", 
+                  color = "red", linewidth = 0.5) + 
+  stat_poly_eq(aes(x = Exp, label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 3) +
+
+  labs(title = "All serial dilutions: expected vs observed cortisol concentrations",
+       subtitle = "Complete dataset, final vals, method B",
+       x = "Expected vals (pg/mL)", y = "Observed vals (pg/mL)") +
+  theme_bw() + 
+  facet_wrap(~ Category)
+
+
+exp <- a %>%
+  filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "TD7", "TD6"))
+
+
+ggplot(exp, aes(x = Exp, 
+                 y = Final_conc_pg.mg, color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.3, alpha = 0.1) +
+ geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gold") +
+  geom_point(size = 2) +
+    geom_hline(yintercept = 0, linetype = "dashed", 
+                  color = "red", linewidth = 0.5) + 
+  geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray50") +
+  stat_poly_eq(aes(x = Exp, label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+  labs(title = "All serial dilutions: expected vs observed cortisol concentrations",
+       subtitle = "Removed low quality samples, final vals, methodB",
+       x = "Expected vals", y = "Observed vals") +
+  theme_bw() + 
+  facet_wrap(~ Category)
+
+``` 
+

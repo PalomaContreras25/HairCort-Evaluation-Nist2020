@@ -8,11 +8,14 @@ editor_options:
 ---
 # Introduction
 
-```{r libraries, echo = TRUE, warning = FALSE, message=FALSE}
+```{r}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+```{r libraries, echo = FALSE, warning = FALSE, message=FALSE}
 # Install libraries
 
 library(knitr)
-library(ggplot2)
 library(RColorBrewer)
 library(stats)
 library(coefplot)
@@ -20,869 +23,714 @@ library(arm)
 library(bbmle)
 library(plyr)
 library(dplyr)
+library(ggpmisc)
+library(ggplot2)
 ```
 
-# Summary of results 
-
-
-```{r}
+```{r loading}
+# loading info
 # Loading data
 data <- read.csv("./data/Test4/Data_QC_flagged.csv")
 std <- read.csv("./data/Test4/standard_data_test4.csv")
-
+cort_valsA<- read.csv("./data/Test4/Data_cort_values_methodA.csv")
+cort_valsB<- read.csv("./data/Test4/Data_cort_values_methodB.csv")
 # remove NSB
 data <- data[!(data$Sample == "NSB"),]
 
 #Inclusion of standard readings in plot
-data1 <- data[,c("Sample","Wells", "Category", "Binding.Perc", "Ave_Conc_pg.ml", "Weight_mg", "Buffer_nl", "Spike")]
-std1 <- std[,c("Sample", "Wells", "Category", "Binding.Perc", "Backfit")] 
+data1 <- data[,c("Sample","Wells", "Category", "Binding.Perc", "Ave_Conc_pg.ml", "Weight_mg", "Buffer_nl", "Spike", "Conc_pg.ml")]
+std1 <- std[,c("Sample", "Wells", "Category", "Binding.Perc", "Backfit")]
 #std1$Binding.Perc <- std1$Binding.Perc*100
-std1$Spike <- 2
-std1$Buffer_nl <- 250
-std1$Weight_mg <- 0
-colnames(std1)[3]<- c("Ave_Conc_pg.ml")
+std1$Spike <- NA
+std1$Buffer_nl <- NA
+std1$Category <- "Standard"
+std1$Weight_mg <- NA
+colnames(std1)[5]<- c("Ave_Conc_pg.ml")
 
 data_std <- join(data1, std1, type = "full") 
 
-# Scatter plot of Binding Percentage vs Weight
+```
 
-ggplot(data_std, aes(x = Ave_Conc_pg.ml, 
-                 y = Binding.Perc, color = factor((Spike)))) +
-  geom_jitter(size = 3, width = 0.4) +
-  geom_smooth(linewidth = 0.5, color = "orange") +  # Add a trend line
+# Summary of results (all experiments)
+
+```{r expABCD.binding.perc, fig.width=10, fig.height=7}
+# Scatter plot of Experiment A and B, observed binding % 
+a <- filter(data_std, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Binding.Perc)) 
+a$Sample_num <- 1:length(a$Sample)
+
+ggplot(a, aes(x = Sample_num, 
+                 y = Binding.Perc, color = Category)) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.5, alpha = 0.2) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 80, linetype = "dashed", 
              color = "gray", linewidth = 1) +  
   geom_hline(yintercept = 20, linetype = "dashed", 
              color = "gray", linewidth = 1) +  # Add horizontal line 
-  labs(title = "Results",
-       x = "Ave. Concentration (pg.ml)", y = "Binding Percentage") +
-  scale_y_continuous(n.breaks = 10) +  
-  scale_color_discrete(name = "", labels = c("Not-spiked","Spiked", "Standard")) +
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+               formula = y ~ x, parse = TRUE, size = 2.5) +
+ # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+  labs(title = "All serial dilutions plus standard: observed binding %",
+       subtitle = "Complete dataset",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) + 
   theme_minimal() 
 
-``` 
+exp <- a %>%
+  filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2"))
 
-
-
-```{r scatterplot 2, message=FALSE, fig.height = 4.5, fig.width = 7}
-
-# Scatter plot of Binding Percentage vs Weight
-
-
-ggplot(data_std, aes(x = Weight_mg, 
-                 y = Binding.Perc, 
-                 color = Category)) +
-  geom_point(size = 3) +
-    geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
-    geom_hline(yintercept = 20, linetype = "dashed", 
+ggplot(exp, aes(x = Sample_num, 
+                 y = Binding.Perc, color = Category)) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.5, alpha = 0.2) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
              color = "gray", linewidth = 1) +  # Add horizontal line 
-    geom_hline(yintercept = 80, linetype = "dashed", 
-             color = "gray", linewidth = 1) + 
-  labs(title = "Results separated by weight",
-       x = "Weight (mg)", y = "Binding Percentage",
-       shape = "Testing group") +
-  scale_y_continuous(n.breaks = 10) +  
-#  scale_shape_discrete(labels = c("60 uL", "250 uL")) +
- # facet_grid( ~ Spike, labeller = as_labeller(c("0" = "Not spiked", "1" = "Spiked"))) +
-  theme_minimal()  + 
-  facet_wrap( ~ Weight_mg)
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+               formula = y ~ x, parse = TRUE, size = 2.5) +
+ # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+  labs(title = "All serial dilutions plus standard: observed binding %",
+       subtitle = "removed high CV samples, lm = 3 curve",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) + 
+  theme_minimal() 
+
+ggplot(exp, aes(x = Sample_num, 
+                 y = Binding.Perc, color = Category)) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 1), se = TRUE, linewidth = 0.5, alpha = 0.2) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  # Add horizontal line 
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+               formula = y ~ x, parse = TRUE, size = 2.5) +
+ # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+  labs(title = "All serial dilutions plus standard: observed binding %",
+       subtitle = "removed high CV samples, linear model",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) + 
+  theme_minimal() 
+
+
+```
+
+```{r expABCD.conc.expect.vs.observed}
+
+a$Exp <- c(4617, 2308.5, 1154.25, 577.125, 288.5625, 144.2813, 72.1406,
+           5134, 2567, 1283.5, 641.75, 320.875, 160.4375, 80.2188,
+        2467, 1233.5, 616.75, 308.375, 154.1875, 77.0938, 38.5469, 
+        4168, 2084, 1042, 521, 260.5, 130.25, 65.125,
+        NA, NA, NA, NA, NA, NA, NA)
+
+ggplot(a, aes(x = Exp, 
+                 y = (Ave_Conc_pg.ml), color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.06) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray50") +
+  stat_poly_eq(aes(x = Exp, label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(title = "All serial dilutions: expected vs observed cortisol concentrations",
+       subtitle = "Complete dataset",
+       x = "Expected vals (pg/mL)", y = "Observed vals (pg/mL)") +
+  theme_bw() 
+
+
+exp <- a %>%
+  filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "TD7", "TD6"))
+
+
+ggplot(exp, aes(x = (Exp), 
+                 y = (Ave_Conc_pg.ml), color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.04) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray50") +
+  stat_poly_eq(aes(x = Exp, label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(title = "All serial dilutions: expected vs observed cortisol concentrations",
+       subtitle = "Removed low quality samples",
+       x = "Expected vals", y = "Observed vals") +
+  theme_bw() 
+``` 
+
+## Experiment A: normal sample dilution
+
+```{r expA.binding.perc}
+# Scatter plot of Experiment A, observed binding % 
+a <- filter(data_std, Category == "A" | Category =="Standard", !is.na(Binding.Perc)) 
+a$Sample_num <- 1:length(a$Sample)
+
+ggplot(a, aes(x = Sample_num, 
+                 y = Binding.Perc, color = Category)) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.1) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  # Add horizontal line 
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+  geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+  labs(title = "Experiment A: observed binding % of standard vs serial dilution",
+       subtitle = "50 mg, 250 uL, no Spike, dilution 1:2",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) + 
+  theme_minimal() 
+
+```
+
+```{r expA.conc.expect.vs.observed}
+
+a$Exp <- c(4617, 2308.5, 1154.25, 577.125, 288.5625, 144.2813, 72.1406, NA, NA, NA, NA, NA, NA, NA)
+
+ggplot(a, aes(x = (Exp), 
+                 y = (Ave_Conc_pg.ml))) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_point(size = 2, color = "salmon") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(title = "Experiment A: expected vs observed cortisol concentrations",
+       subtitle = "A=50 mg, 250 uL, no Spike, dilution 1:2",
+       x = "Expected vals", y = "Observed vals") +
+  theme_bw() 
 
 ``` 
-Here we see the effect of the spike more clearly: adding a spike may not be necessary unless we have very small samples.
 
+## Experiment B: spiked sample is serially diluted
 
-The following plots were made considering that having a binding of 50% is ideal. Data points that are over 80% or under 20% are not within the curve, and predictions are less accurate. 
+```{r expB.binding.perc}
 
+# Scatter plot of Experiment B, observed binding % 
+exp <- filter(data_std, Category == "B" | Category =="Standard", !is.na(Binding.Perc)) 
+exp$Sample_num <- 1:length(a$Sample)
 
-## Binding percentages
-### Binding percentage by different variables
-
-```{r scatterplot 1, message =FALSE}
-
-# Scatter plot of Binding Percentage vs Weight, 4 groups
-
-ggplot(data_std, aes(x = Weight_mg, 
-                 y = Binding.Perc, 
-                 color = factor(Spike), 
-                 shape = factor(Buffer_nl))) +
-  geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  # Add a trend line
-  geom_hline(yintercept = 50, linetype = "dashed", 
-             color = "gray", linewidth = 1) +  # Add horizontal line
-  labs(title = "Binding Percentage vs Weight, 4 groups",
-       x = "Weight (mg)", 
-       y = "Binding Percentage",
-       color = "Spike Status",  
-       shape = "Buffer Amount (ul)") +
-  scale_y_continuous(n.breaks = 10) +  
-  theme_minimal() +
-  # Change the labels in the legend using labs
-  scale_color_discrete(labels = c("No Spike", "Spike Added")) +  # Change color legend labels
-  scale_shape_discrete(labels = c("60 uL", "250 uL"))  
+ggplot(exp, aes(x = Sample_num, 
+                 y = Binding.Perc, color = Category)) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.1) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  # Add horizontal line 
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+  geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+  labs(title = "Experiment B: observed binding % of standard vs serial dilution",
+       subtitle = "Serial dilution using spiked sample (25uL), 50mg, 250uL, dilution 1:2",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) + 
+  theme_minimal() 
 
 ```
 
-- **Spiked** samples (turquoise) have lower binding, because they have higher levels of cortisol than non spiked (pink) samples. 
-
-- **Dilution**: effect is less clear. We see samples with both 60 uL and 250 uL binding at very high and very low levels. 
-
-- **Trends**: within non-spiked samples with a similar weight and diluted at 60uL (pink circles), we do not obtain consistent binding percentages. However, non-spiked samples with similar weights do obtain similar bindings, and the lines are in the expected direction (higher weight, lower binding), except by a few outliers that would be removed from the analysis anyway (for having binding over 80%)
-
-- **Conclusion**: samples across different weights, **non-spiked, and diluted in 250 uL buffer seem to provide the best results**, particularly if samples **weigh more than 15 mg**. Using less than that may be risky, and in those cases, it may be better to use less buffer to concentrate the samples a bit more. 
+```{r expB.conc.expect.vs.observed}
 
 
+# EXPECTED VALS EXPERIMENT B
+exp$Exp <- c(5134, 2567, 1283.5, 641.75, 320.875, 160.4375, 80.2188, NA, NA, NA, NA, NA, NA, NA)
 
+ggplot(exp, aes(x = (Exp), 
+                 y = (Ave_Conc_pg.ml))) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_point(size = 2, color = "salmon") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(title = "Experiment B: expected vs observed cortisol concentrations",
+       subtitle = "Serial dilution using spiked sample (25uL), 50mg, 250uL, dilution 1:2",
+       x = "Expected vals", y = "Observed vals") +
+  theme_bw() 
 
-### Value distributions by group (boxplots) 
+### remove TB7
+exp <- filter(exp, Sample != "TB7" )
 
-```{r boxplot1, echo = TRUE}
-## Boxplot of Binding Percentage by dilution
+ggplot(exp, aes(x = (Exp), 
+                 y = (Ave_Conc_pg.ml))) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_point(size = 2, color = "salmon") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(title = "Experiment B: expected vs observed cortisol concentrations (removed TB7)",
+       subtitle = "Serial dilution using spiked sample (25uL), 50mg, 250uL, dilution 1:2",
+       x = "Expected vals", y = "Observed vals") +
+  theme_bw() 
 
-ggplot(data, aes(x = factor(Spike), 
-                 y = Binding.Perc, 
-                 fill = factor(Spike))) +
-  geom_boxplot() +
-  geom_hline(yintercept = 50, linetype = "dashed", 
-             color = "gray", linewidth = 1) + 
-  labs(title = "Binding Percentage by Dilution",
-       x = "", 
-       y = "Bindings Percentage") +
-  scale_y_continuous(n.breaks = 10) +  
-  theme(legend.position = "none") +
-  facet_wrap(~ Buffer_nl,  
-             labeller = as_labeller(c("60" = "60 uL", 
-                                      "250" = "250 uL"))) +
-    scale_x_discrete(labels = c("Not spiked", "Spiked")) 
-```
+``` 
 
-Here we also see that the impact of the spike on the values is larger than the impact of using a different dilution
+## Experiment C: normal sample dilution, and then each sample is spiked
 
+**TC5, 6 and 7 were not spiked (run out of spike)**
 
-## Coef. of variation percentage
+```{r expC.binding.perc}
 
-The coefficient of variation or CV is a standardized measure of the difference between duplicates (same sample, same weight, same dilution, same everything). Some variables may make duplicates more variable, so this is what will be tested below.  
+# Scatter plot of Experiment C, observed binding % 
+exp <- filter(data_std, Category == "C" | Category =="Standard", !is.na(Binding.Perc)) 
+exp$Sample_num <- 1:length(a$Sample)
 
-### Coef. of variation by group
-```{r CVbyGroup, echo=FALSE}
-# Boxplot of CV Percentage vs Buffer & Spike
-
-ggplot(data, aes(x = factor(Spike), 
-                 y = CV.Perc, 
-                 fill = factor(Spike))) +
-  geom_boxplot() +
-  labs(title = "Coef. of variation by dilution and spike",
-       x = "", 
-       y = "Coef. of variation (%)") +
-  scale_y_continuous(n.breaks = 10) +  
-  theme(legend.position = "none") +
-  facet_wrap(~ Buffer_nl,  
-      labeller = as_labeller(c("60" = "60 uL", 
-                                      "250" = "250 uL")))  +
-    scale_x_discrete(labels = c("Not spiked", "Spiked")) 
-```
-
-**Conclusion** diluting the sample less seems to lead to higher differences between duplicates, which is something we want to avoid. We also see less variation for the group of spiked samples, with the lowest average of the four groups. Yet, we also must note that the spiked, 250 uL group has only 6 samples, as we see on the table below.
-
-<table>
-<caption><span id="tab:table">Num_of_samples </span></caption>
-
-Dilution:              No spike       Spiked
-------              -------------  ---------
-60 uL                   7          7
-250 uL                    12          6
-Total: 32 samples
-</table>
-
-### Coef. of variation by different variables
-
-```{r message =FALSE, echo=FALSE}
-
-# Scatter plot of CV Percentage vs Weight, 4 groups
-
-ggplot(data, aes(x = Weight_mg, 
-                 y = CV.Perc, 
-                 color = factor(Spike), 
-                 shape = factor(Buffer_nl))) +
-  geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  
-  labs(title = "Coef. of variation Percentage vs Weight, 4 groups",
-       x = "Weight (mg)", 
-       y = "Coef. of variation (%)",
-       color = "Spike Status",  
-       shape = "Buffer Amount (ul)") +
-  scale_y_continuous(n.breaks = 10) +  
-  theme_minimal() +
-  # Change the labels in the legend using labs
-  scale_color_discrete(labels = c("No Spike", "Spike Added")) +  # Change color legend labels
-  scale_shape_discrete(labels = c("60 uL", "250 uL"))  
+ggplot(exp, aes(x = Sample_num, 
+                 y = Binding.Perc, color = Category)) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.1) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  # Add horizontal line 
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+  geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+  labs(title = "Experiment C: observed binding % of standard vs serial dilution",
+       subtitle = "Serial dilution (1:2) using normal sample, then spiked (25uL) afterwards, 50mg, 250uL",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) + 
+  theme_minimal() 
 
 ```
 
-**Lower CV** is seen in spiked + 250 uL group, particularly for samples with low weight. Yet, non spiked, diluted in 250uL samples have very low CV if weight is over 30. 
-
-## Deviation from 50% binding
-
-Here I calculate a "binding" deviation score, to have a better idea of the "distance" between the values obtained and what I should aim for: 50% binding. Here an example of how this score works:
-
-```{r calc binding deviation, echo=FALSE}
-
-data$Binding_deviation <- abs(data$Binding.Perc - 50)
-sorted_data <- data[order(data$Binding_deviation), ]
-
-# View top results (closest to 50% Binding Percentage)
-kable(head(sorted_data[,c("Sample", "Binding.Perc", "Binding_deviation")]))
-
-```
+```{r expC.conc.expect.vs.observed}
 
 
-```{r plot_deviation, message=FALSE, echo = TRUE, include = TRUE}
+# EXPECTED VALS EXPERIMENT C
+exp$Exp <- c(2467, 1233.5, 616.75, 308.375, 154.1875, 77.0938, 38.5469, NA, NA, NA, NA, NA, NA, NA)
 
-# Scatter plot of Binding Deviation vs Weight, 4 groups
-
-ggplot(data, aes(x = Weight_mg, 
-                 y = Binding_deviation, 
-                 color = factor(Spike), 
-                 shape = factor(Buffer_nl))) +
-  geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  
-  labs(title = "Binding Deviation vs Weight, 4 groups",
-       x = "Weight (mg)", 
-       y = "Binding Deviation",
-       color = "Spike Status",  
-       shape = "Buffer Amount (ul)") +
-  scale_y_continuous(n.breaks = 10) +  
-  theme_minimal() +
-  # Change the labels in the legend using labs
-  scale_color_discrete(labels = c("No Spike", "Spike Added")) +  # Change color legend labels
-  scale_shape_discrete(labels = c("60 uL", "250 uL"))  
-
-```
-
-This plot suggests that for samples of weight lower than 20 mg, adding a spike lowers the binding deviation. This effect is lost if samples are heaver than 20 mg. 
-
-```{r dev. scatter, message=FALSE, echo=FALSE, fig.height = 4.5, fig.width = 7}
-
-# Scatter plot of Binding deviation vs Weight, 2 groups (by dilution)
-
-ggplot(data, aes(x = Weight_mg, 
-                 y = Binding_deviation, 
-                 shape = factor(Buffer_nl))) +
-  geom_point(size = 3, color = "turquoise3") +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, color = "orange2") +  # Add a trend line
-   labs(title = "Binding Percentage vs Weight, 2 groups (by spike)",
-       x = "Weight (mg)", y = "Binding Deviation",
-       shape = "Buffer Amount (ul)") +
-  scale_y_continuous(n.breaks = 10) +  
-  scale_shape_discrete(labels = c("60 uL", "250 uL")) +
-  facet_grid( ~ Spike, labeller = as_labeller(c("0" = "Not spiked", "1" = "Spiked"))) +
-  theme_minimal()
-
-```
-
-We observe that spiked samples have a higher deviation from the ideal binding. We also observe that having larger samples leads to values closer to 50%. It is interesting to see that error does not go below 15% if we look at samples with weight under 20mg. Yet, we know that a deviation of up to 30% is acceptable. 
-
-```{r boxplot_deviation, message=FALSE, echo = TRUE}
-
-ggplot(data, aes(x = factor(Spike), 
-                 y = Binding_deviation, 
-                 fill = factor(Spike))) +
-  geom_boxplot() +
-  labs(title = "Binding deviation, by dilution and spike",
-       x = "", 
-       y = "Binding deviation") +
-  scale_y_continuous(n.breaks = 10) +  
-  theme(legend.position = "none") +
-  facet_wrap(~ Buffer_nl,  
-                labeller = as_labeller(c("60" = "60 uL", 
-                                      "250" = "250 uL")))  +
-    scale_x_discrete(labels = c("Not spiked", "Spiked")) 
-  
-```
-
-Here we see how the lowest (best) scores are obtained by the non-spiked groups. Even better results are obtained if the dilution is 250 uL. 
-
-- **Conclusion**: using a **250 uL dilution, without spikes**, will lead to **better results** that fall in the middle of the curve, and allow for more precise calculations of cortisol concentration. 
-
-# Analysis: linear models
-
-To explore the effects of each variable more systematically, I run multiple models and compared them using AIC Akakikes' coefficient. 
-
-```{r qqplot, echo = TRUE}
-
-weight <- data$Weight_mg
-binding <- data$Binding.Perc
-x <- mean(binding)
+ggplot(exp, aes(x = (Exp), 
+                 y = (Ave_Conc_pg.ml))) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_point(size = 2, color = "salmon") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(title = "Experiment C: expected vs observed cortisol concentrations",
+       subtitle = "Serial dilution (1:2) using normal sample, then spiked (25uL) afterwards, 50mg, 250uL",
+       x = "Expected vals", y = "Observed vals") +
+  theme_bw() 
 
 
-# Q-Q Plot
-qqnorm(binding, pch = 16, col = "gray40")
-qqline(binding, col = "orange3", lwd = 1.5)
 
-```
-First, I looked at the distribution of the data (binding percentage). I am not sure how to describe it, but it does not look very linear. I will test different distributions at another time, but for now, I will run and compare simple models that should allow me to understand which variables have a greater impact on binding percentages.
+## remove TC7
+exp <- filter(exp, Sample != "TC7" )
 
-```{r models dif weights, echo = TRUE, include = TRUE}
-mod <- lm(binding ~ weight)
-summary(mod)
+ggplot(exp, aes(x = (Exp), 
+                 y = (Ave_Conc_pg.ml))) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_point(size = 2, color = "salmon") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(title = "Experiment C: expected vs observed cortisol concentrations",
+       subtitle = "Removed low quality samples. Serial dilution (1:2) using normal sample, then spiked (25uL) afterwards, 50mg, 250uL",
+       x = "Expected vals", y = "Observed vals") +
+  theme_bw() 
 
-plot(weight, binding,
-     main = "Linear regression ~ weight",
-     xlab = "Weight",
-     ylab = "binding %",
-     pch = 16,
-     cex = 1.3, 
-     col = "gray40")
+``` 
 
-abline(mod, col = "orange3", lwd = 1.5)
+## Experiment D: 50% sample, 50% spike, and dilution
 
-# filter by weight (20-29.9 mg)
-d<- data[c(data$Weight_mg >= 20 & data$Weight_mg <= 29.9), ]
-weight <- d$Weight_mg
-binding <- d$Binding.Perc
+```{r expD.binding.perc}
 
-# Q-Q Plot
-qqnorm(binding, pch = 16, col = "cyan3")
-qqline(binding, col = "red", lwd = 1.5)
+# Scatter plot of Experiment D, observed binding % 
+exp <- filter(data_std, Category == "D" | Category =="Standard", !is.na(Binding.Perc)) 
+exp$Sample_num <- 1:length(a$Sample)
 
-## Linear regression
-mod <- lm(binding ~ weight)
-summary(mod)
-
-plot(weight, binding,
-     main = "Linear regression, weight 20 - 29.9 mg",
-     xlab = "weight",
-     ylab = "binding %",
-     pch = 16,
-     cex = 1, 
-     col = "darkgreen")
-
-abline(mod, col = "red", lty = 'dashed')
-
-# more than 30 mg
-
-## Linear regression, by weight group
-d<- data[c(data$Weight_mg > 29.9), ]
-weight <- d$Weight_mg
-binding <- d$Binding.Perc
-
-# Q-Q Plot
-qqnorm(binding, pch = 16, col = "cyan3")
-qqline(binding, col = "red", lwd = 1.5)
-
-## Linear regression
-mod <- lm(binding ~ weight)
-summary(mod)
-
-plot(weight, binding,
-     main = "Linear regression, weight over 30 mg",
-     xlab = "weight",
-     ylab = "binding %",
-     pch = 16,
-     cex = 1, 
-     col = "darkgreen")
-
-abline(mod, col = "red", lty = 'dashed')
-```
-
-### Linear regression, by spike
-```{r models dif spike}
-
-## SPIKED
-d<- data[c(data$Spike == 1), ]
-weight <- d$Weight_mg
-binding <- d$Binding.Perc
-
-# Q-Q Plot
-qqnorm(binding, pch = 16, col = "cyan3", main = "qqplot, spiked samples")
-qqline(binding, col = "red", lwd = 1.5)
-
-## Linear regression
-mod <- lm(binding ~ weight)
-summary(mod)
-
-plot(weight, binding,
-     main = "Linear regression, spiked",
-     xlab = "weight",
-     ylab = "binding %",
-     pch = 16,
-     cex = 1, 
-     col = "darkgreen")
-
-abline(mod, col = "red", lty = 'dashed')
-
-
-## Linear regression, by spike
-## NO
-
-d <- data[c(data$Spike == 0), ]
-weight <- d$Weight_mg
-binding <- d$Binding.Perc
-
-# Q-Q Plot
-qqnorm(binding, pch = 16, col = "cyan3", main = "qqplot, NONspiked samples")
-qqline(binding, col = "red", lwd = 1.5)
-
-## Linear regression
-mod <- lm(binding ~ weight)
-summary(mod)
-
-plot(weight, binding,
-     main = "Linear regression, not spiked",
-     xlab = "weight",
-     ylab = "binding %",
-     pch = 16,
-     cex = 1, 
-     col = "darkgreen")
-
-abline(mod, col = "red", lwd = 1.5)
+ggplot(exp, aes(x = Sample_num, 
+                 y = Binding.Perc, color = Category)) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.1) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  # Add horizontal line 
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+  geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+  labs(title = "Experiment D: observed binding % of standard vs serial dilution",
+       subtitle = "Serial dilution using spiked sample (110uL), 20mg, 110uL, dilution 1:2",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) + 
+  theme_minimal() 
 
 ```
 
-## Comparing models 
-```{r}
+```{r expD.conc.expect.vs.observed}
+# EXPECTED VALS EXPERIMENT D
+exp$Exp <- c(4168, 2084, 1042, 521, 260.5, 130.25, 65.125, NA, NA, NA, NA, NA, NA, NA)
 
-#creating function to extract coeffs
-extract_coefs <- function(model, model_name) {
-# Extract summary of the model
-  coef_summary <- summary(model)$coefficients
-  
-# Create a data frame with term names, estimates, and standard errors
-  coef_df <- data.frame(
-    term = rownames(coef_summary),
-    estimate = coef_summary[, "Estimate"],
-    std.error = coef_summary[, "Std. Error"],
-    model = model_name  # Add the model name as a new column
+ggplot(exp, aes(x = (Exp), 
+                 y = Ave_Conc_pg.ml)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_point(size = 2, color = "salmon") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(title = "Experiment D: expected vs observed cortisol concentrations",
+       subtitle = "Serial dilution using spiked sample (110uL), 20mg, 110uL, dilution 1:2",
+       x = "Expected vals", y = "Observed vals") +
+  theme_bw() 
+
+
+
+## remove TC7
+exp <- filter(exp, Sample != c("TD7","TD6"))
+
+ggplot(exp, aes(x = (Exp), 
+                 y = (Ave_Conc_pg.ml))) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_point(size = 2, color = "salmon") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
+               formula = y ~ x, parse = TRUE, size = 4) +
+   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(title = "Experiment D: expected vs observed cortisol concentrations",
+       subtitle = "Serial dilution using spiked sample (110uL), 20mg, 110uL, dilution 1:2",
+       x = "Expected vals", y = "Observed vals") +
+  theme_bw() 
+
+``` 
+
+## Experiment E: testing precision
+
+different weights: 6, 9 and 12 mg, 3 samples for each weight, 2 duplicates for each sample
+
+```{r expE-bindingPerc}
+# Scatter plot of Experiment D, observed binding % 
+exp <- filter(data_std, Category == "P", !is.na(Binding.Perc)) 
+exp$Sample_num <- 1:length(exp$Sample)
+
+exp <- exp %>%
+  mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+  group_by(Group) %>%
+  summarise(
+    CV_BP = round((sd(Binding.Perc) / mean(Binding.Perc)) * 100, 1), 
+    mean_BP = mean(Binding.Perc, na.rm = TRUE),
+    sd_BP = sd(Binding.Perc, na.rm = TRUE)
   )
-  
-  # Return the data frame
-  return(coef_df)
-}
 
+# overall stats
+all <- exp %>%
+  summarise(
+    Mean_BP = mean(Binding.Perc, na.rm = TRUE),
+    SD_BP = sd(Binding.Perc, na.rm = TRUE),
+    CV_BP = (SD_BP / Mean_BP) * 100
+  )
+
+
+ggplot(exp, aes(x = Weight_mg, 
+                 y = Binding.Perc)) +
+   geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+  geom_point(size = 3, color = "gray40", alpha = 1) +
+  geom_pointrange(data = cv_values,
+                  aes(x = c(6,9,12), y = mean_BP,
+                      ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+                  color = "orange", size = 0.5, alpha = 0.8) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+  labs(title = "Experiment E: observed binding % by sample weight",
+       subtitle = "Precision, 25uL spike, 25uL sample",
+       x = "Sample weight (mg)", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+  coord_cartesian(xlim = c(4,14), ylim = c(0, 80)) +
+  theme_minimal() +
+  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
+
+print(cv_values)
 ```
 
+### Using raw Conc_pg.ml vals estimated by MyAssays
+I.e. not controlling for weight or dilution
+
+**TP3A was diluted using 220uL buffer, while all others used 60 uL **
+
+```{r expE-CortVals, fig.width=8, fig.height=6}
+# Scatter plot of Experiment D, observed binding % 
+exp <- filter(data_std, Category == "P") 
+exp$Sample_num <- 1:length(exp$Sample)
+
+exp <- exp %>%
+  mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+  group_by(Group) %>%
+  summarise(
+    CV_BP = round((sd(Conc_pg.ml) / mean(Conc_pg.ml)) * 100, 1), 
+    mean_BP = mean(Conc_pg.ml, na.rm = TRUE),
+    sd_BP = sd(Conc_pg.ml, na.rm = TRUE)
+  )
+
+# overall stats
+all <- exp %>%
+  summarise(
+    Mean_BP = mean(Conc_pg.ml, na.rm = TRUE),
+    SD_BP = sd(Conc_pg.ml, na.rm = TRUE),
+    CV_BP = (SD_BP / Mean_BP) * 100
+  )
 
 
-```{r create simple linear models}
-binding <- data$Binding.Perc
-weight <- data$Weight_mg
-spike <- data$Spike
-buffer <- data$Buffer_nl
+ggplot(exp, aes(x = Weight_mg, 
+                 y = Conc_pg.ml, color = Sample)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+  geom_pointrange(data = cv_values,
+                  aes(x = c(6,9,12), y = mean_BP,
+                      ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+                  color = "orange", size = 0.5, alpha = 0.8) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+  labs(title = "Experiment E: concentration vals % by sample weight",
+       subtitle = "Precision, 25uL spike, 25uL sample",
+       x = "Sample weight (mg)", y = "Conc_pg.ml") +
+  scale_y_continuous(n.breaks = 10) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+  coord_cartesian(xlim = c(4,14)) +
+  theme_minimal() +
+  annotate("text", x = 6, y = 600, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 9, y = 600, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 12, y = 600, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 6, y = 400, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 9, y = 400, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 12, y = 400, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
 
-# model 1
-
-m1 <- lm(binding ~ weight)
-summary(m1)
-confint(m1, level = 0.95)
-
-# model 2
-
-m2 <- lm(binding ~ spike)
-summary(m2)
-
-confint(m2, level = 0.95)
-
-# model 3
-
-m3 <- lm(binding ~ buffer)
-summary(m3)
-
-confint(m3, level = 0.95)
-
-# model 4
-
-m4 <- lm(binding ~ weight + spike)
-summary(m4)
-
-confint(m4, level = 0.95)
-
-# model 5 
-
-m5 <- lm(binding ~ weight + buffer)
-summary(m5)
-
-confint(m5, level = 0.95)
-
-# model 6
-
-m6 <- lm(binding ~ spike + buffer)
-summary(m6)
-
-confint(m6, level = 0.95)
-
-# model 7
-
-m7 <- lm(binding ~ weight + buffer + spike)
-summary(m7)
-
-confint(m7, level = 0.95)
-
-# model 8
-
-sp1 <- data[data$Spike == 1,]
-sp0 <- data[data$Spike == 0,]
-
-binding1 <- sp1$Binding.Perc
-weight1 <- sp1$Weight_mg
-spike1 <- sp1$Spike
-buffer1 <- sp1$Buffer_nl
-
-m8 <- lm(binding1 ~  buffer1 + weight1)
-summary(m8)
-
-# model 9
-binding0 <- sp0$Binding.Perc
-weight0 <- sp0$Weight_mg
-spike0 <- sp0$Spike
-buffer0 <- sp0$Buffer_nl
-
-m9 <- lm(binding0 ~  buffer0 + weight0)
-summary(m9)
-
+print(cv_values)
 ```
 
-```{r}
+**TP1C has a lower value = I lost sample during extraction, probably tube was broken or cap was not tight enough **
+
+Below I removed a duplicate for sample TP1B as it is a clear outlier, and TP3A as it has a different dilution
+
+```{r expE-CortVals-filtered, fig.width=8, fig.height=6}
+# Scatter plot of Experiment D, observed binding % 
+exp <- filter(data_std, Category == "P", Wells != "F10", Sample != "TP3A") 
+exp$Sample_num <- 1:length(exp$Sample)
+
+exp <- exp %>%
+  mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+  group_by(Group) %>%
+  summarise(
+    CV_BP = round((sd(Conc_pg.ml) / mean(Conc_pg.ml)) * 100, 1), 
+    mean_BP = mean(Conc_pg.ml, na.rm = TRUE),
+    sd_BP = sd(Conc_pg.ml, na.rm = TRUE)
+  )
+
+# overall stats
+all <- exp %>%
+  summarise(
+    Mean_BP = mean(Conc_pg.ml, na.rm = TRUE),
+    SD_BP = sd(Conc_pg.ml, na.rm = TRUE),
+    CV_BP = (SD_BP / Mean_BP) * 100
+  )
 
 
+ggplot(exp, aes(x = Weight_mg, 
+                 y = Conc_pg.ml, color = Sample)) +
+ geom_point(size = 3, color = "gray40", alpha = 1) +
+  geom_pointrange(data = cv_values,
+                  aes(x = c(6,9,12), y = mean_BP,
+                      ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+                  color = "orange", size = 0.5, alpha = 0.8) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+  labs(title = "Experiment E: concentration vals % by sample weight",
+       subtitle = "Precision, 25uL spike, 25uL sample",
+       x = "Sample weight (mg)", y = "Conc_pg.ml") +
+  scale_y_continuous(n.breaks = 10) +
+  coord_cartesian(xlim = c(4,14)) +
+  theme_minimal() +
+  annotate("text", x = 6, y = 600, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 9, y = 600, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 12, y = 600, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 6, y = 400, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 9, y = 400, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 12, y = 400, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
+
+print(cv_values)
+```
+
+## Experiment E using raw conc values and filtered
+```{r expE-concvals-filtered}
+# Scatter plot of Experiment D, observed binding % 
+
+exp <- filter(data_std, Category == "P",  Sample != "TP3A", !is.na(Binding.Perc)) 
+exp$Sample_num <- 1:length(exp$Sample)
+
+exp <- exp %>%
+  mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+  group_by(Group) %>%
+  summarise(
+    CV_BP = round((sd(Binding.Perc) / mean(Binding.Perc)) * 100, 1), 
+    mean_BP = mean(Binding.Perc, na.rm = TRUE),
+    sd_BP = sd(Binding.Perc, na.rm = TRUE)
+  )
+
+# overall stats
+all <- exp %>%
+  summarise(
+    Mean_BP = mean(Binding.Perc, na.rm = TRUE),
+    SD_BP = sd(Binding.Perc, na.rm = TRUE),
+    CV_BP = (SD_BP / Mean_BP) * 100
+  )
+
+
+ggplot(exp, aes(x = Weight_mg, 
+                 y = Binding.Perc)) +
+   geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+geom_point(size = 3, color = "gray40", alpha = 1) +
+  geom_pointrange(data = cv_values,
+                  aes(x = c(6,9,12), y = mean_BP,
+                      ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+                  color = "orange", size = 0.5, alpha = 0.8) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+  #geom_hline(yintercept = 80, linetype = "dashed", 
+   #          color = "gray", linewidth = 1) +  
  
-coef_df1 <- extract_coefs(m1, "Model 1")
-coef_df2 <- extract_coefs(m2, "Model 2")
-coef_df3 <- extract_coefs(m3, "Model 3")
-coef_df4 <- extract_coefs(m4, "Model 4")
-coef_df5 <- extract_coefs(m5, "Model 5")
-coef_df6 <- extract_coefs(m6, "Model 6")
-coef_df7 <- extract_coefs(m7, "Model 7")
-coef_df8 <- extract_coefs(m8, "Model 8")
-coef_df9 <- extract_coefs(m9, "Model 9")
+  labs(title = "Experiment E: observed binding % by sample weight",
+       subtitle = "Precision, 25uL spike, 25uL sample",
+       x = "Sample weight (mg)", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) +
+  coord_cartesian(xlim = c(4,14), ylim = c(0, 80)) +
+  theme_minimal() +
+  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
 
-#Combine the data frames for plotting
-coef_df <- rbind(coef_df1, coef_df2, coef_df3, coef_df4)
+print(cv_values)
 
 ```
 
-## Plot regression coefs 
+## Experiment E: Final cortisol vals A (controlling for dilution and weight)
+```{r expE-concvals-final-vals-A}
 
-```{r Plot reg coefs, echo = TRUE, include = TRUE}
+# Scatter plot of Experiment D, observed binding % 
 
-ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
-  geom_point(position = position_dodge(width = 0.5)) +  # Points for the estimates
-  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, ymax = estimate + 1.96 * std.error),
-                position = position_dodge(width = 0.5), width = 0.2) +  # Error bars for confidence intervals
-  theme_minimal() +
-  coord_flip() +  # Flip the coordinates for better readability
-  labs(title = "Coefficient Plot for Multiple Models",
-       x = "Terms",
-       y = "Estimates") +
-  geom_hline(yintercept = 0, color = "gray", linetype = "dashed") +  # Gray line at zero
-  theme(legend.position = "bottom")
+exp <- filter(cort_valsA, Category == "P",  Sample != "TP3A", !is.na(Binding.Perc)) 
+exp$Sample_num <- 1:length(exp$Sample)
 
-```
-
-
-### Plot model 1 to 4
-
-```{r Plot model 1 to 4, fig.height = 6, fig.width = 6 }
-
-ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
-  geom_point(position = position_dodge(width = 4)) +  # Points for the estimates
-  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, ymax = estimate + 1.96 * std.error),
-                position = position_dodge(width = 0.85), width = 1) +  # Error bars for confidence intervals
-  theme_minimal() +
-  coord_flip() +  # Flip the coordinates for better readability
-  facet_wrap(~ model, ncol = 1) +  # One model per line
-  labs(title = "Coefficient Plot for Models 1-4",
-       x = "Terms",
-       y = "Estimates") +
-  theme(legend.position = "none") +
-  geom_hline(yintercept = 0, color = "gray", linetype = "dashed") +  # Gray line at zero
-  expand_limits(y = c(-58, 58)) +
-  theme(
-    axis.text.x = element_text(size = 12),        # X-axis text size
-    axis.text.y = element_text(size = 12),        # Y-axis text size
-    axis.title.x = element_text(size = 14),       # X-axis title size
-    axis.title.y = element_text(size = 14),       # Y-axis title size
-    plot.title = element_text(size = 16, hjust = 0.5),  # Plot title size and centering
-    strip.text = element_text(size = 14)          # Facet label text size
+exp <- exp %>%
+  mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+  group_by(Group) %>%
+  summarise(
+    CV_BP = round((sd( Final_conc_pg.mg) / mean( Final_conc_pg.mg)) * 100, 1), 
+    mean_BP = mean( Final_conc_pg.mg, na.rm = TRUE),
+    sd_BP = sd( Final_conc_pg.mg, na.rm = TRUE)
   )
-  
-```
-### Plot model 5 to 9
 
-```{r Plot model 5 to 9, fig.height = 8.5, fig.width = 7 }
-# Combine the data frames for plotting
-coef_df <- rbind(coef_df5, coef_df6, coef_df7, coef_df8,coef_df9)
-
-ggplot(coef_df, aes(x = term, y = estimate, color = model)) +
-  geom_point(position = position_dodge(width = 3)) +  # Points for the estimates
-  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, ymax = estimate + 1.96 * std.error),
-                position = position_dodge(width = 0.9), width = 0.85) +  # Error bars for confidence intervals
-  theme_minimal() +
-  coord_flip() +  # Flip the coordinates for better readability
-  facet_wrap(~ model, ncol = 1) +  # One model per line
-  labs(title = "Coefficient Plot for Model 5 to 9",
-       x = "Terms",
-       y = "Estimates") +
-  theme(legend.position = "none") +
-  geom_hline(yintercept = 0, color = "gray", linetype = "dashed") +  # Gray line at zero
-  expand_limits(y = c(-60, 60)) +
-  theme(
-    axis.text.x = element_text(size = 12),        # X-axis text size
-    axis.text.y = element_text(size = 12),        # Y-axis text size
-    axis.title.x = element_text(size = 14),       # X-axis title size
-    axis.title.y = element_text(size = 14),       # Y-axis title size
-    plot.title = element_text(size = 16, hjust = 0.5),  # Plot title size and centering
-    strip.text = element_text(size = 14)          # Facet label text size
+# overall stats
+all <- exp %>%
+  summarise(
+    Mean_BP = mean( Final_conc_pg.mg, na.rm = TRUE),
+    SD_BP = sd( Final_conc_pg.mg, na.rm = TRUE),
+    CV_BP = (SD_BP / Mean_BP) * 100
   )
-```
 
-## Summarize info multiple models
-```{r}
 
-model_names <- paste("m", 1:9, sep="")
-r_values <- 1:9
-all_models <- list(m1, m2, m3, m4, m5, m6, m7, m8, m9)
-model_info <- c("weight", "spike", "buffer", "weight + spike", "weight + buffer", "spike + buffer", "spike + buffer + weight", "buffer + weight, spiked only","buffer + weight, NOT spiked only")
-sum_models <- as.data.frame(r_values, row.names=model_names)
-sum_models$res_std_error <- 1:length(model_names)
-sum_models$info <- model_info
-
-for (i in 1:length(model_names)) {
-    sum_models$r_values[i]      <- summary(all_models[[i]])$adj.r.squared
-    sum_models$res_std_error[i] <- summary(all_models[[i]])$sigma
-}
-
-kable(sum_models[order(sum_models$r_values, decreasing = TRUE), ]) 
-```
-
-```{r coef tab function, include = FALSE}
-
-coeftab <- function(... ,
-                    se = FALSE ,
-                    se.inside = FALSE ,
-                    digits = 4) {
+ggplot(exp, aes(x = Weight_mg, 
+                 y =  Final_conc_pg.mg)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+  geom_pointrange(data = cv_values,
+                  aes(x = c(6,9,12), y = mean_BP,
+                      ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+                  color = "orange", size = 0.5, alpha = 0.8) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
  
-    # coeftab - pretty table of coefficients for comparing models
-    # works for lm() and a few other object types (e.g., most results of mle2())
-    # tends to break when R constructs dummy variables from factors
-    # can be avoided by explicitly making dummy variables  before fitting
-    
-    # initial code written by Richard McElreath (2009)
-    # minor updates by Andrew Marshall (2019)
-    
-    # se = TRUE outputs standard errors
-    # se.inside = TRUE prints standard errors in 
-    #             parentheses in same column as estimates
-    
-    # retrieve list of models
-    L <- list(...)
-    if (is.list(L[[1]]) && length(L) == 1)
-        L <- L[[1]]
-    
-    # retrieve model names from function call
-    mnames <- match.call()
-    mnames <- as.character(mnames)[2:(length(L) + 1)]
-    
-    # count number of unique parameters
-    param.names <- {
-    }
-    for (i in 1:length(L)) {
-        c.names <- names(coef(L[[i]]))
-        param.names <- unique(c(param.names , c.names))
-    }
-    # columns for standard errors
-    if (se == TRUE && se.inside == FALSE) {
-        for (i in 1:length(L)) {
-            kse.names <- paste(names(coef(L[[i]])) , ".se" , sep = "")
-            param.names <- unique(c(param.names , kse.names))
-        }
-    }
-    
-    # make empty table
-    nk <- length(param.names)
-    d <- matrix(NA , ncol = nk)
-    d <- data.frame(d)
-    colnames(d) <- c(param.names)
-    
-    # loop over models and insert values
-    for (i in 1:length(L)) {
-        klist <- coef(L[[i]])
-        for (j in 1:length(klist)) {
-            d[i, ][names(klist[j])] <- as.numeric(klist[j])
-        }
-    }
-    # insert standard errors
-    if (se == TRUE) {
-        for (i in 1:length(L)) {
-            kse <- sqrt(diag (vcov(L[[i]])))
-            for (j in 1:length(kse)) {
-                if (se.inside == FALSE)
-                    # own column
-                    d[i, ][paste(names(kse)[j], ".se", sep = "")] <-
-                        as.numeric(kse[j])
-                else
-                    # combine with estimate
-                    d[i, ][names(kse)[j]] <-
-                        paste(
-                            formatC(as.real(d[i, ][names(kse)[j]]) , digits = digits) ,
-                            " (" ,
-                            formatC(as.real(kse[j]) , digits = digits) ,
-                            ")" ,
-                            sep = ""
-                        )
-            }
-        }
-    }
-    
-    # add model names to rows
-    rownames(d) <- mnames
-    
-    # formatting for parenthetical standard errors
-    if (se.inside == TRUE && se == TRUE) {
-        comment(d) <-
-            "Values in parentheses are quadratic estimate standard errors."
-        colnames(d) <- paste(colnames(d) , "(se)")
-        for (i in 1:nrow(d)) {
-            for (j in 1:ncol(d)) {
-                d[i, j] <- ifelse(is.na(d[i, j]) , "" , d[i, j])
-            }
-        }
-    }
-    
-    # return table
-    d
-}
+ 
+  labs(title = "Experiment E: Final conc vals (methodA) by sample weight",
+       subtitle = "Precision, 25uL spike, 25uL sample",
+       x = "Sample weight (mg)", y = " Final_conc_pg.mg") +
+  scale_y_continuous(n.breaks = 10) +
+  coord_cartesian(xlim = c(4,14)) +
+  theme_minimal() +
+  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
+
+print(cv_values)
+
+```
+
+## Experiment E: Final cortisol vals B (controlling for dilution, weight and spike)
+```{r expE-concvals-final-vals-B}
+
+# Scatter plot of Experiment D, observed binding % 
+
+exp <- filter(cort_valsB, Category == "P",  Sample != "TP3A", !is.na(Binding.Perc)) 
+exp$Sample_num <- 1:length(exp$Sample)
+
+exp <- exp %>%
+  mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+  group_by(Group) %>%
+  summarise(
+    CV_BP = round((sd( Final_conc_pg.mg) / mean( Final_conc_pg.mg)) * 100, 1), 
+    mean_BP = mean( Final_conc_pg.mg, na.rm = TRUE),
+    sd_BP = sd( Final_conc_pg.mg, na.rm = TRUE)
+  )
+
+# overall stats
+all <- exp %>%
+  summarise(
+    Mean_BP = mean( Final_conc_pg.mg, na.rm = TRUE),
+    SD_BP = sd( Final_conc_pg.mg, na.rm = TRUE),
+    CV_BP = (SD_BP / Mean_BP) * 100
+  )
+
+
+ggplot(exp, aes(x = Weight_mg, 
+                 y =  Final_conc_pg.mg)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+  geom_pointrange(data = cv_values,
+                  aes(x = c(6,9,12), y = mean_BP,
+                      ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+                  color = "orange", size = 0.5, alpha = 0.8) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+  geom_hline(yintercept = 0, linetype = "dashed", 
+                  color = "red", linewidth = 1) +  
+   labs(title = "Experiment E: Final conc vals (methodB) by sample weight",
+       subtitle = "Precision, 25uL spike, 25uL sample",
+       x = "Sample weight (mg)", y = " Final_conc_pg.mg") +
+  scale_y_continuous(n.breaks = 10) +
+  coord_cartesian(xlim = c(4,14)) +
+  theme_minimal() +
+  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
+
+print(cv_values)
 
 ```
 
 
-### Comparing models using Akakike's information criteria 
 
-```{r AICc, fig.height = 8, fig.width = 7}
-
-# computing bias-adjusted version of AIC (AICc) Akakaike's information criteria table
-AICc_compare <-AICtab(m1, m2, m3, m4, m5, m6, m7, m8, m9, 
-        base = TRUE,
-        weights = TRUE,
-        logLik  = TRUE,
-        #indicate number of observations
-        nobs = 30)
-kable(AICc_compare)
-
-# Coef table 
-coeftab(m1, m2, m3, m4, m5, m6, m7, m8, m9) -> coeftabs
-kable(coeftabs)
-
-par(mfrow = c(3, 3))
-
-plot(m1, which = 1)  
-plot(m2, which = 1, main = "m2")  
-plot(m3, which = 1, main = "m3")  
-plot(m4, which = 1, main = "m4")
-plot(m5, which = 1, main = "m5") 
-plot(m6, which = 1, main = "m6")
-plot(m7, which = 1, main = "m7")
-plot(m8, which = 1, main = "m8")
-plot(m9, which = 1, main = "m9")
-
-model <- list(m1, m2, m3, m4, m5, m6, m7, m8, m9)
-
-par(mfrow = c(3, 3))
-
-for (i in 1:length(model)) {
- #  Create a Q-Q plot for the residuals of the i-th model
-  qqnorm(residuals(model[[i]]), main = paste("Q-Q Plot, m", i, sep = ""))
-  qqline(residuals(model[[i]]), col = "red")
-}
-
-```
-*Model 7 has the highest weight, a measure of certainty in the model*. However, we need to consider that the distribution of the data is not normal. Perhaps I should try using other distributions (binom, posson, )
-
-
-```{r Models mle2 and dif distributions}
-
-#scale variable
-
-d2 <- data
-d2$y <- data$Binding.Perc/100 
-
-nll_beta <- function(mu, phi) {
-  a <- mu * phi
-  b <- (1 - mu) * phi
-  -sum(dbeta(d2$y, a, b, log = TRUE))
-}
-
-# Fit models using mle2
-
-fit <- mle2(nll_beta, start = list(mu = 0.5, phi = 1), data = d2)
-summary(fit)
-
-m0n <- mle2(d2$y ~ dnorm(mean = a, sd = sd(d2$y)), start = list(a = mean(d2$y)), data = d2) 
-
-# percent cover as predictor, use normal distribution
-mcn <- mle2(d2$y ~ dnorm(mean = a + b * d2$Weight_mg, sd = sd(d2$y)), start = list(a = mean(d2$y), b = 0, s = sd(d2$y)), data = d2)
-
-# scatter plot  
-
-plot(d2$y ~ d2$Weight_mg, 
-     xlab = "Buffer",
-     ylab = "% binding",
-     col = "salmon",
-     pch = 16, 
-     las = 1)
-
-#m0n
-k <-coef(m0n)
-curve(k[1] + 0 * x, 
-      from = 0, to = 100, 
-      add=T, lwd = 3, 
-      col = "black")
-
-#mcn
-k <-coef(mcn)
-curve(k[1] + k[2] * x, 
-      from = 0, to = 100, 
-      add=T, lwd = 2, 
-      col = "lightgreen", 
-      lty = "dashed")
-
-```
-
-### Finding optimal parameters using model 7
-
-The goal is to run essays that result in a 50% binding.
-```{r Find optimal parameters}
-
-# choose one model (m7: buffer + weight + spike)
-coef <- coef(m7)
-
-# Set target binding
-target_binding <- 50
-
-# FUNCTION to Solve for weight, assuming spike = 0
-# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
-
-solve_for_weight <- function(dilution_value, spike_value = 0) {
-  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
-}
-
-# Find the weight that gives 50% binding whenspike is 0
-# dilution = 250
-optimal_weight <- solve_for_weight(dilution_value = 1)
-optimal_weight
-# dilution = 60
-optimal_weight <- solve_for_weight(dilution_value = 0)
-optimal_weight
-
-# Find the weight that gives 50% binding when spike is 1
-# dilution = 250
-optimal_weight <- solve_for_weight(dilution_value = 1, spike_value = 1)
-optimal_weight
-# dilution = 60
-optimal_weight <- solve_for_weight(dilution_value = 0, spike_value = 1)
-optimal_weight
-
-```
-
-#Work in progress after this line
-
-
-______________________

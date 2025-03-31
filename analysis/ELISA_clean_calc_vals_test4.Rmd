@@ -69,8 +69,6 @@ std.r <- ((3191+3228)/2)/10000
 std.r
 ```
 
-
-
 # Data Cleaning and QC
 
 Load, inspect and merge 3 files:
@@ -100,7 +98,6 @@ kable(head(results))
 
 ```
 
-
 ```{r}
 
 # Merge files
@@ -119,11 +116,9 @@ kable(tail(m))
 
 ```
 
-
 ### Duplicates with high CV
 Identify and flag samples with high coefficient of variation (duplicate measurements that are too different from each other)
 ```{r}
-
 #create new file
 m1 <- m %>%
   mutate(CV_categ = ifelse(CV.Perc > CV_threshold, 
@@ -141,7 +136,6 @@ print(cv_high[2])
 ### Samples outside the curve
 Samples that have a binding percentage over 80 or 20 do not provide accurate results, and we consider them to be outside the curve. 
 ```{r}
-
 # flag samples with binding percentage over 80 or under 20
 m2 <- m1 %>%
   mutate(Binding.Perc_categ = ifelse(Binding.Perc > uppBinLim, "ABOVE 80% binding", 
@@ -185,8 +179,6 @@ cat("Number of failed samples is", nrow(failed_samples))
 cat("Number of good quality data points is", nrow(data.no_failed))
 ```
 
- 
-
 # Cortisol concentration calculation
 
 Loading files and transforming units, *including low quality data*
@@ -194,6 +186,9 @@ Loading files and transforming units, *including low quality data*
 ```{r setup, include=TRUE, message=FALSE}
 df <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
 kable(df)
+# remove outlier
+df<- df[(df$Sample != "TP3A"),]
+
 # Transform to μg/dl from assay output
 df$Ave_Conc_ug.dL <- c(df$Ave_Conc_pg.ml/10000)
 
@@ -228,7 +223,6 @@ Formula:
 
 
 ```{r}
-
 ##### Calculate final values #####
 data$Final_conc_pg.mg <- c(
     (data$Ave_Conc_ug.dL / data$Weight_mg) * # A/B *
@@ -313,8 +307,8 @@ ggplot(data, aes(y = Final_conc_pg.mg,
                  x = Weight_mg, 
                  color = Spike,
                  shape = Buffer)) +
-  geom_point(size = 3.5) +  
-  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
+  geom_point(size = 3.5, alpha = 0.85) +  
+   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
  # xlim(5, max(data$Weight_mg) + 4) + 
 #  ylim(0, max(data$Final_conc_pg.mg) + 4) + 
     theme_minimal() +  
@@ -346,7 +340,7 @@ ggplot(dSpike, aes(y = Final_conc_pg.mg,
                  x = Weight_mg, 
                  color = Spike,
                  shape = Buffer)) +
-  geom_point(size = 3.5) +  
+  geom_point(size = 3.5,  alpha = 0.85) +  
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
 #  xlim(5, max(dSpike$Weight_mg)+4) + 
 #  ylim(min(dSpike$Final_conc_pg.mg)-2,
@@ -371,8 +365,6 @@ ggplot(dSpike, aes(y = Final_conc_pg.mg,
 
 
 # Evaluation 
-
-
 
 ```{r message=FALSE}
 # non-spiked samples only
