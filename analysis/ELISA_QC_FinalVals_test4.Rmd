@@ -271,8 +271,9 @@ dSpike <- data
 dSpike$Final_conc_pg.mg <- 
   ifelse(
     dSpike$Spike == 1,    ## Only spiked samples
-      (dSpike$Ave_Conc_ug.dL - std.r) / # (A-spike) / B
-      dSpike$Weight_mg * 1.3 / 1 *      # C / D
+      ((dSpike$Ave_Conc_ug.dL - std.r) / # (A-spike) / B
+      dSpike$Weight_mg) 
+    * extraction *      # C / D
       dSpike$Buffer_ml * 10000 * 2 ,    # E * 10000 *2
     dSpike$Final_conc_pg.mg  
 )

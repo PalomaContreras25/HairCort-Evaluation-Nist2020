@@ -231,3 +231,10 @@ ggplot(exp, aes(x = Exp,
 
 ``` 
 
+
+
+Reference vals
+   Sample Wells Raw.OD Binding.Perc Conc_pg/ml Ave_Conc_pg/ml CV.Perc      SD     SEM Weight_mg Buffer_nl Spike
+7      15    A7  0.888         66.2      592.9          643.6  11.100   71.60   50.70      12.0        60     0
+17     24    B9  0.835         64.8      705.5          680.2   5.260   35.80   25.30      20.4       250     0
+18     26    D9  0.477         37.3     2197.0         1991.0  14.600  291.00  206.00      20.2        60     0

@@ -60,7 +60,7 @@ a$Sample_num <- 1:length(a$Sample)
 
 ggplot(a, aes(x = Sample_num, 
                  y = Binding.Perc, color = Category)) +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.5, alpha = 0.2) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.5, alpha = 0.3) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 80, linetype = "dashed", 
@@ -81,7 +81,7 @@ exp <- a %>%
 
 ggplot(exp, aes(x = Sample_num, 
                  y = Binding.Perc, color = Category)) +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.5, alpha = 0.2) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.5, alpha = 0.3) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 80, linetype = "dashed", 
@@ -99,7 +99,7 @@ ggplot(exp, aes(x = Sample_num,
 
 ggplot(exp, aes(x = Sample_num, 
                  y = Binding.Perc, color = Category)) +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 1), se = TRUE, linewidth = 0.5, alpha = 0.2) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 1), se = TRUE, linewidth = 0.5, alpha = 0.3) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 80, linetype = "dashed", 
@@ -128,7 +128,7 @@ a$Exp <- c(4617, 2308.5, 1154.25, 577.125, 288.5625, 144.2813, 72.1406,
 
 ggplot(a, aes(x = Exp, 
                  y = (Ave_Conc_pg.ml), color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.06) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.06) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray50") +
   stat_poly_eq(aes(x = Exp, label = paste(..rr.label.., sep = "~~~")),
@@ -146,7 +146,7 @@ exp <- a %>%
 
 ggplot(exp, aes(x = (Exp), 
                  y = (Ave_Conc_pg.ml), color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.04) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.4, alpha = 0.04) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray50") +
   stat_poly_eq(aes(x = Exp, label = paste(..rr.label.., sep = "~~~")),
@@ -191,7 +191,7 @@ a$Exp <- c(4617, 2308.5, 1154.25, 577.125, 288.5625, 144.2813, 72.1406, NA, NA, 
 
 ggplot(a, aes(x = (Exp), 
                  y = (Ave_Conc_pg.ml))) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
   geom_point(size = 2, color = "salmon") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
@@ -240,7 +240,7 @@ exp$Exp <- c(5134, 2567, 1283.5, 641.75, 320.875, 160.4375, 80.2188, NA, NA, NA,
 
 ggplot(exp, aes(x = (Exp), 
                  y = (Ave_Conc_pg.ml))) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
   geom_point(size = 2, color = "salmon") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
@@ -256,7 +256,7 @@ exp <- filter(exp, Sample != "TB7" )
 
 ggplot(exp, aes(x = (Exp), 
                  y = (Ave_Conc_pg.ml))) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
   geom_point(size = 2, color = "salmon") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
@@ -307,7 +307,7 @@ exp$Exp <- c(2467, 1233.5, 616.75, 308.375, 154.1875, 77.0938, 38.5469, NA, NA, 
 
 ggplot(exp, aes(x = (Exp), 
                  y = (Ave_Conc_pg.ml))) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
   geom_point(size = 2, color = "salmon") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
@@ -325,7 +325,7 @@ exp <- filter(exp, Sample != "TC7" )
 
 ggplot(exp, aes(x = (Exp), 
                  y = (Ave_Conc_pg.ml))) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
   geom_point(size = 2, color = "salmon") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
@@ -372,7 +372,7 @@ exp$Exp <- c(4168, 2084, 1042, 521, 260.5, 130.25, 65.125, NA, NA, NA, NA, NA, N
 
 ggplot(exp, aes(x = (Exp), 
                  y = Ave_Conc_pg.ml)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
   geom_point(size = 2, color = "salmon") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
@@ -390,7 +390,7 @@ exp <- filter(exp, Sample != c("TD7","TD6"))
 
 ggplot(exp, aes(x = (Exp), 
                  y = (Ave_Conc_pg.ml))) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.5, alpha = 0.05, color = "salmon") +
   geom_point(size = 2, color = "salmon") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
@@ -409,7 +409,8 @@ different weights: 6, 9 and 12 mg, 3 samples for each weight, 2 duplicates for e
 
 ```{r expE-bindingPerc}
 # Scatter plot of Experiment D, observed binding % 
-exp <- filter(data_std, Category == "P", !is.na(Binding.Perc)) 
+
+exp <- filter(data_std, Category == "P") 
 exp$Sample_num <- 1:length(exp$Sample)
 
 exp <- exp %>%
@@ -456,6 +457,26 @@ ggplot(exp, aes(x = Weight_mg,
   annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
 
 print(cv_values)
+
+
+ggplot(exp, aes(x = Sample, 
+                 y = Binding.Perc)) +
+   geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +   geom_smooth(method = "lm", se = TRUE, linewidth = 0.8, alpha = 1, color = "lightblue") +
+  geom_point(size = 3, color = "gray40", alpha = 1) +
+  labs(title = "Experiment E: observed binding % by sample",
+       subtitle = "Precision, 25uL spike, 25uL sample",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) +
+  coord_cartesian(ylim = c(0, 80)) +
+  theme_minimal() +
+  annotate("text", x = 1, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 4, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 7, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 1, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 4, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 7, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
+
 ```
 
 ### Using raw Conc_pg.ml vals estimated by MyAssays

@@ -46,11 +46,13 @@ This could be an artifact of an extremely high absorbance level. Non-spiked samp
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
 # Install libraries
-library(dplyr)
-library(knitr)
+
+
 library(ggplot2)
 library(broom)
 library(paletteer)
+library(knitr)
+library(dplyr)
 ```
 
 # Data Cleaning and QC
@@ -63,28 +65,30 @@ Load, inspect and merge 3 files:
 
 ```{r}
 
+data_path = "./data/Test3"
 # LAYOUT 
 
-layout <- read.csv("./data/layout_wells_test3_091524.csv", 
+layout <- read.csv(file.path(data_path,"layout_wells_test3_091524.csv"), 
                    stringsAsFactors = TRUE, 
                    na.strings = c("", " "))
 kable(head(layout)) 
 
 # RESULTS  
 
-results <- read.csv("./data/myassays_table_test3_091524.csv", 
+results <- read.csv(file.path(data_path, "myassays_table_test3_091524.csv"), 
                     stringsAsFactors = TRUE, 
                     na.strings = c("", " ", "-"))
-results <- results %>% 
-  select(!Sample) 
+results <- results[ ,c(2:length(results))]
+
 kable(head(results)) 
 
 
 # INFO
 
-info <- read.csv("./data/sample_info_test3_091524.csv", 
+info <- read.csv(file.path(data_path, "sample_info_test3_091524.csv"), 
                  stringsAsFactors = TRUE, 
                  na.strings = c("", " "))
+info <- info[ ,c(1:5)]
 kable(head(info)) 
 
 ```
@@ -119,7 +123,7 @@ CV_threshold <- 15.0
 #create new file
 m1 <- m %>%
   mutate(CV_categ = ifelse(CV.Perc > CV_threshold, 
-                           "HIGH CV", NA))
+                           "HIGH CV", "NA"))
 cv_high <- m1 %>% 
   filter(CV.Perc > CV_threshold) %>% 
   arrange(desc(CV.Perc))
@@ -154,22 +158,23 @@ data.flagged <- m2 %>%
                              coalesce(CV_categ, Binding.Perc_categ))) %>%
   select(!c(CV_categ, Binding.Perc_categ))
 
-write.csv(data.flagged, "./data/Data_QC_flagged.csv", 
+write.csv(data.flagged, file.path(data_path, "Data_QC_flagged.csv"), 
           row.names = FALSE) 
 
 # table with samples that failed
 failed_samples <- data.flagged[!is.na(data.flagged$Failed_samples),]
-write.csv(failed_samples, "./data/failed_samples.csv", 
+write.csv(failed_samples, file.path(data_path, "failed_samples.csv"), 
           row.names = FALSE) 
 nrow(failed_samples)
 
 # dataset with failed samples removed
 data.no_failed <- m2 %>% 
  filter(CV.Perc < CV_threshold) %>%
- filter(Binding.Perc > 20 & Binding.Perc < 80 ) %>%
- select(-CV_categ, -Binding.Perc_categ)
+ filter(Binding.Perc > 20 & Binding.Perc < 80 ) 
+
+data.no_failed <- data.no_failed[,c(1:13)]
  
-write.csv(data.no_failed, "./data/Data_QC_filtered.csv", row.names = FALSE) 
+write.csv(data.no_failed, file.path(data_path, "Data_QC_filtered.csv"), row.names = FALSE) 
 ```
 
 Number of failed samples is 8 (out of 38)
@@ -180,7 +185,7 @@ Loading files and transforming units
 
 ```{r setup, include=TRUE, message=FALSE}
 df <- read.csv(
-  "./data/Data_QC_filtered.csv")
+  file.path(data_path,"Data_QC_filtered.csv"))
 
 # Transform to μg/dl from assay output
 df$Ave_Conc_ug.dL <- c(df$Ave_Conc_pg.ml/10000)
@@ -193,7 +198,7 @@ df$Buffer_ml <- c(df$Buffer_nl/1000)
 data <- df %>% 
   filter(CV.Perc < 15) %>% 
   filter(Binding.Perc < 80 & Binding.Perc > 20) %>%
-    select(Sample, Binding.Perc, Weight_mg, Buffer_ml, Spike, Ave_Conc_ug.dL) 
+    dplyr::select(Sample, Binding.Perc, Weight_mg, Buffer_ml, Spike, Ave_Conc_ug.dL) 
 
 kable(head(data, 10))
 ```
@@ -220,7 +225,7 @@ data$Final_conc_pg.mg <- c(
       1.3/1 *                                  # C/D  *     
       data$Buffer_ml * 10000)                 # E * 10000
 
-write.csv(data, "./data/Data_cort_values_methodA.csv", row.names = F)
+write.csv(data, file.path(data_path, "Data_cort_values_methodA.csv"), row.names = F)
 
 # summary for all samples
 summary(data$Final_conc_pg.mg)
@@ -270,7 +275,7 @@ dSpike$Final_conc_pg.mg <-
     dSpike$Final_conc_pg.mg  
 )
 
-write.csv(dSpike, "./data/Data_cort_values_methodB.csv", row.names = F)
+write.csv(dSpike, file.path(data_path, "Data_cort_values_methodB.csv"), row.names = F)
 
 # summary for all samples
 summary(dSpike$Final_conc_pg.mg)
