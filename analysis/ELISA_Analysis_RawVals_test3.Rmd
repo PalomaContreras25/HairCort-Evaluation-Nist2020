@@ -42,8 +42,8 @@ The **figures** below were used to decide that the **optimal parameters** are:
 
 ```{r}
 # Loading data
-data <- read.csv("./data/Data_QC_filtered.csv")
-std <- read.csv("./data/standard_data.csv")
+data <- read.csv("./data/Test3/Data_QC_filtered.csv")
+std <- read.csv("./data/Test3/standard_data.csv")
 
 
 #Inclusion of standard readings in plot

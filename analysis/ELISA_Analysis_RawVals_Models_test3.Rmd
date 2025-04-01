@@ -152,7 +152,7 @@ extract_coefs <- function(model, model_name) {
 ```{r qqplot, echo = FALSE}
 
 # load dataset
-data <- read.csv("./data/Data_QC_filtered.csv")
+data <- read.csv("./data/Test3/Data_QC_filtered.csv")
 
 # Since Buffer and spike are not continuous variables, 
 # change from numeric to factors
