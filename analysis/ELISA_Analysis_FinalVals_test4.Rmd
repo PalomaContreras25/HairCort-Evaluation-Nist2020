@@ -32,7 +32,7 @@ library(ggplot2)
 # Loading data
 std <- read.csv("./data/Test4/standard_data_test4.csv")
 cort_valsA<- read.csv("./data/Test4/Data_cort_values_methodA.csv")
-cort_valsB<- read.csv("./data/Test4/Data_cort_values_methodB.csv")
+cort_valsB<- read.csv("./data/Test4/Data_cort_values_methodD.csv")
 ```
 
 ```{r loading valsA}

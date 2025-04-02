@@ -53,7 +53,7 @@ data_std <- join(data1, std1, type = "full")
 
 # Summary of results (all experiments)
 
-```{r expABCD.binding.perc, fig.width=10, fig.height=7}
+```{r expABCD.binding.perc, fig.width=7, fig.height=6}
 # Scatter plot of Experiment A and B, observed binding % 
 a <- filter(data_std, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Binding.Perc)) 
 a$Sample_num <- 1:length(a$Sample)
@@ -70,7 +70,7 @@ ggplot(a, aes(x = Sample_num,
   stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
                formula = y ~ x, parse = TRUE, size = 2.5) +
  # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
-  labs(title = "All serial dilutions plus standard: observed binding %",
+  labs(title = "All serial dilutions and standard: observed binding %",
        subtitle = "Complete dataset",
        x = "Sample", y = "Binding Percentage") +
   scale_y_continuous(n.breaks = 10) + 
@@ -89,12 +89,13 @@ ggplot(exp, aes(x = Sample_num,
   geom_hline(yintercept = 20, linetype = "dashed", 
              color = "gray", linewidth = 1) +  # Add horizontal line 
   stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
-               formula = y ~ x, parse = TRUE, size = 2.5) +
+               formula = y ~ x, parse = TRUE, size = 3.4, label.y = "bottom", label.x = "right", vjust=-7, hjust = 0.8) +
  # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
-  labs(title = "All serial dilutions plus standard: observed binding %",
+  labs(title = "All serial dilutions and standard: observed binding %",
        subtitle = "removed high CV samples, lm = 3 curve",
        x = "Sample", y = "Binding Percentage") +
   scale_y_continuous(n.breaks = 10) + 
+    coord_cartesian(ylim = c(0, 105)) +
   theme_minimal() 
 
 ggplot(exp, aes(x = Sample_num, 
@@ -410,7 +411,8 @@ different weights: 6, 9 and 12 mg, 3 samples for each weight, 2 duplicates for e
 ```{r expE-bindingPerc}
 # Scatter plot of Experiment D, observed binding % 
 
-exp <- filter(data_std, Category == "P") 
+
+exp <- filter(data_std, Category == "P",  Sample != "TP3A", !is.na(Binding.Perc)) 
 exp$Sample_num <- 1:length(exp$Sample)
 
 exp <- exp %>%
@@ -430,7 +432,40 @@ all <- exp %>%
     SD_BP = sd(Binding.Perc, na.rm = TRUE),
     CV_BP = (SD_BP / Mean_BP) * 100
   )
+print (all)
 
+
+ggplot(exp, aes(x = Sample, 
+                 y = Binding.Perc, color = factor(Weight_mg))) +
+   geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +   geom_smooth(method = "lm", se = TRUE, linewidth = 0.8, alpha = 1, color = "lightblue") +
+  geom_point(size = 3, alpha = 1) +
+  labs(title = "Experiment E: observed binding % by sample",
+       subtitle = "Precision, 25uL spike, 25uL sample",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) +
+  coord_cartesian(ylim = c(0, 80)) +
+  theme_minimal() +
+  annotate("text", x = 2, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 5, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 7.5, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 2, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 5, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 7.5, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
+
+
+exp <- filter(data_std, Category == "P", !is.na(Binding.Perc)) 
+exp$Sample_num <- 1:length(exp$Sample)
+
+exp <- exp %>%
+  mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+  group_by(Group) %>%
+  summarise(
+    CV_BP = round((sd(Binding.Perc) / mean(Binding.Perc)) * 100, 1), 
+    mean_BP = mean(Binding.Perc, na.rm = TRUE),
+    sd_BP = sd(Binding.Perc, na.rm = TRUE)
+  )
 
 ggplot(exp, aes(x = Weight_mg, 
                  y = Binding.Perc)) +
@@ -459,23 +494,50 @@ ggplot(exp, aes(x = Weight_mg,
 print(cv_values)
 
 
-ggplot(exp, aes(x = Sample, 
+exp <- filter(data_std, Category == "P",  Sample != "TP3A", !is.na(Binding.Perc)) 
+exp$Sample_num <- 1:length(exp$Sample)
+
+exp <- exp %>%
+  mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+  group_by(Group) %>%
+  summarise(
+    CV_BP = round((sd(Binding.Perc) / mean(Binding.Perc)) * 100, 1), 
+    mean_BP = mean(Binding.Perc, na.rm = TRUE),
+    sd_BP = sd(Binding.Perc, na.rm = TRUE)
+  )
+
+ggplot(exp, aes(x = Weight_mg, 
                  y = Binding.Perc)) +
    geom_hline(yintercept = 20, linetype = "dashed", 
-             color = "gray", linewidth = 1) +   geom_smooth(method = "lm", se = TRUE, linewidth = 0.8, alpha = 1, color = "lightblue") +
-  geom_point(size = 3, color = "gray40", alpha = 1) +
-  labs(title = "Experiment E: observed binding % by sample",
-       subtitle = "Precision, 25uL spike, 25uL sample",
-       x = "Sample", y = "Binding Percentage") +
+             color = "gray", linewidth = 1) +  
+geom_point(size = 3, color = "gray40", alpha = 1) +
+  geom_pointrange(data = cv_values,
+                  aes(x = c(6,9,12), y = mean_BP,
+                      ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+                  color = "orange", size = 0.5, alpha = 0.8) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+  #geom_hline(yintercept = 80, linetype = "dashed", 
+   #          color = "gray", linewidth = 1) +  
+ 
+  labs(title = "Experiment E: observed binding % by sample weight",
+       subtitle = "Precision, 25uL spike, 25uL sample, removed low quality samples",
+       x = "Sample weight (mg)", y = "Binding Percentage") +
   scale_y_continuous(n.breaks = 10) +
-  coord_cartesian(ylim = c(0, 80)) +
+  coord_cartesian(xlim = c(4,14), ylim = c(0, 80)) +
   theme_minimal() +
-  annotate("text", x = 1, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
-  annotate("text", x = 4, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
-  annotate("text", x = 7, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
-  annotate("text", x = 1, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
-  annotate("text", x = 4, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
-  annotate("text", x = 7, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
+  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
+
+print(cv_values)
+
+
+
 
 ```
 
@@ -571,7 +633,7 @@ ggplot(exp, aes(x = Weight_mg,
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
   labs(title = "Experiment E: concentration vals % by sample weight",
-       subtitle = "Precision, 25uL spike, 25uL sample",
+       subtitle = "Precision, 25uL spike, 25uL sample, removed low quality samples",
        x = "Sample weight (mg)", y = "Conc_pg.ml") +
   scale_y_continuous(n.breaks = 10) +
   coord_cartesian(xlim = c(4,14)) +
@@ -586,62 +648,6 @@ ggplot(exp, aes(x = Weight_mg,
 print(cv_values)
 ```
 
-## Experiment E using raw conc values and filtered
-```{r expE-concvals-filtered}
-# Scatter plot of Experiment D, observed binding % 
-
-exp <- filter(data_std, Category == "P",  Sample != "TP3A", !is.na(Binding.Perc)) 
-exp$Sample_num <- 1:length(exp$Sample)
-
-exp <- exp %>%
-  mutate(Group = substr(Sample, 1, 3))
-cv_values <- exp %>%
-  group_by(Group) %>%
-  summarise(
-    CV_BP = round((sd(Binding.Perc) / mean(Binding.Perc)) * 100, 1), 
-    mean_BP = mean(Binding.Perc, na.rm = TRUE),
-    sd_BP = sd(Binding.Perc, na.rm = TRUE)
-  )
-
-# overall stats
-all <- exp %>%
-  summarise(
-    Mean_BP = mean(Binding.Perc, na.rm = TRUE),
-    SD_BP = sd(Binding.Perc, na.rm = TRUE),
-    CV_BP = (SD_BP / Mean_BP) * 100
-  )
-
-
-ggplot(exp, aes(x = Weight_mg, 
-                 y = Binding.Perc)) +
-   geom_hline(yintercept = 20, linetype = "dashed", 
-             color = "gray", linewidth = 1) +  
-geom_point(size = 3, color = "gray40", alpha = 1) +
-  geom_pointrange(data = cv_values,
-                  aes(x = c(6,9,12), y = mean_BP,
-                      ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
-                  color = "orange", size = 0.5, alpha = 0.8) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
-  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
-  #geom_hline(yintercept = 80, linetype = "dashed", 
-   #          color = "gray", linewidth = 1) +  
- 
-  labs(title = "Experiment E: observed binding % by sample weight",
-       subtitle = "Precision, 25uL spike, 25uL sample",
-       x = "Sample weight (mg)", y = "Binding Percentage") +
-  scale_y_continuous(n.breaks = 10) +
-  coord_cartesian(xlim = c(4,14), ylim = c(0, 80)) +
-  theme_minimal() +
-  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
-  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
-  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
-  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
-  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
-  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
-
-print(cv_values)
-
-```
 
 
 
