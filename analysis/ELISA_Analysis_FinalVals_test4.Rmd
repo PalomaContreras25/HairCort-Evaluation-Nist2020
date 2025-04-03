@@ -1,5 +1,5 @@
 ---
-title: "Results - test4"
+title: "Analysis of final values - test4"
 author: "Paloma"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
@@ -8,7 +8,10 @@ editor_options:
 ---
 # Introduction
 
-```{r}
+Here I plan to include measurements and visualizations of the accuracy, precision, and linearity of ELISA #4. I will do this using two different ways of calculating final values: the standard method not accounting for spike, and an alternative method accounting for it. The way the spike is included in the formula is defined in file ELISA_Calc_FinalVals_test4.html.
+
+
+```{r echo=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
@@ -32,30 +35,29 @@ library(ggplot2)
 # Loading data
 std <- read.csv("./data/Test4/standard_data_test4.csv")
 cort_valsA<- read.csv("./data/Test4/Data_cort_values_methodA.csv")
-cort_valsB<- read.csv("./data/Test4/Data_cort_values_methodD.csv")
+cort_valsB<- read.csv("./data/Test4/Data_cort_values_methodB.csv")
+cort_valsD<- read.csv("./data/Test4/Data_cort_values_methodD.csv")
 ```
+
+# Overall Results
+## A) Standard method
+
 
 ```{r loading valsA}
 # remove NSB
 data <- cort_valsA[!(cort_valsA$Sample == "NSB"),]
 
-#Inclusion of standard readings in plot
-data <- data[,c("Sample", "Category", "Binding.Perc", "Final_conc_pg.mg", "Weight_mg", "Buffer_ml", "Spike", "Failed_samples")]
+#data <- data[,c("Sample", "Category", "Binding.Perc", "Final_conc_pg.mg", "Weight_mg", "Buffer_ml", "Spike", "Failed_samples", "Dilution")]
 ```
 
-# Summary of results (method A)
-
-```{r expABCD.Final_conc_pg.mg, fig.width=8, fig.height=6}
+```{r expABCD.Final_conc_pg.mg_AD, fig.width=8, fig.height=6, results = 'hide'}
+invisible({capture.output({ 
 # Scatter plot of Experiment A and B, observed binding % 
 a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Final_conc_pg.mg)) 
 a$Sample_num <- 1:length(a$Sample)
-## Expected vals A
-a$Exp <- c(17.31, 8.655, 4.3275, 2.16375, 1.081875, 0.5409375, 0.2704687,
-           19.25, 9.62625, 4.813125, 2.406563, 1.203281, 0.6016405, 0.3008203,
-           9.2512500, 4.625625, 2.312813, 1.156406, 0.578203, 0.2891015, 0.1445508,
-           17.193, 8.5965, 4.29825, 2.149125, 1.074563, 0.5372815, 0.2686407)
 
-## PLOT ## 
+
+## PLOT COMPLETE DATASET ## 
 ggplot(a, aes(x = Sample_num, 
                  y = Final_conc_pg.mg, color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
@@ -66,7 +68,7 @@ ggplot(a, aes(x = Sample_num,
   geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray30") +
   stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
                formula = y ~ x, parse = TRUE, size = 2.5) +
-  labs(title = "All serial dilutions Final_conc_pg.mg A",
+  labs(title = "Final vals not accounting for spike",
        subtitle = "Complete dataset",
        x = "Sample", y = "Final_conc_pg.mg Method A") +
   coord_cartesian(ylim = c(-5, 28)) +
@@ -74,6 +76,12 @@ ggplot(a, aes(x = Sample_num,
 
 exp <- a %>%
   filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2"))
+})})
+```
+
+```{r expABCD.Final_conc_pg.mgA, fig.width=8, fig.height=6}
+
+## PLOT WITHOUT POOR QUALITY SAMPLES ### 
 
 ggplot(exp, aes(x = Sample_num, 
                  y = Final_conc_pg.mg, color = Category)) +
@@ -85,45 +93,136 @@ ggplot(exp, aes(x = Sample_num,
                   color = "red", linewidth = 1) + 
   stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
                formula = y ~ x, parse = TRUE, size = 2) +
-  labs(title = "All serial dilutions, Final_conc_pg.mg A",
+  labs(title = "Final vals not accounting for spike",
        subtitle = "removed high CV samples",
        x = "Sample", y = "Final_conc_pg.mg, Method A") +
   scale_y_continuous(n.breaks = 10) + 
-  coord_cartesian(ylim = c(-5, 28)) +
   theme_minimal() 
 
 ```
 
-```{r expABCD.conc.expect.vs.observed}
-ggplot(a, aes(x = Exp, 
+## B) Accounting for spike (Nist et al. 2020)
+
+```{r load-B}
+data <- cort_valsB[!(cort_valsB$Sample == "NSB"),]
+```
+
+```{r expABCD.Final_conc_pg.mgB, fig.width=8, fig.height=6, }
+
+# Scatter plot of Experiment A and B, observed binding % 
+a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Final_conc_pg.mg)) 
+a$Sample_num <- 1:length(a$Sample)
+exp <- a %>%
+  filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2"))
+
+## PLOT WITHOUT POOR QUALITY SAMPLES ### 
+
+ggplot(exp, aes(x = Sample_num, 
+                 y = Final_conc_pg.mg, color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
+  geom_smooth(formula = y ~ log(x), se = TRUE, linewidth = 0.5, linetype = 2, alpha = 0.1) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 0, linetype = "dashed", 
+                  color = "red", linewidth = 1) + 
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+               formula = y ~ x, parse = TRUE, size = 2) +
+  labs(title = "Final vals accounting for spike",
+       subtitle = "removed high CV samples",
+       x = "Sample", y = "Final_conc_pg.mg, Method B") +
+  scale_y_continuous(n.breaks = 10)  +
+  theme_minimal() 
+```
+
+## D) New Method
+```{r expABCD.Final_conc_pg.mgD, fig.width=8, fig.height=6}
+
+data <- cort_valsD[!(cort_valsD$Sample == "NSB"),]
+
+# Scatter plot of Experiment A and B, observed binding % 
+a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Final_conc_pg.mg)) 
+a$Sample_num <- 1:length(a$Sample)
+
+exp <- a %>%
+  filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2"))
+
+## PLOT WITHOUT POOR QUALITY SAMPLES ### 
+
+ggplot(exp, aes(x = Sample_num, 
+                 y = Final_conc_pg.mg, color = Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
+  geom_smooth(formula = y ~ log(x), se = TRUE, linewidth = 0.5, linetype = 2, alpha = 0.1) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 0, linetype = "dashed", 
+                  color = "red", linewidth = 1) + 
+  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+               formula = y ~ x, parse = TRUE, size = 2) +
+  labs(title = "Final vals accounting for spike",
+       subtitle = "removed high CV samples",
+       x = "Sample", y = "Final_conc_pg.mg, Method D") +
+  scale_y_continuous(n.breaks = 10) + 
+  theme_minimal() 
+
+```
+
+
+# Accuracy
+
+Accuracy, or recovery %, is the ratio between observed and expected concentration, multiplied by 100. 
+Expected values are defined using the dilution factor, starting with the value of the neat sample. 
+
+- 80–120% is generally acceptable for biological assays.
+
+- 70–130% may be acceptable at very low concentrations.
+
+## Method A
+```{r expABCD.conc.expect.vs.observed, results = 'hide', include = FALSE}
+
+  ## Expected vals A
+#a$Exp <- c(30.7800000, 8.655, 4.3275, 2.16375, 1.081875, 0.5409375, 0.2704687,
+ #          34.2266667, 9.62625, 4.813125, 2.406563, 1.203281, 0.6016405, 0.3008203,
+  #         16.4466667, 4.625625, 2.312813, 1.156406, 0.578203, 0.2891015, 0.1445508,
+   #        17.193, 8.5965, 4.29825, 2.149125, 1.074563, 0.5372815, 0.2686407)
+a <- cort_valsA[!(cort_valsA$Sample == "NSB"),]
+a$Expected <- NA
+a$Expected[1:7] <- 30.7800000 / a$Dilution[1:7] 
+a$Expected[8:14] <-  34.2266667/ a$Dilution[1:7] 
+a$Expected[15:21] <-  16.4466667  / a$Dilution[1:7] 
+a$Expected[22:28] <-  30.5653333 / a$Dilution[1:7]
+
+
+ggplot(a, aes(x = Expected, 
                  y = (Final_conc_pg.mg), color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.1, linetype = 5) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray70") +
  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gold") +
   geom_point(size = 2) +
-  stat_poly_eq(aes(x = Exp, label = paste(..rr.label.., sep = "~~~")),
+  stat_poly_eq(aes(x = Expected, label = paste(..rr.label.., sep = "~~~")),
                formula = y ~ x, parse = TRUE, size = 3) +
 
-  labs(title = "All serial dilutions: expected vs observed cortisol concentrations",
+  labs(title = "Expected vs observed cortisol concentrations (not accounting for spike)",
        subtitle = "Complete dataset, final vals, method A",
        x = "Expected vals (pg/mL)", y = "Observed vals (pg/mL)") +
   theme_bw() + 
   facet_wrap(~ Category)
 
+```
+
+```{r}
 
 exp <- a %>%
   filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "TD7", "TD6"))
 
-
-ggplot(exp, aes(x = (Exp), 
+ggplot(exp, aes(x = (Expected), 
                  y = (Final_conc_pg.mg), color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.04) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray50") +
-  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+  stat_poly_eq(aes(x = Expected, label = paste(..rr.label.., sep = "~~~")),
                formula = y ~ x, parse = TRUE, size = 4) +
    geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
-  labs(title = "All serial dilutions: expected vs observed cortisol concentrations",
+  labs(title = "Expected vs observed cortisol concentrations (not accounting for spike)",
        subtitle = "Removed low quality samples, final vals, methodA",
        x = "Expected vals", y = "Observed vals") +
   theme_bw() + 
@@ -131,25 +230,25 @@ ggplot(exp, aes(x = (Exp),
 ``` 
 
 
-# Summary of results (method B)
+## Method B
 
 ```{r loading valsB}
 # remove NSB
 data <- cort_valsB[!(cort_valsB$Sample == "NSB"),]
-
-#Inclusion of standard readings in plot
-data <- data[,c("Sample", "Category", "Binding.Perc", "Final_conc_pg.mg", "Weight_mg", "Buffer_ml", "Spike", "Failed_samples")]
 ```
 
-```{r expABCD.Final_conc_pg.mg_B, fig.width=8, fig.height=6}
+```{r expABCD.Final_conc_pg.mg_B_allData, include = FALSE}
+invisible({capture.output({
+  
 # Scatter plot of Experiment A and B, observed binding % 
 a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Final_conc_pg.mg)) 
 a$Sample_num <- 1:length(a$Sample)
-## Expected vals B
-a$Exp <- c(17.31, 8.655, 4.3275, 2.16375, 1.081875, 0.5409375, 0.2704687,
-           25.0185000, 12.50925, 6.254625, 3.127312, 1.563656, 0.781828, 0.390914,
-           -9.6525000, -4.82625, -2.413125, -1.206562,  -0.603281, -0.3016405,  -0.1508202,
-           13.7065500, 8.5965, 4.29825, 2.149125, 1.074563, 0.5372815, 0.2686407)
+
+a$Expected <- NA
+a$Expected[1:7] <- 30.7800000 / a$Dilution[1:7] 
+a$Expected[8:14] <-  25.6600000/ a$Dilution[1:7] 
+a$Expected[15:21] <-   -9.9000000  / a$Dilution[1:7] 
+a$Expected[22:28] <-  14.0580000 / a$Dilution[1:7]
 
 ## PLOT ## 
 ggplot(a, aes(x = Sample_num, 
@@ -166,8 +265,12 @@ ggplot(a, aes(x = Sample_num,
        subtitle = "Complete dataset",
        x = "Sample", y = "Final_conc_pg.mg Method B") +
   #coord_cartesian(ylim = c(-5, 28)) +
-  theme_minimal() 
+  theme_minimal()
+})})
 
+```
+
+```{r expABCDfilt.Final_conc_pgB_filt.mg, fig.width=8, fig.height=6}
 exp <- a %>%
   filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2"))
 
@@ -190,8 +293,27 @@ ggplot(exp, aes(x = Sample_num,
 
 ```
 
-```{r expABCD.conc.expect.vs.observed_B}
-ggplot(a, aes(x = Exp, 
+```{r expABCD.conc.expect.vs.observed_D}
+# remove NSB
+data <- cort_valsD[!(cort_valsD$Sample == "NSB"),]
+## Expected vals B
+#a$Exp <- c(17.31, 8.655, 4.3275, 2.16375, 1.081875, 0.5409375, 0.2704687,
+#           25.0185000, 12.50925, 6.254625, 3.127312, 1.563656, 0.781828, 0.390914,
+ #          -9.6525000, -4.82625, -2.413125, -1.206562,  -0.603281, -0.3016405,  -0.1508202,
+  #         13.7065500, 8.5965, 4.29825, 2.149125, 1.074563, 0.5372815, 0.2686407)
+
+# Scatter plot of Experiment A and B, observed binding % 
+a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Final_conc_pg.mg)) 
+a$Sample_num <- 1:length(a$Sample)
+
+
+a$Expected <- NA
+a$Expected[1:7] <- 30.7800000 / a$Dilution[1:7] 
+a$Expected[8:14] <-  32.2815152/ a$Dilution[1:7] 
+a$Expected[15:21] <-  14.5015152  / a$Dilution[1:7] 
+a$Expected[22:28] <-  18.7971667 / a$Dilution[1:7]
+
+ggplot(a, aes(x = Expected, 
                  y = (Final_conc_pg.mg), color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.8, alpha = 0.1) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray70") +
@@ -199,7 +321,7 @@ ggplot(a, aes(x = Exp,
   geom_point(size = 2) +
     geom_hline(yintercept = 0, linetype = "dashed", 
                   color = "red", linewidth = 0.5) + 
-  stat_poly_eq(aes(x = Exp, label = paste(..rr.label.., sep = "~~~")),
+  stat_poly_eq(aes(x = Expected, label = paste(..rr.label.., sep = "~~~")),
                formula = y ~ x, parse = TRUE, size = 3) +
 
   labs(title = "All serial dilutions: expected vs observed cortisol concentrations",
@@ -213,7 +335,7 @@ exp <- a %>%
   filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "TD7", "TD6"))
 
 
-ggplot(exp, aes(x = Exp, 
+ggplot(exp, aes(x = Expected, 
                  y = Final_conc_pg.mg, color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.3, alpha = 0.1) +
  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gold") +
@@ -221,7 +343,7 @@ ggplot(exp, aes(x = Exp,
     geom_hline(yintercept = 0, linetype = "dashed", 
                   color = "red", linewidth = 0.5) + 
   geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray50") +
-  stat_poly_eq(aes(x = Exp, label = paste(..rr.label.., sep = "~~~")),
+  stat_poly_eq(aes(x = Expected, label = paste(..rr.label.., sep = "~~~")),
                formula = y ~ x, parse = TRUE, size = 4) +
   labs(title = "All serial dilutions: expected vs observed cortisol concentrations",
        subtitle = "Removed low quality samples, final vals, methodB",
@@ -233,14 +355,6 @@ ggplot(exp, aes(x = Exp,
 
 
 
-Reference vals
-   Sample Wells Raw.OD Binding.Perc Conc_pg/ml Ave_Conc_pg/ml CV.Perc      SD     SEM Weight_mg Buffer_nl Spike
-7      15    A7  0.888         66.2      592.9          643.6  11.100   71.60   50.70      12.0        60     0
-17     24    B9  0.835         64.8      705.5          680.2   5.260   35.80   25.30      20.4       250     0
-18     26    D9  0.477         37.3     2197.0         1991.0  14.600  291.00  206.00      20.2        60     0
-
-
-
 # Precision
 
 ## Method A (controlling for dilution and weight)
@@ -248,25 +362,26 @@ Reference vals
 
 # Scatter plot of Experiment D, observed binding % 
 
-exp <- filter(cort_valsA, Category == "P",  Sample != "TP3A", !is.na(Binding.Perc)) 
-exp$Sample_num <- 1:length(exp$Sample)
+exp <- filter( cort_valsA, Category == "P", !is.na(Binding.Perc)) 
+exp$Sample_num <- 1:length( exp$Sample )
 
 exp <- exp %>%
   mutate(Group = substr(Sample, 1, 3))
-cv_values <- exp %>%
+
+cv_values <- exp %>% 
   group_by(Group) %>%
-  summarise(
-    CV_BP = round((sd( Final_conc_pg.mg) / mean( Final_conc_pg.mg)) * 100, 1), 
-    mean_BP = mean( Final_conc_pg.mg, na.rm = TRUE),
-    sd_BP = sd( Final_conc_pg.mg, na.rm = TRUE)
+  dplyr::summarise(
+    cv_BP = round((sd( Final_conc_pg.mg ) / mean( Final_conc_pg.mg)) * 100, 1), 
+    mean_BP = round( mean( Final_conc_pg.mg, na.rm = TRUE), 1),
+    sd_BP = round(sd( Final_conc_pg.mg, na.rm = TRUE), 1)
   )
 
 # overall stats
 all <- exp %>%
   summarise(
-    Mean_BP = mean( Final_conc_pg.mg, na.rm = TRUE),
-    SD_BP = sd( Final_conc_pg.mg, na.rm = TRUE),
-    CV_BP = (SD_BP / Mean_BP) * 100
+    Mean_BP = round(mean( Final_conc_pg.mg, na.rm = TRUE),1),
+    SD_BP = round(sd( Final_conc_pg.mg, na.rm = TRUE),1),
+    CV_BP = round((SD_BP / Mean_BP) * 100, 1)
   )
 
 
@@ -279,17 +394,15 @@ geom_point(size = 3, color = "gray40", alpha = 1) +
                   color = "orange", size = 0.5, alpha = 0.8) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
- 
- 
-  labs(title = "Experiment E: Final conc vals (methodA) by sample weight",
+   labs(title = "Experiment E: Final conc vals (methodA) by sample weight",
        subtitle = "Precision, 25uL spike, 25uL sample",
        x = "Sample weight (mg)", y = " Final_conc_pg.mg") +
   scale_y_continuous(n.breaks = 10) +
   coord_cartesian(xlim = c(4,14)) +
   theme_minimal() +
-  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
-  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
-  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$cv_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$cv_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$cv_BP[cv_values$Group == "TP3"], "%"), size = 4) +
   annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
   annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
   annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
@@ -303,15 +416,15 @@ print(cv_values)
 
 # Scatter plot of Experiment D, observed binding % 
 
-exp <- filter(cort_valsB, Category == "P",  Sample != "TP3A", !is.na(Binding.Perc)) 
+exp <- filter(cort_valsB, Category == "P", !is.na(Binding.Perc)) 
 exp$Sample_num <- 1:length(exp$Sample)
 
 exp <- exp %>%
   mutate(Group = substr(Sample, 1, 3))
 cv_values <- exp %>%
   group_by(Group) %>%
-  summarise(
-    CV_BP = round((sd( Final_conc_pg.mg) / mean( Final_conc_pg.mg)) * 100, 1), 
+  dplyr::summarise(
+    CV_BP = round((sd( Final_conc_pg.mg) / mean(Final_conc_pg.mg)) * 100, 1), 
     mean_BP = mean( Final_conc_pg.mg, na.rm = TRUE),
     sd_BP = sd( Final_conc_pg.mg, na.rm = TRUE)
   )

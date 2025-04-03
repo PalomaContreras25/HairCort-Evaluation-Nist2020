@@ -517,15 +517,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree528855bad8d818400bf42ae3059600f9b176f802targetblank528855ba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treeca6c8048b3409d271ba2d1edf0764d9c90c9f919targetblankca6c804a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/528855bad8d818400bf42ae3059600f9b176f802" target="_blank">528855b</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/ca6c8048b3409d271ba2d1edf0764d9c90c9f919" target="_blank">ca6c804</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree528855bad8d818400bf42ae3059600f9b176f802targetblank528855ba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treeca6c8048b3409d271ba2d1edf0764d9c90c9f919targetblankca6c804a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -535,7 +535,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/528855bad8d818400bf42ae3059600f9b176f802" target="_blank">528855b</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/ca6c8048b3409d271ba2d1edf0764d9c90c9f919" target="_blank">ca6c804</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -560,15 +560,12 @@ Ignored files:
     Ignored:    data/Test4/.DS_Store
 
 Unstaged changes:
+    Modified:   analysis/ELISA_Analysis_FinalVals_test4.Rmd
+    Modified:   analysis/ELISA_Analysis_RawVals_test4.Rmd
     Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
-    Modified:   data/Test4/Data_QC_filtered.csv
-    Modified:   data/Test4/Data_QC_flagged.csv
     Modified:   data/Test4/Data_cort_values_methodA.csv
     Modified:   data/Test4/Data_cort_values_methodB.csv
     Modified:   data/Test4/Data_cort_values_methodC.csv
-    Modified:   data/Test4/Data_cort_values_methodD.csv
-    Modified:   data/Test4/failed_samples.csv
-    Modified:   data/Test4/layout_wells_test4_021925.csv
 
 </code></pre>
 <p>
@@ -614,6 +611,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/ca6c8048b3409d271ba2d1edf0764d9c90c9f919/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">ca6c804</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new calc final vals
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/ca6c8048b3409d271ba2d1edf0764d9c90c9f919/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">ca6c804</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new calc final vals
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -714,12 +745,12 @@ new_calc
 </tr>
 <tr class="even">
 <td><strong>D) Spike-Corrected (divided by two)</strong></td>
-<td>-11.167</td>
-<td>-4.193</td>
-<td>2.349</td>
-<td>5.314</td>
-<td>17.368</td>
-<td>30.780</td>
+<td>0.2335</td>
+<td>1.5067</td>
+<td>6.7184</td>
+<td>9.7699</td>
+<td>17.3683</td>
+<td>32.2815</td>
 <td>3</td>
 </tr>
 </tbody>
@@ -748,7 +779,9 @@ extraction &lt;- 1/0.750
 
 std &lt;- (3191+3228)/2
 std.r &lt;- (std/10000)
-std.r</code></pre>
+std</code></pre>
+<pre><code>[1] 3209.5</code></pre>
+<pre class="r"><code>std.r</code></pre>
 <pre><code>[1] 0.32095</code></pre>
 <pre class="r"><code># according to chatgpt, the spike&#39;s contribution is
 # 1600 pg/mL, which is very similar to half of the reading for std 1 :]</code></pre>
@@ -939,7 +972,7 @@ kable(tail(df))</code></pre>
 </tbody>
 </table>
 <pre class="r"><code># remove outlier
-df&lt;- df[(df$Sample != &quot;TP3A&quot;),]
+#df&lt;- df[(df$Sample != &quot;TP3A&quot;),]
 
 # Creating variables in indicated units
 # dilution (buffer)
@@ -984,36 +1017,6 @@ kable(tail(data, 10))</code></pre>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">71</td>
-<td align="left">A11</td>
-<td align="left">TP2A</td>
-<td align="left">P</td>
-<td align="right">17.3</td>
-<td align="right">3793</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-<tr class="even">
-<td align="left">72</td>
-<td align="left">B11</td>
-<td align="left">TP2A</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">NA</td>
-</tr>
 <tr class="odd">
 <td align="left">73</td>
 <td align="left">C11</td>
@@ -1068,6 +1071,36 @@ kable(tail(data, 10))</code></pre>
 <td align="right">NA</td>
 <td align="right">9</td>
 <td align="right">0.06</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">77</td>
+<td align="left">G11</td>
+<td align="left">TP3A</td>
+<td align="left">P</td>
+<td align="right">23.2</td>
+<td align="right">2792</td>
+<td align="right">12</td>
+<td align="right">0.22</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">78</td>
+<td align="left">H11</td>
+<td align="left">TP3A</td>
+<td align="left">P</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">12</td>
+<td align="right">0.22</td>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
@@ -1137,9 +1170,9 @@ kable(tail(data, 10))</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>dim(data)</code></pre>
-<pre><code>[1] 80 12</code></pre>
+<pre><code>[1] 82 12</code></pre>
 <pre class="r"><code># remove duplicates
-data &lt;- data[!is.na(data$Binding.Perc), ]</code></pre>
+data.og &lt;- data[!is.na(data$Binding.Perc), ]</code></pre>
 <div id="a-standard-calculation" class="section level2">
 <h2>(A) Standard Calculation</h2>
 <p>Formula:</p>
@@ -1159,38 +1192,37 @@ extract;</li>
 ##################################
 
 # Transform to μg/dl from assay output
-
 data$Ave_Conc_ug.dL &lt;- c(data$Ave_Conc_pg.ml/10000)
 
 data$Final_conc_pg.mg &lt;- c(
-    (data$Ave_Conc_ug.dL / data$Weight_mg) * # A/B *
+    ((data$Ave_Conc_ug.dL) / data$Weight_mg) * # A/B *
       extraction *                                  # C/D  *     
-      data$Buffer_ml * 10000)                 # E * 10000
+      data$Buffer_ml * 10000 )                 # E * 10000
 data &lt;- data[order(data$Sample),]
 write.csv(data, file.path(data_path, &quot;Data_cort_values_methodA.csv&quot;), row.names = F)
 
 # summary for all samples
 summary(data$Final_conc_pg.mg)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
- 0.4142  1.9653  7.5533 14.1906 28.0667 50.9333       3 </code></pre>
+ 0.4142  1.9932  7.5643 15.6132 29.4367 68.2489      44 </code></pre>
 <pre class="r"><code>kable(tail(data, 7))</code></pre>
 <table>
 <colgroup>
 <col width="1%" />
 <col width="3%" />
-<col width="3%" />
+<col width="4%" />
 <col width="5%" />
 <col width="7%" />
 <col width="8%" />
 <col width="5%" />
 <col width="5%" />
 <col width="3%" />
-<col width="6%" />
+<col width="7%" />
 <col width="5%" />
 <col width="11%" />
-<col width="14%" />
+<col width="10%" />
 <col width="8%" />
-<col width="9%" />
+<col width="10%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1213,89 +1245,55 @@ summary(data$Final_conc_pg.mg)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">67</td>
-<td align="left">E10</td>
-<td align="left">TP1B</td>
-<td align="left">P</td>
-<td align="right">18.1</td>
-<td align="right">3820</td>
-<td align="right">6</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">HIGH CV;UNDER 20% binding</td>
-<td align="right">0.3820</td>
-<td align="right">50.93333</td>
-</tr>
-<tr class="even">
-<td align="left">69</td>
-<td align="left">G10</td>
-<td align="left">TP1C</td>
-<td align="left">P</td>
-<td align="right">27.8</td>
-<td align="right">2242</td>
-<td align="right">6</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">NA</td>
-<td align="right">0.2242</td>
-<td align="right">29.89333</td>
-</tr>
-<tr class="odd">
-<td align="left">71</td>
-<td align="left">A11</td>
-<td align="left">TP2A</td>
-<td align="left">P</td>
-<td align="right">17.3</td>
-<td align="right">3793</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-<td align="right">0.3793</td>
-<td align="right">33.71556</td>
-</tr>
-<tr class="even">
-<td align="left">73</td>
-<td align="left">C11</td>
-<td align="left">TP2B</td>
-<td align="left">P</td>
-<td align="right">21.1</td>
-<td align="right">3101</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">NA</td>
-<td align="right">0.3101</td>
-<td align="right">27.56444</td>
-</tr>
-<tr class="odd">
-<td align="left">75</td>
-<td align="left">E11</td>
+<td align="left">76</td>
+<td align="left">F11</td>
 <td align="left">TP2C</td>
 <td align="left">P</td>
-<td align="right">18.1</td>
-<td align="right">3634</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 <td align="right">9</td>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
 <td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-<td align="right">0.3634</td>
-<td align="right">32.30222</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">77</td>
+<td align="left">G11</td>
+<td align="left">TP3A</td>
+<td align="left">P</td>
+<td align="right">23.2</td>
+<td align="right">2792</td>
+<td align="right">12</td>
+<td align="right">0.22</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">0.2792</td>
+<td align="right">68.24889</td>
+</tr>
+<tr class="odd">
+<td align="left">78</td>
+<td align="left">H11</td>
+<td align="left">TP3A</td>
+<td align="left">P</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">12</td>
+<td align="right">0.22</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="left">79</td>
@@ -1315,6 +1313,23 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <td align="right">28.06667</td>
 </tr>
 <tr class="odd">
+<td align="left">80</td>
+<td align="left">B12</td>
+<td align="left">TP3B</td>
+<td align="left">P</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">12</td>
+<td align="right">0.06</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
 <td align="left">81</td>
 <td align="left">C12</td>
 <td align="left">TP3C</td>
@@ -1331,10 +1346,27 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <td align="right">0.4661</td>
 <td align="right">31.07333</td>
 </tr>
+<tr class="odd">
+<td align="left">82</td>
+<td align="left">D12</td>
+<td align="left">TP3C</td>
+<td align="left">P</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">12</td>
+<td align="right">0.06</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
 </tbody>
 </table>
 <pre class="r"><code>dim(data)</code></pre>
-<pre><code>[1] 40 14</code></pre>
+<pre><code>[1] 82 14</code></pre>
 </div>
 <div id="b-accounting-for-spike" class="section level2">
 <h2>(B) Accounting for Spike</h2>
@@ -1368,41 +1400,42 @@ reconstitute the dried extract; 10,000 accounts for changes in metrics;
 dSpike$Final_conc_pg.mg &lt;- 
   ifelse(
     dSpike$Spike == 1,    ## Only spiked samples
-      ((dSpike$Ave_Conc_ug.dL - std.r) / # (A-spike) / B
-      dSpike$Weight_mg) 
-    * extraction *      # C / D
-      dSpike$Buffer_ml * 10000 * 2 ,    # E * 10000 *2
-    dSpike$Final_conc_pg.mg  
-)
+      ((dSpike$Ave_Conc_ug.dL - (std.r)) / # (A-spike) / B
+        dSpike$Weight_mg) 
+        * extraction *                  # C / D
+        dSpike$Buffer_ml * 10000 * 2,    # E * 10000 * 2
+        dSpike$Final_conc_pg.mg  
+    )
+
 
 write.csv(dSpike, file.path(data_path, &quot;Data_cort_values_methodB.csv&quot;), row.names = F)
 
 # summary for all samples
 summary(dSpike$Final_conc_pg.mg)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
--45.870 -31.922  -1.929  -9.444   7.553  30.780       3 </code></pre>
+-45.870 -31.013  -3.944  -9.733   7.552  30.780      44 </code></pre>
 <pre class="r"><code>dSpikeSub &lt;- data[c(data$Spike == 0), ]
 summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
- 0.4142  0.8400  2.3493  7.7984 11.9733 30.7800       3 </code></pre>
+ 0.4142  0.8400  2.3493  7.7984 11.9733 30.7800      17 </code></pre>
 <pre class="r"><code>kable(tail(dSpike, 10))</code></pre>
 <table>
 <colgroup>
 <col width="1%" />
 <col width="3%" />
-<col width="3%" />
+<col width="4%" />
 <col width="5%" />
 <col width="7%" />
 <col width="8%" />
 <col width="5%" />
 <col width="5%" />
 <col width="3%" />
-<col width="6%" />
+<col width="7%" />
 <col width="5%" />
 <col width="11%" />
-<col width="14%" />
+<col width="10%" />
 <col width="8%" />
-<col width="9%" />
+<col width="10%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1425,114 +1458,12 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">61</td>
-<td align="left">G9</td>
-<td align="left">TD6</td>
-<td align="left">D</td>
-<td align="right">99.7</td>
-<td align="right">81.99</td>
-<td align="right">20</td>
-<td align="right">0.11</td>
-<td align="right">1</td>
-<td align="right">110</td>
-<td align="right">32</td>
-<td align="right">220</td>
-<td align="left">ABOVE 80% binding</td>
-<td align="right">0.008199</td>
-<td align="right">-45.870147</td>
-</tr>
-<tr class="even">
-<td align="left">63</td>
-<td align="left">A10</td>
-<td align="left">TD7</td>
-<td align="left">D</td>
-<td align="right">99.0</td>
-<td align="right">86.73</td>
-<td align="right">20</td>
-<td align="right">0.11</td>
-<td align="right">1</td>
-<td align="right">110</td>
-<td align="right">64</td>
-<td align="right">220</td>
-<td align="left">ABOVE 80% binding</td>
-<td align="right">0.008673</td>
-<td align="right">-45.800627</td>
-</tr>
-<tr class="odd">
-<td align="left">65</td>
-<td align="left">C10</td>
-<td align="left">TP1A</td>
-<td align="left">P</td>
-<td align="right">21.8</td>
-<td align="right">2986.00</td>
-<td align="right">6</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">NA</td>
-<td align="right">0.298600</td>
-<td align="right">-5.960000</td>
-</tr>
-<tr class="even">
-<td align="left">67</td>
-<td align="left">E10</td>
-<td align="left">TP1B</td>
-<td align="left">P</td>
-<td align="right">18.1</td>
-<td align="right">3820.00</td>
-<td align="right">6</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">HIGH CV;UNDER 20% binding</td>
-<td align="right">0.382000</td>
-<td align="right">16.280000</td>
-</tr>
-<tr class="odd">
-<td align="left">69</td>
-<td align="left">G10</td>
-<td align="left">TP1C</td>
-<td align="left">P</td>
-<td align="right">27.8</td>
-<td align="right">2242.00</td>
-<td align="right">6</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">NA</td>
-<td align="right">0.224200</td>
-<td align="right">-25.800000</td>
-</tr>
-<tr class="even">
-<td align="left">71</td>
-<td align="left">A11</td>
-<td align="left">TP2A</td>
-<td align="left">P</td>
-<td align="right">17.3</td>
-<td align="right">3793.00</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-<td align="right">0.379300</td>
-<td align="right">10.373333</td>
-</tr>
-<tr class="odd">
 <td align="left">73</td>
 <td align="left">C11</td>
 <td align="left">TP2B</td>
 <td align="left">P</td>
 <td align="right">21.1</td>
-<td align="right">3101.00</td>
+<td align="right">3101</td>
 <td align="right">9</td>
 <td align="right">0.06</td>
 <td align="right">1</td>
@@ -1540,16 +1471,33 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">0.310100</td>
+<td align="right">0.3101</td>
 <td align="right">-1.928889</td>
 </tr>
 <tr class="even">
+<td align="left">74</td>
+<td align="left">D11</td>
+<td align="left">TP2B</td>
+<td align="left">P</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">9</td>
+<td align="right">0.06</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
 <td align="left">75</td>
 <td align="left">E11</td>
 <td align="left">TP2C</td>
 <td align="left">P</td>
 <td align="right">18.1</td>
-<td align="right">3634.00</td>
+<td align="right">3634</td>
 <td align="right">9</td>
 <td align="right">0.06</td>
 <td align="right">1</td>
@@ -1557,8 +1505,59 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
-<td align="right">0.363400</td>
+<td align="right">0.3634</td>
 <td align="right">7.546667</td>
+</tr>
+<tr class="even">
+<td align="left">76</td>
+<td align="left">F11</td>
+<td align="left">TP2C</td>
+<td align="left">P</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">9</td>
+<td align="right">0.06</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">77</td>
+<td align="left">G11</td>
+<td align="left">TP3A</td>
+<td align="left">P</td>
+<td align="right">23.2</td>
+<td align="right">2792</td>
+<td align="right">12</td>
+<td align="right">0.22</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">0.2792</td>
+<td align="right">-20.411111</td>
+</tr>
+<tr class="even">
+<td align="left">78</td>
+<td align="left">H11</td>
+<td align="left">TP3A</td>
+<td align="left">P</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">12</td>
+<td align="right">0.22</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">79</td>
@@ -1566,7 +1565,7 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="left">TP3B</td>
 <td align="left">P</td>
 <td align="right">15.5</td>
-<td align="right">4210.00</td>
+<td align="right">4210</td>
 <td align="right">12</td>
 <td align="right">0.06</td>
 <td align="right">1</td>
@@ -1574,16 +1573,33 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
-<td align="right">0.421000</td>
+<td align="right">0.4210</td>
 <td align="right">13.340000</td>
 </tr>
 <tr class="even">
+<td align="left">80</td>
+<td align="left">B12</td>
+<td align="left">TP3B</td>
+<td align="left">P</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">12</td>
+<td align="right">0.06</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
 <td align="left">81</td>
 <td align="left">C12</td>
 <td align="left">TP3C</td>
 <td align="left">P</td>
 <td align="right">13.9</td>
-<td align="right">4661.00</td>
+<td align="right">4661</td>
 <td align="right">12</td>
 <td align="right">0.06</td>
 <td align="right">1</td>
@@ -1591,8 +1607,25 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
-<td align="right">0.466100</td>
+<td align="right">0.4661</td>
 <td align="right">19.353333</td>
+</tr>
+<tr class="even">
+<td align="left">82</td>
+<td align="left">D12</td>
+<td align="left">TP3C</td>
+<td align="left">P</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">12</td>
+<td align="right">0.06</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 </tbody>
 </table>
@@ -1602,46 +1635,65 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <pre class="r"><code>##################################
 ##### Calculate final values #####
 ################################## 
-
-data$Final_conc_pg.mg &lt;- c(
-    (data$Ave_Conc_pg.ml / data$Weight_mg) * # A/B *
+datac &lt;- data
+datac$Final_conc_pg.mg &lt;- c(
+    (datac$Ave_Conc_pg.ml / datac$Weight_mg) * # A/B *
       extraction *                                  # C/D  *     
-      data$Buffer_ml)                 # E 
-datac &lt;- data[order(data$Sample),]
+      datac$Buffer_ml)                 # E 
+datac &lt;- datac[order(datac$Sample),]
 write.csv(datac, file.path(data_path, &quot;Data_cort_values_methodC.csv&quot;), row.names = F)
 
 # summary for all samples
 summary(datac$Final_conc_pg.mg)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
- 0.4142  1.9653  7.5533 14.1906 28.0667 50.9333       3 </code></pre>
+ 0.4142  1.9932  7.5643 15.6132 29.4367 68.2489      44 </code></pre>
 </div>
-<div id="d-account-for-spike-contribution-2" class="section level2">
-<h2>(D) Account for Spike (contribution / 2)</h2>
+<div
+id="d-account-for-spike-contribution-uses-vol.-of-spike-conc.-of-spike-and-total-reconstit.-vol."
+class="section level2">
+<h2>(D) Account for Spike contribution (uses vol. of spike, conc. of
+spike, and total reconstit. vol.)</h2>
 <p>Spike contribution (pg/mL) = (Vol. spike (mL) x Conc. spike (pg/mL) )
 / Vol. reconstitution (mL) or total vol. in well (50uL) (depending on
 where the spike was added)</p>
 <pre class="r"><code># Calculate contribution of spike according to the different volumes in which it was added
-# consider that contribution in serial dilutions is smaller 
+# Consider that contribution of spike in serial dilutions gets smaller 
 
-# vol_in_well/tube_uL = total volume in tube or well, after adding spike.
-# In tube if spike was added there, or well if spike was added there. 
+# Vol. of spike transformed to mL
+data$SpikeVol_ml &lt;- data$SpikeVol_uL/1000
+# Concentration of the spike:
+std</code></pre>
+<pre><code>[1] 3209.5</code></pre>
+<pre class="r"><code># Vol. reconstitution (mL) is the total volume in tube or well (sample + spike), after adding spike.
+# transform to mL
+data$Vol_in_well.tube_ml &lt;- data$Vol_in_well.tube_uL/1000
 
+
+  ##( Spike vol. x Spike Conc.)
+  ## ------------------------  / dilution = Spike contribution
+  ##      Total vol. 
+  
 # Cortisol added by spike in wells: 0.0025 mL x 3200 pg/mL = 80 pg
-datac$Spike.cont_pg.mL &lt;-  (((datac$SpikeVol_uL/1000) * std ) / (datac$Vol_in_well.tube_uL/1000)) / datac$Dilution
+# Calculate cort contribution of spike to each sample
+data$Spike.cont_pg.mL &lt;- (((data$SpikeVol_ml * std ) / # Volume of spike * Spike concentration
+                            data$Vol_in_well.tube_ml) / # divided by the total volume (spike + sample)
+                              data$Dilution) # resulting number changes depending on the dilution
 
+dSpiked &lt;- data
+                          
 ##################################
 ##### Calculate final values #####
 ##################################
 
-dSpiked &lt;- datac
+
 dSpiked$Final_conc_pg.mg &lt;- 
   ifelse(
-    dSpike$Spike == 1,    ## Only spiked samples
-      ((dSpike$Ave_Conc_pg.ml - datac$Spike.cont_pg.mL) / # (A-spike) / B
-      dSpike$Weight_mg) 
+    dSpiked$Spike == 1,           ## Only spiked samples
+      ((dSpiked$Ave_Conc_pg.ml - dSpiked$Spike.cont_pg.mL) / # (A - spike) / B
+      dSpiked$Weight_mg) 
     * extraction *      # C / D
-      dSpike$Buffer_ml,    # E * 
-    dSpike$Final_conc_pg.mg  
+      dSpiked$Buffer_ml,    # E * 
+    dSpiked$Final_conc_pg.mg  
 )
 
 write.csv(dSpiked, file.path(data_path, &quot;Data_cort_values_methodD.csv&quot;), row.names = F)
@@ -1649,8 +1701,8 @@ write.csv(dSpiked, file.path(data_path, &quot;Data_cort_values_methodD.csv&quot;
 # summary for all samples
 summary(dSpiked$Final_conc_pg.mg)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
- 0.2335  1.5067  6.7184  9.7699 17.3683 32.2815       3 </code></pre>
-<pre class="r"><code>kable(head(dSpiked[!is.na(dSpiked$Final_conc_pg.mg) , c(&quot;Sample&quot;, &quot;Final_conc_pg.mg&quot;, &quot;Ave_Conc_pg.ml&quot;, &quot;Spike.cont_pg.mL&quot;, &quot;Binding.Perc&quot;, &quot;Weight_mg&quot;, &quot;Buffer_ml&quot;, &quot;SpikeVol_uL&quot;, &quot;Dilution&quot;, &quot;Vol_in_well.tube_uL&quot;)]))</code></pre>
+ 0.2335  1.6157  7.0685 10.2765 17.8704 32.2815      44 </code></pre>
+<pre class="r"><code>kable(tail(dSpiked[!is.na(dSpiked$Final_conc_pg.mg) , c(&quot;Sample&quot;, &quot;Final_conc_pg.mg&quot;, &quot;Ave_Conc_pg.ml&quot;, &quot;Spike.cont_pg.mL&quot;, &quot;Binding.Perc&quot;, &quot;Weight_mg&quot;, &quot;Buffer_ml&quot;, &quot;SpikeVol_uL&quot;, &quot;Dilution&quot;, &quot;Vol_in_well.tube_uL&quot;)],20))</code></pre>
 <table>
 <colgroup>
 <col width="2%" />
@@ -1682,82 +1734,264 @@ summary(dSpiked$Final_conc_pg.mg)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">7</td>
-<td align="left">POOL</td>
-<td align="right">16.393333</td>
-<td align="right">983.6</td>
-<td align="right">NA</td>
-<td align="right">48.0</td>
+<td align="left">43</td>
+<td align="left">TC4</td>
+<td align="right">2.1748485</td>
+<td align="right">618.00</td>
+<td align="right">291.77273</td>
+<td align="right">60.2</td>
+<td align="right">50</td>
+<td align="right">0.25</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">275</td>
+</tr>
+<tr class="even">
+<td align="left">45</td>
+<td align="left">TC5</td>
+<td align="right">0.9633333</td>
+<td align="right">144.50</td>
+<td align="right">291.77273</td>
+<td align="right">92.0</td>
+<td align="right">50</td>
+<td align="right">0.25</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">275</td>
+</tr>
+<tr class="odd">
+<td align="left">47</td>
+<td align="left">TC6</td>
+<td align="right">0.6499333</td>
+<td align="right">97.49</td>
+<td align="right">291.77273</td>
+<td align="right">97.7</td>
+<td align="right">50</td>
+<td align="right">0.25</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">275</td>
+</tr>
+<tr class="even">
+<td align="left">49</td>
+<td align="left">TC7</td>
+<td align="right">0.7166667</td>
+<td align="right">107.50</td>
+<td align="right">291.77273</td>
+<td align="right">96.4</td>
+<td align="right">50</td>
+<td align="right">0.25</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">275</td>
+</tr>
+<tr class="odd">
+<td align="left">51</td>
+<td align="left">TD1</td>
+<td align="right">18.7971667</td>
+<td align="right">4168.00</td>
+<td align="right">1604.75000</td>
+<td align="right">15.7</td>
 <td align="right">20</td>
-<td align="right">0.25</td>
-<td align="right">0</td>
+<td align="right">0.11</td>
+<td align="right">110</td>
 <td align="right">1</td>
-<td align="right">NA</td>
+<td align="right">220</td>
 </tr>
 <tr class="even">
-<td align="left">9</td>
-<td align="left">TA1</td>
-<td align="right">30.780000</td>
-<td align="right">4617.0</td>
-<td align="right">NA</td>
-<td align="right">14.0</td>
-<td align="right">50</td>
-<td align="right">0.25</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">11</td>
-<td align="left">TA2</td>
-<td align="right">19.473333</td>
-<td align="right">2921.0</td>
-<td align="right">NA</td>
-<td align="right">22.4</td>
-<td align="right">50</td>
-<td align="right">0.25</td>
-<td align="right">0</td>
+<td align="left">53</td>
+<td align="left">TD2</td>
+<td align="right">7.4185833</td>
+<td align="right">1814.00</td>
+<td align="right">802.37500</td>
+<td align="right">32.7</td>
+<td align="right">20</td>
+<td align="right">0.11</td>
+<td align="right">110</td>
 <td align="right">2</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">13</td>
-<td align="left">TA3</td>
-<td align="right">7.553333</td>
-<td align="right">1133.0</td>
-<td align="right">NA</td>
-<td align="right">44.3</td>
-<td align="right">50</td>
-<td align="right">0.25</td>
-<td align="right">0</td>
-<td align="right">4</td>
-<td align="right">NA</td>
+<td align="right">220</td>
 </tr>
 <tr class="odd">
-<td align="left">15</td>
-<td align="left">TA4</td>
-<td align="right">4.982667</td>
-<td align="right">747.4</td>
-<td align="right">NA</td>
-<td align="right">55.2</td>
-<td align="right">50</td>
-<td align="right">0.25</td>
-<td align="right">0</td>
-<td align="right">8</td>
-<td align="right">NA</td>
+<td align="left">55</td>
+<td align="left">TD3</td>
+<td align="right">4.6332917</td>
+<td align="right">1033.00</td>
+<td align="right">401.18750</td>
+<td align="right">46.7</td>
+<td align="right">20</td>
+<td align="right">0.11</td>
+<td align="right">110</td>
+<td align="right">4</td>
+<td align="right">220</td>
 </tr>
 <tr class="even">
-<td align="left">17</td>
-<td align="left">TA5</td>
-<td align="right">2.349333</td>
-<td align="right">352.4</td>
-<td align="right">NA</td>
-<td align="right">74.1</td>
-<td align="right">50</td>
-<td align="right">0.25</td>
-<td align="right">0</td>
+<td align="left">57</td>
+<td align="left">TD4</td>
+<td align="right">2.3797125</td>
+<td align="right">525.10</td>
+<td align="right">200.59375</td>
+<td align="right">64.3</td>
+<td align="right">20</td>
+<td align="right">0.11</td>
+<td align="right">110</td>
+<td align="right">8</td>
+<td align="right">220</td>
+</tr>
+<tr class="odd">
+<td align="left">59</td>
+<td align="left">TD5</td>
+<td align="right">1.2298229</td>
+<td align="right">268.00</td>
+<td align="right">100.29688</td>
+<td align="right">80.2</td>
+<td align="right">20</td>
+<td align="right">0.11</td>
+<td align="right">110</td>
 <td align="right">16</td>
-<td align="right">NA</td>
+<td align="right">220</td>
+</tr>
+<tr class="even">
+<td align="left">61</td>
+<td align="left">TD6</td>
+<td align="right">0.2335048</td>
+<td align="right">81.99</td>
+<td align="right">50.14844</td>
+<td align="right">99.7</td>
+<td align="right">20</td>
+<td align="right">0.11</td>
+<td align="right">110</td>
+<td align="right">32</td>
+<td align="right">220</td>
+</tr>
+<tr class="odd">
+<td align="left">63</td>
+<td align="left">TD7</td>
+<td align="right">0.4521424</td>
+<td align="right">86.73</td>
+<td align="right">25.07422</td>
+<td align="right">99.0</td>
+<td align="right">20</td>
+<td align="right">0.11</td>
+<td align="right">110</td>
+<td align="right">64</td>
+<td align="right">220</td>
+</tr>
+<tr class="even">
+<td align="left">65</td>
+<td align="left">TP1A</td>
+<td align="right">18.4166667</td>
+<td align="right">2986.00</td>
+<td align="right">1604.75000</td>
+<td align="right">21.8</td>
+<td align="right">6</td>
+<td align="right">0.06</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">67</td>
+<td align="left">TP1B</td>
+<td align="right">29.5366667</td>
+<td align="right">3820.00</td>
+<td align="right">1604.75000</td>
+<td align="right">18.1</td>
+<td align="right">6</td>
+<td align="right">0.06</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">69</td>
+<td align="left">TP1C</td>
+<td align="right">8.4966667</td>
+<td align="right">2242.00</td>
+<td align="right">1604.75000</td>
+<td align="right">27.8</td>
+<td align="right">6</td>
+<td align="right">0.06</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">71</td>
+<td align="left">TP2A</td>
+<td align="right">19.4511111</td>
+<td align="right">3793.00</td>
+<td align="right">1604.75000</td>
+<td align="right">17.3</td>
+<td align="right">9</td>
+<td align="right">0.06</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">73</td>
+<td align="left">TP2B</td>
+<td align="right">13.3000000</td>
+<td align="right">3101.00</td>
+<td align="right">1604.75000</td>
+<td align="right">21.1</td>
+<td align="right">9</td>
+<td align="right">0.06</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">75</td>
+<td align="left">TP2C</td>
+<td align="right">18.0377778</td>
+<td align="right">3634.00</td>
+<td align="right">1604.75000</td>
+<td align="right">18.1</td>
+<td align="right">9</td>
+<td align="right">0.06</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">77</td>
+<td align="left">TP3A</td>
+<td align="right">29.0216667</td>
+<td align="right">2792.00</td>
+<td align="right">1604.75000</td>
+<td align="right">23.2</td>
+<td align="right">12</td>
+<td align="right">0.22</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">79</td>
+<td align="left">TP3B</td>
+<td align="right">17.3683333</td>
+<td align="right">4210.00</td>
+<td align="right">1604.75000</td>
+<td align="right">15.5</td>
+<td align="right">12</td>
+<td align="right">0.06</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">81</td>
+<td align="left">TP3C</td>
+<td align="right">20.3750000</td>
+<td align="right">4661.00</td>
+<td align="right">1604.75000</td>
+<td align="right">13.9</td>
+<td align="right">12</td>
+<td align="right">0.06</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
 </tr>
 </tbody>
 </table>
@@ -1767,466 +2001,20 @@ summary(dSpiked$Final_conc_pg.mg)</code></pre>
 <h1>Plots</h1>
 <div id="a-standard-calculation-1" class="section level2">
 <h2>(A) Standard Calculation</h2>
-<pre class="r"><code># scatterplot method A
-data$Spike &lt;- replace(data$Spike, data$Spike == 1, &#39;Yes&#39;)
-data$Spike &lt;- replace(data$Spike, data$Spike == 0, &#39;No&#39;)
-data$Buffer &lt;- data$Buffer_ml
-data$Buffer &lt;- replace(data$Buffer, data$Buffer == 0.06, &#39;60 uL&#39;)
-data$Buffer &lt;- replace(data$Buffer, data$Buffer == 0.11, &#39;110 uL&#39;)
-data$Buffer &lt;- replace(data$Buffer, data$Buffer == 0.25, &#39;250 uL&#39;)
-
-
-ggplot(data, aes(y = Final_conc_pg.mg, 
-                 x = Weight_mg, 
-                 color = Spike,
-                 shape = Buffer)) +
-  geom_point(size = 2.5, alpha = 0.85) +  
-   geom_text(aes(label = Sample), size = 2.5, vjust = -0.65, hjust = -0.18) +
-    theme_minimal() +  
-  geom_hline(yintercept = 0, 
-             linetype = &quot;dashed&quot;, color = &quot;red&quot;) +
-  xlim(0,52) +
-  labs(
-    title = &quot;(A) Standard Calculation Cortisol Values&quot;,
-    y = &quot;Final Concentration (pg/mg)&quot;,
-    x = &quot;Weight (mg)&quot;) + 
-  theme(
-    plot.title = element_text(hjust = 0.5, 
-                              size = 17, face = &quot;bold&quot;),
-    axis.title = element_text(size = 14),  
-    axis.text = element_text(size = 12)  
-  ) + 
-  scale_color_paletteer_d(&quot;vangogh::CafeTerrace&quot;)</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_text()`).</code></pre>
-<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
-Past versions of unnamed-chunk-6-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-6-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" target="_blank">528855b</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="b-accounting-for-spike-1" class="section level2">
 <h2>(B) Accounting for Spike</h2>
-<pre class="r"><code>dSpike$Spike &lt;- replace(dSpike$Spike, dSpike$Spike == 1, &#39;Yes&#39;)
-dSpike$Spike &lt;- replace(dSpike$Spike, dSpike$Spike == 0, &#39;No&#39;)
-dSpike$Buffer &lt;- dSpike$Buffer_ml
-dSpike$Buffer &lt;- replace(dSpike$Buffer, dSpike$Buffer == 0.06, &#39;60 uL&#39;)
-dSpike$Buffer &lt;- replace(dSpike$Buffer, dSpike$Buffer == 0.11, &#39;110 uL&#39;)
-dSpike$Buffer &lt;- replace(dSpike$Buffer, dSpike$Buffer == 0.25, &#39;250 uL&#39;)
-
-# scatterplot
-ggplot(dSpike, aes(y = Final_conc_pg.mg, 
-                 x = Weight_mg, 
-                 color = Spike,
-                 shape = Buffer)) +
-  geom_point(size = 3.5,  alpha = 0.85) +  
-  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
-  theme_minimal() +  
-  xlim(0,52) +
-  geom_hline(yintercept = 0, 
-             linetype = &quot;dashed&quot;, color = &quot;red&quot;) +
-  labs(
-    title = &quot;(B) Calculation Accounting for Spike&quot;,
-    y = &quot;Final Concentration (pg/mg)&quot;,
-    x = &quot;Weight (mg)&quot; ) +
-  theme(
-    plot.title = element_text(hjust = 0.5, 
-                              size = 17, face = &quot;bold&quot;),
-    axis.title = element_text(size = 14),  
-    axis.text = element_text(size = 12)  
-  )+ 
-  scale_color_paletteer_d(&quot;vangogh::CafeTerrace&quot;)</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_text()`).</code></pre>
-<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
-Past versions of unnamed-chunk-7-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-7-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-7-1.png" target="_blank">528855b</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-03
-</td>
-</tr>
-</tbody>
-</table>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
+<div id="c-simplified-standard-calculation" class="section level2">
+<h2>(C) Simplified Standard Calculation</h2>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-</div>
-<div id="c" class="section level2">
-<h2>(C)</h2>
-<pre class="r"><code># scatterplot method c
-datac$Spike &lt;- replace(datac$Spike, data$Spike == 1, &#39;Yes&#39;)
-datac$Spike &lt;- replace(datac$Spike, data$Spike == 0, &#39;No&#39;)
-datac$Buffer &lt;- data$Buffer_ml
-datac$Buffer &lt;- replace(datac$Buffer, data$Buffer == 0.06, &#39;60 uL&#39;)
-datac$Buffer &lt;- replace(datac$Buffer, data$Buffer == 0.11, &#39;110 uL&#39;)
-datac$Buffer &lt;- replace(datac$Buffer, data$Buffer == 0.25, &#39;250 uL&#39;)
-
-
-ggplot(datac, aes(y = Final_conc_pg.mg, 
-                 x = Weight_mg, 
-                 color = Spike,
-                 shape = Buffer)) +
-  geom_point(size = 2.5, alpha = 0.85) +  
-   geom_text(aes(label = Sample), size = 2.5, vjust = -0.65, hjust = -0.18) +
-    theme_minimal() +  
-  geom_hline(yintercept = 0, 
-             linetype = &quot;dashed&quot;, color = &quot;red&quot;) +
-    #ylim(-26,24) +
-#  xlim(0,52) +
-  labs(
-    title = &quot;(C) &quot;,
-    y = &quot;Final Concentration (pg/mg)&quot;,
-    x = &quot;Weight (mg)&quot;) + 
-  theme(
-    plot.title = element_text(hjust = 0.5, 
-                              size = 17, face = &quot;bold&quot;),
-    axis.title = element_text(size = 14),  
-    axis.text = element_text(size = 12)  
-  ) + 
-  scale_color_paletteer_d(&quot;vangogh::CafeTerrace&quot;)</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_text()`).</code></pre>
-<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
-Past versions of unnamed-chunk-8-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-1.png" target="_blank">528855b</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="d" class="section level2">
-<h2>D</h2>
-<pre class="r"><code>dSpiked$Spike &lt;- replace(dSpiked$Spike, dSpiked$Spike == 1, &#39;Yes&#39;)
-dSpiked$Spike &lt;- replace(dSpiked$Spike, dSpiked$Spike == 0, &#39;No&#39;)
-dSpiked$Buffer &lt;- dSpiked$Buffer_ml
-dSpiked$Buffer &lt;- replace(dSpiked$Buffer, dSpiked$Buffer == 0.06, &#39;60 uL&#39;)
-dSpiked$Buffer &lt;- replace(dSpiked$Buffer, dSpiked$Buffer == 0.11, &#39;110 uL&#39;)
-dSpiked$Buffer &lt;- replace(dSpiked$Buffer, dSpiked$Buffer == 0.25, &#39;250 uL&#39;)
-
-# scatterplot
-ggplot(dSpiked, aes(y = Final_conc_pg.mg, 
-                 x = Weight_mg, 
-                 color = Spike,
-                 shape = Buffer)) +
-  geom_point(size = 3.5,  alpha = 0.85) +  
-  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
-  theme_minimal() +  
-    ylim(-26,30) +
-  xlim(0,52) +
-  geom_hline(yintercept = 0, 
-             linetype = &quot;dashed&quot;, color = &quot;red&quot;) +
-  labs(
-    title = &quot;(D) &quot;,
-    y = &quot;Final Concentration (pg/mg)&quot;,
-    x = &quot;Weight (mg)&quot; ) +
-  theme(
-    plot.title = element_text(hjust = 0.5, 
-                              size = 17, face = &quot;bold&quot;),
-    axis.title = element_text(size = 14),  
-    axis.text = element_text(size = 12)  
-  )+ 
-  scale_color_paletteer_d(&quot;vangogh::CafeTerrace&quot;)</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
-(`geom_text()`).</code></pre>
-<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
-Past versions of unnamed-chunk-9-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-9-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" target="_blank">528855b</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div id="evaluation" class="section level1">
-<h1>Evaluation</h1>
-<pre class="r"><code># non-spiked samples only
-data2 &lt;-data
-
-#two datasets, separated by dilution
-data2.06 &lt;- data2[data2$Buffer == &quot;60 uL&quot;, ]
-data2.11 &lt;- data2[data2$Buffer == &quot;110 uL&quot;, ]
-data2.25 &lt;- data2[data2$Buffer == &quot;250 uL&quot;, ]
-
-
-#### fit models ####
-
-# model Buffer = 0.06
-model06 &lt;- lm(Final_conc_pg.mg ~ Weight_mg, 
-              data = data2.06)
-r_squared06 &lt;- summary(model06)$r.squared
-
-# model Buffer = 0.25
-model25 &lt;- lm(Final_conc_pg.mg ~ Weight_mg, 
-              data = data2.25)
-r_squared25 &lt;- summary(model25)$r.squared
-
-# Calculate residuals
-residuals06 &lt;- residuals(model06)
-residuals25 &lt;- residuals(model25)
-
-# Quantify residuals
-# Mean Absolute Error
-mae06 &lt;- mean(abs(residuals06))          
-# Standard Deviation of Residuals
-std_dev06 &lt;- sd(residuals06)   
-
-# Mean Absolute Error
-mae25 &lt;- mean(abs(residuals25))      
-# Standard Deviation of Residuals
-std_dev25 &lt;- sd(residuals25)                      
-
-
-
-# scatterplot
-
-ggplot(data2, aes(y = Final_conc_pg.mg, 
-                  x = Weight_mg, 
-                  color = Category, 
-                  fill = Category)) +
-  geom_point(size = 2.5) +  
-  geom_text(label = c(data2$Sample), nudge_y = 0.75, nudge_x = -0.5) +
-  geom_smooth(method = &quot;lm&quot;, 
-              color = &quot;gold3&quot;, 
-              se = TRUE,
-              alpha = 0.1) + 
-  geom_hline(yintercept = mean(data2$Final_conc_pg.mg), 
-             color = &quot;gray80&quot;,
-             linetype = &quot;dashed&quot;) +
-  geom_hline(yintercept = mean(data2.06$Final_conc_pg.mg), 
-             color = &quot;lightblue3&quot;,
-             linetype = &quot;dashed&quot;) +
-  geom_hline(yintercept = mean(data2.25$Final_conc_pg.mg), 
-             color = &quot;lightpink3&quot;,
-             linetype = &quot;dashed&quot;) +
-  theme_minimal() +  
-  xlim(5, max(data2$Weight_mg) + 4) +
-  ylim(0, max(data2$Final_conc_pg.mg)+4) + 
-  labs(
-    title = &quot;Final Cort Concentration and Weight
-    (Non-spiked only)&quot;,
-    y = &quot;Final Concentration (pg/mg)&quot;,
-    x = &quot;Weight (mg)&quot;  
-  ) +
-  theme(
-    plot.title = element_text(hjust = 0.5, size = 16, face = &quot;bold&quot;),  
-    axis.title = element_text(size = 14),  
-    axis.text = element_text(size = 12) 
-  ) +
-  # Add R^2 annotation
-  annotate(&quot;text&quot;, x = max(data2$Weight_mg) * 0.7, 
-           y = min(data2$Final_conc_pg.mg) * 1.5,
-           label = paste(&quot;R² =&quot;, round(r_squared06, 3)), 
-           size = 5, color = &quot;black&quot;) +
-  annotate(&quot;text&quot;, x = max(data2$Weight_mg) * 0.7, 
-           y = max(data2$Final_conc_pg.mg) * 0.84,
-           label = paste(&quot;R² =&quot;, round(r_squared25, 3)), 
-           size = 5, color = &quot;black&quot;)</code></pre>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_smooth()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_text()`).</code></pre>
-<pre><code>Warning: Removed 1 row containing missing values or values outside the scale range
-(`geom_hline()`).
-Removed 1 row containing missing values or values outside the scale range
-(`geom_hline()`).
-Removed 1 row containing missing values or values outside the scale range
-(`geom_hline()`).</code></pre>
-<pre><code>Warning: Removed 1 row containing missing values or values outside the scale range
-(`geom_text()`).
-Removed 1 row containing missing values or values outside the scale range
-(`geom_text()`).</code></pre>
-<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
-Past versions of unnamed-chunk-10-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-10-1.png" target="_blank">528855b</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>The previous figure shows that:</p>
-<ul>
-<li>results are very stable across weights, particularly for the samples
-where a dilution of 250 uL was used</li>
-<li>there is more error when using a dilution of 60 uL<br />
-</li>
-<li>dilution affects estimation of cortisol concentration in a
-significant way: even though final concentration numbers account for
-differences in the dilutions, the results we observe for each group do
-not overlap</li>
-<li>the average value when using 250 uL of buffer is twice as big as
-when using 60 uL</li>
-</ul>
-<div id="optimal-dilution" class="section level2">
-<h2>Optimal dilution</h2>
-<p><strong>Error using 0.06 mL buffer</strong></p>
-<pre><code>Mean Absolute Error (MAE) 0.06 mL: 4.064 </code></pre>
-<pre><code>Standard Deviation of Residuals 0.06 mL: 6.235 </code></pre>
-<p><strong>Error using 0.25 mL buffer</strong></p>
-<pre><code>Mean Absolute Error (MAE) 0.25 mL: 7.328 </code></pre>
-<pre><code>Standard Deviation of Residuals 0.25 mL: 9.695 </code></pre>
-<p>From this we conclude that using <strong>a 250 uL dilution provides
-more consistent results</strong></p>
+<div id="d-new-calculation-substract-half-of-the-spike-from-a"
+class="section level2">
+<h2>(D) New calculation (substract half of the spike from A)</h2>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -2259,20 +2047,19 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] sass_0.4.9        utf8_1.2.4        generics_0.1.3    tidyr_1.3.1      
- [5] prismatic_1.1.2   lattice_0.22-6    stringi_1.8.4     digest_0.6.37    
- [9] magrittr_2.0.3    evaluate_1.0.1    grid_4.4.3        fastmap_1.2.0    
-[13] Matrix_1.7-2      rprojroot_2.0.4   workflowr_1.7.1   jsonlite_1.8.9   
-[17] whisker_0.4.1     backports_1.5.0   rematch2_2.1.2    promises_1.3.0   
-[21] mgcv_1.9-1        purrr_1.0.2       fansi_1.0.6       scales_1.3.0     
-[25] jquerylib_0.1.4   cli_3.6.3         rlang_1.1.4       splines_4.4.3    
-[29] munsell_0.5.1     withr_3.0.2       cachem_1.1.0      yaml_2.3.10      
-[33] tools_4.4.3       colorspace_2.1-1  httpuv_1.6.15     vctrs_0.6.5      
-[37] R6_2.5.1          lifecycle_1.0.4   git2r_0.35.0      stringr_1.5.1    
-[41] fs_1.6.5          pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0      
-[45] later_1.3.2       gtable_0.3.6      glue_1.8.0        Rcpp_1.0.13-1    
-[49] xfun_0.49         tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1
-[53] farver_2.1.2      nlme_3.1-167      htmltools_0.5.8.1 rmarkdown_2.29   
-[57] labeling_0.4.3    compiler_4.4.3   </code></pre>
+ [5] prismatic_1.1.2   stringi_1.8.4     digest_0.6.37     magrittr_2.0.3   
+ [9] evaluate_1.0.1    grid_4.4.3        fastmap_1.2.0     rprojroot_2.0.4  
+[13] workflowr_1.7.1   jsonlite_1.8.9    whisker_0.4.1     backports_1.5.0  
+[17] rematch2_2.1.2    promises_1.3.0    purrr_1.0.2       fansi_1.0.6      
+[21] scales_1.3.0      jquerylib_0.1.4   cli_3.6.3         rlang_1.1.4      
+[25] munsell_0.5.1     withr_3.0.2       cachem_1.1.0      yaml_2.3.10      
+[29] tools_4.4.3       colorspace_2.1-1  httpuv_1.6.15     vctrs_0.6.5      
+[33] R6_2.5.1          lifecycle_1.0.4   git2r_0.35.0      stringr_1.5.1    
+[37] fs_1.6.5          pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0      
+[41] later_1.3.2       gtable_0.3.6      glue_1.8.0        Rcpp_1.0.13-1    
+[45] xfun_0.49         tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1
+[49] farver_2.1.2      htmltools_0.5.8.1 rmarkdown_2.29    labeling_0.4.3   
+[53] compiler_4.4.3   </code></pre>
 </div>
 </div>
 </div>
