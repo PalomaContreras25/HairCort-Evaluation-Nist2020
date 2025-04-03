@@ -421,10 +421,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -517,15 +517,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree4bc45b5756acf1caddc052bf9f89ed43bfbe434atargetblank4bc45b5a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree528855bad8d818400bf42ae3059600f9b176f802targetblank528855ba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/4bc45b5756acf1caddc052bf9f89ed43bfbe434a" target="_blank">4bc45b5</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/528855bad8d818400bf42ae3059600f9b176f802" target="_blank">528855b</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree4bc45b5756acf1caddc052bf9f89ed43bfbe434atargetblank4bc45b5a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree528855bad8d818400bf42ae3059600f9b176f802targetblank528855ba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -535,7 +535,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/4bc45b5756acf1caddc052bf9f89ed43bfbe434a" target="_blank">4bc45b5</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/528855bad8d818400bf42ae3059600f9b176f802" target="_blank">528855b</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -559,13 +559,16 @@ Ignored files:
     Ignored:    data/Test3/.DS_Store
     Ignored:    data/Test4/.DS_Store
 
-Untracked files:
-    Untracked:  analysis/ELISA_Calc_FinalVals_test4.Rmd
-    Untracked:  analysis/ELISA_QC_test4.Rmd
-
 Unstaged changes:
-    Deleted:    analysis/ELISA_QC_FinalVals_test4.Rmd
+    Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
+    Modified:   data/Test4/Data_QC_filtered.csv
+    Modified:   data/Test4/Data_QC_flagged.csv
     Modified:   data/Test4/Data_cort_values_methodA.csv
+    Modified:   data/Test4/Data_cort_values_methodB.csv
+    Modified:   data/Test4/Data_cort_values_methodC.csv
+    Modified:   data/Test4/Data_cort_values_methodD.csv
+    Modified:   data/Test4/failed_samples.csv
+    Modified:   data/Test4/layout_wells_test4_021925.csv
 
 </code></pre>
 <p>
@@ -581,9 +584,73 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/ELISA_Calc_FinalVals_test4.Rmd</code>) and HTML
+(<code>docs/ELISA_Calc_FinalVals_test4.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new_calc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/528855bad8d818400bf42ae3059600f9b176f802/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new_calc
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -689,27 +756,28 @@ std.r</code></pre>
 data</em></p>
 <pre class="r"><code>df &lt;- read.csv(file.path(data_path,&quot;Data_QC_flagged.csv&quot;))
 kable(tail(df))</code></pre>
-<table>
+<table style="width:100%;">
 <colgroup>
 <col width="1%" />
-<col width="3%" />
+<col width="2%" />
 <col width="3%" />
 <col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="2%" />
 <col width="5%" />
-<col width="5%" />
+<col width="4%" />
+<col width="9%" />
 <col width="3%" />
 <col width="6%" />
-<col width="4%" />
-<col width="3%" />
-<col width="7%" />
 <col width="5%" />
-<col width="8%" />
-<col width="4%" />
+<col width="7%" />
 <col width="3%" />
+<col width="2%" />
 <col width="3%" />
 <col width="4%" />
-<col width="10%" />
 <col width="9%" />
+<col width="8%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -722,6 +790,7 @@ kable(tail(df))</code></pre>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
 <th align="right">Dilution</th>
+<th align="right">Vol_in_well.tube_uL</th>
 <th align="right">Raw.OD</th>
 <th align="right">Binding.Perc</th>
 <th align="right">Conc_pg.ml</th>
@@ -745,6 +814,7 @@ kable(tail(df))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="right">0.258</td>
 <td align="right">23.2</td>
 <td align="right">2800</td>
@@ -766,6 +836,7 @@ kable(tail(df))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="right">0.259</td>
 <td align="right">NA</td>
 <td align="right">2785</td>
@@ -787,6 +858,7 @@ kable(tail(df))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="right">0.195</td>
 <td align="right">15.5</td>
 <td align="right">4084</td>
@@ -808,6 +880,7 @@ kable(tail(df))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="right">0.186</td>
 <td align="right">NA</td>
 <td align="right">4336</td>
@@ -829,6 +902,7 @@ kable(tail(df))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="right">0.186</td>
 <td align="right">13.9</td>
 <td align="right">4336</td>
@@ -850,6 +924,7 @@ kable(tail(df))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="right">0.166</td>
 <td align="right">NA</td>
 <td align="right">4986</td>
@@ -872,23 +947,24 @@ df$Buffer_ml &lt;- c(df$Buffer_nl/1000)
 
 # remove unnecessary information 
 data &lt;- df %&gt;%
-    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Weight_mg, Buffer_ml, Spike, SpikeVol_uL, Dilution, Failed_samples) 
+    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Weight_mg, Buffer_ml, Spike, SpikeVol_uL, Dilution, Vol_in_well.tube_uL, Failed_samples) 
 
 kable(tail(data, 10))</code></pre>
 <table>
 <colgroup>
 <col width="2%" />
+<col width="4%" />
 <col width="5%" />
-<col width="5%" />
-<col width="7%" />
-<col width="11%" />
-<col width="12%" />
-<col width="8%" />
-<col width="8%" />
-<col width="5%" />
+<col width="6%" />
+<col width="9%" />
 <col width="10%" />
 <col width="7%" />
-<col width="15%" />
+<col width="7%" />
+<col width="4%" />
+<col width="8%" />
+<col width="6%" />
+<col width="14%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -903,6 +979,7 @@ kable(tail(data, 10))</code></pre>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
 <th align="right">Dilution</th>
+<th align="right">Vol_in_well.tube_uL</th>
 <th align="left">Failed_samples</th>
 </tr>
 </thead>
@@ -919,6 +996,7 @@ kable(tail(data, 10))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 </tr>
 <tr class="even">
@@ -933,6 +1011,7 @@ kable(tail(data, 10))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -947,6 +1026,7 @@ kable(tail(data, 10))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -961,6 +1041,7 @@ kable(tail(data, 10))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -975,6 +1056,7 @@ kable(tail(data, 10))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 </tr>
 <tr class="even">
@@ -989,6 +1071,7 @@ kable(tail(data, 10))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -1003,6 +1086,7 @@ kable(tail(data, 10))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 </tr>
 <tr class="even">
@@ -1017,6 +1101,7 @@ kable(tail(data, 10))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -1031,6 +1116,7 @@ kable(tail(data, 10))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 </tr>
 <tr class="even">
@@ -1045,12 +1131,13 @@ kable(tail(data, 10))</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 </tr>
 </tbody>
 </table>
 <pre class="r"><code>dim(data)</code></pre>
-<pre><code>[1] 80 11</code></pre>
+<pre><code>[1] 80 12</code></pre>
 <pre class="r"><code># remove duplicates
 data &lt;- data[!is.na(data$Binding.Perc), ]</code></pre>
 <div id="a-standard-calculation" class="section level2">
@@ -1087,22 +1174,23 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
  0.4142  1.9653  7.5533 14.1906 28.0667 50.9333       3 </code></pre>
 <pre class="r"><code>kable(tail(data, 7))</code></pre>
-<table style="width:100%;">
+<table>
 <colgroup>
 <col width="1%" />
 <col width="3%" />
-<col width="4%" />
+<col width="3%" />
 <col width="5%" />
+<col width="7%" />
+<col width="8%" />
+<col width="5%" />
+<col width="5%" />
+<col width="3%" />
+<col width="6%" />
+<col width="5%" />
+<col width="11%" />
+<col width="14%" />
 <col width="8%" />
 <col width="9%" />
-<col width="6%" />
-<col width="6%" />
-<col width="3%" />
-<col width="7%" />
-<col width="5%" />
-<col width="16%" />
-<col width="9%" />
-<col width="10%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1117,6 +1205,7 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
 <th align="right">Dilution</th>
+<th align="right">Vol_in_well.tube_uL</th>
 <th align="left">Failed_samples</th>
 <th align="right">Ave_Conc_ug.dL</th>
 <th align="right">Final_conc_pg.mg</th>
@@ -1135,6 +1224,7 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">HIGH CV;UNDER 20% binding</td>
 <td align="right">0.3820</td>
 <td align="right">50.93333</td>
@@ -1151,6 +1241,7 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 <td align="right">0.2242</td>
 <td align="right">29.89333</td>
@@ -1167,6 +1258,7 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 <td align="right">0.3793</td>
 <td align="right">33.71556</td>
@@ -1183,6 +1275,7 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 <td align="right">0.3101</td>
 <td align="right">27.56444</td>
@@ -1199,6 +1292,7 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 <td align="right">0.3634</td>
 <td align="right">32.30222</td>
@@ -1215,6 +1309,7 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 <td align="right">0.4210</td>
 <td align="right">28.06667</td>
@@ -1231,6 +1326,7 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 <td align="right">0.4661</td>
 <td align="right">31.07333</td>
@@ -1238,7 +1334,7 @@ summary(data$Final_conc_pg.mg)</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>dim(data)</code></pre>
-<pre><code>[1] 40 13</code></pre>
+<pre><code>[1] 40 14</code></pre>
 </div>
 <div id="b-accounting-for-spike" class="section level2">
 <h2>(B) Accounting for Spike</h2>
@@ -1290,22 +1386,23 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
  0.4142  0.8400  2.3493  7.7984 11.9733 30.7800       3 </code></pre>
 <pre class="r"><code>kable(tail(dSpike, 10))</code></pre>
-<table style="width:100%;">
+<table>
 <colgroup>
 <col width="1%" />
 <col width="3%" />
-<col width="4%" />
+<col width="3%" />
 <col width="5%" />
+<col width="7%" />
+<col width="8%" />
+<col width="5%" />
+<col width="5%" />
+<col width="3%" />
+<col width="6%" />
+<col width="5%" />
+<col width="11%" />
+<col width="14%" />
 <col width="8%" />
 <col width="9%" />
-<col width="6%" />
-<col width="6%" />
-<col width="3%" />
-<col width="7%" />
-<col width="5%" />
-<col width="16%" />
-<col width="9%" />
-<col width="10%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1320,6 +1417,7 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
 <th align="right">Dilution</th>
+<th align="right">Vol_in_well.tube_uL</th>
 <th align="left">Failed_samples</th>
 <th align="right">Ave_Conc_ug.dL</th>
 <th align="right">Final_conc_pg.mg</th>
@@ -1336,8 +1434,9 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">20</td>
 <td align="right">0.11</td>
 <td align="right">1</td>
-<td align="right">0</td>
-<td align="right">0.031250</td>
+<td align="right">110</td>
+<td align="right">32</td>
+<td align="right">220</td>
 <td align="left">ABOVE 80% binding</td>
 <td align="right">0.008199</td>
 <td align="right">-45.870147</td>
@@ -1352,8 +1451,9 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">20</td>
 <td align="right">0.11</td>
 <td align="right">1</td>
-<td align="right">0</td>
-<td align="right">0.015625</td>
+<td align="right">110</td>
+<td align="right">64</td>
+<td align="right">220</td>
 <td align="left">ABOVE 80% binding</td>
 <td align="right">0.008673</td>
 <td align="right">-45.800627</td>
@@ -1369,7 +1469,8 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">1.000000</td>
+<td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 <td align="right">0.298600</td>
 <td align="right">-5.960000</td>
@@ -1385,7 +1486,8 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">1.000000</td>
+<td align="right">1</td>
+<td align="right">50</td>
 <td align="left">HIGH CV;UNDER 20% binding</td>
 <td align="right">0.382000</td>
 <td align="right">16.280000</td>
@@ -1401,7 +1503,8 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">1.000000</td>
+<td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 <td align="right">0.224200</td>
 <td align="right">-25.800000</td>
@@ -1417,7 +1520,8 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">1.000000</td>
+<td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 <td align="right">0.379300</td>
 <td align="right">10.373333</td>
@@ -1433,7 +1537,8 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">1.000000</td>
+<td align="right">1</td>
+<td align="right">50</td>
 <td align="left">NA</td>
 <td align="right">0.310100</td>
 <td align="right">-1.928889</td>
@@ -1449,7 +1554,8 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">1.000000</td>
+<td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 <td align="right">0.363400</td>
 <td align="right">7.546667</td>
@@ -1465,7 +1571,8 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">1.000000</td>
+<td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 <td align="right">0.421000</td>
 <td align="right">13.340000</td>
@@ -1481,7 +1588,8 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">1.000000</td>
+<td align="right">1</td>
+<td align="right">50</td>
 <td align="left">UNDER 20% binding</td>
 <td align="right">0.466100</td>
 <td align="right">19.353333</td>
@@ -1509,12 +1617,17 @@ summary(datac$Final_conc_pg.mg)</code></pre>
 </div>
 <div id="d-account-for-spike-contribution-2" class="section level2">
 <h2>(D) Account for Spike (contribution / 2)</h2>
-<p>Spike contribution (pg/mL) = (Vol. spike (mL) x Conc. spike (pg) ) /
-Vol. reconstitution (mL)</p>
+<p>Spike contribution (pg/mL) = (Vol. spike (mL) x Conc. spike (pg/mL) )
+/ Vol. reconstitution (mL) or total vol. in well (50uL) (depending on
+where the spike was added)</p>
 <pre class="r"><code># Calculate contribution of spike according to the different volumes in which it was added
-# considere that contribution in serial dilutions is smaller 
+# consider that contribution in serial dilutions is smaller 
 
-#datac$Spike.cont_pg.mL &lt;-  datac
+# vol_in_well/tube_uL = total volume in tube or well, after adding spike.
+# In tube if spike was added there, or well if spike was added there. 
+
+# Cortisol added by spike in wells: 0.0025 mL x 3200 pg/mL = 80 pg
+datac$Spike.cont_pg.mL &lt;-  (((datac$SpikeVol_uL/1000) * std ) / (datac$Vol_in_well.tube_uL/1000)) / datac$Dilution
 
 ##################################
 ##### Calculate final values #####
@@ -1524,7 +1637,7 @@ dSpiked &lt;- datac
 dSpiked$Final_conc_pg.mg &lt;- 
   ifelse(
     dSpike$Spike == 1,    ## Only spiked samples
-      ((dSpike$Ave_Conc_pg.ml - (std/2)) / # (A-(spike/2)) / B
+      ((dSpike$Ave_Conc_pg.ml - datac$Spike.cont_pg.mL) / # (A-spike) / B
       dSpike$Weight_mg) 
     * extraction *      # C / D
       dSpike$Buffer_ml,    # E * 
@@ -1536,7 +1649,118 @@ write.csv(dSpiked, file.path(data_path, &quot;Data_cort_values_methodD.csv&quot;
 # summary for all samples
 summary(dSpiked$Final_conc_pg.mg)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
--11.167  -4.193   2.349   5.314  17.368  30.780       3 </code></pre>
+ 0.2335  1.5067  6.7184  9.7699 17.3683 32.2815       3 </code></pre>
+<pre class="r"><code>kable(head(dSpiked[!is.na(dSpiked$Final_conc_pg.mg) , c(&quot;Sample&quot;, &quot;Final_conc_pg.mg&quot;, &quot;Ave_Conc_pg.ml&quot;, &quot;Spike.cont_pg.mL&quot;, &quot;Binding.Perc&quot;, &quot;Weight_mg&quot;, &quot;Buffer_ml&quot;, &quot;SpikeVol_uL&quot;, &quot;Dilution&quot;, &quot;Vol_in_well.tube_uL&quot;)]))</code></pre>
+<table>
+<colgroup>
+<col width="2%" />
+<col width="5%" />
+<col width="12%" />
+<col width="11%" />
+<col width="12%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
+<col width="6%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Sample</th>
+<th align="right">Final_conc_pg.mg</th>
+<th align="right">Ave_Conc_pg.ml</th>
+<th align="right">Spike.cont_pg.mL</th>
+<th align="right">Binding.Perc</th>
+<th align="right">Weight_mg</th>
+<th align="right">Buffer_ml</th>
+<th align="right">SpikeVol_uL</th>
+<th align="right">Dilution</th>
+<th align="right">Vol_in_well.tube_uL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left">POOL</td>
+<td align="right">16.393333</td>
+<td align="right">983.6</td>
+<td align="right">NA</td>
+<td align="right">48.0</td>
+<td align="right">20</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">9</td>
+<td align="left">TA1</td>
+<td align="right">30.780000</td>
+<td align="right">4617.0</td>
+<td align="right">NA</td>
+<td align="right">14.0</td>
+<td align="right">50</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">11</td>
+<td align="left">TA2</td>
+<td align="right">19.473333</td>
+<td align="right">2921.0</td>
+<td align="right">NA</td>
+<td align="right">22.4</td>
+<td align="right">50</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">13</td>
+<td align="left">TA3</td>
+<td align="right">7.553333</td>
+<td align="right">1133.0</td>
+<td align="right">NA</td>
+<td align="right">44.3</td>
+<td align="right">50</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">15</td>
+<td align="left">TA4</td>
+<td align="right">4.982667</td>
+<td align="right">747.4</td>
+<td align="right">NA</td>
+<td align="right">55.2</td>
+<td align="right">50</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">8</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">17</td>
+<td align="left">TA5</td>
+<td align="right">2.349333</td>
+<td align="right">352.4</td>
+<td align="right">NA</td>
+<td align="right">74.1</td>
+<td align="right">50</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">16</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div id="plots" class="section level1">
@@ -1578,6 +1802,43 @@ ggplot(data, aes(y = Final_conc_pg.mg,
 <pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
 (`geom_text()`).</code></pre>
 <p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="b-accounting-for-spike-1" class="section level2">
 <h2>(B) Accounting for Spike</h2>
@@ -1615,6 +1876,43 @@ ggplot(dSpike, aes(y = Final_conc_pg.mg,
 <pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
 (`geom_text()`).</code></pre>
 <p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-7-1.png" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="c" class="section level2">
 <h2>(C)</h2>
@@ -1654,6 +1952,43 @@ ggplot(datac, aes(y = Final_conc_pg.mg,
 <pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
 (`geom_text()`).</code></pre>
 <p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-1.png" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="d" class="section level2">
 <h2>D</h2>
@@ -1687,11 +2022,48 @@ ggplot(dSpiked, aes(y = Final_conc_pg.mg,
     axis.text = element_text(size = 12)  
   )+ 
   scale_color_paletteer_d(&quot;vangogh::CafeTerrace&quot;)</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
 (`geom_text()`).</code></pre>
 <p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="evaluation" class="section level1">
@@ -1795,6 +2167,43 @@ Removed 1 row containing missing values or values outside the scale range
 Removed 1 row containing missing values or values outside the scale range
 (`geom_text()`).</code></pre>
 <p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-10-1.png" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The previous figure shows that:</p>
 <ul>
 <li>results are very stable across weights, particularly for the samples
@@ -1853,17 +2262,17 @@ loaded via a namespace (and not attached):
  [5] prismatic_1.1.2   lattice_0.22-6    stringi_1.8.4     digest_0.6.37    
  [9] magrittr_2.0.3    evaluate_1.0.1    grid_4.4.3        fastmap_1.2.0    
 [13] Matrix_1.7-2      rprojroot_2.0.4   workflowr_1.7.1   jsonlite_1.8.9   
-[17] backports_1.5.0   rematch2_2.1.2    promises_1.3.0    mgcv_1.9-1       
-[21] purrr_1.0.2       fansi_1.0.6       scales_1.3.0      jquerylib_0.1.4  
-[25] cli_3.6.3         rlang_1.1.4       splines_4.4.3     munsell_0.5.1    
-[29] withr_3.0.2       cachem_1.1.0      yaml_2.3.10       tools_4.4.3      
-[33] colorspace_2.1-1  httpuv_1.6.15     vctrs_0.6.5       R6_2.5.1         
-[37] lifecycle_1.0.4   git2r_0.35.0      stringr_1.5.1     fs_1.6.5         
-[41] pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0       later_1.3.2      
-[45] gtable_0.3.6      glue_1.8.0        Rcpp_1.0.13-1     xfun_0.49        
-[49] tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1 farver_2.1.2     
-[53] nlme_3.1-167      htmltools_0.5.8.1 rmarkdown_2.29    labeling_0.4.3   
-[57] compiler_4.4.3   </code></pre>
+[17] whisker_0.4.1     backports_1.5.0   rematch2_2.1.2    promises_1.3.0   
+[21] mgcv_1.9-1        purrr_1.0.2       fansi_1.0.6       scales_1.3.0     
+[25] jquerylib_0.1.4   cli_3.6.3         rlang_1.1.4       splines_4.4.3    
+[29] munsell_0.5.1     withr_3.0.2       cachem_1.1.0      yaml_2.3.10      
+[33] tools_4.4.3       colorspace_2.1-1  httpuv_1.6.15     vctrs_0.6.5      
+[37] R6_2.5.1          lifecycle_1.0.4   git2r_0.35.0      stringr_1.5.1    
+[41] fs_1.6.5          pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0      
+[45] later_1.3.2       gtable_0.3.6      glue_1.8.0        Rcpp_1.0.13-1    
+[49] xfun_0.49         tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1
+[53] farver_2.1.2      nlme_3.1-167      htmltools_0.5.8.1 rmarkdown_2.29   
+[57] labeling_0.4.3    compiler_4.4.3   </code></pre>
 </div>
 </div>
 </div>

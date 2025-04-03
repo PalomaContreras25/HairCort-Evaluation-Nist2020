@@ -83,7 +83,7 @@ df$Buffer_ml <- c(df$Buffer_nl/1000)
 
 # remove unnecessary information 
 data <- df %>%
-    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Weight_mg, Buffer_ml, Spike, SpikeVol_uL, Dilution, Failed_samples) 
+    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Weight_mg, Buffer_ml, Spike, SpikeVol_uL, Dilution, Vol_in_well.tube_uL, Failed_samples) 
 
 kable(tail(data, 10))
 dim(data)
@@ -207,14 +207,16 @@ summary(datac$Final_conc_pg.mg)
 
 ## (D) Account for Spike (contribution / 2)
 
-Spike contribution (pg/mL) = (Vol. spike (mL) x Conc. spike (pg) ) / Vol. reconstitution (mL)
+Spike contribution (pg/mL) = (Vol. spike (mL) x Conc. spike (pg/mL) ) / Vol. reconstitution (mL) or total vol. in well (50uL) (depending on where the spike was added)
 ```{r}
-
-
 # Calculate contribution of spike according to the different volumes in which it was added
-# considere that contribution in serial dilutions is smaller 
+# consider that contribution in serial dilutions is smaller 
 
-#datac$Spike.cont_pg.mL <-  datac
+# vol_in_well/tube_uL = total volume in tube or well, after adding spike.
+# In tube if spike was added there, or well if spike was added there. 
+
+# Cortisol added by spike in wells: 0.0025 mL x 3200 pg/mL = 80 pg
+datac$Spike.cont_pg.mL <-  (((datac$SpikeVol_uL/1000) * std ) / (datac$Vol_in_well.tube_uL/1000)) / datac$Dilution
 
 ##################################
 ##### Calculate final values #####
@@ -224,7 +226,7 @@ dSpiked <- datac
 dSpiked$Final_conc_pg.mg <- 
   ifelse(
     dSpike$Spike == 1,    ## Only spiked samples
-      ((dSpike$Ave_Conc_pg.ml - (std/2)) / # (A-(spike/2)) / B
+      ((dSpike$Ave_Conc_pg.ml - datac$Spike.cont_pg.mL) / # (A-spike) / B
       dSpike$Weight_mg) 
     * extraction *      # C / D
       dSpike$Buffer_ml,    # E * 
@@ -235,6 +237,7 @@ write.csv(dSpiked, file.path(data_path, "Data_cort_values_methodD.csv"), row.nam
 
 # summary for all samples
 summary(dSpiked$Final_conc_pg.mg)
+kable(head(dSpiked[!is.na(dSpiked$Final_conc_pg.mg) , c("Sample", "Final_conc_pg.mg", "Ave_Conc_pg.ml", "Spike.cont_pg.mL", "Binding.Perc", "Weight_mg", "Buffer_ml", "SpikeVol_uL", "Dilution", "Vol_in_well.tube_uL")]))
 ```
 
 

@@ -359,7 +359,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -370,8 +370,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -384,9 +384,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -410,21 +410,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -515,15 +512,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree4bc45b5756acf1caddc052bf9f89ed43bfbe434atargetblank4bc45b5a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree528855bad8d818400bf42ae3059600f9b176f802targetblank528855ba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/4bc45b5756acf1caddc052bf9f89ed43bfbe434a" target="_blank">4bc45b5</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/528855bad8d818400bf42ae3059600f9b176f802" target="_blank">528855b</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree4bc45b5756acf1caddc052bf9f89ed43bfbe434atargetblank4bc45b5a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree528855bad8d818400bf42ae3059600f9b176f802targetblank528855ba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -533,7 +530,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/4bc45b5756acf1caddc052bf9f89ed43bfbe434a" target="_blank">4bc45b5</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/528855bad8d818400bf42ae3059600f9b176f802" target="_blank">528855b</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -557,19 +554,11 @@ Ignored files:
     Ignored:    data/Test3/.DS_Store
     Ignored:    data/Test4/.DS_Store
 
-Untracked files:
-    Untracked:  analysis/ELISA_Calc_FinalVals_test4.Rmd
-    Untracked:  analysis/ELISA_QC_test4.Rmd
-
 Unstaged changes:
-    Deleted:    analysis/ELISA_QC_FinalVals_test4.Rmd
-    Modified:   data/Test4/Data_QC_filtered.csv
-    Modified:   data/Test4/Data_QC_flagged.csv
+    Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
     Modified:   data/Test4/Data_cort_values_methodA.csv
     Modified:   data/Test4/Data_cort_values_methodB.csv
     Modified:   data/Test4/Data_cort_values_methodC.csv
-    Modified:   data/Test4/Data_cort_values_methodD.csv
-    Modified:   data/Test4/failed_samples.csv
     Modified:   data/Test4/layout_wells_test4_021925.csv
 
 </code></pre>
@@ -586,9 +575,72 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/ELISA_QC_test4.Rmd</code>) and
+HTML (<code>docs/ELISA_QC_test4.html</code>) files. If you’ve configured
+a remote Git repository (see <code>?wflow_git_remote</code>), click on
+the hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/analysis/ELISA_QC_test4.Rmd" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new_calc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/528855bad8d818400bf42ae3059600f9b176f802/docs/ELISA_QC_test4.html" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new_calc
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -633,7 +685,7 @@ volume of the spike, dilution factor), 96 rows</li>
 <th align="left">buffer_nl</th>
 <th align="right">spike</th>
 <th align="right">spike_vol_uL</th>
-<th align="right">dilution</th>
+<th align="right">Dilution</th>
 <th align="left">vol_in_well.tube_uL</th>
 </tr>
 </thead>
@@ -1074,7 +1126,7 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">250</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">7</td>
+<td align="right">64</td>
 <td align="right">250</td>
 <td align="right">0.780</td>
 <td align="right">87.0</td>
@@ -1381,7 +1433,7 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">250</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">6</td>
+<td align="right">32</td>
 <td align="right">250</td>
 <td align="right">0.830</td>
 <td align="right">88.2</td>
@@ -1402,7 +1454,7 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">250</td>
 <td align="right">1</td>
 <td align="right">25</td>
-<td align="right">7</td>
+<td align="right">64</td>
 <td align="right">250</td>
 <td align="right">0.780</td>
 <td align="right">87.0</td>
@@ -1507,7 +1559,7 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">110</td>
 <td align="right">1</td>
 <td align="right">110</td>
-<td align="right">5</td>
+<td align="right">16</td>
 <td align="right">220</td>
 <td align="right">0.757</td>
 <td align="right">80.2</td>
@@ -1528,7 +1580,7 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">110</td>
 <td align="right">1</td>
 <td align="right">110</td>
-<td align="right">6</td>
+<td align="right">32</td>
 <td align="right">220</td>
 <td align="right">0.939</td>
 <td align="right">99.7</td>
@@ -1549,7 +1601,7 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">110</td>
 <td align="right">1</td>
 <td align="right">110</td>
-<td align="right">7</td>
+<td align="right">64</td>
 <td align="right">220</td>
 <td align="right">0.934</td>
 <td align="right">99.0</td>
@@ -1893,11 +1945,11 @@ loaded via a namespace (and not attached):
  [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.35.0     
 [13] htmltools_0.5.8.1 httpuv_1.6.15     sass_0.4.9        fansi_1.0.6      
 [17] rmarkdown_2.29    jquerylib_0.1.4   evaluate_1.0.1    tibble_3.2.1     
-[21] fastmap_1.2.0     yaml_2.3.10       lifecycle_1.0.4   stringr_1.5.1    
-[25] compiler_4.4.3    fs_1.6.5          Rcpp_1.0.13-1     pkgconfig_2.0.3  
-[29] rstudioapi_0.17.1 later_1.3.2       digest_0.6.37     R6_2.5.1         
-[33] tidyselect_1.2.1  utf8_1.2.4        pillar_1.9.0      magrittr_2.0.3   
-[37] bslib_0.8.0       tools_4.4.3       cachem_1.1.0     </code></pre>
+[21] fastmap_1.2.0     yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1    
+[25] stringr_1.5.1     compiler_4.4.3    fs_1.6.5          Rcpp_1.0.13-1    
+[29] pkgconfig_2.0.3   rstudioapi_0.17.1 later_1.3.2       digest_0.6.37    
+[33] R6_2.5.1          tidyselect_1.2.1  utf8_1.2.4        pillar_1.9.0     
+[37] magrittr_2.0.3    bslib_0.8.0       tools_4.4.3       cachem_1.1.0     </code></pre>
 </div>
 </div>
 </div>
