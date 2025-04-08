@@ -1,0 +1,102 @@
+---
+title: "ELISA_Simulation_test4"
+output: html_document
+date: "2025-04-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(ggplot2)
+```
+
+# Introduction
+Here I compare two calculation methods for determining final cortisol concentrations (in pg/mg) from ELISA values of spiked samples
+
+Nist Method: Assumes subtraction of an averaged spike concentration converted to the same unit (ug/dL), not accounting for the actual spike volume per sample.
+
+Sam Method: Method that subtracts the actual contribution of the spike (based on its volume and concentration) before calculating the final concentration.
+
+
+# Simulate dataset
+```{r}
+
+# Simulate toy dataset
+set.seed(42)
+n <- 35
+
+dSpike <- data.frame(
+  SampleID = paste0("S", 1:n),
+  Ave_Conc_pg.ml = runif(n, 33, 15600),  # Simulated ELISA values
+  Buffer_ml = rep(0.25, n),            # Constant assay buffer volume (E)
+  Spike = rep(1, n)                     # All samples are spiked
+)
+
+dSpike$Ave_Conc_ug.dL <- c(dSpike$Ave_Conc_pg.ml/10000) # transform to microliter/deciliter
+dSpike$Weight_mg <- 50              # Hair weights
+extraction <- 1 / 0.75    # Methanol extraction ratio (in mL)
+
+# Two versions of the calculation
+std <- (3191+3228)/2
+std_ug.dL  <- (std/10000)
+std_ug.dL_Nist <- std_ug.dL   # Nist
+std_pg.ml_Sam <- std  # Sam 
+
+# Nist calculation 
+# A/B * C/D * E * 10,000 * 2 = F
+
+dSpike$pg.mg_Nist <- ((dSpike$Ave_Conc_ug.dL - std_ug.dL_Nist) / dSpike$Weight_mg) * # A/B *
+  extraction *              # C/D *
+  dSpike$Buffer_ml * 10000 * 2  # E * 10000
+
+summary(dSpike$pg.mg_Nist)
+
+
+# Sam (Accounting for spike contribution)
+##  ( Spike vol. x Spike Conc.)
+##  ---------------------------  / dilution = Spike contribution
+##          Total vol. 
+  
+SpikeVol_uL <- 25 # in microliters
+SpikeVol_ml <- SpikeVol_uL/1000  # transform to mL
+dilution <- 1
+Vol_in_well.tube_ml <- 0.05   # in mL
+
+# calculate contribution of spike
+dSpike$Spike.cont_pg.mL <- (((SpikeVol_ml * std_pg.ml_Sam  ) / # Volume of spike * Spike concentration
+                            Vol_in_well.tube_ml) / # divided by the total volume (spike + sample)
+                              dilution) # resulting number changes depending on the dilution
+# Calculating final vals
+dSpike$pg.mg_Sam <- 
+      ((dSpike$Ave_Conc_pg.ml - dSpike$Spike.cont_pg.mL) / # (A - spike) / B
+      dSpike$Weight_mg) *
+      extraction *      # C / D
+      dSpike$Buffer_ml    # E * 
+
+# Compare in a tidy format
+
+
+dLong <- pivot_longer(
+  dSpike,
+  cols = c("pg.mg_Nist", "pg.mg_Sam"),
+  names_to = "Method",
+  values_to = "Final_pg.mg"
+)
+
+# Plot
+ggplot(dLong, aes(x = SampleID, y = Final_pg.mg, fill = Method)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(
+    title = "Comparison of Hair Cortisol (pg/mg)",
+    subtitle = "Nist vs Sam Spike Subtraction",
+    y = "Cortisol (pg/mg)", x = "Sample"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(values = c("pg.mg_Nist" = "red", "pg.mg_Sam" = "darkgreen"),
+                    labels = c("Nist", "Sam"))
+
+dWide <- dSpike[, c("pg.mg_Nist", "pg.mg_Sam")]
+summary(dWide)
+mean(abs(dWide$pg.mg_Nist - dWide$pg.mg_Sam))
+
+```

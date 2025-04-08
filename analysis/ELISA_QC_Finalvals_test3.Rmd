@@ -43,11 +43,15 @@ This could be an artifact of an extremely high absorbance level. Non-spiked samp
 - Could be explained by the higher weight of our samples 
 - Dilution of 250uL results in values that are twice as big as with 60uL, but they should be very similar or at least overlap
 
+```{r define dataset}
+# DATA SET 
+current_test <- "Test3"
+data_path <- file.path("./data", current_test)
+```
+
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
 # Install libraries
-
-
 library(ggplot2)
 library(broom)
 library(paletteer)
@@ -55,138 +59,17 @@ library(knitr)
 library(dplyr)
 ```
 
-# Data Cleaning and QC
-
-Load, inspect and merge 3 files:
-
-- layout
-- results 
-- information about each sample
-
 ```{r}
-
-data_path = "./data/Test3"
-# LAYOUT 
-
-layout <- read.csv(file.path(data_path,"layout_wells_test3_091524.csv"), 
-                   stringsAsFactors = TRUE, 
-                   na.strings = c("", " "))
-kable(head(layout)) 
-
-# RESULTS  
-
-results <- read.csv(file.path(data_path, "myassays_table_test3_091524.csv"), 
-                    stringsAsFactors = TRUE, 
-                    na.strings = c("", " ", "-"))
-results <- results[ ,c(2:length(results))]
-
-kable(head(results)) 
-
-
-# INFO
-
-info <- read.csv(file.path(data_path, "sample_info_test3_091524.csv"), 
-                 stringsAsFactors = TRUE, 
-                 na.strings = c("", " "))
-info <- info[ ,c(1:5)]
-kable(head(info)) 
-
+df <- read.csv(file.path(data_path,"Data_QC_filtered.csv"))
+kable(tail(df))
 ```
 
-
-```{r}
-
-# Merge files
-
-m <- merge(layout, results, by = "Wells")
-m <- merge(m, info, by = c("Sample", "Wells"))
-m <- na.omit(m)
-colnames(m) <- c("Sample", "Wells", "Raw.OD", 
-                 "Binding.Perc", "Conc_pg/ml",
-                 "Ave_Conc_pg/ml", "CV.Perc", 
-                 "SD", "SEM", "Weight_mg", "Buffer_nl", 
-                 "Spike") 
-m[, 3:11] <- lapply(m[, 3:11], 
-                    function(x) as.numeric(as.character(x)))
-kable(head(m)) 
-
-```
-
-
-### Duplicates with high CV
-Identify and flag samples with high coefficient of variation (duplicate measurements that are too different from each other)
-```{r}
-# flag samples with high CV (15%)
-
-CV_threshold <- 15.0
-
-#create new file
-m1 <- m %>%
-  mutate(CV_categ = ifelse(CV.Perc > CV_threshold, 
-                           "HIGH CV", "NA"))
-cv_high <- m1 %>% 
-  filter(CV.Perc > CV_threshold) %>% 
-  arrange(desc(CV.Perc))
-
-kable(cv_high)
-
-```
-
-### Samples outside the curve
-Samples that have a binding percentage over 80 or 20 do not provide accurate results, and we consider them to be outside the curve. 
-```{r}
-
-# flag samples with binding percentage over 80 or under 20
-m2 <- m1 %>%
-  mutate(Binding.Perc_categ = ifelse(Binding.Perc > 80, "ABOVE 80% binding", 
-                                     ifelse(Binding.Perc < 20, "UNDER 20% binding", 
-                                            NA)))
-out_curve <- m2 %>% 
-  filter(Binding.Perc < 20.0 | Binding.Perc > 80.0) %>% 
-  arrange(desc(Binding.Perc))
-kable(out_curve)
-
-```
-
-### Total samples failed
-
-```{r}
-# dataset with failed samples flagged
-data.flagged <- m2 %>%
-  mutate(Failed_samples = ifelse(!is.na(CV_categ) & !is.na(Binding.Perc_categ), 
-                             paste(CV_categ, Binding.Perc_categ, sep = ";"), 
-                             coalesce(CV_categ, Binding.Perc_categ))) %>%
-  select(!c(CV_categ, Binding.Perc_categ))
-
-write.csv(data.flagged, file.path(data_path, "Data_QC_flagged.csv"), 
-          row.names = FALSE) 
-
-# table with samples that failed
-failed_samples <- data.flagged[!is.na(data.flagged$Failed_samples),]
-write.csv(failed_samples, file.path(data_path, "failed_samples.csv"), 
-          row.names = FALSE) 
-nrow(failed_samples)
-
-# dataset with failed samples removed
-data.no_failed <- m2 %>% 
- filter(CV.Perc < CV_threshold) %>%
- filter(Binding.Perc > 20 & Binding.Perc < 80 ) 
-
-data.no_failed <- data.no_failed[,c(1:13)]
- 
-write.csv(data.no_failed, file.path(data_path, "Data_QC_filtered.csv"), row.names = FALSE) 
-```
-
-Number of failed samples is 8 (out of 38)
 
 # Cortisol concentration calculation
 
 Loading files and transforming units
 
 ```{r setup, include=TRUE, message=FALSE}
-df <- read.csv(
-  file.path(data_path,"Data_QC_filtered.csv"))
-
 # Transform to μg/dl from assay output
 df$Ave_Conc_ug.dL <- c(df$Ave_Conc_pg.ml/10000)
 
