@@ -1,5 +1,5 @@
 ---
-title: "temp"
+title: "Comparing calculation methods, test3 and test4"
 output: html_document
 date: "2025-04-08"
 ---
@@ -31,34 +31,28 @@ data$Buffer_ml <- data$Buffer_nl / 1000
 data$Vol_in_well.tube_ml <- data$Vol_in_well.tube_uL / 1000
 data$SpikeVol_ml <- data$SpikeVol_uL / 1000
 
-# Extraction ratio
-extraction <- 1 / 0.75
-
 # Spike concentration (pg/mL)
-std_conc <- 3200
+std_conc <- (3191+3228)/2
 
 # Method A: No spike correction
 data$Final_pg.mg_A <- ((data$Ave_Conc_pg.ml / data$Weight_mg) *
-                         extraction * data$Buffer_ml * data$Dilution)
+                         data$Extraction_ratio * data$Buffer_ml * data$Dilution_sample)
 
 # Method B: Subtract spike reading (std) and apply dilution factor (×2)
 data$Final_pg.mg_B <- ifelse(
   data$Spike == 1,
   ((data$Ave_Conc_pg.ml - std_conc) / data$Weight_mg) *
-    extraction * data$Buffer_ml * 2,
+    data$Extraction_ratio * data$Buffer_ml * 2,
   # fallback to method A if not spiked
  data$Final_pg.mg_A
 )
 
 # Method D: Spike contribution subtracted
-data$Spike_Contribution <- ifelse(
-  data$Spike == 1,
-  ((data$SpikeVol_ml * std_conc) / data$Vol_in_well.tube_ml) / data$Dilution,
-  0
-)
+data$Spike_Contribution <- (data$SpikeVol_ml * std_conc) / data$Vol_in_well.tube_ml /  data$Dilution_sample
+
 
 data$Final_pg.mg_D <- ((data$Ave_Conc_pg.ml - data$Spike_Contribution) / data$Weight_mg) *
-    extraction * data$Buffer_ml * data$Dilution
+     data$Extraction_ratio * data$Buffer_ml * data$Dilution_sample
 
 ```
 
