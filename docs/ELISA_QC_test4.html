@@ -359,7 +359,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -370,8 +370,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -380,13 +380,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-04-03
+<strong>Last updated:</strong> 2025-04-09
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -410,18 +410,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -512,15 +515,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree528855bad8d818400bf42ae3059600f9b176f802targetblank528855ba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree77c2ab5fbe6945870d239696722a0155d005cd3dtargetblank77c2ab5a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/528855bad8d818400bf42ae3059600f9b176f802" target="_blank">528855b</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/77c2ab5fbe6945870d239696722a0155d005cd3d" target="_blank">77c2ab5</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree528855bad8d818400bf42ae3059600f9b176f802targetblank528855ba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree77c2ab5fbe6945870d239696722a0155d005cd3dtargetblank77c2ab5a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -530,7 +533,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/528855bad8d818400bf42ae3059600f9b176f802" target="_blank">528855b</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/77c2ab5fbe6945870d239696722a0155d005cd3d" target="_blank">77c2ab5</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -554,12 +557,35 @@ Ignored files:
     Ignored:    data/Test3/.DS_Store
     Ignored:    data/Test4/.DS_Store
 
+Untracked files:
+    Untracked:  Data_Cortisol_Processed.csv
+    Untracked:  data/Test3/Data_Cortisol_Processed.csv
+    Untracked:  data/Test3/Data_cort_values_methodC.csv
+    Untracked:  data/Test3/Data_cort_values_methodD.csv
+    Untracked:  data/Test4/Data_Cortisol_Processed.csv
+    Untracked:  temp.html
+
 Unstaged changes:
+    Modified:   analysis/ELISA_Analysis_RawVals_test4.Rmd
+    Modified:   analysis/ELISA_Calc_FinalVals_test3.Rmd
     Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
+    Deleted:    analysis/ELISA_QC_Finalvals_test3.Rmd
+    Modified:   analysis/ELISA_QC_test3.Rmd
+    Modified:   analysis/ELISA_QC_test4.Rmd
+    Modified:   data/Test3/Data_QC_filtered.csv
+    Modified:   data/Test3/Data_QC_flagged.csv
+    Modified:   data/Test3/Data_cort_values_methodA.csv
+    Modified:   data/Test3/Data_cort_values_methodB.csv
+    Modified:   data/Test3/failed_samples.csv
+    Modified:   data/Test4/Data_QC_filtered.csv
+    Modified:   data/Test4/Data_QC_flagged.csv
     Modified:   data/Test4/Data_cort_values_methodA.csv
     Modified:   data/Test4/Data_cort_values_methodB.csv
     Modified:   data/Test4/Data_cort_values_methodC.csv
+    Modified:   data/Test4/Data_cort_values_methodD.csv
+    Modified:   data/Test4/failed_samples.csv
     Modified:   data/Test4/layout_wells_test4_021925.csv
+    Modified:   temp.Rmd
 
 </code></pre>
 <p>
@@ -604,6 +630,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/ca6c8048b3409d271ba2d1edf0764d9c90c9f919/docs/ELISA_QC_test4.html" target="_blank">ca6c804</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new calc final vals
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -663,18 +706,20 @@ lowBinLim &lt;- 20.0</code></pre>
 volume of the spike, dilution factor), 96 rows</li>
 <li>results: from myassays.com (not including standards), 82 rows</li>
 </ul>
-<pre><code>[1] 96  9</code></pre>
+<pre><code>[1] 96 11</code></pre>
 <table>
 <colgroup>
-<col width="6%" />
-<col width="8%" />
-<col width="6%" />
-<col width="11%" />
-<col width="11%" />
-<col width="6%" />
-<col width="14%" />
+<col width="4%" />
+<col width="5%" />
+<col width="4%" />
+<col width="7%" />
+<col width="7%" />
+<col width="4%" />
 <col width="10%" />
-<col width="22%" />
+<col width="12%" />
+<col width="11%" />
+<col width="15%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -685,8 +730,10 @@ volume of the spike, dilution factor), 96 rows</li>
 <th align="left">buffer_nl</th>
 <th align="right">spike</th>
 <th align="right">spike_vol_uL</th>
-<th align="right">Dilution</th>
+<th align="right">Dilution_sample</th>
+<th align="right">Dilution_spike</th>
 <th align="left">vol_in_well.tube_uL</th>
+<th align="left">Extraction_ratio</th>
 </tr>
 </thead>
 <tbody>
@@ -699,6 +746,8 @@ volume of the spike, dilution factor), 96 rows</li>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -710,6 +759,8 @@ volume of the spike, dilution factor), 96 rows</li>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -721,6 +772,8 @@ volume of the spike, dilution factor), 96 rows</li>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -732,6 +785,8 @@ volume of the spike, dilution factor), 96 rows</li>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -743,6 +798,8 @@ volume of the spike, dilution factor), 96 rows</li>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -754,6 +811,8 @@ volume of the spike, dilution factor), 96 rows</li>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 </tbody>
@@ -837,26 +896,29 @@ volume of the spike, dilution factor), 96 rows</li>
 </table>
 <pre><code>Warning in FUN(X[[i]], ...): NAs introduced by coercion
 Warning in FUN(X[[i]], ...): NAs introduced by coercion
+Warning in FUN(X[[i]], ...): NAs introduced by coercion
 Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <table style="width:100%;">
 <colgroup>
 <col width="1%" />
+<col width="2%" />
 <col width="3%" />
 <col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="2%" />
 <col width="5%" />
-<col width="6%" />
-<col width="6%" />
-<col width="3%" />
 <col width="7%" />
-<col width="5%" />
-<col width="12%" />
+<col width="7%" />
+<col width="9%" />
 <col width="4%" />
 <col width="8%" />
 <col width="6%" />
-<col width="9%" />
 <col width="5%" />
+<col width="7%" />
 <col width="3%" />
-<col width="4%" />
+<col width="2%" />
+<col width="3%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -868,9 +930,11 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <th align="right">Buffer_nl</th>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
-<th align="right">Dilution</th>
+<th align="right">Dilution_sample</th>
+<th align="right">Dilution_spike</th>
 <th align="right">Vol_in_well.tube_uL</th>
 <th align="right">Raw.OD</th>
+<th align="right">Extraction_ratio</th>
 <th align="right">Binding.Perc</th>
 <th align="right">Conc_pg/ml</th>
 <th align="right">Ave_Conc_pg/ml</th>
@@ -890,7 +954,9 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.351351</td>
 <td align="right">0.258</td>
 <td align="right">23.2</td>
 <td align="right">2800</td>
@@ -909,7 +975,9 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.351351</td>
 <td align="right">0.259</td>
 <td align="right">NA</td>
 <td align="right">2785</td>
@@ -928,7 +996,9 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.195</td>
 <td align="right">15.5</td>
 <td align="right">4084</td>
@@ -947,7 +1017,9 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.186</td>
 <td align="right">NA</td>
 <td align="right">4336</td>
@@ -966,7 +1038,9 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.186</td>
 <td align="right">13.9</td>
 <td align="right">4336</td>
@@ -985,7 +1059,9 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.166</td>
 <td align="right">NA</td>
 <td align="right">4986</td>
@@ -1000,25 +1076,27 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <h3>Duplicates with high CV</h3>
 <p>Identify and flag samples with high coefficient of variation
 (duplicate measurements that are too different from each other)</p>
-<table>
+<table style="width:100%;">
 <colgroup>
+<col width="2%" />
 <col width="3%" />
 <col width="4%" />
-<col width="5%" />
-<col width="6%" />
-<col width="6%" />
-<col width="3%" />
-<col width="7%" />
-<col width="5%" />
-<col width="12%" />
 <col width="4%" />
+<col width="4%" />
+<col width="2%" />
+<col width="5%" />
 <col width="7%" />
-<col width="6%" />
+<col width="7%" />
 <col width="9%" />
 <col width="4%" />
-<col width="4%" />
-<col width="3%" />
+<col width="8%" />
+<col width="6%" />
 <col width="5%" />
+<col width="7%" />
+<col width="3%" />
+<col width="3%" />
+<col width="2%" />
+<col width="4%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1029,9 +1107,11 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <th align="right">Buffer_nl</th>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
-<th align="right">Dilution</th>
+<th align="right">Dilution_sample</th>
+<th align="right">Dilution_spike</th>
 <th align="right">Vol_in_well.tube_uL</th>
 <th align="right">Raw.OD</th>
+<th align="right">Extraction_ratio</th>
 <th align="right">Binding.Perc</th>
 <th align="right">Conc_pg/ml</th>
 <th align="right">Ave_Conc_pg/ml</th>
@@ -1051,6 +1131,8 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">0.874</td>
 <td align="right">100.0</td>
@@ -1070,6 +1152,8 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">0.553</td>
 <td align="right">70.8</td>
@@ -1088,8 +1172,10 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">250</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">8</td>
-<td align="right">NA</td>
+<td align="right">64</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="right">1.351351</td>
 <td align="right">1.010</td>
 <td align="right">103.0</td>
 <td align="right">33.09</td>
@@ -1107,8 +1193,10 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">250</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">7</td>
-<td align="right">NA</td>
+<td align="right">32</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="right">1.351351</td>
 <td align="right">0.856</td>
 <td align="right">84.2</td>
 <td align="right">158.90</td>
@@ -1127,7 +1215,9 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">64</td>
+<td align="right">64</td>
 <td align="right">250</td>
+<td align="right">1.333333</td>
 <td align="right">0.780</td>
 <td align="right">87.0</td>
 <td align="right">249.20</td>
@@ -1146,7 +1236,9 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.254</td>
 <td align="right">18.1</td>
 <td align="right">2863.00</td>
@@ -1163,9 +1255,11 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">50</td>
 <td align="right">250</td>
 <td align="right">0</td>
-<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">64</td>
 <td align="right">1</td>
-<td align="right">275</td>
+<td align="right">250</td>
+<td align="right">1.481481</td>
 <td align="right">0.939</td>
 <td align="right">96.4</td>
 <td align="right">83.16</td>
@@ -1182,9 +1276,11 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">50</td>
 <td align="right">250</td>
 <td align="right">0</td>
-<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">32</td>
 <td align="right">1</td>
-<td align="right">275</td>
+<td align="right">250</td>
+<td align="right">1.481481</td>
 <td align="right">0.897</td>
 <td align="right">97.7</td>
 <td align="right">118.80</td>
@@ -1201,9 +1297,11 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">50</td>
 <td align="right">250</td>
 <td align="right">0</td>
-<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">16</td>
 <td align="right">1</td>
-<td align="right">275</td>
+<td align="right">250</td>
+<td align="right">1.481481</td>
 <td align="right">0.842</td>
 <td align="right">92.0</td>
 <td align="right">173.80</td>
@@ -1222,7 +1320,9 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">2</td>
-<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="right">1.351351</td>
 <td align="right">0.272</td>
 <td align="right">22.4</td>
 <td align="right">2594.00</td>
@@ -1255,24 +1355,26 @@ accurate results, and we consider them to be outside the curve.</p>
 <table>
 <colgroup>
 <col width="1%" />
+<col width="2%" />
 <col width="3%" />
 <col width="3%" />
 <col width="4%" />
-<col width="5%" />
-<col width="5%" />
-<col width="3%" />
-<col width="6%" />
 <col width="4%" />
-<col width="10%" />
-<col width="3%" />
-<col width="6%" />
+<col width="2%" />
 <col width="5%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="3%" />
 <col width="7%" />
+<col width="5%" />
 <col width="4%" />
-<col width="4%" />
+<col width="6%" />
 <col width="3%" />
-<col width="4%" />
-<col width="10%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="8%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1284,9 +1386,11 @@ accurate results, and we consider them to be outside the curve.</p>
 <th align="right">Buffer_nl</th>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
-<th align="right">Dilution</th>
+<th align="right">Dilution_sample</th>
+<th align="right">Dilution_spike</th>
 <th align="right">Vol_in_well.tube_uL</th>
 <th align="right">Raw.OD</th>
+<th align="right">Extraction_ratio</th>
 <th align="right">Binding.Perc</th>
 <th align="right">Conc_pg/ml</th>
 <th align="right">Ave_Conc_pg/ml</th>
@@ -1308,6 +1412,8 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">0.874</td>
 <td align="right">100.0</td>
@@ -1329,6 +1435,8 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">0.052</td>
 <td align="right">0.0</td>
@@ -1350,7 +1458,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="right">1.351351</td>
 <td align="right">0.171</td>
 <td align="right">14.0</td>
 <td align="right">4810.00</td>
@@ -1370,8 +1480,10 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">250</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">7</td>
-<td align="right">NA</td>
+<td align="right">32</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="right">1.351351</td>
 <td align="right">0.856</td>
 <td align="right">84.2</td>
 <td align="right">158.90</td>
@@ -1391,8 +1503,10 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">250</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">8</td>
-<td align="right">NA</td>
+<td align="right">64</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="right">1.351351</td>
 <td align="right">1.010</td>
 <td align="right">103.0</td>
 <td align="right">33.09</td>
@@ -1413,7 +1527,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">275</td>
+<td align="right">1.333333</td>
 <td align="right">0.161</td>
 <td align="right">12.3</td>
 <td align="right">5172.00</td>
@@ -1434,7 +1550,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">32</td>
+<td align="right">32</td>
 <td align="right">250</td>
+<td align="right">1.333333</td>
 <td align="right">0.830</td>
 <td align="right">88.2</td>
 <td align="right">187.30</td>
@@ -1455,7 +1573,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">64</td>
+<td align="right">64</td>
 <td align="right">250</td>
+<td align="right">1.333333</td>
 <td align="right">0.780</td>
 <td align="right">87.0</td>
 <td align="right">249.20</td>
@@ -1474,9 +1594,11 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">50</td>
 <td align="right">250</td>
 <td align="right">0</td>
-<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">16</td>
 <td align="right">1</td>
-<td align="right">275</td>
+<td align="right">250</td>
+<td align="right">1.481481</td>
 <td align="right">0.842</td>
 <td align="right">92.0</td>
 <td align="right">173.80</td>
@@ -1495,9 +1617,11 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">50</td>
 <td align="right">250</td>
 <td align="right">0</td>
-<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">32</td>
 <td align="right">1</td>
-<td align="right">275</td>
+<td align="right">250</td>
+<td align="right">1.481481</td>
 <td align="right">0.897</td>
 <td align="right">97.7</td>
 <td align="right">118.80</td>
@@ -1516,9 +1640,11 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">50</td>
 <td align="right">250</td>
 <td align="right">0</td>
-<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">64</td>
 <td align="right">1</td>
-<td align="right">275</td>
+<td align="right">250</td>
+<td align="right">1.481481</td>
 <td align="right">0.939</td>
 <td align="right">96.4</td>
 <td align="right">83.16</td>
@@ -1539,7 +1665,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">110</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">220</td>
+<td align="right">1.333333</td>
 <td align="right">0.188</td>
 <td align="right">15.7</td>
 <td align="right">4278.00</td>
@@ -1560,7 +1688,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">110</td>
 <td align="right">16</td>
+<td align="right">16</td>
 <td align="right">220</td>
+<td align="right">1.333333</td>
 <td align="right">0.757</td>
 <td align="right">80.2</td>
 <td align="right">281.40</td>
@@ -1581,7 +1711,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">110</td>
 <td align="right">32</td>
+<td align="right">32</td>
 <td align="right">220</td>
+<td align="right">1.333333</td>
 <td align="right">0.939</td>
 <td align="right">99.7</td>
 <td align="right">83.16</td>
@@ -1602,7 +1734,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">110</td>
 <td align="right">64</td>
+<td align="right">64</td>
 <td align="right">220</td>
+<td align="right">1.333333</td>
 <td align="right">0.934</td>
 <td align="right">99.0</td>
 <td align="right">87.13</td>
@@ -1623,7 +1757,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.254</td>
 <td align="right">18.1</td>
 <td align="right">2863.00</td>
@@ -1644,7 +1780,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.208</td>
 <td align="right">17.3</td>
 <td align="right">3757.00</td>
@@ -1665,7 +1803,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.219</td>
 <td align="right">18.1</td>
 <td align="right">3510.00</td>
@@ -1686,7 +1826,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.195</td>
 <td align="right">15.5</td>
 <td align="right">4084.00</td>
@@ -1707,7 +1849,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.186</td>
 <td align="right">13.9</td>
 <td align="right">4336.00</td>
@@ -1727,24 +1871,26 @@ accurate results, and we consider them to be outside the curve.</p>
 <colgroup>
 <col width="1%" />
 <col width="2%" />
+<col width="2%" />
 <col width="3%" />
 <col width="4%" />
 <col width="4%" />
-<col width="4%" />
 <col width="2%" />
-<col width="5%" />
 <col width="4%" />
-<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
 <col width="3%" />
 <col width="6%" />
 <col width="5%" />
-<col width="7%" />
+<col width="4%" />
+<col width="6%" />
 <col width="3%" />
 <col width="2%" />
+<col width="2%" />
 <col width="3%" />
-<col width="4%" />
-<col width="9%" />
-<col width="8%" />
+<col width="7%" />
+<col width="7%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1756,9 +1902,11 @@ accurate results, and we consider them to be outside the curve.</p>
 <th align="right">Buffer_nl</th>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
-<th align="right">Dilution</th>
+<th align="right">Dilution_sample</th>
+<th align="right">Dilution_spike</th>
 <th align="right">Vol_in_well.tube_uL</th>
 <th align="right">Raw.OD</th>
+<th align="right">Extraction_ratio</th>
 <th align="right">Binding.Perc</th>
 <th align="right">Conc_pg/ml</th>
 <th align="right">Ave_Conc_pg/ml</th>
@@ -1781,7 +1929,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.351351</td>
 <td align="right">0.258</td>
 <td align="right">23.2</td>
 <td align="right">2800</td>
@@ -1803,7 +1953,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.351351</td>
 <td align="right">0.259</td>
 <td align="right">NA</td>
 <td align="right">2785</td>
@@ -1825,7 +1977,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.195</td>
 <td align="right">15.5</td>
 <td align="right">4084</td>
@@ -1847,7 +2001,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.186</td>
 <td align="right">NA</td>
 <td align="right">4336</td>
@@ -1869,7 +2025,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.186</td>
 <td align="right">13.9</td>
 <td align="right">4336</td>
@@ -1891,7 +2049,9 @@ accurate results, and we consider them to be outside the curve.</p>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
+<td align="right">1</td>
 <td align="right">50</td>
+<td align="right">1.333333</td>
 <td align="right">0.166</td>
 <td align="right">NA</td>
 <td align="right">4986</td>
@@ -1921,7 +2081,7 @@ Session information
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.4.3 (2025-02-28)
 Platform: aarch64-apple-darwin20
-Running under: macOS Sequoia 15.3.2
+Running under: macOS Sequoia 15.4
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 

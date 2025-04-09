@@ -421,10 +421,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -517,15 +517,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree961ce6a6e6afaf169b3e86741aa75ec90f580429targetblank961ce6aa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree77c2ab5fbe6945870d239696722a0155d005cd3dtargetblank77c2ab5a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/961ce6a6e6afaf169b3e86741aa75ec90f580429" target="_blank">961ce6a</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/77c2ab5fbe6945870d239696722a0155d005cd3d" target="_blank">77c2ab5</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree961ce6a6e6afaf169b3e86741aa75ec90f580429targetblank961ce6aa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree77c2ab5fbe6945870d239696722a0155d005cd3dtargetblank77c2ab5a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -535,7 +535,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/961ce6a6e6afaf169b3e86741aa75ec90f580429" target="_blank">961ce6a</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/77c2ab5fbe6945870d239696722a0155d005cd3d" target="_blank">77c2ab5</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -560,8 +560,20 @@ Ignored files:
     Ignored:    data/Test4/.DS_Store
 
 Untracked files:
-    Untracked:  analysis/ELISA_Calc_FinalVals_test3.Rmd
-    Untracked:  analysis/ELISA_Simulation_test4.Rmd
+    Untracked:  data/Test3/Data_cort_values_methodC.csv
+    Untracked:  data/Test3/Data_cort_values_methodD.csv
+
+Unstaged changes:
+    Modified:   analysis/ELISA_Analysis_RawVals_test4.Rmd
+    Modified:   analysis/ELISA_Calc_FinalVals_test3.Rmd
+    Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
+    Deleted:    analysis/ELISA_QC_Finalvals_test3.Rmd
+    Modified:   analysis/ELISA_QC_test3.Rmd
+    Modified:   data/Test3/Data_QC_filtered.csv
+    Modified:   data/Test3/Data_QC_flagged.csv
+    Modified:   data/Test3/Data_cort_values_methodA.csv
+    Modified:   data/Test3/Data_cort_values_methodB.csv
+    Modified:   data/Test3/failed_samples.csv
 
 </code></pre>
 <p>
@@ -577,65 +589,188 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/ELISA_Calc_FinalVals_test3.Rmd</code>) and HTML
+(<code>docs/ELISA_Calc_FinalVals_test3.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/77c2ab5fbe6945870d239696722a0155d005cd3d/analysis/ELISA_Calc_FinalVals_test3.Rmd" target="_blank">77c2ab5</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-08
+</td>
+<td>
+cleaning test3
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/77c2ab5fbe6945870d239696722a0155d005cd3d/docs/ELISA_Calc_FinalVals_test3.html" target="_blank">77c2ab5</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-08
+</td>
+<td>
+cleaning test3
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
-<p><strong>Cortisol value calculations</strong></p>
+<p><strong>Cortisol value calculations</strong> were conducted using two
+methods:</p>
+<ul>
+<li><strong>Standard Method (Method A)</strong>: Calculates cortisol
+concentration without correction for spiked samples.</li>
+<li><strong>Spike-Corrected Method (Method B)</strong>: Adjusts for
+spiked samples to account for addition of a known amount of cortisol,
+following Nist et al. 2020.</li>
+</ul>
+<p><strong>Results</strong>: As we see below, the formula used by Nist
+et al. results in negative values, which would mean that there is no
+cortisol in original samples.</p>
+<table>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Summary</th>
+<th align="right">Nist et al.</th>
+<th align="right">My samples</th>
+<th align="right">Non-spiked only</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mean cort conc (pg/mg)</td>
+<td align="right">23.74</td>
+<td align="right">-0.18</td>
+<td align="right">7.9</td>
+</tr>
+<tr class="even">
+<td align="left">Range cort conc (pg/mg)</td>
+<td align="right">2.1 to 124.9*</td>
+<td align="right">-29.3 to 11.76</td>
+<td align="right">2.71 to 11.76</td>
+</tr>
+<tr class="odd">
+<td align="left">Weight range (mg)</td>
+<td align="right">0.4 to 10.9</td>
+<td align="right">11 to 37.1</td>
+<td align="right">12 to 37</td>
+</tr>
+<tr class="even">
+<td align="left">Sample size</td>
+<td align="right">X</td>
+<td align="right">30</td>
+<td align="right">18</td>
+</tr>
+</tbody>
+</table>
+</table>
+<p>This could be an artifact of an extremely high absorbance level.
+Non-spiked samples, however, result in values that are within the range
+found in similar studies of cortisol in human hair. After accounting for
+differences in dilution and weight, our results suggest some optimal
+parameters.</p>
+<p><strong>Conclusions</strong>:</p>
+<ul>
+<li>Dilution of 250uL is preferable over 60uL</li>
+<li>Non-spiked samples seem to generate expected results</li>
+</ul>
+<p><strong>Concerns</strong></p>
+<ul>
+<li>Spike results in unrealistic values</li>
+<li>Could be explained by the higher weight of our samples</li>
+<li>Dilution of 250uL results in values that are twice as big as with
+60uL, but they should be very similar or at least overlap</li>
+</ul>
 <pre class="r"><code># DATA SET 
-current_test &lt;- &quot;Test4&quot;
+current_test &lt;- &quot;Test3&quot;
 data_path &lt;- file.path(&quot;./data&quot;, current_test)</code></pre>
 <pre class="r"><code># Define volume of methanol used for cortisol extraction
 # vol added / vol recovered (mL)
-extraction &lt;- 1 / 0.750
+extraction &lt;- 1.3 / 1
 
 # Reading of spike standard and conversion to ug/dL
-std &lt;- (3191 + 3228) / 2
+std &lt;- (3133 + 3146) / 2. # test 3 backfit
 std.r &lt;- std / 10000</code></pre>
 <p>Loading files and transforming units, <em>including low quality
 data</em></p>
 <pre class="r"><code>df &lt;- read.csv(file.path(data_path,&quot;Data_QC_flagged.csv&quot;))
 kable(tail(df))</code></pre>
-<table style="width:100%;">
+<table>
 <colgroup>
 <col width="1%" />
-<col width="2%" />
 <col width="3%" />
-<col width="4%" />
-<col width="4%" />
-<col width="4%" />
 <col width="2%" />
-<col width="5%" />
-<col width="4%" />
-<col width="9%" />
 <col width="3%" />
 <col width="6%" />
 <col width="5%" />
 <col width="7%" />
 <col width="3%" />
 <col width="2%" />
-<col width="3%" />
+<col width="2%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="2%" />
+<col width="8%" />
+<col width="5%" />
+<col width="4%" />
 <col width="4%" />
 <col width="9%" />
-<col width="8%" />
+<col width="12%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left"></th>
-<th align="left">Wells</th>
 <th align="left">Sample</th>
-<th align="left">Category</th>
-<th align="right">Weight_mg</th>
-<th align="right">Buffer_nl</th>
-<th align="right">Spike</th>
-<th align="right">SpikeVol_uL</th>
-<th align="right">Dilution</th>
-<th align="right">Vol_in_well.tube_uL</th>
+<th align="left">Wells</th>
 <th align="right">Raw.OD</th>
 <th align="right">Binding.Perc</th>
 <th align="right">Conc_pg.ml</th>
@@ -643,6 +778,13 @@ kable(tail(df))</code></pre>
 <th align="right">CV.Perc</th>
 <th align="right">SD</th>
 <th align="right">SEM</th>
+<th align="left">Category</th>
+<th align="right">Weight_mg</th>
+<th align="right">Buffer_nl</th>
+<th align="right">Spike</th>
+<th align="right">TotalVol_well_uL</th>
+<th align="right">SpikeVol_uL</th>
+<th align="right">Dilution</th>
 <th align="left">CV_categ</th>
 <th align="left">Binding.Perc_categ</th>
 <th align="left">Failed_samples</th>
@@ -650,149 +792,148 @@ kable(tail(df))</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">77</td>
-<td align="left">G11</td>
-<td align="left">TP3A</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">220</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
+<td align="left">34</td>
+<td align="left">4</td>
+<td align="left">F3</td>
+<td align="right">1.070</td>
+<td align="right">80.6</td>
+<td align="right">295.8</td>
+<td align="right">334.5</td>
+<td align="right">16.30</td>
+<td align="right">54.6</td>
+<td align="right">38.6</td>
+<td align="left">NoSpike</td>
+<td align="right">11.7</td>
+<td align="right">250</td>
+<td align="right">0</td>
 <td align="right">50</td>
-<td align="right">0.258</td>
-<td align="right">23.2</td>
-<td align="right">2800</td>
-<td align="right">2792</td>
-<td align="right">0.391</td>
-<td align="right">10.9</td>
-<td align="right">7.71</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">HIGH CV</td>
+<td align="left">ABOVE 80% binding</td>
+<td align="left">HIGH CV;ABOVE 80% binding</td>
 </tr>
 <tr class="even">
-<td align="left">78</td>
-<td align="left">H11</td>
-<td align="left">TP3A</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">220</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
+<td align="left">35</td>
+<td align="left">5</td>
+<td align="left">G3</td>
+<td align="right">0.944</td>
+<td align="right">72.1</td>
+<td align="right">488.0</td>
+<td align="right">501.4</td>
+<td align="right">3.79</td>
+<td align="right">19.0</td>
+<td align="right">13.4</td>
+<td align="left">NoSpike</td>
+<td align="right">14.4</td>
+<td align="right">60</td>
+<td align="right">0</td>
 <td align="right">50</td>
-<td align="right">0.259</td>
-<td align="right">NA</td>
-<td align="right">2785</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0</td>
+<td align="right">1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">79</td>
-<td align="left">A12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">12</td>
+<td align="left">36</td>
+<td align="left">6</td>
+<td align="left">H3</td>
+<td align="right">0.490</td>
+<td align="right">34.7</td>
+<td align="right">2099.0</td>
+<td align="right">2204.0</td>
+<td align="right">6.75</td>
+<td align="right">149.0</td>
+<td align="right">105.0</td>
+<td align="left">YesSpike</td>
+<td align="right">13.7</td>
 <td align="right">60</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="right">25</td>
 <td align="right">1</td>
-<td align="right">50</td>
-<td align="right">0.195</td>
-<td align="right">15.5</td>
-<td align="right">4084</td>
-<td align="right">4210</td>
-<td align="right">4.230</td>
-<td align="right">178.0</td>
-<td align="right">126.00</td>
 <td align="left">NA</td>
-<td align="left">UNDER 20% binding</td>
-<td align="left">UNDER 20% binding</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">80</td>
-<td align="left">B12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">12</td>
+<td align="left">37</td>
+<td align="left">7</td>
+<td align="left">A5</td>
+<td align="right">0.436</td>
+<td align="right">30.5</td>
+<td align="right">2551.0</td>
+<td align="right">2669.0</td>
+<td align="right">6.25</td>
+<td align="right">167.0</td>
+<td align="right">118.0</td>
+<td align="left">YesSpike</td>
+<td align="right">16.4</td>
 <td align="right">60</td>
 <td align="right">1</td>
+<td align="right">50</td>
 <td align="right">25</td>
 <td align="right">1</td>
-<td align="right">50</td>
-<td align="right">0.186</td>
-<td align="right">NA</td>
-<td align="right">4336</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">81</td>
-<td align="left">C12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
+<td align="left">38</td>
+<td align="left">8</td>
+<td align="left">B5</td>
+<td align="right">1.030</td>
+<td align="right">77.8</td>
+<td align="right">354.9</td>
+<td align="right">386.8</td>
+<td align="right">11.70</td>
+<td align="right">45.1</td>
+<td align="right">31.9</td>
+<td align="left">NoSpike</td>
+<td align="right">15.3</td>
+<td align="right">250</td>
+<td align="right">0</td>
 <td align="right">50</td>
-<td align="right">0.186</td>
-<td align="right">13.9</td>
-<td align="right">4336</td>
-<td align="right">4661</td>
-<td align="right">9.870</td>
-<td align="right">460.0</td>
-<td align="right">325.00</td>
+<td align="right">0</td>
+<td align="right">1</td>
 <td align="left">NA</td>
-<td align="left">UNDER 20% binding</td>
-<td align="left">UNDER 20% binding</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">82</td>
-<td align="left">D12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">39</td>
+<td align="left">9</td>
+<td align="left">C5</td>
+<td align="right">0.432</td>
+<td align="right">30.3</td>
+<td align="right">2590.0</td>
+<td align="right">2693.0</td>
+<td align="right">5.46</td>
+<td align="right">147.0</td>
+<td align="right">104.0</td>
+<td align="left">YesSpike</td>
+<td align="right">19.2</td>
+<td align="right">250</td>
 <td align="right">1</td>
 <td align="right">50</td>
-<td align="right">0.166</td>
-<td align="right">NA</td>
-<td align="right">4986</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">25</td>
+<td align="right">1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code># remove outlier
-#df&lt;- df[(df$Sample != &quot;TP3A&quot;),]
-
-# Creating variables in indicated units
+<pre class="r"><code># Creating variables in indicated units
 # dilution (buffer)
 df$Buffer_ml &lt;- c(df$Buffer_nl/1000)
 
 # remove unnecessary information 
 data &lt;- df %&gt;%
-    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Weight_mg, Buffer_ml, Spike, SpikeVol_uL, Dilution, Vol_in_well.tube_uL, Failed_samples) 
+    filter(CV.Perc &lt; 15) %&gt;% 
+  filter(Binding.Perc &lt; 80 &amp; Binding.Perc &gt; 20) %&gt;%
+    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Weight_mg, Buffer_ml, Spike, SpikeVol_uL, Dilution, TotalVol_well_uL, Failed_samples) 
 
 kable(tail(data, 10))</code></pre>
 <table>
@@ -802,14 +943,14 @@ kable(tail(data, 10))</code></pre>
 <col width="5%" />
 <col width="6%" />
 <col width="9%" />
-<col width="10%" />
+<col width="11%" />
 <col width="7%" />
 <col width="7%" />
 <col width="4%" />
-<col width="8%" />
+<col width="9%" />
 <col width="6%" />
-<col width="14%" />
-<col width="13%" />
+<col width="12%" />
+<col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -824,80 +965,110 @@ kable(tail(data, 10))</code></pre>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
 <th align="right">Dilution</th>
-<th align="right">Vol_in_well.tube_uL</th>
+<th align="right">TotalVol_well_uL</th>
 <th align="left">Failed_samples</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">73</td>
+<td align="left">21</td>
+<td align="left">B11</td>
+<td align="left">33</td>
+<td align="left">NoSpike</td>
+<td align="right">52.3</td>
+<td align="right">1100.0</td>
+<td align="right">33.8</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">22</td>
 <td align="left">C11</td>
-<td align="left">TP2B</td>
-<td align="left">P</td>
-<td align="right">21.1</td>
-<td align="right">3101</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">74</td>
-<td align="left">D11</td>
-<td align="left">TP2B</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">34</td>
+<td align="left">NoSpike</td>
+<td align="right">51.7</td>
+<td align="right">1124.0</td>
+<td align="right">35.5</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">75</td>
+<td align="left">23</td>
 <td align="left">E11</td>
-<td align="left">TP2C</td>
-<td align="left">P</td>
-<td align="right">18.1</td>
-<td align="right">3634</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">36</td>
+<td align="left">NoSpike</td>
+<td align="right">53.2</td>
+<td align="right">1062.0</td>
+<td align="right">31.2</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">76</td>
+<td align="left">24</td>
 <td align="left">F11</td>
-<td align="left">TP2C</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">9</td>
+<td align="left">37</td>
+<td align="left">NoSpike</td>
+<td align="right">36.1</td>
+<td align="right">2076.0</td>
+<td align="right">30.8</td>
 <td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">77</td>
+<td align="left">25</td>
 <td align="left">G11</td>
-<td align="left">TP3A</td>
-<td align="left">P</td>
-<td align="right">23.2</td>
-<td align="right">2792</td>
-<td align="right">12</td>
-<td align="right">0.22</td>
+<td align="left">38</td>
+<td align="left">NoSpike</td>
+<td align="right">32.5</td>
+<td align="right">2444.0</td>
+<td align="right">34.7</td>
+<td align="right">0.06</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">26</td>
+<td align="left">G3</td>
+<td align="left">5</td>
+<td align="left">NoSpike</td>
+<td align="right">72.1</td>
+<td align="right">501.4</td>
+<td align="right">14.4</td>
+<td align="right">0.06</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">27</td>
+<td align="left">H3</td>
+<td align="left">6</td>
+<td align="left">YesSpike</td>
+<td align="right">34.7</td>
+<td align="right">2204.0</td>
+<td align="right">13.7</td>
+<td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
@@ -905,14 +1076,14 @@ kable(tail(data, 10))</code></pre>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">78</td>
-<td align="left">H11</td>
-<td align="left">TP3A</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">12</td>
-<td align="right">0.22</td>
+<td align="left">28</td>
+<td align="left">A5</td>
+<td align="left">7</td>
+<td align="left">YesSpike</td>
+<td align="right">30.5</td>
+<td align="right">2669.0</td>
+<td align="right">16.4</td>
+<td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
@@ -920,59 +1091,29 @@ kable(tail(data, 10))</code></pre>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">79</td>
-<td align="left">A12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">15.5</td>
-<td align="right">4210</td>
-<td align="right">12</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-<tr class="even">
-<td align="left">80</td>
-<td align="left">B12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">12</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">29</td>
+<td align="left">B5</td>
+<td align="left">8</td>
+<td align="left">NoSpike</td>
+<td align="right">77.8</td>
+<td align="right">386.8</td>
+<td align="right">15.3</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
-<td align="left">81</td>
-<td align="left">C12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">13.9</td>
-<td align="right">4661</td>
-<td align="right">12</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
 <tr class="even">
-<td align="left">82</td>
-<td align="left">D12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">12</td>
-<td align="right">0.06</td>
+<td align="left">30</td>
+<td align="left">C5</td>
+<td align="left">9</td>
+<td align="left">YesSpike</td>
+<td align="right">30.3</td>
+<td align="right">2693.0</td>
+<td align="right">19.2</td>
+<td align="right">0.25</td>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
@@ -982,7 +1123,7 @@ kable(tail(data, 10))</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>dim(data)</code></pre>
-<pre><code>[1] 82 12</code></pre>
+<pre><code>[1] 30 12</code></pre>
 <pre class="r"><code># remove duplicates
 data.og &lt;- data[!is.na(data$Binding.Perc), ]</code></pre>
 <div id="a-standard-calculation" class="section level2">
@@ -1015,25 +1156,25 @@ write.csv(data, file.path(data_path, &quot;Data_cort_values_methodA.csv&quot;), 
 
 # summary for all samples
 summary(data$Final_conc_pg.mg)</code></pre>
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
- 0.4142  1.9932  7.5643 15.6132 29.4367 68.2489      44 </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  2.716   7.820  10.531  16.376  15.336  58.971 </code></pre>
 <pre class="r"><code>kable(tail(data, 7))</code></pre>
-<table>
+<table style="width:100%;">
 <colgroup>
 <col width="1%" />
 <col width="3%" />
 <col width="4%" />
 <col width="5%" />
 <col width="7%" />
-<col width="8%" />
-<col width="5%" />
-<col width="5%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
 <col width="3%" />
 <col width="7%" />
 <col width="5%" />
-<col width="11%" />
 <col width="10%" />
-<col width="8%" />
+<col width="9%" />
+<col width="9%" />
 <col width="10%" />
 </colgroup>
 <thead>
@@ -1049,7 +1190,7 @@ summary(data$Final_conc_pg.mg)</code></pre>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
 <th align="right">Dilution</th>
-<th align="right">Vol_in_well.tube_uL</th>
+<th align="right">TotalVol_well_uL</th>
 <th align="left">Failed_samples</th>
 <th align="right">Ave_Conc_ug.dL</th>
 <th align="right">Final_conc_pg.mg</th>
@@ -1057,128 +1198,128 @@ summary(data$Final_conc_pg.mg)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">76</td>
+<td align="left">24</td>
 <td align="left">F11</td>
-<td align="left">TP2C</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">9</td>
+<td align="left">37</td>
+<td align="left">NoSpike</td>
+<td align="right">36.1</td>
+<td align="right">2076.0</td>
+<td align="right">30.8</td>
 <td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0.20760</td>
+<td align="right">5.257403</td>
 </tr>
 <tr class="even">
-<td align="left">77</td>
+<td align="left">25</td>
 <td align="left">G11</td>
-<td align="left">TP3A</td>
-<td align="left">P</td>
-<td align="right">23.2</td>
-<td align="right">2792</td>
-<td align="right">12</td>
-<td align="right">0.22</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">38</td>
+<td align="left">NoSpike</td>
+<td align="right">32.5</td>
+<td align="right">2444.0</td>
+<td align="right">34.7</td>
+<td align="right">0.06</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">0.2792</td>
-<td align="right">68.24889</td>
+<td align="right">0.24440</td>
+<td align="right">5.493718</td>
 </tr>
 <tr class="odd">
-<td align="left">78</td>
-<td align="left">H11</td>
-<td align="left">TP3A</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">12</td>
-<td align="right">0.22</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">26</td>
+<td align="left">G3</td>
+<td align="left">5</td>
+<td align="left">NoSpike</td>
+<td align="right">72.1</td>
+<td align="right">501.4</td>
+<td align="right">14.4</td>
+<td align="right">0.06</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0.05014</td>
+<td align="right">2.715917</td>
 </tr>
 <tr class="even">
-<td align="left">79</td>
-<td align="left">A12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">15.5</td>
-<td align="right">4210</td>
-<td align="right">12</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-<td align="right">0.4210</td>
-<td align="right">28.06667</td>
-</tr>
-<tr class="odd">
-<td align="left">80</td>
-<td align="left">B12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">12</td>
+<td align="left">27</td>
+<td align="left">H3</td>
+<td align="left">6</td>
+<td align="left">YesSpike</td>
+<td align="right">34.7</td>
+<td align="right">2204.0</td>
+<td align="right">13.7</td>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0.22040</td>
+<td align="right">12.548321</td>
+</tr>
+<tr class="odd">
+<td align="left">28</td>
+<td align="left">A5</td>
+<td align="left">7</td>
+<td align="left">YesSpike</td>
+<td align="right">30.5</td>
+<td align="right">2669.0</td>
+<td align="right">16.4</td>
+<td align="right">0.06</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">0.26690</td>
+<td align="right">12.694024</td>
 </tr>
 <tr class="even">
-<td align="left">81</td>
-<td align="left">C12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">13.9</td>
-<td align="right">4661</td>
-<td align="right">12</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">29</td>
+<td align="left">B5</td>
+<td align="left">8</td>
+<td align="left">NoSpike</td>
+<td align="right">77.8</td>
+<td align="right">386.8</td>
+<td align="right">15.3</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-<td align="right">0.4661</td>
-<td align="right">31.07333</td>
+<td align="left">NA</td>
+<td align="right">0.03868</td>
+<td align="right">8.216340</td>
 </tr>
 <tr class="odd">
-<td align="left">82</td>
-<td align="left">D12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">12</td>
-<td align="right">0.06</td>
+<td align="left">30</td>
+<td align="left">C5</td>
+<td align="left">9</td>
+<td align="left">YesSpike</td>
+<td align="right">30.3</td>
+<td align="right">2693.0</td>
+<td align="right">19.2</td>
+<td align="right">0.25</td>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0.26930</td>
+<td align="right">45.584635</td>
 </tr>
 </tbody>
 </table>
 <pre class="r"><code>dim(data)</code></pre>
-<pre><code>[1] 82 14</code></pre>
+<pre><code>[1] 30 14</code></pre>
 </div>
 <div id="b-accounting-for-spike" class="section level2">
 <h2>(B) Accounting for Spike</h2>
@@ -1224,29 +1365,29 @@ write.csv(dSpike, file.path(data_path, &quot;Data_cort_values_methodB.csv&quot;)
 
 # summary for all samples
 summary(dSpike$Final_conc_pg.mg)</code></pre>
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
--45.870 -31.013  -3.944  -9.733   7.552  30.780      44 </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-29.933  -9.370   4.328  -0.182   9.944  11.763 </code></pre>
 <pre class="r"><code>dSpikeSub &lt;- data[c(data$Spike == 0), ]
 summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
- 0.4142  0.8400  2.3493  7.7984 11.9733 30.7800      17 </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  2.716   5.087   8.874   7.908  10.486  11.763 </code></pre>
 <pre class="r"><code>kable(tail(dSpike, 10))</code></pre>
-<table>
+<table style="width:100%;">
 <colgroup>
 <col width="1%" />
 <col width="3%" />
 <col width="4%" />
 <col width="5%" />
 <col width="7%" />
-<col width="8%" />
-<col width="5%" />
-<col width="5%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
 <col width="3%" />
 <col width="7%" />
 <col width="5%" />
-<col width="11%" />
 <col width="10%" />
-<col width="8%" />
+<col width="9%" />
+<col width="9%" />
 <col width="10%" />
 </colgroup>
 <thead>
@@ -1262,7 +1403,7 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 <th align="right">Spike</th>
 <th align="right">SpikeVol_uL</th>
 <th align="right">Dilution</th>
-<th align="right">Vol_in_well.tube_uL</th>
+<th align="right">TotalVol_well_uL</th>
 <th align="left">Failed_samples</th>
 <th align="right">Ave_Conc_ug.dL</th>
 <th align="right">Final_conc_pg.mg</th>
@@ -1270,174 +1411,174 @@ summary(dSpikeSub$Final_conc_pg.mg)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">73</td>
+<td align="left">21</td>
+<td align="left">B11</td>
+<td align="left">33</td>
+<td align="left">NoSpike</td>
+<td align="right">52.3</td>
+<td align="right">1100.0</td>
+<td align="right">33.8</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">0.11000</td>
+<td align="right">10.576923</td>
+</tr>
+<tr class="even">
+<td align="left">22</td>
 <td align="left">C11</td>
-<td align="left">TP2B</td>
-<td align="left">P</td>
-<td align="right">21.1</td>
-<td align="right">3101</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">NA</td>
-<td align="right">0.3101</td>
-<td align="right">-1.928889</td>
-</tr>
-<tr class="even">
-<td align="left">74</td>
-<td align="left">D11</td>
-<td align="left">TP2B</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">34</td>
+<td align="left">NoSpike</td>
+<td align="right">51.7</td>
+<td align="right">1124.0</td>
+<td align="right">35.5</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0.11240</td>
+<td align="right">10.290141</td>
 </tr>
 <tr class="odd">
-<td align="left">75</td>
+<td align="left">23</td>
 <td align="left">E11</td>
-<td align="left">TP2C</td>
-<td align="left">P</td>
-<td align="right">18.1</td>
-<td align="right">3634</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">36</td>
+<td align="left">NoSpike</td>
+<td align="right">53.2</td>
+<td align="right">1062.0</td>
+<td align="right">31.2</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-<td align="right">0.3634</td>
-<td align="right">7.546667</td>
+<td align="left">NA</td>
+<td align="right">0.10620</td>
+<td align="right">11.062500</td>
 </tr>
 <tr class="even">
-<td align="left">76</td>
+<td align="left">24</td>
 <td align="left">F11</td>
-<td align="left">TP2C</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">9</td>
+<td align="left">37</td>
+<td align="left">NoSpike</td>
+<td align="right">36.1</td>
+<td align="right">2076.0</td>
+<td align="right">30.8</td>
 <td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0.20760</td>
+<td align="right">5.257403</td>
 </tr>
 <tr class="odd">
-<td align="left">77</td>
+<td align="left">25</td>
 <td align="left">G11</td>
-<td align="left">TP3A</td>
-<td align="left">P</td>
-<td align="right">23.2</td>
-<td align="right">2792</td>
-<td align="right">12</td>
-<td align="right">0.22</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">38</td>
+<td align="left">NoSpike</td>
+<td align="right">32.5</td>
+<td align="right">2444.0</td>
+<td align="right">34.7</td>
+<td align="right">0.06</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">0.2792</td>
-<td align="right">-20.411111</td>
+<td align="right">0.24440</td>
+<td align="right">5.493718</td>
 </tr>
 <tr class="even">
-<td align="left">78</td>
-<td align="left">H11</td>
-<td align="left">TP3A</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">12</td>
-<td align="right">0.22</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">26</td>
+<td align="left">G3</td>
+<td align="left">5</td>
+<td align="left">NoSpike</td>
+<td align="right">72.1</td>
+<td align="right">501.4</td>
+<td align="right">14.4</td>
+<td align="right">0.06</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0.05014</td>
+<td align="right">2.715917</td>
 </tr>
 <tr class="odd">
-<td align="left">79</td>
-<td align="left">A12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">15.5</td>
-<td align="right">4210</td>
-<td align="right">12</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-<td align="right">0.4210</td>
-<td align="right">13.340000</td>
-</tr>
-<tr class="even">
-<td align="left">80</td>
-<td align="left">B12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">12</td>
+<td align="left">27</td>
+<td align="left">H3</td>
+<td align="left">6</td>
+<td align="left">YesSpike</td>
+<td align="right">34.7</td>
+<td align="right">2204.0</td>
+<td align="right">13.7</td>
 <td align="right">0.06</td>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0.22040</td>
+<td align="right">-10.652409</td>
+</tr>
+<tr class="even">
+<td align="left">28</td>
+<td align="left">A5</td>
+<td align="left">7</td>
+<td align="left">YesSpike</td>
+<td align="right">30.5</td>
+<td align="right">2669.0</td>
+<td align="right">16.4</td>
+<td align="right">0.06</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="right">0.26690</td>
+<td align="right">-4.475488</td>
 </tr>
 <tr class="odd">
-<td align="left">81</td>
-<td align="left">C12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">13.9</td>
-<td align="right">4661</td>
-<td align="right">12</td>
-<td align="right">0.06</td>
-<td align="right">1</td>
-<td align="right">25</td>
+<td align="left">29</td>
+<td align="left">B5</td>
+<td align="left">8</td>
+<td align="left">NoSpike</td>
+<td align="right">77.8</td>
+<td align="right">386.8</td>
+<td align="right">15.3</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
-<td align="left">UNDER 20% binding</td>
-<td align="right">0.4661</td>
-<td align="right">19.353333</td>
+<td align="left">NA</td>
+<td align="right">0.03868</td>
+<td align="right">8.216340</td>
 </tr>
 <tr class="even">
-<td align="left">82</td>
-<td align="left">D12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">12</td>
-<td align="right">0.06</td>
+<td align="left">30</td>
+<td align="left">C5</td>
+<td align="left">9</td>
+<td align="left">YesSpike</td>
+<td align="right">30.3</td>
+<td align="right">2693.0</td>
+<td align="right">19.2</td>
+<td align="right">0.25</td>
 <td align="right">1</td>
 <td align="right">25</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0.26930</td>
+<td align="right">-15.115885</td>
 </tr>
 </tbody>
 </table>
@@ -1457,8 +1598,8 @@ write.csv(datac, file.path(data_path, &quot;Data_cort_values_methodC.csv&quot;),
 
 # summary for all samples
 summary(datac$Final_conc_pg.mg)</code></pre>
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
- 0.4142  1.9932  7.5643 15.6132 29.4367 68.2489      44 </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  2.716   7.820  10.531  16.376  15.336  58.971 </code></pre>
 </div>
 <div
 id="d-account-for-spike-contribution-uses-vol.-of-spike-conc.-of-spike-and-total-reconstit.-vol."
@@ -1475,10 +1616,10 @@ where the spike was added)</p>
 data$SpikeVol_ml &lt;- data$SpikeVol_uL/1000
 # Concentration of the spike:
 std</code></pre>
-<pre><code>[1] 3209.5</code></pre>
+<pre><code>[1] 3139.5</code></pre>
 <pre class="r"><code># Vol. reconstitution (mL) is the total volume in tube or well (sample + spike), after adding spike.
 # transform to mL
-data$Vol_in_well.tube_ml &lt;- data$Vol_in_well.tube_uL/1000
+data$TotalVol_well_mL &lt;- data$TotalVol_well_uL/1000
 
 
   ##( Spike vol. x Spike Conc.)
@@ -1488,7 +1629,7 @@ data$Vol_in_well.tube_ml &lt;- data$Vol_in_well.tube_uL/1000
 # Cortisol added by spike in wells: 0.0025 mL x 3200 pg/mL = 80 pg
 # Calculate cort contribution of spike to each sample
 data$Spike.cont_pg.mL &lt;- (((data$SpikeVol_ml * std ) / # Volume of spike * Spike concentration
-                            data$Vol_in_well.tube_ml) / # divided by the total volume (spike + sample)
+                            data$TotalVol_well_mL) / # divided by the total volume (spike + sample)
                               data$Dilution) # resulting number changes depending on the dilution
 
 dSpiked &lt;- data
@@ -1512,22 +1653,22 @@ write.csv(dSpiked, file.path(data_path, &quot;Data_cort_values_methodD.csv&quot;
 
 # summary for all samples
 summary(dSpiked$Final_conc_pg.mg)</code></pre>
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
- 0.2335  1.6157  7.0685 10.2765 17.8704 32.2815      44 </code></pre>
-<pre class="r"><code>kable(tail(dSpiked[!is.na(dSpiked$Final_conc_pg.mg) , c(&quot;Sample&quot;, &quot;Final_conc_pg.mg&quot;, &quot;Ave_Conc_pg.ml&quot;, &quot;Spike.cont_pg.mL&quot;, &quot;Binding.Perc&quot;, &quot;Weight_mg&quot;, &quot;Buffer_ml&quot;, &quot;SpikeVol_uL&quot;, &quot;Dilution&quot;, &quot;Vol_in_well.tube_uL&quot;)],20))</code></pre>
-<table>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  2.716   5.235   9.806   9.329  11.212  22.002 </code></pre>
+<pre class="r"><code>kable(tail(dSpiked[!is.na(dSpiked$Final_conc_pg.mg) , c(&quot;Sample&quot;, &quot;Final_conc_pg.mg&quot;, &quot;Ave_Conc_pg.ml&quot;, &quot;Spike.cont_pg.mL&quot;, &quot;Binding.Perc&quot;, &quot;Weight_mg&quot;, &quot;Buffer_ml&quot;, &quot;SpikeVol_uL&quot;, &quot;Dilution&quot;, &quot;TotalVol_well_uL&quot;)],20))</code></pre>
+<table style="width:100%;">
 <colgroup>
 <col width="2%" />
 <col width="5%" />
-<col width="12%" />
+<col width="13%" />
 <col width="11%" />
-<col width="12%" />
-<col width="9%" />
+<col width="13%" />
+<col width="10%" />
 <col width="7%" />
 <col width="7%" />
 <col width="9%" />
 <col width="6%" />
-<col width="15%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1541,272 +1682,402 @@ summary(dSpiked$Final_conc_pg.mg)</code></pre>
 <th align="right">Buffer_ml</th>
 <th align="right">SpikeVol_uL</th>
 <th align="right">Dilution</th>
-<th align="right">Vol_in_well.tube_uL</th>
+<th align="right">TotalVol_well_uL</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">43</td>
-<td align="left">TC4</td>
-<td align="right">2.1748485</td>
-<td align="right">618.00</td>
-<td align="right">291.77273</td>
-<td align="right">60.2</td>
-<td align="right">50</td>
+<td align="left">11</td>
+<td align="left">23</td>
+<td align="right">10.484553</td>
+<td align="right">793.6</td>
+<td align="right">0.00</td>
+<td align="right">60.9</td>
+<td align="right">24.6</td>
 <td align="right">0.25</td>
-<td align="right">25</td>
+<td align="right">0</td>
 <td align="right">1</td>
-<td align="right">275</td>
+<td align="right">50</td>
 </tr>
 <tr class="even">
-<td align="left">45</td>
-<td align="left">TC5</td>
-<td align="right">0.9633333</td>
-<td align="right">144.50</td>
-<td align="right">291.77273</td>
-<td align="right">92.0</td>
-<td align="right">50</td>
+<td align="left">12</td>
+<td align="left">24</td>
+<td align="right">10.836520</td>
+<td align="right">680.2</td>
+<td align="right">0.00</td>
+<td align="right">64.8</td>
+<td align="right">20.4</td>
 <td align="right">0.25</td>
-<td align="right">25</td>
+<td align="right">0</td>
 <td align="right">1</td>
-<td align="right">275</td>
-</tr>
-<tr class="odd">
-<td align="left">47</td>
-<td align="left">TC6</td>
-<td align="right">0.6499333</td>
-<td align="right">97.49</td>
-<td align="right">291.77273</td>
-<td align="right">97.7</td>
 <td align="right">50</td>
-<td align="right">0.25</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">275</td>
-</tr>
-<tr class="even">
-<td align="left">49</td>
-<td align="left">TC7</td>
-<td align="right">0.7166667</td>
-<td align="right">107.50</td>
-<td align="right">291.77273</td>
-<td align="right">96.4</td>
-<td align="right">50</td>
-<td align="right">0.25</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">275</td>
 </tr>
 <tr class="odd">
-<td align="left">51</td>
-<td align="left">TD1</td>
-<td align="right">18.7971667</td>
-<td align="right">4168.00</td>
-<td align="right">1604.75000</td>
-<td align="right">15.7</td>
-<td align="right">20</td>
-<td align="right">0.11</td>
-<td align="right">110</td>
-<td align="right">1</td>
-<td align="right">220</td>
-</tr>
-<tr class="even">
-<td align="left">53</td>
-<td align="left">TD2</td>
-<td align="right">7.4185833</td>
-<td align="right">1814.00</td>
-<td align="right">802.37500</td>
-<td align="right">32.7</td>
-<td align="right">20</td>
-<td align="right">0.11</td>
-<td align="right">110</td>
-<td align="right">2</td>
-<td align="right">220</td>
-</tr>
-<tr class="odd">
-<td align="left">55</td>
-<td align="left">TD3</td>
-<td align="right">4.6332917</td>
-<td align="right">1033.00</td>
-<td align="right">401.18750</td>
-<td align="right">46.7</td>
-<td align="right">20</td>
-<td align="right">0.11</td>
-<td align="right">110</td>
-<td align="right">4</td>
-<td align="right">220</td>
-</tr>
-<tr class="even">
-<td align="left">57</td>
-<td align="left">TD4</td>
-<td align="right">2.3797125</td>
-<td align="right">525.10</td>
-<td align="right">200.59375</td>
-<td align="right">64.3</td>
-<td align="right">20</td>
-<td align="right">0.11</td>
-<td align="right">110</td>
-<td align="right">8</td>
-<td align="right">220</td>
-</tr>
-<tr class="odd">
-<td align="left">59</td>
-<td align="left">TD5</td>
-<td align="right">1.2298229</td>
-<td align="right">268.00</td>
-<td align="right">100.29688</td>
-<td align="right">80.2</td>
-<td align="right">20</td>
-<td align="right">0.11</td>
-<td align="right">110</td>
-<td align="right">16</td>
-<td align="right">220</td>
-</tr>
-<tr class="even">
-<td align="left">61</td>
-<td align="left">TD6</td>
-<td align="right">0.2335048</td>
-<td align="right">81.99</td>
-<td align="right">50.14844</td>
-<td align="right">99.7</td>
-<td align="right">20</td>
-<td align="right">0.11</td>
-<td align="right">110</td>
-<td align="right">32</td>
-<td align="right">220</td>
-</tr>
-<tr class="odd">
-<td align="left">63</td>
-<td align="left">TD7</td>
-<td align="right">0.4521424</td>
-<td align="right">86.73</td>
-<td align="right">25.07422</td>
-<td align="right">99.0</td>
-<td align="right">20</td>
-<td align="right">0.11</td>
-<td align="right">110</td>
-<td align="right">64</td>
-<td align="right">220</td>
-</tr>
-<tr class="even">
-<td align="left">65</td>
-<td align="left">TP1A</td>
-<td align="right">18.4166667</td>
-<td align="right">2986.00</td>
-<td align="right">1604.75000</td>
-<td align="right">21.8</td>
-<td align="right">6</td>
+<td align="left">13</td>
+<td align="left">26</td>
+<td align="right">7.688020</td>
+<td align="right">1991.0</td>
+<td align="right">0.00</td>
+<td align="right">37.3</td>
+<td align="right">20.2</td>
 <td align="right">0.06</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-</tr>
-<tr class="odd">
-<td align="left">67</td>
-<td align="left">TP1B</td>
-<td align="right">29.5366667</td>
-<td align="right">3820.00</td>
-<td align="right">1604.75000</td>
-<td align="right">18.1</td>
-<td align="right">6</td>
-<td align="right">0.06</td>
-<td align="right">25</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 </tr>
 <tr class="even">
-<td align="left">69</td>
-<td align="left">TP1C</td>
-<td align="right">8.4966667</td>
-<td align="right">2242.00</td>
-<td align="right">1604.75000</td>
-<td align="right">27.8</td>
-<td align="right">6</td>
+<td align="left">14</td>
+<td align="left">27</td>
+<td align="right">5.030278</td>
+<td align="right">1393.0</td>
+<td align="right">0.00</td>
+<td align="right">46.0</td>
+<td align="right">21.6</td>
 <td align="right">0.06</td>
-<td align="right">25</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 </tr>
 <tr class="odd">
-<td align="left">71</td>
-<td align="left">TP2A</td>
-<td align="right">19.4511111</td>
-<td align="right">3793.00</td>
-<td align="right">1604.75000</td>
-<td align="right">17.3</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-</tr>
-<tr class="even">
-<td align="left">73</td>
-<td align="left">TP2B</td>
-<td align="right">13.3000000</td>
-<td align="right">3101.00</td>
-<td align="right">1604.75000</td>
-<td align="right">21.1</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-</tr>
-<tr class="odd">
-<td align="left">75</td>
-<td align="left">TP2C</td>
-<td align="right">18.0377778</td>
-<td align="right">3634.00</td>
-<td align="right">1604.75000</td>
-<td align="right">18.1</td>
-<td align="right">9</td>
-<td align="right">0.06</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">50</td>
-</tr>
-<tr class="even">
-<td align="left">77</td>
-<td align="left">TP3A</td>
-<td align="right">29.0216667</td>
-<td align="right">2792.00</td>
-<td align="right">1604.75000</td>
+<td align="left">15</td>
+<td align="left">28</td>
+<td align="right">11.763039</td>
+<td align="right">839.7</td>
+<td align="right">0.00</td>
+<td align="right">59.5</td>
 <td align="right">23.2</td>
-<td align="right">12</td>
-<td align="right">0.22</td>
-<td align="right">25</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">16</td>
+<td align="left">29</td>
+<td align="right">4.427836</td>
+<td align="right">2072.0</td>
+<td align="right">0.00</td>
+<td align="right">36.2</td>
+<td align="right">36.5</td>
+<td align="right">0.06</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">50</td>
 </tr>
 <tr class="odd">
-<td align="left">79</td>
-<td align="left">TP3B</td>
-<td align="right">17.3683333</td>
-<td align="right">4210.00</td>
-<td align="right">1604.75000</td>
-<td align="right">15.5</td>
-<td align="right">12</td>
+<td align="left">17</td>
+<td align="left">3</td>
+<td align="right">5.085954</td>
+<td align="right">2287.0</td>
+<td align="right">1569.75</td>
+<td align="right">33.9</td>
+<td align="right">11.0</td>
 <td align="right">0.06</td>
 <td align="right">25</td>
 <td align="right">1</td>
 <td align="right">50</td>
 </tr>
 <tr class="even">
-<td align="left">81</td>
-<td align="left">TP3C</td>
-<td align="right">20.3750000</td>
-<td align="right">4661.00</td>
-<td align="right">1604.75000</td>
-<td align="right">13.9</td>
-<td align="right">12</td>
+<td align="left">18</td>
+<td align="left">30A</td>
+<td align="right">14.474029</td>
+<td align="right">2888.0</td>
+<td align="right">1569.75</td>
+<td align="right">28.8</td>
+<td align="right">29.6</td>
+<td align="right">0.25</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">19</td>
+<td align="left">31</td>
+<td align="right">4.227453</td>
+<td align="right">1149.0</td>
+<td align="right">0.00</td>
+<td align="right">51.2</td>
+<td align="right">21.2</td>
 <td align="right">0.06</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">20</td>
+<td align="left">32</td>
+<td align="right">10.485849</td>
+<td align="right">1197.0</td>
+<td align="right">0.00</td>
+<td align="right">50.0</td>
+<td align="right">37.1</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">21</td>
+<td align="left">33</td>
+<td align="right">10.576923</td>
+<td align="right">1100.0</td>
+<td align="right">0.00</td>
+<td align="right">52.3</td>
+<td align="right">33.8</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">22</td>
+<td align="left">34</td>
+<td align="right">10.290141</td>
+<td align="right">1124.0</td>
+<td align="right">0.00</td>
+<td align="right">51.7</td>
+<td align="right">35.5</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">23</td>
+<td align="left">36</td>
+<td align="right">11.062500</td>
+<td align="right">1062.0</td>
+<td align="right">0.00</td>
+<td align="right">53.2</td>
+<td align="right">31.2</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">24</td>
+<td align="left">37</td>
+<td align="right">5.257403</td>
+<td align="right">2076.0</td>
+<td align="right">0.00</td>
+<td align="right">36.1</td>
+<td align="right">30.8</td>
+<td align="right">0.06</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">25</td>
+<td align="left">38</td>
+<td align="right">5.493718</td>
+<td align="right">2444.0</td>
+<td align="right">0.00</td>
+<td align="right">32.5</td>
+<td align="right">34.7</td>
+<td align="right">0.06</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">26</td>
+<td align="left">5</td>
+<td align="right">2.715917</td>
+<td align="right">501.4</td>
+<td align="right">0.00</td>
+<td align="right">72.1</td>
+<td align="right">14.4</td>
+<td align="right">0.06</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">27</td>
+<td align="left">6</td>
+<td align="right">3.611058</td>
+<td align="right">2204.0</td>
+<td align="right">1569.75</td>
+<td align="right">34.7</td>
+<td align="right">13.7</td>
+<td align="right">0.06</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">28</td>
+<td align="left">7</td>
+<td align="right">5.228140</td>
+<td align="right">2669.0</td>
+<td align="right">1569.75</td>
+<td align="right">30.5</td>
+<td align="right">16.4</td>
+<td align="right">0.06</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">29</td>
+<td align="left">8</td>
+<td align="right">8.216340</td>
+<td align="right">386.8</td>
+<td align="right">0.00</td>
+<td align="right">77.8</td>
+<td align="right">15.3</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">30</td>
+<td align="left">9</td>
+<td align="right">19.013346</td>
+<td align="right">2693.0</td>
+<td align="right">1569.75</td>
+<td align="right">30.3</td>
+<td align="right">19.2</td>
+<td align="right">0.25</td>
 <td align="right">25</td>
 <td align="right">1</td>
 <td align="right">50</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div id="plots" class="section level1">
+<h1>Plots</h1>
+<div id="a-standard-calculation-1" class="section level2">
+<h2>(A) Standard Calculation</h2>
+<p><img src="figure/ELISA_Calc_FinalVals_test3.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="b-accounting-for-spike-1" class="section level2">
+<h2>(B) Accounting for Spike</h2>
+<p><img src="figure/ELISA_Calc_FinalVals_test3.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="c-simplified-standard-calculation" class="section level2">
+<h2>(C) Simplified Standard Calculation</h2>
+<p><img src="figure/ELISA_Calc_FinalVals_test3.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="d-new-calculation-substract-half-of-the-spike-from-a"
+class="section level2">
+<h2>(D) New calculation (substract half of the spike from A)</h2>
+<p><img src="figure/ELISA_Calc_FinalVals_test3.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="evaluation-non-spiked-samples-only" class="section level1">
+<h1>Evaluation Non-spiked Samples Only</h1>
+<p>Since all spiked samples produce negative values, we will continue
+our analyses using only non-spiked samples.</p>
+<pre class="r"><code># non-spiked samples only
+data2 &lt;-data[data$Spike == &quot;No&quot;, ]
+
+#two datasets, separated by dilution
+data2.06 &lt;- data2[data2$Buffer == &quot;60 uL&quot;, ]
+data2.25 &lt;- data2[data2$Buffer == &quot;250 uL&quot;, ]
+
+#### fit models ####
+
+# model Buffer = 0.06
+model06 &lt;- lm(Final_conc_pg.mg ~ Weight_mg, 
+              data = data2.06)
+r_squared06 &lt;- summary(model06)$r.squared
+
+# model Buffer = 0.25
+model25 &lt;- lm(Final_conc_pg.mg ~ Weight_mg, 
+              data = data2.25)
+r_squared25 &lt;- summary(model25)$r.squared
+
+# Calculate residuals
+residuals06 &lt;- residuals(model06)
+residuals25 &lt;- residuals(model25)
+
+# Quantify residuals
+# Mean Absolute Error
+mae06 &lt;- mean(abs(residuals06))          
+# Standard Deviation of Residuals
+std_dev06 &lt;- sd(residuals06)   
+
+# Mean Absolute Error
+mae25 &lt;- mean(abs(residuals25))      
+# Standard Deviation of Residuals
+std_dev25 &lt;- sd(residuals25)                      
+
+
+
+# scatterplot
+
+ggplot(data2, aes(y = Final_conc_pg.mg, 
+                  x = Weight_mg, 
+                  color = Buffer, 
+                  fill = Buffer)) +
+  geom_point(size = 2.5) +  
+  geom_text(label = c(data2$Sample), nudge_y = 0.75, nudge_x = -0.5) +
+  geom_smooth(method = &quot;lm&quot;, 
+              color = &quot;gold3&quot;, 
+              se = TRUE,
+              alpha = 0.1) + 
+  geom_hline(yintercept = mean(data2$Final_conc_pg.mg), 
+             color = &quot;gray80&quot;,
+             linetype = &quot;dashed&quot;) +
+  geom_hline(yintercept = mean(data2.06$Final_conc_pg.mg), 
+             color = &quot;lightblue3&quot;,
+             linetype = &quot;dashed&quot;) +
+  geom_hline(yintercept = mean(data2.25$Final_conc_pg.mg), 
+             color = &quot;lightpink3&quot;,
+             linetype = &quot;dashed&quot;) +
+  theme_minimal() +  
+  xlim(5, max(data2$Weight_mg) + 4) +
+  ylim(0, max(data2$Final_conc_pg.mg)+4) + 
+  labs(
+    title = &quot;Final Cort Concentration and Weight
+    (Non-spiked only)&quot;,
+    y = &quot;Final Concentration (pg/mg)&quot;,
+    x = &quot;Weight (mg)&quot;  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = &quot;bold&quot;),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) +
+  # Add R^2 annotation
+  annotate(&quot;text&quot;, x = max(data2$Weight_mg) * 0.7, 
+           y = min(data2$Final_conc_pg.mg) * 1.5,
+           label = paste(&quot;R² =&quot;, round(r_squared06, 3)), 
+           size = 5, color = &quot;black&quot;) +
+  annotate(&quot;text&quot;, x = max(data2$Weight_mg) * 0.7, 
+           y = max(data2$Final_conc_pg.mg) * 0.84,
+           label = paste(&quot;R² =&quot;, round(r_squared25, 3)), 
+           size = 5, color = &quot;black&quot;)</code></pre>
+<p><img src="figure/ELISA_Calc_FinalVals_test3.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The previous figure shows that:</p>
+<ul>
+<li>results are very stable across weights, particularly for the samples
+where a dilution of 250 uL was used</li>
+<li>there is more error when using a dilution of 60 uL<br />
+</li>
+<li>dilution affects estimation of cortisol concentration in a
+significant way: even though final concentration numbers account for
+differences in the dilutions, the results we observe for each group do
+not overlap</li>
+<li>the average value when using 250 uL of buffer is twice as big as
+when using 60 uL</li>
+</ul>
+<div id="optimal-dilution" class="section level2">
+<h2>Optimal dilution</h2>
+<p><strong>Error using 0.06 mL buffer</strong></p>
+<pre><code>Mean Absolute Error (MAE) 0.06 mL: 0.873 </code></pre>
+<pre><code>Standard Deviation of Residuals 0.06 mL: 1.377 </code></pre>
+<p><strong>Error using 0.25 mL buffer</strong></p>
+<pre><code>Mean Absolute Error (MAE) 0.25 mL: 0.65 </code></pre>
+<pre><code>Standard Deviation of Residuals 0.25 mL: 0.86 </code></pre>
+<p>From this we conclude that using <strong>a 250 uL dilution provides
+more consistent results</strong></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1838,19 +2109,21 @@ other attached packages:
 [5] knitr_1.49     
 
 loaded via a namespace (and not attached):
- [1] gtable_0.3.6      jsonlite_1.8.9    rematch2_2.1.2    compiler_4.4.3   
- [5] promises_1.3.0    tidyselect_1.2.1  Rcpp_1.0.13-1     stringr_1.5.1    
- [9] git2r_0.35.0      tidyr_1.3.1       later_1.3.2       jquerylib_0.1.4  
-[13] scales_1.3.0      yaml_2.3.10       fastmap_1.2.0     R6_2.5.1         
-[17] generics_0.1.3    workflowr_1.7.1   backports_1.5.0   tibble_3.2.1     
-[21] munsell_0.5.1     rprojroot_2.0.4   bslib_0.8.0       pillar_1.9.0     
-[25] rlang_1.1.4       utf8_1.2.4        cachem_1.1.0      stringi_1.8.4    
-[29] httpuv_1.6.15     xfun_0.49         fs_1.6.5          sass_0.4.9       
-[33] cli_3.6.3         withr_3.0.2       magrittr_2.0.3    digest_0.6.37    
-[37] grid_4.4.3        rstudioapi_0.17.1 lifecycle_1.0.4   vctrs_0.6.5      
-[41] evaluate_1.0.1    glue_1.8.0        colorspace_2.1-1  fansi_1.0.6      
-[45] purrr_1.0.2       rmarkdown_2.29    tools_4.4.3       pkgconfig_2.0.3  
-[49] htmltools_0.5.8.1</code></pre>
+ [1] sass_0.4.9        utf8_1.2.4        generics_0.1.3    tidyr_1.3.1      
+ [5] prismatic_1.1.2   lattice_0.22-6    stringi_1.8.4     digest_0.6.37    
+ [9] magrittr_2.0.3    evaluate_1.0.1    grid_4.4.3        fastmap_1.2.0    
+[13] Matrix_1.7-2      rprojroot_2.0.4   workflowr_1.7.1   jsonlite_1.8.9   
+[17] whisker_0.4.1     backports_1.5.0   rematch2_2.1.2    promises_1.3.0   
+[21] mgcv_1.9-1        purrr_1.0.2       fansi_1.0.6       scales_1.3.0     
+[25] jquerylib_0.1.4   cli_3.6.3         rlang_1.1.4       splines_4.4.3    
+[29] munsell_0.5.1     withr_3.0.2       cachem_1.1.0      yaml_2.3.10      
+[33] tools_4.4.3       colorspace_2.1-1  httpuv_1.6.15     vctrs_0.6.5      
+[37] R6_2.5.1          lifecycle_1.0.4   git2r_0.35.0      stringr_1.5.1    
+[41] fs_1.6.5          pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0      
+[45] later_1.3.2       gtable_0.3.6      glue_1.8.0        Rcpp_1.0.13-1    
+[49] xfun_0.49         tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1
+[53] farver_2.1.2      nlme_3.1-167      htmltools_0.5.8.1 rmarkdown_2.29   
+[57] labeling_0.4.3    compiler_4.4.3   </code></pre>
 </div>
 </div>
 </div>

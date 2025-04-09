@@ -1,4 +1,4 @@
-"Sample","Wells","Raw.OD","Binding.Perc","Conc_pg.ml","Ave_Conc_pg.ml","CV.Perc","SD","SEM","Category","Weight_mg","Buffer_nl","Spike","TotalVol_well_uL","Spike_vol_ul","Dilution","CV_categ","Binding.Perc_categ","Failed_samples"
+"Sample","Wells","Raw.OD","Binding.Perc","Conc_pg.ml","Ave_Conc_pg.ml","CV.Perc","SD","SEM","Category","Weight_mg","Buffer_nl","Spike","TotalVol_well_uL","SpikeVol_uL","Dilution","CV_categ","Binding.Perc_categ","Failed_samples"
 "1","C3",0.959,77.3,"461.9",396.6,23.3,92.4,65.3,"NoSpike",13.1,250,0,50,0,1,"HIGH CV",NA,"HIGH CV"
 "10","D5",0.743,37.6,"940.7",3064,98,3000,2120,"YesSpike",17.7,60,1,50,25,1,"HIGH CV",NA,"HIGH CV"
 "11","E5",0.939,71.6,"496.8",513.2,4.5,23.1,16.3,"NoSpike",17.5,250,0,50,0,1,NA,NA,NA

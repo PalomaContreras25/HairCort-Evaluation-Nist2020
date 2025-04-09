@@ -1,239 +1,274 @@
 ---
 title: "temp"
 output: html_document
-date: "2025-01-30"
+date: "2025-04-08"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-### Finding optimal parameters using model 7
-
-#The goal is to run essays that result in a 50% binding.
-```{r Find optimal parameters model 7}
-
-# choose one model (m7: buffer + weight + spike)
-coef <- coef(m7)
-
-# Set target binding
-target_binding <- 50
-
-# FUNCTION to Solve for weight, assuming spike = 0
-# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
-
-solve_for_weight <- function(dilution_value, spike_value = 0) {
-  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
-}
-
-# Find the weight that gives 50% binding whenspike is 0
-# dilution = 250
-optimal_weight <- solve_for_weight(dilution_value = 1)
-optimal_weight
-# dilution = 60
-optimal_weight <- solve_for_weight(dilution_value = 0)
-optimal_weight
-
-# Find the weight that gives 50% binding when spike is 1
-# dilution = 250
-optimal_weight <- solve_for_weight(dilution_value = 1, spike_value = 1)
-optimal_weight
-# dilution = 60
-optimal_weight <- solve_for_weight(dilution_value = 0, spike_value = 1)
-optimal_weight
-
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 ```
 
 
-# visualize results
+```{r echo = FALSE, message=FALSE}
+
+#path:
+data_path = "./data/Test4"
+library(knitr)
+library(ggplot2)
+library(broom)
+library(paletteer)
+library(dplyr)
+library(tidyr)
+library(readr)
+
+# Load the dataset
+data <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
+```
+
+```{r, echo = TRUE}
+# Conversion and Constants
+data$Buffer_ml <- data$Buffer_nl / 1000
+data$Vol_in_well.tube_ml <- data$Vol_in_well.tube_uL / 1000
+data$SpikeVol_ml <- data$SpikeVol_uL / 1000
+
+# Extraction ratio
+extraction <- 1 / 0.75
+
+# Spike concentration (pg/mL)
+std_conc <- 3200
+
+# Method A: No spike correction
+data$Final_pg.mg_A <- ((data$Ave_Conc_pg.ml / data$Weight_mg) *
+                         extraction * data$Buffer_ml * data$Dilution)
+
+# Method B: Subtract spike reading (std) and apply dilution factor (×2)
+data$Final_pg.mg_B <- ifelse(
+  data$Spike == 1,
+  ((data$Ave_Conc_pg.ml - std_conc) / data$Weight_mg) *
+    extraction * data$Buffer_ml * 2,
+  # fallback to method A if not spiked
+ data$Final_pg.mg_A
+)
+
+# Method D: Spike contribution subtracted
+data$Spike_Contribution <- ifelse(
+  data$Spike == 1,
+  ((data$SpikeVol_ml * std_conc) / data$Vol_in_well.tube_ml) / data$Dilution,
+  0
+)
+
+data$Final_pg.mg_D <- ((data$Ave_Conc_pg.ml - data$Spike_Contribution) / data$Weight_mg) *
+    extraction * data$Buffer_ml * data$Dilution
+
+```
+
+```{r}
+# Save result
+write.csv(data, file.path(data_path, "Data_Cortisol_Processed.csv"), row.names = FALSE)
+
+# View summary
+summary(data$Final_pg.mg_A)
+summary(data$Final_pg.mg_B)
+summary(data$Final_pg.mg_D)
+
+```
+
 
 ```{r}
 
-## Buffer = 1, Spike = 0
-new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
-                        buffer = as.factor(1), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
+# Reshape data for plotting
+data_long <- data %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_D),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
 
-# Predict the binding percentage for the new data
-new_data$predicted_binding <- predict(m7, newdata = new_data)
-
-# Plot the predicted binding percentage against weight
-ggplot(new_data, aes(x = weight, y = predicted_binding)) +
-  geom_line() +
-  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
-  labs(title = "Predicted Binding Percentage vs Weight (dilution = 60, spike = 1)",
-       x = "Weight",
-       y = "Predicted Binding Percentage")
-
-## Buffer = 1, Spike = 1
-new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
-                        buffer = as.factor(1), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
-
-# Predict the binding percentage for the new data
-new_data$predicted_binding <- predict(m7, newdata = new_data)
-
-# Plot the predicted binding percentage against weight
-ggplot(new_data, aes(x = weight, y = predicted_binding)) +
-  geom_line() +
-  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
-  labs(title = "Predicted Binding Percentage vs Weight (dilution = 250, spike = 1)",
-       x = "Weight",
-       y = "Predicted Binding Percentage")
-
-
-## Buffer = 0, Spike = 1
-
-new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
-                        buffer = as.factor(0), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
-
-# Predict the binding percentage for the new data
-new_data$predicted_binding <- predict(m7, newdata = new_data)
-
-# Plot the predicted binding percentage against weight
-ggplot(new_data, aes(x = weight, y = predicted_binding)) +
-  geom_line() +
-  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
-  labs(title = "Predicted Binding Percentage vs Weight (dilution = 250, spike = 0)",
-       x = "Weight",
-       y = "Predicted Binding Percentage")
-
-## Buffer = 0, Spike = 0
-
-new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
-                        buffer = as.factor(0), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
-
-# Predict the binding percentage for the new data
-new_data$predicted_binding <- predict(m7, newdata = new_data)
-
-# Plot the predicted binding percentage against weight
-ggplot(new_data, aes(x = weight, y = predicted_binding)) +
-  geom_line() +
-  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
-  labs(title = "Predicted Binding Percentage vs Weight (dilution = 60, spike = 0)",
-       x = "Weight",
-       y = "Predicted Binding Percentage")
-
-
-
-# FUNCTION to Solve for weight, assuming spike = 0
-# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
-
-solve_for_weight <- function(dilution_value, spike_value = 0) {
-  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
-}
-
-
-# Loop over different dilution values to find the optimal weight for 50% binding
-# here, dilution 0 means 60uL, and 1 is 250 uL
-for (buffer in seq(0, 1, by = 0.1)) {
-  optimal_weight <- solve_for_weight(buffer)
-  cat("Dilution:", buffer, "-> Optimal Weight for 50% Binding:", optimal_weight, "\n")
-}
-```
-
-
-# visualize results
-## Buffer = 1, Spike = 0
-new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
-                        buffer = as.factor(1), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
-
-# Predict the binding percentage for the new data
-new_data$predicted_binding <- predict(m7, newdata = new_data)
-
-# Plot the predicted binding percentage against weight
-ggplot(new_data, aes(x = weight, y = predicted_binding)) +
-  geom_line() +
-  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
-  labs(title = "Predicted Binding Percentage vs Weight (dilution = 60, spike = 1)",
-       x = "Weight",
-       y = "Predicted Binding Percentage")
-
-## Buffer = 1, Spike = 1
-new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
-                        buffer = as.factor(1), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
-
-# Predict the binding percentage for the new data
-new_data$predicted_binding <- predict(m7, newdata = new_data)
-
-# Plot the predicted binding percentage against weight
-ggplot(new_data, aes(x = weight, y = predicted_binding)) +
-  geom_line() +
-  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
-  labs(title = "Predicted Binding Percentage vs Weight (dilution = 250, spike = 1)",
-       x = "Weight",
-       y = "Predicted Binding Percentage")
-
-
-## Buffer = 0, Spike = 1
-
-new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
-                        buffer = as.factor(0), spike = as.factor(1))  # Set buffer and spike to a fixed value for simplicity
-
-# Predict the binding percentage for the new data
-new_data$predicted_binding <- predict(m7, newdata = new_data)
-
-# Plot the predicted binding percentage against weight
-ggplot(new_data, aes(x = weight, y = predicted_binding)) +
-  geom_line() +
-  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
-  labs(title = "Predicted Binding Percentage vs Weight (dilution = 250, spike = 0)",
-       x = "Weight",
-       y = "Predicted Binding Percentage")
-
-## Buffer = 0, Spike = 0
-
-new_data <- expand.grid(weight = seq(min(weight), max(weight), length.out = 100),
-                        buffer = as.factor(0), spike = as.factor(0))  # Set buffer and spike to a fixed value for simplicity
-
-# Predict the binding percentage for the new data
-new_data$predicted_binding <- predict(m7, newdata = new_data)
-
-# Plot the predicted binding percentage against weight
-ggplot(new_data, aes(x = weight, y = predicted_binding)) +
-  geom_line() +
-  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Highlight 50% binding
-  labs(title = "Predicted Binding Percentage vs Weight (dilution = 60, spike = 0)",
-       x = "Weight",
-       y = "Predicted Binding Percentage")
-
-
-
-# FUNCTION to Solve for weight, assuming spike = 0
-# 50% - intercept - (buffer1 * 1) - (spike * 0) / weight  
-
-solve_for_weight <- function(dilution_value, spike_value = 0) {
-  (target_binding - coef[1] - coef[3] * dilution_value - coef[4] * spike_value) / coef[2]
-}
-
-
-# Loop over different dilution values to find the optimal weight for 50% binding
-# here, dilution 0 means 60uL, and 1 is 250 uL
-for (buffer in seq(0, 1, by = 0.1)) {
-  optimal_weight <- solve_for_weight(buffer)
-  cat("Dilution:", buffer, "-> Optimal Weight for 50% Binding:", optimal_weight, "\n")
-}
-
-```
-
-
-
-Work in progress 
-after this line
-______________________
-```{r echo = FALSE}
-
-
+ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
+  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +
+  geom_point(size = 2.8, alpha = 0.7, position = position_dodge(width=0.5)) +
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue",
+               "Final_pg.mg_B" = "orange",
+               "Final_pg.mg_D" = "darkgreen"),
+    labels = c("Method A (Basic)",
+               "Method B (Subtraction + x2)",
+               "Method D (Spike contribution)")
+  ) +
+  labs(
+    title = "Hair Cortisol by Sample and Calculation Method",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    legend.position = "top"
+  )
 
 
 ```
 
-```{r echo = FALSE}
+
+```{r}
+
+# Arrange by Sample for consistent ordering
+data <- data %>% arrange(Sample)
+
+# Reshape to long format
+data_long <- data %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_D),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+# Plot with lines connecting A and D values for each sample
+ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
+  geom_line(aes(group = Sample), linewidth = 0.6, color = "gray70") +  # light line connecting methods
+  geom_point(size = 2.8, alpha = 0.8, position = position_dodge(width = 0.5)) +
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue", "Final_pg.mg_D" = "darkgreen"),
+    labels = c("Method A", "Method D")
+  ) +
+  labs(
+    title = "Hair Cortisol Concentration by Sample",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Calculation Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+    legend.position = "top"
+  )
+
+```
 
 
+```{r test3, echo = TRUE}
+#path:
+data_path  = "./data/Test3"
 
-#wflow_publish("./analysis/ELISA_visualizations.Rmd")
+# Load the dataset
+data <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
 
-#wflow_status()
+# Conversion and Constants
+data$Buffer_ml <- data$Buffer_nl / 1000
+data$TotalVol_well_mL <- data$TotalVol_well_uL / 1000
+data$SpikeVol_ml <- data$SpikeVol_uL / 1000
+
+# Extraction ratio
+extraction <- 1 / 0.75
+
+# Spike concentration (pg/mL)
+std_conc <- 3200
+
+# Method A: No spike correction
+data$Final_pg.mg_A <- ((data$Ave_Conc_pg.ml / data$Weight_mg) *
+                         extraction * data$Buffer_ml * data$Dilution)
+
+# Method B: Subtract spike reading (std) and apply dilution factor (×2)
+data$Final_pg.mg_B <- ifelse(
+  data$Spike == 1,
+  ((data$Ave_Conc_pg.ml - std_conc) / data$Weight_mg) *
+    extraction * data$Buffer_ml * 2,
+  # fallback to method A if not spiked
+ data$Final_pg.mg_A
+)
+
+# Method D: Spike contribution subtracted
+data$Spike_Contribution <- ifelse(
+  data$Spike == 1,
+  ((data$SpikeVol_ml * std_conc) / data$TotalVol_well_mL) / data$Dilution,
+  0
+)
+
+data$Final_pg.mg_D <- (
+  (data$Ave_Conc_pg.ml - data$Spike_Contribution) / data$Weight_mg) *
+    extraction * data$Buffer_ml * data$Dilution
+
+
+# Save result
+write.csv(data, file.path(data_path,"Data_Cortisol_Processed.csv"), row.names = FALSE)
+
+# View summary
+summary(data$Final_pg.mg_A)
+summary(data$Final_pg.mg_B)
+summary(data$Final_pg.mg_D)
+
+```
+
+
+```{r}
+
+# Reshape data for plotting
+data_long <- data %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_D),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
+  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) + 
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue",
+               "Final_pg.mg_B" = "orange",
+               "Final_pg.mg_D" = "darkgreen"),
+    labels = c("Method A (Basic)",
+               "Method B (Subtraction + x2)",
+               "Method D (Spike contribution)")
+  ) +
+  labs(
+    title = "Hair Cortisol by Sample and Calculation Method",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    legend.position = "top"
+  )
 
 
 ```
+
+
+```{r}
+# Reshape to long format
+data_long <- data %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_D),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+# Plot
+
+# Plot with lines connecting A and D values for each sample
+ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method)) +
+  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +  # light line connecting methods
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) +
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue", 
+               "Final_pg.mg_D" = "darkgreen"),
+    labels = c("Method A", "Method D")
+  ) +
+  labs(
+    title = "Hair Cortisol Concentration by Sample",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Calculation Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+    legend.position = "top"
+  )
+```
+
 

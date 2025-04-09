@@ -61,7 +61,7 @@ m <- merge(layout, results, by = "Wells")
 
 colnames(m) <- c("Wells", "Sample", "Category", 
                 "Weight_mg", "Buffer_nl", "Spike", 
-                "SpikeVol_uL", "Dilution", "Vol_in_well.tube_uL", "Raw.OD", 
+                "SpikeVol_uL", "Dilution_sample", "Dilution_spike", "Vol_in_well.tube_uL", "Raw.OD", "Extraction_ratio", 
                  "Binding.Perc", "Conc_pg/ml",
                  "Ave_Conc_pg/ml", "CV.Perc", 
                  "SD", "SEM") 

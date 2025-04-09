@@ -3,8 +3,6 @@ title: "Results - test4"
 author: "Paloma"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
-editor_options:
-  chunk_output_type: console
 ---
 # Introduction
 
