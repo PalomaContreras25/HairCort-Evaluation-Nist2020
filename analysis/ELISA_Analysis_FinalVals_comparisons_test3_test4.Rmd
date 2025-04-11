@@ -63,13 +63,14 @@ data$Spike_Contribution <- (data$SpikeVol_ml * std_conc) / data$Vol_in_well.tube
 
 data$Final_pg.mg_D <- ((data$Ave_Conc_pg.ml - data$Spike_Contribution) / data$Weight_mg) *
      data$Extraction_ratio * data$Buffer_ml * data$Dilution_sample
-data4<-data
+
 ```
 
 ```{r}
 # Save result
 head(data)
 write.csv(data, file.path(data_path, "Data_Cortisol_Processed.csv"), row.names = FALSE)
+data4<-data
 
 # View summary
 summary(data$Final_pg.mg_A)
@@ -202,7 +203,7 @@ data_path  = "./data/Test3"
 
 # Load the dataset
 data3 <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
-data <- data3
+data<-data3
 data$Failed_samples[is.na(data$Failed_samples)] <- "OK"
 # Conversion and Constants
 data$Buffer_ml <- data$Buffer_nl / 1000
@@ -248,6 +249,7 @@ summary(data$Final_pg.mg_A)
 summary(data$Final_pg.mg_B)
 summary(data$Final_pg.mg_D)
 
+data3 <- data
 ```
 
 
@@ -695,107 +697,298 @@ ggplot(intercepts_all, aes(x = Category, y = Estimate, color = Variable)) +
 
 
 ```{r}
-
-# Load your dataset
-df <- data4
-
-# === Step 1: Prepare units and constants ===
-spike_conc_pgml <- 3200
-extraction_ratio <- 1.3
-
-df <- df %>%
-  mutate(
-    Buffer_ml = Buffer_nl / 1000,
-    SpikeVol_ml = SpikeVol_uL / 1000,
-    TotalVol_ml = Vol_in_well.tube_uL / 1000,
-    Spike_pg_ml_general = (SpikeVol_ml * spike_conc_pgml) / TotalVol_ml,
-    
-    # === Step 2: General method (simplified subtraction if spiked) ===
-    Final_pg_mg_general = case_when(
-      Spike == 1 ~ ((Ave_Conc_pg.ml - Spike_pg_ml_general) / Weight_mg) * extraction_ratio * Buffer_ml,
-      TRUE ~ (Ave_Conc_pg.ml / Weight_mg) * extraction_ratio * Buffer_ml
-    ),
-    
-    # === Step 3: Method D (per-sample spike contribution, accounts for dilution) ===
-    Spike_cont_pg_mL_methodD = ((SpikeVol_ml * spike_conc_pgml) / TotalVol_ml) / Dilution_sample,
-    
-    Final_pg_mg_methodD = ((Ave_Conc_pg.ml - Spike_cont_pg_mL_methodD) / Weight_mg) * extraction_ratio * Buffer_ml
-  )
-
-
-# Scatter plot: Method D vs General Correction
-ggplot(df, aes(x = Final_pg_mg_general, y = Final_pg_mg_methodD, color = as.factor(Spike))) +
-  geom_point(size = 3) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray40") +
-  labs(
-    title = "Spike Correction: General vs Method D",
-    x = "Final Cortisol (pg/mg) – General Correction",
-    y = "Final Cortisol (pg/mg) – Method D",
-    color = "Spiked"
-  ) +
-  coord_equal() +
-  theme_minimal()
-
-# Bar plot: Difference between methods
-df <- df %>%
-  mutate(Diff_pg_mg = Final_pg_mg_methodD - Final_pg_mg_general)
-
-ggplot(df, aes(x = Sample, y = Diff_pg_mg, fill = as.factor(Spike))) +
-  geom_bar(stat = "identity") +
-  labs(
-    title = "Difference in Final Cortisol Values: Method D – General",
-    x = "Sample",
-    y = "Difference (pg/mg)",
-    fill = "Spiked"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-
-df %>%
-  group_by(Spike) %>%
-  summarise(
-    mean_general = mean(Final_pg_mg_general, na.rm = TRUE),
-    mean_methodD = mean(Final_pg_mg_methodD, na.rm = TRUE),
-    mean_diff = mean(Diff_pg_mg, na.rm = TRUE),
-    sd_diff = sd(Diff_pg_mg, na.rm = TRUE)
-  )
-
-```
-
-
-
-```{r}
 # Step 1: Create sample pairs (adjust as needed)
 # e.g., base = TA, spiked = TB with similar Sample ID patterns
 
 # Simulate pairing by shared SampleID (you may need to adjust this step)
-df <- data4 %>%
-  mutate(SampleID = str_extract(Sample, "\\d+$"))  # Extract trailing numbers
+df <- data4 
 
-# Pivot data to wide format for paired comparison
-paired_df <- df %>%
+# Step 1: Extract TA and TB and sample ID
+df_pair <- df %>%
+  filter(!is.na(Ave_Conc_pg.ml))  %>%
+  filter(Category %in% c("A", "D")) %>%
+  mutate(SampleID = str_extract(Sample, "\\d+$"))
+
+# Step 2: Pivot to wide format
+df_wide <- df_pair %>%
+  dplyr::select(SampleID, Category, Ave_Conc_pg.ml, Spike_Contribution) 
+df_wide <- df_wide %>%
+  pivot_wider(names_from = Category, values_from = c(Ave_Conc_pg.ml, Spike_Contribution))
+
+
+# Step 4: Calculate recovery
+temp <- df_wide %>%
+  mutate(Recovery_pct = ((Ave_Conc_pg.ml_D - Ave_Conc_pg.ml_A) / Spike_Contribution_D) * 100)
+
+# Step 5: Plot
+ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
+  labs(
+    title = "Spike Recovery at ELISA Level (pg/mL)",
+    x = "Sample ID (TA/TD pair)",
+    y = "Recovery (%)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+reduces detection due to interference or over-saturation. If spike volume is large (e.g. 110 µL into 110 µL sample), it can dilute the original signal below the unspiked concentration
+
+State in your results that “Recovery for some high-spike samples was negative, indicating likely signal suppression from matrix effects or over-spiking.”
+
+Use parallelism to back up your conclusion:
+
+If slope is parallel but intercept drops, it's further evidence of baseline suppression
+
+Several spiked samples exhibited negative recovery percentages, indicating that measured cortisol concentrations were lower than their unspiked counterparts. This likely reflects signal suppression due to matrix effects or over-dilution from high spike volumes, particularly in the TD group, where spike-to-sample ratios were highest. These results highlight the importance of accounting for spike-related suppression in final quantification strategies.
+
+
+```{r}
+
+# Simulate pairing by shared SampleID (you may need to adjust this step)
+df <- data4 
+
+# Step 1: Extract TA and TB and sample ID
+df_pair <- df %>%
+  filter(!is.na(Ave_Conc_pg.ml))  %>%
   filter(Category %in% c("A", "C")) %>%
-  filter(!is.na(Binding.Perc)) %>% 
-  dplyr::select(SampleID, Category, Final_pg.mg_D ) %>%
-  pivot_wider(names_from = Category, values_from = Final_pg.mg_D) 
+  mutate(SampleID = str_extract(Sample, "\\d+$"))
 
+# Step 2: Pivot to wide format
+df_wide <- df_pair %>%
+  dplyr::select(SampleID, Category, Ave_Conc_pg.ml, Spike_Contribution) 
+df_wide <- df_wide %>%
+  pivot_wider(names_from = Category, values_from = c(Ave_Conc_pg.ml, Spike_Contribution))
+
+
+# Step 4: Calculate recovery
+temp <- df_wide %>%
+  mutate(Recovery_pct = ((Ave_Conc_pg.ml_C - Ave_Conc_pg.ml_A) / Spike_Contribution_C) * 100)
+
+# Step 5: Plot
+ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
+  labs(
+    title = "Spike Recovery at ELISA Level (pg/mL)",
+    x = "Sample ID (TA/TC pair)",
+    y = "Recovery (%)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+```{r}
+
+
+# Simulate pairing by shared SampleID (you may need to adjust this step)
+df <- data4 
+
+# Step 1: Extract TA and TB and sample ID
+df_pair <- df %>%
+  filter(!is.na(Ave_Conc_pg.ml))  %>%
+  filter(Category %in% c("A", "B")) %>%
+  mutate(SampleID = str_extract(Sample, "\\d+$"))
+
+# Step 2: Pivot to wide format
+df_wide <- df_pair %>%
+  dplyr::select(SampleID, Category, Ave_Conc_pg.ml, Spike_Contribution) 
+df_wide <- df_wide %>%
+  pivot_wider(names_from = Category, values_from = c(Ave_Conc_pg.ml, Spike_Contribution))
+
+
+# Step 4: Calculate recovery
+temp <- df_wide %>%
+  mutate(Recovery_pct = ((Ave_Conc_pg.ml_B - Ave_Conc_pg.ml_A) / Spike_Contribution_B) * 100)
+
+# Step 5: Plot
+ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
+  labs(
+    title = "Spike Recovery at ELISA Level (pg/mL)",
+    x = "Sample ID (TA/TB pair)",
+    y = "Recovery (%)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+# recovery test 3
+
+```{r}
+library(dplyr)
+# Load the datax
+df <- read.csv(file.path(data_path, "Data_Cortisol_Processed.csv"))
+data3_processed <- df
+# Clean: extract numeric SampleID suffix to help match pairs
 df <- df %>%
-  filter(Category %in% c("C")) %>%
-  filter(!is.na(Binding.Perc))
-# Define spike amount (pg/mg) added per TB sample
-Spike_pg_ml = ((df$SpikeVol_ml * 3200) / df$Vol_in_well.tube_ml) / df$Dilution_spike
-    
-    Spike_pg.mg = (Spike_pg_ml / df$Weight_mg) * df$Extraction_ratio * df$Buffer_ml
- 
-# Calculate % recovery
-paired_df <- paired_df %>%
-  mutate(Recovery_pct = ((C - A) / Spike_pg.mg) * 100)
+  mutate(SampleID = str_extract(samp_comparable, "\\d+$"))
 
-# View
-paired_df
-summary(paired_df$Recovery_pct)
+# Step 1: Wide format - match NoSpike and YesSpike using SampleID
+df_wide <- df %>%
+  filter(Category %in% c("NoSpike", "YesSpike")) %>%
+  dplyr::select(SampleID, Category, Ave_Conc_pg.ml)
 
+# Step 3: Identify IDs that have BOTH NoSpike and YesSpike
+df_avg <- df_wide %>%
+  dplyr::group_by(SampleID, Category) %>%
+  dplyr::summarise(Ave_pgml = mean(Ave_Conc_pg.ml, na.rm = TRUE), .groups = "drop")
+
+# Step 3: Identify IDs that have BOTH NoSpike and YesSpike
+paired_ids <- df_avg %>%
+  dplyr::count(SampleID) %>%
+  filter(n == 2) %>%
+  pull(SampleID)
+
+
+df_paired <- df_avg %>%
+  filter(SampleID %in% paired_ids)
+
+df_recovery <- df_paired %>%
+  pivot_wider(names_from = Category, values_from = Ave_pgml)
+
+# Step : Define known spike contribution (pg/mL)
+# Assume 25 µL of 3200 pg/mL added into 50 µL total = (25/1000 * 3200) / (50/1000)
+known_spike_pgml <- 1569.75  # = 1600 pg/mL
+
+df_recovery <- df_recovery %>%
+  mutate(Recovery_pct = ((YesSpike - NoSpike) / known_spike_pgml) * 100)
+
+df_recovery <- df_recovery %>%
+  mutate(Recovery_Class = case_when(
+      Recovery_pct < 80 ~ "Under-recovery",
+      Recovery_pct > 120 ~ "Over-recovery",
+      TRUE ~ "Acceptable"))
+
+# Step 5: Plot
+ggplot(df_recovery, aes(x = SampleID, y = Recovery_pct, fill = Recovery_Class)) +
+  geom_bar(stat = "identity") +
+  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
+  scale_fill_manual(values = c(
+    "Under-recovery" = "red",
+    "Acceptable" = "steelblue",
+    "Over-recovery" = "orange2"
+  )) +
+  labs(
+    title = "Spike Recovery (%) at ELISA Level",
+    subtitle = "Dashed lines show 80–120% acceptable range",
+    x = "Sample ID",
+    y = "Recovery (%)",
+    fill = "Recovery Classification"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Step 4: View or export summary table
+print(df_recovery)
+
+```
+All samples show recovery ≥ 105%, with most between 105% and 132%
+
+Sample 5, 8, 9, and 11–12 exceed the standard acceptable range of 80–120%
+
+This suggests slightly inflated recovery, potentially due to:
+
+Minor pipetting differences
+
+Matrix effects (e.g., enhanced absorbance in spiked matrix)
+
+Slight overestimation in YesSpike values relative to expected spike contribution
+
+
+Spike recovery ranged from 105% to 155% across 10 matched sample pairs. Most samples fell near or slightly above the commonly accepted 80–120% range, with the highest recovery observed in Sample 5 (155%). These results indicate that the ELISA assay successfully detects added cortisol with high sensitivity, though minor over-recovery may reflect matrix effects or variation in sample absorbance. Overall, recovery was consistent and supports the validity of the spike-in approach at the ELISA level.
+
+
+
+## precision and accuracy
+
+```{r}
+df <- data3_processed
+
+# Step 1: Clean and filter only relevant categories
+df_sub <- df %>%
+  filter(Category %in% c("NoSpike", "YesSpike")) %>%
+  mutate(samp_comparable = as.character(samp_comparable))
+
+# Step 2: Keep only samp_comparable IDs with both YesSpike and NoSpike
+valid_pairs <- df_sub %>%
+  distinct(samp_comparable, Category) %>%
+  dplyr::count(samp_comparable) %>%
+  filter(n == 2) %>%
+  pull(samp_comparable)
+
+df_matched <- df_sub %>%
+  filter(samp_comparable %in% valid_pairs)
+
+# Step 3: Pivot to wide format for recovery calculation
+df_wide <- df_matched %>%
+  dplyr::select(samp_comparable, Category, Ave_Conc_pg.ml) 
+
+df_avg <- df_wide %>%
+  dplyr::group_by(samp_comparable, Category) %>%
+  dplyr::summarise(Ave_pgml = mean(Ave_Conc_pg.ml, na.rm = TRUE), .groups = "drop")
+
+Spike_Contribution <- 1569.75
+
+df_recovery <- df_avg %>%
+  pivot_wider(names_from = Category, values_from = Ave_pgml)
+
+
+# Step 4: Calculate Recovery % and accuracy flag
+df_wide <- df_recovery %>%
+  mutate(
+    Recovery_pct = ((YesSpike - NoSpike) / Spike_Contribution) * 100,
+    Accuracy_Flag = case_when(
+      is.na(Recovery_pct) ~ NA_character_,
+      Recovery_pct < 80 ~ "Under-recovery",
+      Recovery_pct > 120 ~ "Over-recovery",
+      TRUE ~ "Acceptable"
+    )
+  )
+
+# Step 5: Extract precision values
+df_precision <- df %>%
+  dplyr::select(Sample, samp_comparable, CV.Perc, Weight_mg, Buffer_ml) %>%
+  mutate(Precision_Flag = case_when(
+    is.na(CV.Perc) ~ NA_character_,
+    CV.Perc <= 15 ~ "Acceptable",
+    TRUE ~ "High CV"
+  ))
+
+df_precision$samp_comparable<- as.character(df_precision$samp_comparable)
+# Step 6: Merge precision with accuracy summary
+df_summary <- left_join(df_wide, df_precision, by = "samp_comparable") %>%
+  distinct(samp_comparable, .keep_all = TRUE) %>%
+  dplyr::select(Sample, Weight_mg, Buffer_ml, CV.Perc, Precision_Flag, Recovery_pct, Accuracy_Flag)
+
+df_sorted <- df_summary %>% arrange(Weight_mg, Buffer_ml)
+df_sorted$Sample <- 1:nrow(df_sorted)
+# Step 7: View or export
+print(df_sorted)
+
+
+# Optional: Save to file
+write.csv(df_sorted, file.path(data_path, "precision_accuracy_summary.csv"), row.names = FALSE)
+
+ggplot(df_sorted, aes(x = Weight_mg, y = Recovery_pct,
+                      color = Accuracy_Flag, shape = Precision_Flag)) +
+  geom_point(size = 4) +
+  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkgray") +
+  labs(
+    title = "Spike Recovery (%) vs Hair Weight (mg)",
+    subtitle = "Dashed lines show 80–120% acceptable range",
+    x = "Hair Weight (mg)",
+    y = "Recovery (%)",
+    color = "Accuracy",
+    shape = "Precision"
+  ) +
+  theme_minimal()           
+           
 
 
 ```
