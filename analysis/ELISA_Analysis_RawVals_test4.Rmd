@@ -36,7 +36,7 @@ cort_valsB<- read.csv("./data/Test4/Data_cort_values_methodB.csv")
 data <- data[!(data$Sample == "NSB"),]
 
 #Inclusion of standard readings in plot
-data1 <- data[,c("Sample","Wells", "Category", "Binding.Perc", "Ave_Conc_pg.ml", "Weight_mg", "Buffer_nl", "Spike", "Conc_pg.ml", "CV.Perc")]
+data1 <- data[,c("Sample","Wells", "Category", "Binding.Perc", "Ave_Conc_pg.ml", "Weight_mg", "Buffer_nl", "Spike", "Conc_pg.ml", "CV.Perc", "Dilution_sample")]
 std1 <- std[,c("Sample", "Wells", "Category", "Binding.Perc", "Backfit")]
 #std1$Binding.Perc <- std1$Binding.Perc*100
 std1$Spike <- NA

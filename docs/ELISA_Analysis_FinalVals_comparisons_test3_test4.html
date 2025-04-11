@@ -360,7 +360,7 @@ test4</h1>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -371,8 +371,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -385,9 +385,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -411,21 +411,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -516,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree2492950c753a95d11e1287d3bfc7009969b6d16ftargetblank2492950a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treed31a9672d12671d29a82c12b02be97b9e96b5910targetblankd31a967a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/2492950c753a95d11e1287d3bfc7009969b6d16f" target="_blank">2492950</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/d31a9672d12671d29a82c12b02be97b9e96b5910" target="_blank">d31a967</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree2492950c753a95d11e1287d3bfc7009969b6d16ftargetblank2492950a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treed31a9672d12671d29a82c12b02be97b9e96b5910targetblankd31a967a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/2492950c753a95d11e1287d3bfc7009969b6d16f" target="_blank">2492950</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/d31a9672d12671d29a82c12b02be97b9e96b5910" target="_blank">d31a967</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -554,15 +551,9 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.Rhistory
-    Ignored:    analysis/figure/
     Ignored:    data/.DS_Store
     Ignored:    data/Test3/.DS_Store
     Ignored:    data/Test4/.DS_Store
-
-Unstaged changes:
-    Modified:   analysis/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd
-    Modified:   data/Test3/Data_Cortisol_Processed.csv
-    Modified:   data/Test3/Data_QC_flagged.csv
 
 </code></pre>
 <p>
@@ -609,6 +600,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d31a9672d12671d29a82c12b02be97b9e96b5910/analysis/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd" target="_blank">d31a967</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-11
+</td>
+<td>
+precision and accuracy
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/d31a9672d12671d29a82c12b02be97b9e96b5910/docs/ELISA_Analysis_FinalVals_comparisons_test3_test4.html" target="_blank">d31a967</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-11
+</td>
+<td>
+precision and accuracy
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1142,6 +1167,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d31a9672d12671d29a82c12b02be97b9e96b5910/docs/figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-7-1.png" target="_blank">d31a967</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/16ce91c12594e99d1691896d5d0df7dc690fe51d/docs/figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-7-1.png" target="_blank">16ce91c</a>
@@ -2459,6 +2495,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d31a9672d12671d29a82c12b02be97b9e96b5910/docs/figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-15-1.png" target="_blank">d31a967</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/2492950c753a95d11e1287d3bfc7009969b6d16f/docs/figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-15-1.png" target="_blank">2492950</a>
 </td>
 <td>
@@ -2520,6 +2567,43 @@ ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))</code></pre>
 <p><img src="figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
+Past versions of unnamed-chunk-16-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d31a9672d12671d29a82c12b02be97b9e96b5910/docs/figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-16-1.png" target="_blank">d31a967</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Simulate pairing by shared SampleID (you may need to adjust this step)
 df &lt;- data4 
 
@@ -2552,6 +2636,43 @@ ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))</code></pre>
 <p><img src="figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
+Past versions of unnamed-chunk-17-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-17-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d31a9672d12671d29a82c12b02be97b9e96b5910/docs/figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-17-1.png" target="_blank">d31a967</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="recovery-test-3" class="section level1">
 <h1>recovery test 3</h1>
@@ -2618,6 +2739,43 @@ ggplot(df_recovery, aes(x = SampleID, y = Recovery_pct, fill = Recovery_Class)) 
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
 <p><img src="figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
+Past versions of unnamed-chunk-18-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d31a9672d12671d29a82c12b02be97b9e96b5910/docs/figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-18-1.png" target="_blank">d31a967</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Step 4: View or export summary table
 print(df_recovery)</code></pre>
 <pre><code># A tibble: 10 × 5
@@ -2743,6 +2901,43 @@ ggplot(df_sorted, aes(x = Weight_mg, y = Recovery_pct,
   ) +
   theme_minimal()           </code></pre>
 <p><img src="figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-19-1">
+Past versions of unnamed-chunk-19-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-19-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/d31a9672d12671d29a82c12b02be97b9e96b5910/docs/figure/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd/unnamed-chunk-19-1.png" target="_blank">d31a967</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
