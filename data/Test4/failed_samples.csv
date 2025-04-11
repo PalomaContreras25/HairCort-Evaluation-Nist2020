@@ -1,4 +1,4 @@
-"Wells","Sample","Category","Weight_mg","Buffer_nl","Spike","SpikeVol_uL","Dilution_sample","Dilution_spike","Vol_in_well.tube_uL","Raw.OD","Extraction_ratio","Binding.Perc","Conc_pg/ml","Ave_Conc_pg/ml","CV.Perc","SD","SEM","CV_categ","Binding.Perc_categ","Failed_samples"
+"Wells","Sample","Category","Weight_mg","Buffer_nl","Spike","SpikeVol_uL","Dilution_sample","Dilution_spike","Vol_in_well.tube_uL","Extraction_ratio","Raw.OD","Binding.Perc","Conc_pg/ml","Ave_Conc_pg/ml","CV.Perc","SD","SEM","CV_categ","Binding.Perc_categ","Failed_samples"
 "A3","B0","b0",NA,NA,0,0,1,1,NA,NA,0.874,100,140.6,86.84,87.5,76,53.7,"HIGH CV","ABOVE 80% binding","HIGH CV;ABOVE 80% binding"
 "G12","BE","be",NA,NA,0,0,1,1,NA,NA,0.553,70.8,717.5,462.9,77.8,360,255,"HIGH CV",NA,"HIGH CV"
 "A1","NSB","nsb",NA,NA,0,0,1,1,NA,NA,0.052,0,15610,15610,0,0,0,NA,"UNDER 20% binding","UNDER 20% binding"

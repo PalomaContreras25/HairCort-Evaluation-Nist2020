@@ -5,10 +5,10 @@ date: "2025-04-08"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 ```
 
-
+# Test4
 ```{r echo = FALSE, message=FALSE}
 
 #path:
@@ -23,6 +23,7 @@ library(readr)
 
 # Load the dataset
 data <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
+data$Failed_samples[is.na(data$Failed_samples)] <- "OK"
 ```
 
 ```{r, echo = TRUE}
@@ -50,7 +51,6 @@ data$Final_pg.mg_B <- ifelse(
 # Method D: Spike contribution subtracted
 data$Spike_Contribution <- (data$SpikeVol_ml * std_conc) / data$Vol_in_well.tube_ml /  data$Dilution_sample
 
-
 data$Final_pg.mg_D <- ((data$Ave_Conc_pg.ml - data$Spike_Contribution) / data$Weight_mg) *
      data$Extraction_ratio * data$Buffer_ml * data$Dilution_sample
 
@@ -58,6 +58,7 @@ data$Final_pg.mg_D <- ((data$Ave_Conc_pg.ml - data$Spike_Contribution) / data$We
 
 ```{r}
 # Save result
+head(data)
 write.csv(data, file.path(data_path, "Data_Cortisol_Processed.csv"), row.names = FALSE)
 
 # View summary
@@ -141,6 +142,49 @@ ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Metho
 ```
 
 
+```{r}
+# Filter to include only good quality samples
+data_ok <- data %>%
+  filter(Failed_samples == "OK")
+
+# Reshape data for plotting
+data_long_ok <- data_ok %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_D),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+head(data_long_ok)
+# Plot for OK samples only
+ggplot(data_long_ok, aes(x = Sample, y = Final_pg.mg, color = Method)) +
+  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) +
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue",
+               "Final_pg.mg_B" = "orange",
+               "Final_pg.mg_D" = "darkgreen"),
+    labels = c("Method A (Basic)",
+               "Method B (Subtraction + x2)",
+               "Method D (Spike contribution)")
+  ) +
+  labs(
+    title = "Hair Cortisol (Good Samples Only) — Test4",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    legend.position = "top"
+  )
+
+```
+
+
+# Test3
+
 ```{r test3, echo = TRUE}
 #path:
 data_path  = "./data/Test3"
@@ -152,12 +196,13 @@ data <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
 data$Buffer_ml <- data$Buffer_nl / 1000
 data$TotalVol_well_mL <- data$TotalVol_well_uL / 1000
 data$SpikeVol_ml <- data$SpikeVol_uL / 1000
+data$Failed_samples[is.na(data$Failed_samples)] <- "OK"
 
 # Extraction ratio
 extraction <- 1 / 0.75
 
 # Spike concentration (pg/mL)
-std_conc <- 3200
+std_conc <- 3139.5
 
 # Method A: No spike correction
 data$Final_pg.mg_A <- ((data$Ave_Conc_pg.ml / data$Weight_mg) *
@@ -263,6 +308,47 @@ ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method)) +
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
     legend.position = "top"
   )
+```
+
+
+```{r}
+# Filter to include only good quality samples
+data_ok <- data %>%
+  filter(Failed_samples == "OK")
+
+# Reshape data for plotting
+data_long_ok <- data_ok %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_D),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+head(data_long_ok)
+# Plot for OK samples only
+ggplot(data_long_ok, aes(x = Sample, y = Final_pg.mg, color = Method)) +
+  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) +
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue",
+             #  "Final_pg.mg_B" = "orange",
+               "Final_pg.mg_D" = "darkgreen"),
+    labels = c("Method A (Basic)",
+              # "Method B (Subtraction + x2)",
+               "Method D (Spike contribution)")
+  ) +
+  labs(
+    title = "Hair Cortisol (Good Samples Only) — Test4",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    legend.position = "top"
+  )
+
 ```
 
 

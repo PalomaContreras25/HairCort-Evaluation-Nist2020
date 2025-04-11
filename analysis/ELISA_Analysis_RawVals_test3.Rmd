@@ -47,7 +47,7 @@ std <- read.csv("./data/Test3/standard_data.csv")
 
 
 #Inclusion of standard readings in plot
-data1 <- data[,c("Wells","Binding.Perc", "Ave_Conc_pg.ml", "Weight_mg", "Buffer_nl", "Spike")]
+data1 <- data[,c("Wells","Binding.Perc", "Ave_Conc_pg.ml", "Weight_mg", "Buffer_nl", "Spike", "Sample")]
 std1 <- std[,c("Wells", "Binding.Perc", "Backfit")] 
 std1$Binding.Perc <- std1$Binding.Perc*100
 std1$Spike <- 2
@@ -68,6 +68,7 @@ ggplot(data_std, aes(x = Ave_Conc_pg.ml,
              color = "gray", linewidth = 1) +  
   geom_hline(yintercept = 20, linetype = "dashed", 
              color = "gray", linewidth = 1) +  # Add horizontal line 
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   labs(title = "Results",
        x = "Ave. Concentration (pg.ml)", y = "Binding Percentage") +
   scale_y_continuous(n.breaks = 10) +  
@@ -92,6 +93,7 @@ ggplot(data, aes(x = Weight_mg,
   labs(title = "Results separated by spiked/non-spiked",
        x = "Weight (mg)", y = "Binding Percentage",
        shape = "Buffer Amount (ul)") +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   scale_y_continuous(n.breaks = 10) +  
   scale_shape_discrete(labels = c("60 uL", "250 uL")) +
   facet_grid( ~ Spike, labeller = as_labeller(c("0" = "Not spiked", "1" = "Spiked"))) +
@@ -125,6 +127,7 @@ ggplot(data, aes(x = Weight_mg,
        color = "Spike Status",  
        shape = "Buffer Amount (ul)") +
   scale_y_continuous(n.breaks = 10) +  
+    geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   theme_minimal() +
   # Change the labels in the legend using labs
   scale_color_discrete(labels = c("No Spike", "Spike Added")) +  # Change color legend labels
@@ -215,6 +218,7 @@ ggplot(data, aes(x = Weight_mg,
                  shape = factor(Buffer_nl))) +
   geom_point(size = 3) +
   geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +  
+    geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   labs(title = "Coef. of variation Percentage vs Weight, 4 groups",
        x = "Weight (mg)", 
        y = "Coef. of variation (%)",
@@ -260,6 +264,7 @@ ggplot(data, aes(x = Weight_mg,
        y = "Binding Deviation",
        color = "Spike Status",  
        shape = "Buffer Amount (ul)") +
+    geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   scale_y_continuous(n.breaks = 10) +  
   theme_minimal() +
   # Change the labels in the legend using labs
@@ -285,6 +290,7 @@ ggplot(data, aes(x = Weight_mg,
   scale_y_continuous(n.breaks = 10) +  
   scale_shape_discrete(labels = c("60 uL", "250 uL")) +
   facet_grid( ~ Spike, labeller = as_labeller(c("0" = "Not spiked", "1" = "Spiked"))) +
+    geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   theme_minimal()
 
 ```
@@ -302,6 +308,7 @@ ggplot(data, aes(x = factor(Spike),
        y = "Binding deviation") +
   scale_y_continuous(n.breaks = 10) +  
   theme(legend.position = "none") +
+    geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   facet_wrap(~ Buffer_nl,  
                 labeller = as_labeller(c("60" = "60 uL", 
                                       "250" = "250 uL")))  +

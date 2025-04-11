@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -382,13 +382,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-04-05
+<strong>Last updated:</strong> 2025-04-10
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -412,18 +412,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -514,15 +517,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treeced6eede4f190eb8ce9dcb3ade4b06320a5b38c2targetblankced6eeda">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treebbb70a9fa145ec05bd59fb1aff4482c48d91a35btargetblankbbb70a9a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/ced6eede4f190eb8ce9dcb3ade4b06320a5b38c2" target="_blank">ced6eed</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/bbb70a9fa145ec05bd59fb1aff4482c48d91a35b" target="_blank">bbb70a9</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treeced6eede4f190eb8ce9dcb3ade4b06320a5b38c2targetblankced6eeda"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treebbb70a9fa145ec05bd59fb1aff4482c48d91a35btargetblankbbb70a9a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -532,7 +535,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/ced6eede4f190eb8ce9dcb3ade4b06320a5b38c2" target="_blank">ced6eed</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/bbb70a9fa145ec05bd59fb1aff4482c48d91a35b" target="_blank">bbb70a9</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -556,8 +559,15 @@ Ignored files:
     Ignored:    data/Test3/.DS_Store
     Ignored:    data/Test4/.DS_Store
 
+Untracked files:
+    Untracked:  analysis/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd
+
 Unstaged changes:
-    Modified:   analysis/ELISA_Analysis_FinalVals_test4.Rmd
+    Deleted:    ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd
+    Deleted:    ELISA_Analysis_FinalVals_comparisons_test3_test4.html
+    Modified:   analysis/ELISA_Analysis_RawVals_test3.Rmd
+    Modified:   analysis/ELISA_Calc_FinalVals_test3.Rmd
+    Deleted:    temp.html
 
 </code></pre>
 <p>
@@ -603,6 +613,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/961ce6a6e6afaf169b3e86741aa75ec90f580429/docs/ELISA_Analysis_RawVals_test3.html" target="_blank">961ce6a</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-05
+</td>
+<td>
+upd calc
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -704,7 +731,7 @@ std &lt;- read.csv(&quot;./data/Test3/standard_data.csv&quot;)
 
 
 #Inclusion of standard readings in plot
-data1 &lt;- data[,c(&quot;Wells&quot;,&quot;Binding.Perc&quot;, &quot;Ave_Conc_pg.ml&quot;, &quot;Weight_mg&quot;, &quot;Buffer_nl&quot;, &quot;Spike&quot;)]
+data1 &lt;- data[,c(&quot;Wells&quot;,&quot;Binding.Perc&quot;, &quot;Ave_Conc_pg.ml&quot;, &quot;Weight_mg&quot;, &quot;Buffer_nl&quot;, &quot;Spike&quot;, &quot;Sample&quot;)]
 std1 &lt;- std[,c(&quot;Wells&quot;, &quot;Binding.Perc&quot;, &quot;Backfit&quot;)] 
 std1$Binding.Perc &lt;- std1$Binding.Perc*100
 std1$Spike &lt;- 2
@@ -736,12 +763,15 @@ ggplot(data_std, aes(x = Ave_Conc_pg.ml,
              color = &quot;gray&quot;, linewidth = 1) +  
   geom_hline(yintercept = 20, linetype = &quot;dashed&quot;, 
              color = &quot;gray&quot;, linewidth = 1) +  # Add horizontal line 
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   labs(title = &quot;Results&quot;,
        x = &quot;Ave. Concentration (pg.ml)&quot;, y = &quot;Binding Percentage&quot;) +
   scale_y_continuous(n.breaks = 10) +  
   scale_color_discrete(name = &quot;&quot;, labels = c(&quot;Not-spiked&quot;,&quot;Spiked&quot;, &quot;Standard&quot;)) +
   theme_minimal() </code></pre>
 <pre><code>`geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range
+(`geom_text()`).</code></pre>
 <p><img src="figure/ELISA_Analysis_RawVals_test3.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
@@ -792,6 +822,7 @@ ggplot(data, aes(x = Weight_mg,
   labs(title = &quot;Results separated by spiked/non-spiked&quot;,
        x = &quot;Weight (mg)&quot;, y = &quot;Binding Percentage&quot;,
        shape = &quot;Buffer Amount (ul)&quot;) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   scale_y_continuous(n.breaks = 10) +  
   scale_shape_discrete(labels = c(&quot;60 uL&quot;, &quot;250 uL&quot;)) +
   facet_grid( ~ Spike, labeller = as_labeller(c(&quot;0&quot; = &quot;Not spiked&quot;, &quot;1&quot; = &quot;Spiked&quot;))) +
@@ -860,6 +891,7 @@ ggplot(data, aes(x = Weight_mg,
        color = &quot;Spike Status&quot;,  
        shape = &quot;Buffer Amount (ul)&quot;) +
   scale_y_continuous(n.breaks = 10) +  
+    geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   theme_minimal() +
   # Change the labels in the legend using labs
   scale_color_discrete(labels = c(&quot;No Spike&quot;, &quot;Spike Added&quot;)) +  # Change color legend labels
@@ -1184,6 +1216,7 @@ ggplot(data, aes(x = Weight_mg,
        y = &quot;Binding Deviation&quot;,
        color = &quot;Spike Status&quot;,  
        shape = &quot;Buffer Amount (ul)&quot;) +
+    geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   scale_y_continuous(n.breaks = 10) +  
   theme_minimal() +
   # Change the labels in the legend using labs
@@ -1282,6 +1315,7 @@ deviation of up to 30% is acceptable.</p>
        y = &quot;Binding deviation&quot;) +
   scale_y_continuous(n.breaks = 10) +  
   theme(legend.position = &quot;none&quot;) +
+    geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
   facet_wrap(~ Buffer_nl,  
                 labeller = as_labeller(c(&quot;60&quot; = &quot;60 uL&quot;, 
                                       &quot;250&quot; = &quot;250 uL&quot;)))  +
@@ -2963,7 +2997,7 @@ Session information
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.4.3 (2025-02-28)
 Platform: aarch64-apple-darwin20
-Running under: macOS Sequoia 15.3.2
+Running under: macOS Sequoia 15.4
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
