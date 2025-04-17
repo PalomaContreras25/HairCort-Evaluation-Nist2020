@@ -8,20 +8,6 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
-```
-
-# Test4
-
-Category	Description
-TA	Non-spiked serial dilution
-TB	Spiked only in first dilution (TB1) then serially diluted
-TC	Each dilution individually spiked with 25 µL of std1
-TD	First tube spiked 1:1 with std1 (110 µL), then serially diluted
-TP	Precision replicates (different weights: 6, 9, 12 mg) spiked with 25 µL
-```{r echo = FALSE, message=FALSE}
-
-#path:
-data_path = "./data/Test4"
 library(knitr)
 library(ggplot2)
 library(broom)
@@ -30,26 +16,61 @@ library(dplyr)
 library(tidyverse)
 library(readr)
 
-# Load the dataset
-data4 <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
-data <- data4
-data$Failed_samples[is.na(data$Failed_samples)] <- "OK"
 ```
 
-```{r, echo = TRUE}
-# Conversion and Constants
+# Test4
+
+*Plate description*
+
+Category	  Description
+---------  ---------------------------------------------------------------
+TA        	Non-spiked serial dilution
+TB         	Spiked only in first dilution (TB1) then serially diluted
+TC        	Each dilution individually spiked with 25 µL of std1
+TD          First tube spiked 1:1 with std1 (110 µL), then serially diluted
+TP        	Precision replicates (different weights: 6, 9, 12 mg) spiked with 25 µL
+
+```{r 4-loading test, echo = FALSE, message=FALSE}
+
+#path:
+data_path = "./data/Test4"
+
+# Load the dataset
+data4 <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
+data4 <- data4 %>%
+  filter(!Sample %in% c("B0", "BE", "NSB", "POOL")) 
+data <- data4
+data$Failed_samples[is.na(data$Failed_samples)] <- "OK"
+cat(paste("Data stored in path", data_path, "has", nrow(data), "data points", sep= " "))
+```
+
+```{r 4-conversions, echo = FALSE}
+# Conversions from uL to mL
 data$Buffer_ml <- data$Buffer_nl / 1000
 data$Vol_in_well.tube_ml <- data$Vol_in_well.tube_uL / 1000
 data$SpikeVol_ml <- data$SpikeVol_uL / 1000
 
+cat(paste("* Buffer reconstitution volume, total volume in well, and spike volume were converted from uL to mL"))
+
+data <- data %>% 
+  filter(!is.na(Ave_Conc_pg.ml))
 # Spike concentration (pg/mL)
 std_conc <- (3191+3228)/2
+cat(paste("* Average spike reading is", std_conc, "pg/mL", sep=" "))
+```
+### Calculation
+```{r 4-calc}
+###############################################################
+####### Calculating final cortisol concentration values #######
+###############################################################
 
-# Method A: No spike correction
+####### Method A: No spike correction #######
+
 data$Final_pg.mg_A <- ((data$Ave_Conc_pg.ml / data$Weight_mg) *
                          data$Extraction_ratio * data$Buffer_ml * data$Dilution_sample)
 
-# Method B: Subtract spike reading (std) and apply dilution factor (×2)
+####### Method B: Subtract spike reading (std) and apply dilution factor (×2) #######
+
 data$Final_pg.mg_B <- ifelse(
   data$Spike == 1,
   ((data$Ave_Conc_pg.ml - std_conc) / data$Weight_mg) *
@@ -58,34 +79,62 @@ data$Final_pg.mg_B <- ifelse(
  data$Final_pg.mg_A
 )
 
-# Method D: Spike contribution subtracted
+####### Method C: Spike contribution subtracted #######
+
 data$Spike_Contribution <- (data$SpikeVol_ml * std_conc) / data$Vol_in_well.tube_ml /  data$Dilution_spike
 
-data$Final_pg.mg_D <- ((data$Ave_Conc_pg.ml - data$Spike_Contribution) / data$Weight_mg) *
+data$Final_pg.mg_C <- ((data$Ave_Conc_pg.ml - data$Spike_Contribution) / data$Weight_mg) *
      data$Extraction_ratio * data$Buffer_ml * data$Dilution_sample
 
 ```
-
-```{r}
+### Results
+```{r 4-results-boxplot, echo = FALSE}
 # Save result
-head(data)
+cat("Results:")
+head(data[,c("Sample", "Final_pg.mg_A", "Final_pg.mg_B", "Final_pg.mg_C")])
 write.csv(data, file.path(data_path, "Data_Cortisol_Processed.csv"), row.names = FALSE)
 data4<-data
 
 # View summary
+cat("Summary of final values for each calculation method")
+cat("Method A:")
 summary(data$Final_pg.mg_A)
+cat("Method B:")
 summary(data$Final_pg.mg_B)
-summary(data$Final_pg.mg_D)
+cat("Method C:")
+summary(data$Final_pg.mg_C)
+
+# Reshape from wide to long format
+data_long <- data %>%
+  select(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "Method",
+    values_to = "pg_mg"
+  )
+
+# Optional: clean group names for prettier x-axis labels
+data_long$Group <- gsub("Final_pg.mg_", "", data_long$Method)
+
+# Plot boxplots
+ggplot(data_long, aes(x = Group, y = pg_mg, fill = Method)) +
+  geom_boxplot(outlier.shape = 21, outlier.fill = "white", outlier.color = "black") +
+  labs(
+    title = "Test4: Final values using calculation methods A, B, and C",
+    x = "Method",
+    y = "pg/mg"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
 
 ```
 
-
-```{r}
+```{r 4-results-scatterplot, echo = FALSE}
 
 # Reshape data for plotting
 data_long <- data %>%
   pivot_longer(
-    cols = c(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_D),
+    cols = c(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C),
     names_to = "Method",
     values_to = "Final_pg.mg"
   )
@@ -96,10 +145,10 @@ ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Metho
   scale_color_manual(
     values = c("Final_pg.mg_A" = "steelblue",
                "Final_pg.mg_B" = "orange",
-               "Final_pg.mg_D" = "darkgreen"),
-    labels = c("Method A (Basic)",
-               "Method B (Subtraction + x2)",
-               "Method D (Spike contribution)")
+               "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A (Traditional)",
+               "Method B (Nist et al.)",
+               "Method C (Sam's)")
   ) +
   labs(
     title = "Hair Cortisol by Sample and Calculation Method",
@@ -117,31 +166,28 @@ ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Metho
 ```
 
 
-```{r}
-
-# Arrange by Sample for consistent ordering
-data <- data %>% arrange(Sample)
+```{r 4-results-A and C, echo =FALSE}
 
 # Reshape to long format
 data_long <- data %>%
   pivot_longer(
-    cols = c(Final_pg.mg_A, Final_pg.mg_D),
+    cols = c(Final_pg.mg_A, Final_pg.mg_C),
     names_to = "Method",
     values_to = "Final_pg.mg"
   )
 
-# Plot with lines connecting A and D values for each sample
+# Plot with lines connecting A and C values for each sample
 ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
   geom_line(aes(group = Sample), linewidth = 0.6, color = "gray70") +  # light line connecting methods
   geom_point(size = 2.8, alpha = 0.8, position = position_dodge(width = 0.5)) +
   scale_color_manual(
-    values = c("Final_pg.mg_A" = "steelblue", "Final_pg.mg_D" = "darkgreen"),
-    labels = c("Method A", "Method D")
+    values = c("Final_pg.mg_A" = "steelblue", "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A", "Method C")
   ) +
   labs(
-    title = "Hair Cortisol Concentration by Sample",
+    title = "Comparing final values obtained using 2 methods, by Sample",
     x = "Sample ID",
-    y = "Final Cortisol (pg/mg)",
+    y = "Final Cortisol Concentration (pg/mg)",
     color = "Calculation Method"
   ) +
   theme_minimal() +
@@ -162,7 +208,7 @@ data_ok <- data %>%
 # Reshape data for plotting
 data_long_ok <- data_ok %>%
   pivot_longer(
-    cols = c(Final_pg.mg_A, Final_pg.mg_D),
+    cols = c(Final_pg.mg_A, Final_pg.mg_C),
     names_to = "Method",
     values_to = "Final_pg.mg"
   )
@@ -175,7 +221,7 @@ ggplot(data_long_ok, aes(x = Sample, y = Final_pg.mg, color = Method)) +
   scale_color_manual(
     values = c("Final_pg.mg_A" = "steelblue",
                "Final_pg.mg_B" = "orange",
-               "Final_pg.mg_D" = "darkgreen"),
+               "Final_pg.mg_C" = "darkgreen"),
     labels = c("Method A (Basic)",
                "Method B (Subtraction + x2)",
                "Method D (Spike contribution)")
@@ -191,11 +237,17 @@ ggplot(data_long_ok, aes(x = Sample, y = Final_pg.mg, color = Method)) +
     axis.text.x = element_text(angle = 90, hjust = 1),
     legend.position = "top"
   )
-summary(data_ok$Final_pg.mg_D)
+summary(data_ok$Final_pg.mg_C)
 ```
 
 
 # Test3
+
+**Plate description**
+
+Combined variables to evaluate effect of weight, dilution, and addition of spike
+
+
 
 ```{r test3, echo = TRUE}
 #path:
@@ -236,7 +288,7 @@ data$Spike_Contribution <- ifelse(
   0
 )
 
-data$Final_pg.mg_D <- (
+data$Final_pg.mg_C <- (
   (data$Ave_Conc_pg.ml - data$Spike_Contribution) / data$Weight_mg) *
     extraction * data$Buffer_ml * data$Dilution
 
@@ -247,7 +299,7 @@ write.csv(data, file.path(data_path,"Data_Cortisol_Processed.csv"), row.names = 
 # View summary
 summary(data$Final_pg.mg_A)
 summary(data$Final_pg.mg_B)
-summary(data$Final_pg.mg_D)
+summary(data$Final_pg.mg_C)
 
 data3 <- data
 ```
@@ -258,7 +310,7 @@ data3 <- data
 # Reshape data for plotting
 data_long <- data %>%
   pivot_longer(
-    cols = c(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_D),
+    cols = c(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C),
     names_to = "Method",
     values_to = "Final_pg.mg"
   )
@@ -269,10 +321,10 @@ ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Metho
   scale_color_manual(
     values = c("Final_pg.mg_A" = "steelblue",
                "Final_pg.mg_B" = "orange",
-               "Final_pg.mg_D" = "darkgreen"),
-    labels = c("Method A (Basic)",
+               "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A (Traditional)",
                "Method B (Subtraction + x2)",
-               "Method D (Spike contribution)")
+               "Method C (Spike contribution)")
   ) +
   labs(
     title = "Hair Cortisol by Sample and Calculation Method",
@@ -294,7 +346,7 @@ ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Metho
 # Reshape to long format
 data_long <- data %>%
   pivot_longer(
-    cols = c(Final_pg.mg_A, Final_pg.mg_D),
+    cols = c(Final_pg.mg_A, Final_pg.mg_C),
     names_to = "Method",
     values_to = "Final_pg.mg"
   )
@@ -307,8 +359,8 @@ ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method)) +
   geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) +
   scale_color_manual(
     values = c("Final_pg.mg_A" = "steelblue", 
-               "Final_pg.mg_D" = "darkgreen"),
-    labels = c("Method A", "Method D")
+               "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A", "Method C")
   ) +
   labs(
     title = "Hair Cortisol Concentration by Sample",
@@ -332,7 +384,7 @@ data_ok <- data %>%
 # Reshape data for plotting
 data_long_ok <- data_ok %>%
   pivot_longer(
-    cols = c(Final_pg.mg_A, Final_pg.mg_D),
+    cols = c(Final_pg.mg_A, Final_pg.mg_C),
     names_to = "Method",
     values_to = "Final_pg.mg"
   )
@@ -346,10 +398,10 @@ ggplot(data_long_ok, aes(x = Sample, y = Final_pg.mg, color = Method)) +
   scale_color_manual(
     values = c("Final_pg.mg_A" = "steelblue",
              #  "Final_pg.mg_B" = "orange",
-               "Final_pg.mg_D" = "darkgreen"),
-    labels = c("Method A (Basic)",
+               "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A (Traditional)",
               # "Method B (Subtraction + x2)",
-               "Method D (Spike contribution)")
+               "Method C (Spike contribution)")
   ) +
   labs(
     title = "Hair Cortisol (Good Samples Only) — Test3",
@@ -366,14 +418,14 @@ ggplot(data_long_ok, aes(x = Sample, y = Final_pg.mg, color = Method)) +
 ```
 
 
-# eval test4 
+# evaluation test4 
 
 ```{r}
 # Load the dataset
 df <- data4
 
 # Clean data 
-df <- df %>% filter(!is.na(Final_pg.mg_D), !Sample %in% c("NSB", "Blank", "B0"))
+df <- df %>% filter(!is.na(Final_pg.mg_C), !Sample %in% c("NSB", "Blank", "B0"))
 
 # Set factors for plotting and grouping
 df$Dilution_samplef <- as.factor(df$Dilution_sample)
@@ -382,13 +434,13 @@ df$Category <- as.factor(df$Category)
 # 1. === PARALLELISM TEST ===
 # Plot concentration vs. dilution to check for proportional decrease
 
-ggplot(df, aes(x = log10(as.numeric(Dilution_sample)), y = Final_pg.mg_D , color = Category)) +
+ggplot(df, aes(x = log10(as.numeric(Dilution_sample)), y = Final_pg.mg_C , color = Category)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   labs(title = "Parallelism Test", x = "Log10(Dilution_sample)", y = "Final Cortisol (pg/mg)")
 
 # Optional: Run ANOVA for parallelism by slope comparison
-parallel_model <- lm(Final_pg.mg_D  ~ log10(Dilution_sample) * Category, data = df)
+parallel_model <- lm(Final_pg.mg_C  ~ log10(Dilution_sample) * Category, data = df)
 summary(parallel_model)
 ```
 Term	Estimate	p-value	Interpretation
@@ -398,7 +450,7 @@ CategoryD	–18.70	0.0612 .	TD also starts lower, marginally significant
 CategoryP	–15.34	0.0517 .	TP slightly lower, borderline significant
 Interaction (log10 × CategoryB)	+17.33	0.0598 .	TB's slope is steeper than TA (marginal)
 
-TC and TD show parallel dilution curves relative to TA → you can safely apply Method D.
+TC and TD show parallel dilution curves relative to TA, suggesting you can safely apply Method D.
 
 TB may have a steeper slope, suggesting spiking only the first tube might amplify dilution effect slightly.
 
@@ -456,12 +508,12 @@ expected_vals <- tibble(
 accuracy_df <- df %>%
   inner_join(expected_vals, by = "Sample") %>%
   mutate(
-    AbsError = abs(Final_pg.mg_D  - Expected_pg.mg),
+    AbsError = abs(Final_pg.mg_C  - Expected_pg.mg),
     RelError = AbsError / Expected_pg.mg * 100
   )
 
 # Plot observed vs expected
-ggplot(accuracy_df, aes(x = Expected_pg.mg, y = Final_pg.mg_D )) +
+ggplot(accuracy_df, aes(x = Expected_pg.mg, y = Final_pg.mg_C )) +
   geom_point() +
   geom_abline(slope = 1, intercept = 0, linetype = 2) +
   labs(title = "Accuracy: Observed vs Expected", x = "Expected (pg/mg)", y = "Observed (pg/mg)")
@@ -474,7 +526,7 @@ df$log_dilution <- log10(df$Dilution_sample)
 # Parallelism test for TA vs TC
 df_sub <- df %>% filter(Category %in% c("A", "C"))
 
-model_parallel <- lm(Final_pg.mg_D ~ log_dilution * Category, data = df_sub)
+model_parallel <- lm(Final_pg.mg_C ~ log_dilution * Category, data = df_sub)
 summary(model_parallel)
 
 ```
@@ -503,7 +555,7 @@ df_sub <- df %>%
   )
 
 # Plot
-ggplot(df_sub, aes(x = log_dilution, y = Final_pg.mg_D, color = Category)) +
+ggplot(df_sub, aes(x = log_dilution, y = Final_pg.mg_C, color = Category)) +
     geom_smooth(method = "lm", se = TRUE, linewidth = 1.2, alpha = 0.3) +
   geom_point(size = 3, alpha = 0.8) +
 
@@ -552,7 +604,7 @@ for (pair in pairs) {
   pair_label <- paste(pair, collapse = "_vs_")
   
   ### 1. Final Values Model
-  model_final <- lm(Final_pg.mg_D ~ log_dilution * Category, data = sub_df)
+  model_final <- lm(Final_pg.mg_C ~ log_dilution * Category, data = sub_df)
   p_final <- tidy(model_final) %>% 
     filter(str_detect(term, "log_dilution:Category")) %>%
     pull(p.value)
@@ -564,7 +616,7 @@ for (pair in pairs) {
     pull(p.value)
   
   ### Plot for Final Values
-p1 <- ggplot(sub_df, aes(x = log_dilution, y = Final_pg.mg_D, color = Category)) +
+p1 <- ggplot(sub_df, aes(x = log_dilution, y = Final_pg.mg_C, color = Category)) +
    geom_smooth(method = "lm", se = TRUE, alpha = 0.3) +  
   geom_point(size = 2) +
    
@@ -649,7 +701,7 @@ extract_intercepts_with_pval <- function(model, response_label) {
 }
 
 # === Fit models ===
-mod_final <- lm(Final_pg.mg_D ~ log_dilution + Category, data = df)
+mod_final <- lm(Final_pg.mg_C ~ log_dilution + Category, data = df)
 mod_binding <- lm(Binding.Perc ~ log_dilution + Category, data = df)
 
 # === Extract intercepts ===
@@ -717,6 +769,7 @@ df_wide <- df_wide %>%
 
 
 # Step 4: Calculate recovery
+head(df_wide)
 temp <- df_wide %>%
   mutate(Recovery_pct = ((Ave_Conc_pg.ml_D - Ave_Conc_pg.ml_A) / Spike_Contribution_D) * 100)
 
@@ -780,6 +833,7 @@ ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
+# Recovery Test4
 
 ```{r}
 
@@ -818,7 +872,7 @@ ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
 ```
 
 
-# recovery test 3
+# Recovery test 3
 
 ```{r}
 library(dplyr)
@@ -905,7 +959,7 @@ Spike recovery ranged from 105% to 155% across 10 matched sample pairs. Most sam
 
 
 
-## precision and accuracy
+# Precision and accuracy, test3
 
 ```{r}
 df <- data3_processed

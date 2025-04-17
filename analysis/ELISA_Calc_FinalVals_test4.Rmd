@@ -7,14 +7,23 @@ output: workflowr::wflow_html
 
 # Summary
 
-**Cortisol value calculations** 
+**Cortisol value calculations** (includes bad quality samples, n = 41)
+
 
 |                        | Min.   | 1st Qu. |  Median |  Mean   | 3rd Qu. | Max.   |  NA's |
 |------------------------|--------|---------|---------|---------|---------|--------|-------|
-|**A) Standard Method**| 0.4142 | 1.9653  | 7.5533  | 14.1906 | 28.0667 | 50.933 |    3  |
-|**B) Spike-Corrected Method**|-45.870 | -31.922 | -1.929 | -9.444 |  7.553 | 30.780  |  3 |
-|**C) Standard, but simplified equation**| 0.4142 |1.9653 | 7.5533 | 14.1906 | 28.0667| 50.9333 |  3 |
-|**D) Spike-Corrected (divided by two)**|  0.2335 | 1.5067  |6.7184|  9.7699| 17.3683 |32.2815    |   3 |
+|**A) Standard Method (mult. by sample dilution)**| 17.13 | 29.01  | 32.27  | 35.28 | 39.47 | 82.94 |    4  |
+|**B) Spike-Corrected Method**|-45.870 | -35.833 | -5.960 | -3.488 |  23.109 | 50.963  |  4 |
+|**C) Spike-Corrected (Sam's Method)**|  7.472 | 18.533    |24.559|  27.009| 31.196 |80.804    |   4 |
+
+
+**Cortisol value calculations** (removed bad quality samples)
+
+|                        | Min.   | 1st Qu. |  Median |  Mean   | 3rd Qu. | Max.   |  NA's |
+|------------------------|--------|---------|---------|---------|---------|--------|-------|
+|**A) Standard Method (mult. by sample dilution)**| 18.27 | 29.27  | 31.54  | 34.13 | 37.73 | 69.17 |
+|**B) Spike-Corrected Method**|-39.371 | -34.855 | -20.577 | -14.325 |  -6.825 | 40.400 |
+|**C) Spike-Corrected (Sam's Method)**|  11.80 | 18.45    |24.09|  24.05| 30.32 |40.40    |
 
 
 I calculated final cortisol values in pg/mg using the following key variables:
@@ -35,7 +44,7 @@ I calculated final cortisol values in pg/mg using the following key variables:
 
 - std: standard reading value
 
-- extraction: methanol volume ratio = vol added / vol recovered (1/0.75 ml)
+- extraction: methanol volume ratio = vol added / vol recovered (e.g. 1/0.75 ml)
 
 **Results:**  
 
@@ -86,7 +95,8 @@ Loading files and transforming units, *including low quality data*
 
 ```{r setup, include=TRUE, message=FALSE}
 df <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
-kable(tail(df))
+kable(tail(df)) 
+
 # remove outlier
 #df<- df[(df$Sample != "TP3A"),]
 
@@ -156,10 +166,21 @@ data <- data[order(data$Sample),]
 write.csv(data, file.path(data_path, "Data_cort_values_methodA.csv"), row.names = F)
 
 # summary for all samples
+data <- data %>%
+  filter(!Sample %in% c("B0", "BE", "NSB", "POOL")) 
+dim(data)
 summary(data$Final_conc_pg.mg)
 
+# summary for good quality samples only
+temp <- data %>% 
+  filter(Failed_samples == 
+           "OK")
+dim(temp)
+summary(temp$Final_conc_pg.mg)
+
+
 kable(tail(data, 7))
-dim(data)
+
 
 ```
 
@@ -194,13 +215,14 @@ dSpike <- data
 ##### Calculate final values #####
 ##################################
 
+# spike is already divided by 10000 (unit is ug/dL)
 dSpike$Final_conc_pg.mg <- 
   ifelse(
     dSpike$Spike == 1,    ## Only spiked samples
       ((dSpike$Ave_Conc_ug.dL - (std.r)) / # (A-spike) / B
         dSpike$Weight_mg) 
         * data$Extraction_ratio *                  # C / D
-        dSpike$Buffer_ml * 10000 * 2 * dSpike$Dilution_sample,    # E * 10000 * 2
+        dSpike$Buffer_ml * 10000 * 2,    # E * 10000 * 2
         dSpike$Final_conc_pg.mg  
     )
 
@@ -209,38 +231,32 @@ write.csv(dSpike, file.path(data_path, "Data_cort_values_methodB.csv"), row.name
 
 # summary for all samples
 summary(dSpike$Final_conc_pg.mg)
+dSpike$Sample
+# summary for all samples
+dSpike <- dSpike %>%
+  filter(!Sample %in% c("B0", "BE", "NSB", "POOL")) 
+dim(dSpike)
+summary(dSpike$Final_conc_pg.mg)
 
-
-dSpikeSub <- data[c(data$Spike == 0), ]
-summary(dSpikeSub$Final_conc_pg.mg)
+# summary for good quality samples only
+temp <- dSpike %>% 
+  filter(Failed_samples == 
+           "OK")
+dim(temp)
+summary(temp$Final_conc_pg.mg)
 
 kable(tail(dSpike, 10))
 ```
 
-## (C) Skip unit transformation
+## (C) Sam's calculation
 
+- Simplify unnecessary unit transformations
 
-```{r C-calc}
-##################################
-##### Calculate final values #####
-################################## 
-datac <- data
-datac$Final_conc_pg.mg <- c(
-    (datac$Ave_Conc_pg.ml / datac$Weight_mg) * # A/B *
-     data$Extraction_ratio *                                  # C/D  *     
-      datac$Buffer_ml * datac$Dilution_sample)                 # E 
-datac <- datac[order(datac$Sample),]
-write.csv(datac, file.path(data_path, "Data_cort_values_methodC.csv"), row.names = F)
-
-# summary for all samples
-summary(datac$Final_conc_pg.mg)
-
-```
-
-## (D) Account for Spike contribution (uses vol. of spike, conc. of spike, and total reconstit. vol.)
+- Account for spike considering dilution of both sample and the spike
 
 Spike contribution (pg/mL) = (Vol. spike (mL) x Conc. spike (pg/mL) ) / Vol. reconstitution (mL) or total vol. in well (50uL) (depending on where the spike was added)
-```{r D-calc}
+
+```{r C calc}
 # Calculate contribution of spike according to the different volumes in which it was added
 # Consider that contribution of spike in serial dilutions gets smaller 
 
@@ -251,7 +267,6 @@ std
 # Vol. reconstitution (mL) is the total volume in tube or well (sample + spike), after adding spike.
 # transform to mL
 data$Vol_in_well.tube_ml <- data$Vol_in_well.tube_uL/1000
-
 
   ##( Spike vol. x Spike Conc.)
   ## ------------------------  / dilution = Spike contribution
@@ -278,10 +293,24 @@ dSpiked$Final_conc_pg.mg <-
 
 
 
-write.csv(dSpiked, file.path(data_path, "Data_cort_values_methodD.csv"), row.names = F)
+write.csv(dSpiked, file.path(data_path, "Data_cort_values_methodC.csv"), row.names = F)
 
 # summary for all samples
+
+dSpiked <- dSpiked %>%
+  filter(!Sample %in% c("B0", "BE", "NSB", "POOL")) 
+dim(dSpiked)
 summary(dSpiked$Final_conc_pg.mg)
+
+# summary for good quality samples only
+temp <- dSpiked %>% 
+  filter(Failed_samples == 
+           "OK")
+dim(temp)
+summary(temp$Final_conc_pg.mg)
+
+kable(tail(dSpike, 10))
+
 kable(head(dSpiked[!is.na(dSpiked$Final_conc_pg.mg) , c("Sample", "Final_conc_pg.mg", "Ave_Conc_pg.ml", "Spike.cont_pg.mL", "Binding.Perc", "Weight_mg", "Buffer_ml", "SpikeVol_uL", "Dilution_sample", "Dilution_spike", "Vol_in_well.tube_uL", "Extraction_ratio")],10))
 
 
@@ -343,7 +372,7 @@ dSpike$Buffer <- replace(dSpike$Buffer, dSpike$Buffer == 0.06, '60 uL')
 dSpike$Buffer <- replace(dSpike$Buffer, dSpike$Buffer == 0.11, '110 uL')
 dSpike$Buffer <- replace(dSpike$Buffer, dSpike$Buffer == 0.22, '220 uL')
 dSpike$Buffer <- replace(dSpike$Buffer, dSpike$Buffer == 0.25, '250 uL')
-
+head(dSpike)
 # scatterplot
 ggplot(dSpike, aes(y = Final_conc_pg.mg, 
                  x = Binding.Perc, 
@@ -369,47 +398,8 @@ ggplot(dSpike, aes(y = Final_conc_pg.mg,
 
 ```
 
-## (C) Simplified Standard Calculation
-```{r echo = FALSE, warning=FALSE }
-# scatterplot method c
+## (C) Sam's calculation
 
-datac <- datac %>%
-  filter(!Sample %in% c("B0", "BE", "NSB", "POOL")) #TA6","TA7","TB7","TC7", "TC6","TC5", #"TA2","TC3", "TD6", "TD7", "TB6", "TA1", "TB1", "TD1")
-
-datac$Spike <- replace(datac$Spike, datac$Spike == 1, 'Yes')
-datac$Spike <- replace(datac$Spike, datac$Spike == 0, 'No')
-datac$Buffer <- datac$Buffer_ml
-datac$Buffer <- replace(datac$Buffer, datac$Buffer == 0.06, '60 uL')
-datac$Buffer <- replace(datac$Buffer, datac$Buffer == 0.11, '110 uL')
-datac$Buffer <- replace(datac$Buffer, datac$Buffer == 0.22, '220 uL')
-datac$Buffer <- replace(datac$Buffer, datac$Buffer == 0.25, '250 uL')
-
-
-ggplot(datac, aes(y = Final_conc_pg.mg, 
-                 x = Binding.Perc, 
-                 color = Failed_samples,
-                 shape = Buffer)) +
-  geom_point(size = 2.5, alpha = 0.85) +  
-   geom_text(aes(label = Sample), size = 2.5, vjust = -0.65, hjust = -0.18) +
-    theme_minimal() +  
-  geom_hline(yintercept = 0, 
-             linetype = "dashed", color = "red") +
-    #ylim(-26,24) +
-#  xlim(0,52) +
-  labs(
-    title = "(C) ",
-    y = "Final Concentration (pg/mg)",
-    x = "Binding %") + 
-  theme(
-    plot.title = element_text(hjust = 0.5, 
-                              size = 17, face = "bold"),
-    axis.title = element_text(size = 14),  
-    axis.text = element_text(size = 10)  
-  ) + 
-  scale_color_paletteer_d("vangogh::CafeTerrace")
-```
-
-## (D) New calculation (substract half of the spike from A)
 ```{r echo = FALSE, warning=FALSE }
 
 dSpiked <- dSpiked %>%
@@ -438,7 +428,7 @@ ggplot(dSpikedplot, aes(y = Final_conc_pg.mg,
   geom_hline(yintercept = 0, 
              linetype = "dashed", color = "red") +
   labs(
-    title = "(D) New calculation",
+    title = "(C) Sam's calculation",
     y = "Final Concentration (pg/mg)",
     x = "Binding %" ) +
   theme(
@@ -464,7 +454,7 @@ ggplot(dSpikedplot, aes(y = Final_conc_pg.mg,
   geom_hline(yintercept = 0, 
              linetype = "dashed", color = "red") +
   labs(
-    title = "(D) New calculation, Precision",
+    title = "(C) Sam's calculation, Precision",
     y = "Final Concentration (pg/mg)",
     x = "Binding %" ) +
   theme(
@@ -479,10 +469,11 @@ ggplot(dSpikedplot, aes(y = Final_conc_pg.mg,
 
 
 
-# Evaluation 
-Since all spiked samples produce negative values, we will continue our analyses using only non-spiked samples.
+# Evaluation method C
+
 
 ```{r}
+
 ggplot(dSpiked, aes(y = Final_conc_pg.mg, 
                   x = Spike.cont_pg.mL, 
                   color = (Failed_samples))) + 

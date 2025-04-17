@@ -31,7 +31,6 @@ library(ggplot2)
 ```
 
 ```{r loading}
-# loading info
 # Loading data
 std <- read.csv("./data/Test4/standard_data_test4.csv")
 cort_valsA<- read.csv("./data/Test4/Data_cort_values_methodA.csv")
@@ -42,7 +41,6 @@ cort_valsD<- read.csv("./data/Test4/Data_cort_values_methodD.csv")
 # Overall Results
 ## A) Standard method
 
-
 ```{r loading valsA}
 # remove NSB
 data <- cort_valsA[!(cort_valsA$Sample == "NSB"),]
@@ -50,49 +48,29 @@ data <- cort_valsA[!(cort_valsA$Sample == "NSB"),]
 #data <- data[,c("Sample", "Category", "Binding.Perc", "Final_conc_pg.mg", "Weight_mg", "Buffer_ml", "Spike", "Failed_samples", "Dilution")]
 ```
 
-```{r expABCD.Final_conc_pg.mg_AD, fig.width=8, fig.height=6, results = 'hide'}
-invisible({capture.output({ 
+
+
+```{r expABCD.Final_conc_pg.mgA, fig.width=8, fig.height=6}
 # Scatter plot of Experiment A and B, observed binding % 
 a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Final_conc_pg.mg)) 
 a$Sample_num <- 1:length(a$Sample)
 
 
-## PLOT COMPLETE DATASET ## 
-ggplot(a, aes(x = Sample_num, 
-                 y = Final_conc_pg.mg, color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
-  geom_smooth(formula = y ~ log(x), se = TRUE, linewidth = 0.5, linetype = 2, alpha = 0.1) +
-  geom_hline(yintercept = 0, linetype = "dashed", 
-                  color = "red", linewidth = 1) + 
-  geom_point(size = 2) +
-  geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray30") +
-  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
-               formula = y ~ x, parse = TRUE, size = 2.5) +
-  labs(title = "Final vals not accounting for spike",
-       subtitle = "Complete dataset",
-       x = "Sample", y = "Final_conc_pg.mg Method A") +
-  coord_cartesian(ylim = c(-5, 28)) +
-  theme_minimal() 
-
+## PLOT WITHOUT POOR QUALITY SAMPLES ### 
 exp <- a %>%
   filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2"))
-})})
-```
-
-```{r expABCD.Final_conc_pg.mgA, fig.width=8, fig.height=6}
-
-## PLOT WITHOUT POOR QUALITY SAMPLES ### 
 
 ggplot(exp, aes(x = Sample_num, 
                  y = Final_conc_pg.mg, color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
-  geom_smooth(formula = y ~ log(x), se = TRUE, linewidth = 0.5, linetype = 2, alpha = 0.1) +
+#  geom_smooth(formula = y ~ log(x), se = TRUE, linewidth = 0.5, #linetype = 2, alpha = 0.1) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 0, linetype = "dashed", 
                   color = "red", linewidth = 1) + 
-  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
-               formula = y ~ x, parse = TRUE, size = 2) +
+# stat_poly_eq(aes(x = Sample_num, label = 
+# paste(..rr.label.., sep = "~")),
+#               formula = y ~ x, parse = TRUE, size = 2) +
   labs(title = "Final vals not accounting for spike",
        subtitle = "removed high CV samples",
        x = "Sample", y = "Final_conc_pg.mg, Method A") +
@@ -151,16 +129,14 @@ exp <- a %>%
 ggplot(exp, aes(x = Sample_num, 
                  y = Final_conc_pg.mg, color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
-  geom_smooth(formula = y ~ log(x), se = TRUE, linewidth = 0.5, linetype = 2, alpha = 0.1) +
+  geom_smooth(formula = y ~ log(x), se = FALSE, linewidth = 0.5, linetype = 2, alpha = 0.1) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 0, linetype = "dashed", 
                   color = "red", linewidth = 1) + 
-  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
-               formula = y ~ x, parse = TRUE, size = 2) +
-  labs(title = "Final vals accounting for spike",
-       subtitle = "removed high CV samples",
-       x = "Sample", y = "Final_conc_pg.mg, Method D") +
+  labs(title = "Final values, method D",
+       subtitle = "Removed low quality samples",
+       x = "Sample", y = "Cortisol concentration pg/mg") +
   scale_y_continuous(n.breaks = 10) + 
   theme_minimal() 
 
@@ -189,10 +165,10 @@ a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Ca
 a$Sample_num <- 1:length(a$Sample)
 
 a$Expected <- NA
-a$Expected[1:7] <- 30.7800000 / a$Dilution[1:7] 
-a$Expected[8:14] <-  34.2266667/ a$Dilution[1:7] 
-a$Expected[15:21] <-  16.4466667  / a$Dilution[1:7] 
-a$Expected[22:28] <-  30.5653333 / a$Dilution[1:7]
+a$Expected[1:7] <- 30.7800000 / a$Dilution_sample[1:7] 
+a$Expected[8:14] <-  34.2266667/ a$Dilution_sample[1:7] 
+a$Expected[15:21] <-  16.4466667  / a$Dilution_sample[1:7] 
+a$Expected[22:28] <-  30.5653333 / a$Dilution_sample[1:7]
 
 ggplot(a, aes(x = Expected, 
                  y = (Final_conc_pg.mg), color = Category)) +
@@ -246,10 +222,10 @@ a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Ca
 a$Sample_num <- 1:length(a$Sample)
 
 a$Expected <- NA
-a$Expected[1:7] <- 30.7800000 / a$Dilution[1:7] 
-a$Expected[8:14] <-  25.6600000/ a$Dilution[1:7] 
-a$Expected[15:21] <-   -9.9000000  / a$Dilution[1:7] 
-a$Expected[22:28] <-  14.0580000 / a$Dilution[1:7]
+a$Expected[1:7] <- 30.7800000 / a$Dilution_sample[1:7] 
+a$Expected[8:14] <-  25.6600000/ a$Dilution_sample[1:7] 
+a$Expected[15:21] <-   -9.9000000  / a$Dilution_sample[1:7] 
+a$Expected[22:28] <-  14.0580000 / a$Dilution_sample[1:7]
 
 
 ## PLOT ## 
@@ -289,10 +265,10 @@ a$Sample_num <- 1:length(a$Sample)
 
 
 a$Expected <- NA
-a$Expected[1:7] <- 30.7800000 / a$Dilution[1:7] 
-a$Expected[8:14] <-  32.2815152 / a$Dilution[1:7] 
-a$Expected[15:21] <-  14.5015152  / a$Dilution[1:7] 
-a$Expected[22:28] <-  18.7971667 / a$Dilution[1:7]
+a$Expected[1:7] <- 30.7800000 / a$Dilution_sample[1:7] 
+a$Expected[8:14] <-  32.2815152 / a$Dilution_sample[1:7] 
+a$Expected[15:21] <-  14.5015152  / a$Dilution_sample[1:7] 
+a$Expected[22:28] <-  18.7971667 / a$Dilution_sample[1:7]
 
 ```
 
