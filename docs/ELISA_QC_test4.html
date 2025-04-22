@@ -380,7 +380,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-04-10
+<strong>Last updated:</strong> 2025-04-22
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -515,15 +515,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treebbb70a9fa145ec05bd59fb1aff4482c48d91a35btargetblankbbb70a9a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree82ad9289d2fb8bc31d61faa7388692d97861b9f8targetblank82ad928a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/bbb70a9fa145ec05bd59fb1aff4482c48d91a35b" target="_blank">bbb70a9</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/82ad9289d2fb8bc31d61faa7388692d97861b9f8" target="_blank">82ad928</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treebbb70a9fa145ec05bd59fb1aff4482c48d91a35btargetblankbbb70a9a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree82ad9289d2fb8bc31d61faa7388692d97861b9f8targetblank82ad928a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -533,7 +533,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/bbb70a9fa145ec05bd59fb1aff4482c48d91a35b" target="_blank">bbb70a9</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/82ad9289d2fb8bc31d61faa7388692d97861b9f8" target="_blank">82ad928</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -557,18 +557,12 @@ Ignored files:
     Ignored:    data/Test3/.DS_Store
     Ignored:    data/Test4/.DS_Store
 
-Untracked files:
-    Untracked:  analysis/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd
-
 Unstaged changes:
-    Deleted:    ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd
-    Deleted:    ELISA_Analysis_FinalVals_comparisons_test3_test4.html
-    Modified:   analysis/ELISA_Analysis_RawVals_test3.Rmd
-    Modified:   analysis/ELISA_Calc_FinalVals_test3.Rmd
     Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
+    Modified:   analysis/ELISA_QC_test3.Rmd
     Modified:   analysis/ELISA_QC_test4.Rmd
-    Modified:   data/Test4/Data_cort_values_methodD.csv
-    Deleted:    temp.html
+    Modified:   analysis/Test5_design.Rmd
+    Modified:   data/Test3/Data_QC_flagged.csv
 
 </code></pre>
 <p>
@@ -613,6 +607,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/16ce91c12594e99d1691896d5d0df7dc690fe51d/analysis/ELISA_QC_test4.Rmd" target="_blank">16ce91c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-10
+</td>
+<td>
+recalc_evaluations
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/16ce91c12594e99d1691896d5d0df7dc690fe51d/docs/ELISA_QC_test4.html" target="_blank">16ce91c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-10
+</td>
+<td>
+recalc_evaluations
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -722,9 +750,14 @@ new_calc
 </div>
 </div>
 </div>
-<p><strong>Data Cleaning and Quality Control (QC)</strong> details how
-files are loaded, merged, and cleaned, including the exclusion of
-unnecessary columns and handling of missing values.</p>
+<p>Here I show how files are loaded, merged, and cleaned, including the
+exclusion of unnecessary columns and handling of missing values.</p>
+<ul>
+<li><p>Intra-Assay CV: <strong>11.28 %</strong></p></li>
+<li><p>Intra-Assay CV after removing low quality data: <strong>4.76
+%</strong></p></li>
+<li><p>Good quality data points: <strong>19</strong></p></li>
+</ul>
 <div id="set-parameters" class="section level1">
 <h1>Set parameters</h1>
 <pre class="r"><code># flag samples with high CV (15%) or binding above 80% and under 20%
@@ -740,198 +773,7 @@ lowBinLim &lt;- 20.0</code></pre>
 volume of the spike, dilution factor), 96 rows</li>
 <li>results: from myassays.com (not including standards), 82 rows</li>
 </ul>
-<pre><code>[1] 96 11</code></pre>
-<table>
-<colgroup>
-<col width="4%" />
-<col width="5%" />
-<col width="4%" />
-<col width="7%" />
-<col width="7%" />
-<col width="4%" />
-<col width="10%" />
-<col width="12%" />
-<col width="11%" />
-<col width="15%" />
-<col width="13%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Wells</th>
-<th align="left">Sample</th>
-<th align="left">Categ</th>
-<th align="left">weight_mg</th>
-<th align="left">buffer_nl</th>
-<th align="right">spike</th>
-<th align="right">spike_vol_uL</th>
-<th align="right">Dilution_sample</th>
-<th align="right">Dilution_spike</th>
-<th align="left">vol_in_well.tube_uL</th>
-<th align="left">Extraction_ratio</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">A3</td>
-<td align="left">B0</td>
-<td align="left">b0</td>
-<td align="left">.</td>
-<td align="left">NA</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">B3</td>
-<td align="left">B0</td>
-<td align="left">b0</td>
-<td align="left">.</td>
-<td align="left">NA</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">G12</td>
-<td align="left">BE</td>
-<td align="left">be</td>
-<td align="left">.</td>
-<td align="left">NA</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">H12</td>
-<td align="left">BE</td>
-<td align="left">be</td>
-<td align="left">.</td>
-<td align="left">NA</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">A1</td>
-<td align="left">NSB</td>
-<td align="left">nsb</td>
-<td align="left">.</td>
-<td align="left">.</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">B1</td>
-<td align="left">NSB</td>
-<td align="left">nsb</td>
-<td align="left">.</td>
-<td align="left">.</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-</tbody>
-</table>
-<pre><code>[1] 82  8</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Wells</th>
-<th align="right">Raw</th>
-<th align="right">X.</th>
-<th align="right">Conc.</th>
-<th align="right">Conc….Average.</th>
-<th align="right">X.CV</th>
-<th align="right">SD</th>
-<th align="right">SEM</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">C3</td>
-<td align="right">0.171</td>
-<td align="right">14.0</td>
-<td align="right">4810</td>
-<td align="right">4617</td>
-<td align="right">5.90</td>
-<td align="right">273.0</td>
-<td align="right">193.0</td>
-</tr>
-<tr class="even">
-<td align="left">D3</td>
-<td align="right">0.183</td>
-<td align="right">NA</td>
-<td align="right">4425</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">E3</td>
-<td align="right">0.272</td>
-<td align="right">22.4</td>
-<td align="right">2594</td>
-<td align="right">2921</td>
-<td align="right">15.80</td>
-<td align="right">462.0</td>
-<td align="right">326.0</td>
-</tr>
-<tr class="even">
-<td align="left">F3</td>
-<td align="right">0.232</td>
-<td align="right">NA</td>
-<td align="right">3247</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">G3</td>
-<td align="right">0.435</td>
-<td align="right">44.3</td>
-<td align="right">1192</td>
-<td align="right">1133</td>
-<td align="right">7.39</td>
-<td align="right">83.8</td>
-<td align="right">59.2</td>
-</tr>
-<tr class="even">
-<td align="left">H3</td>
-<td align="right">0.459</td>
-<td align="right">NA</td>
-<td align="right">1074</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<pre><code>Warning in FUN(X[[i]], ...): NAs introduced by coercion
-Warning in FUN(X[[i]], ...): NAs introduced by coercion
-Warning in FUN(X[[i]], ...): NAs introduced by coercion
-Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
+<p>Merged dataset:</p>
 <table>
 <colgroup>
 <col width="1%" />
@@ -951,8 +793,8 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <col width="5%" />
 <col width="7%" />
 <col width="4%" />
-<col width="3%" />
-<col width="3%" />
+<col width="1%" />
+<col width="2%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -979,374 +821,29 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">64</td>
-<td align="left">G11</td>
-<td align="left">TP3A</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">220</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.351351</td>
-<td align="right">0.258</td>
-<td align="right">23.2</td>
-<td align="right">2800</td>
-<td align="right">2792</td>
-<td align="right">0.391</td>
-<td align="right">10.9</td>
-<td align="right">7.71</td>
-</tr>
-<tr class="even">
-<td align="left">74</td>
-<td align="left">H11</td>
-<td align="left">TP3A</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">220</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.351351</td>
-<td align="right">0.259</td>
-<td align="right">NA</td>
-<td align="right">2785</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">4</td>
-<td align="left">A12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.333333</td>
-<td align="right">0.195</td>
-<td align="right">15.5</td>
-<td align="right">4084</td>
-<td align="right">4210</td>
-<td align="right">4.230</td>
-<td align="right">178.0</td>
-<td align="right">126.00</td>
-</tr>
-<tr class="even">
-<td align="left">15</td>
-<td align="left">B12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.333333</td>
-<td align="right">0.186</td>
-<td align="right">NA</td>
-<td align="right">4336</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">25</td>
-<td align="left">C12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.333333</td>
-<td align="right">0.186</td>
-<td align="right">13.9</td>
-<td align="right">4336</td>
-<td align="right">4661</td>
-<td align="right">9.870</td>
-<td align="right">460.0</td>
-<td align="right">325.00</td>
-</tr>
-<tr class="even">
-<td align="left">35</td>
-<td align="left">D12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.333333</td>
-<td align="right">0.166</td>
-<td align="right">NA</td>
-<td align="right">4986</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<div id="duplicates-with-high-cv" class="section level3">
-<h3>Duplicates with high CV</h3>
-<p>Identify and flag samples with high coefficient of variation
-(duplicate measurements that are too different from each other)</p>
-<table>
-<colgroup>
-<col width="2%" />
-<col width="3%" />
-<col width="4%" />
-<col width="4%" />
-<col width="4%" />
-<col width="2%" />
-<col width="5%" />
-<col width="7%" />
-<col width="7%" />
-<col width="9%" />
-<col width="8%" />
-<col width="3%" />
-<col width="6%" />
-<col width="5%" />
-<col width="7%" />
-<col width="3%" />
-<col width="3%" />
-<col width="2%" />
-<col width="4%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Wells</th>
-<th align="left">Sample</th>
-<th align="left">Category</th>
-<th align="right">Weight_mg</th>
-<th align="right">Buffer_nl</th>
-<th align="right">Spike</th>
-<th align="right">SpikeVol_uL</th>
-<th align="right">Dilution_sample</th>
-<th align="right">Dilution_spike</th>
-<th align="right">Vol_in_well.tube_uL</th>
-<th align="right">Extraction_ratio</th>
-<th align="right">Raw.OD</th>
-<th align="right">Binding.Perc</th>
-<th align="right">Conc_pg/ml</th>
-<th align="right">Ave_Conc_pg/ml</th>
-<th align="right">CV.Perc</th>
-<th align="right">SD</th>
-<th align="right">SEM</th>
-<th align="left">CV_categ</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">A3</td>
-<td align="left">B0</td>
-<td align="left">b0</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0.874</td>
-<td align="right">100.0</td>
-<td align="right">140.60</td>
-<td align="right">86.84</td>
-<td align="right">87.5</td>
-<td align="right">76.0</td>
-<td align="right">53.7</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="even">
-<td align="left">G12</td>
-<td align="left">BE</td>
-<td align="left">be</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0.553</td>
-<td align="right">70.8</td>
-<td align="right">717.50</td>
-<td align="right">462.90</td>
-<td align="right">77.8</td>
-<td align="right">360.0</td>
-<td align="right">255.0</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="odd">
-<td align="left">G4</td>
-<td align="left">TA7</td>
+<td align="left">36</td>
+<td align="left">D3</td>
+<td align="left">TA1</td>
 <td align="left">A</td>
 <td align="right">50</td>
 <td align="right">250</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">64</td>
+<td align="right">1</td>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="right">1.351351</td>
-<td align="right">1.010</td>
-<td align="right">103.0</td>
-<td align="right">33.09</td>
-<td align="right">62.13</td>
-<td align="right">66.1</td>
-<td align="right">41.1</td>
-<td align="right">29.0</td>
-<td align="left">HIGH CV</td>
+<td align="right">0.183</td>
+<td align="right">NA</td>
+<td align="right">4425.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="even">
-<td align="left">E4</td>
-<td align="left">TA6</td>
-<td align="left">A</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">32</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.351351</td>
-<td align="right">0.856</td>
-<td align="right">84.2</td>
-<td align="right">158.90</td>
-<td align="right">226.00</td>
-<td align="right">42.0</td>
-<td align="right">95.0</td>
-<td align="right">67.2</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="odd">
-<td align="left">E6</td>
-<td align="left">TB7</td>
-<td align="left">B</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">64</td>
-<td align="right">64</td>
-<td align="right">250</td>
-<td align="right">1.333333</td>
-<td align="right">0.780</td>
-<td align="right">87.0</td>
-<td align="right">249.20</td>
-<td align="right">194.40</td>
-<td align="right">39.9</td>
-<td align="right">77.5</td>
-<td align="right">54.8</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="even">
-<td align="left">E10</td>
-<td align="left">TP1B</td>
-<td align="left">P</td>
-<td align="right">6</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.333333</td>
-<td align="right">0.254</td>
-<td align="right">18.1</td>
-<td align="right">2863.00</td>
-<td align="right">3820.00</td>
-<td align="right">35.4</td>
-<td align="right">1350.0</td>
-<td align="right">957.0</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="odd">
-<td align="left">C8</td>
-<td align="left">TC7</td>
-<td align="left">C</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">64</td>
-<td align="right">1</td>
-<td align="right">250</td>
-<td align="right">1.481481</td>
-<td align="right">0.939</td>
-<td align="right">96.4</td>
-<td align="right">83.16</td>
-<td align="right">107.50</td>
-<td align="right">32.0</td>
-<td align="right">34.4</td>
-<td align="right">24.3</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="even">
-<td align="left">A8</td>
-<td align="left">TC6</td>
-<td align="left">C</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">32</td>
-<td align="right">1</td>
-<td align="right">250</td>
-<td align="right">1.481481</td>
-<td align="right">0.897</td>
-<td align="right">97.7</td>
-<td align="right">118.80</td>
-<td align="right">97.49</td>
-<td align="right">30.9</td>
-<td align="right">30.1</td>
-<td align="right">21.3</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="odd">
-<td align="left">G7</td>
-<td align="left">TC5</td>
-<td align="left">C</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">16</td>
-<td align="right">1</td>
-<td align="right">250</td>
-<td align="right">1.481481</td>
-<td align="right">0.842</td>
-<td align="right">92.0</td>
-<td align="right">173.80</td>
-<td align="right">144.50</td>
-<td align="right">28.7</td>
-<td align="right">41.5</td>
-<td align="right">29.3</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="even">
-<td align="left">E3</td>
+<td align="left">56</td>
+<td align="left">F3</td>
 <td align="left">TA2</td>
 <td align="left">A</td>
 <td align="right">50</td>
@@ -1357,18 +854,126 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <td align="right">1</td>
 <td align="right">50</td>
 <td align="right">1.351351</td>
-<td align="right">0.272</td>
-<td align="right">22.4</td>
-<td align="right">2594.00</td>
-<td align="right">2921.00</td>
-<td align="right">15.8</td>
-<td align="right">462.0</td>
-<td align="right">326.0</td>
-<td align="left">HIGH CV</td>
+<td align="right">0.232</td>
+<td align="right">NA</td>
+<td align="right">3247.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">76</td>
+<td align="left">H3</td>
+<td align="left">TA3</td>
+<td align="left">A</td>
+<td align="right">50</td>
+<td align="right">250</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="right">1.351351</td>
+<td align="right">0.459</td>
+<td align="right">NA</td>
+<td align="right">1074.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">17</td>
+<td align="left">B4</td>
+<td align="left">TA4</td>
+<td align="left">A</td>
+<td align="right">50</td>
+<td align="right">250</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">8</td>
+<td align="right">1</td>
+<td align="right">50</td>
+<td align="right">1.351351</td>
+<td align="right">0.528</td>
+<td align="right">NA</td>
+<td align="right">798.5</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">18</td>
+<td align="left">B5</td>
+<td align="left">TB1</td>
+<td align="left">B</td>
+<td align="right">50</td>
+<td align="right">250</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">275</td>
+<td align="right">1.333333</td>
+<td align="right">0.163</td>
+<td align="right">NA</td>
+<td align="right">5096.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">38</td>
+<td align="left">D5</td>
+<td align="left">TB2</td>
+<td align="left">B</td>
+<td align="right">50</td>
+<td align="right">250</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">250</td>
+<td align="right">1.333333</td>
+<td align="right">0.270</td>
+<td align="right">NA</td>
+<td align="right">2622.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">58</td>
+<td align="left">F5</td>
+<td align="left">TB3</td>
+<td align="left">B</td>
+<td align="right">50</td>
+<td align="right">250</td>
+<td align="right">1</td>
+<td align="right">25</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">250</td>
+<td align="right">1.333333</td>
+<td align="right">0.462</td>
+<td align="right">NA</td>
+<td align="right">1060.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 </tbody>
 </table>
-<pre><code>High CV in a total of 10 duplicates</code></pre>
+<div id="duplicates-with-high-cv" class="section level3">
+<h3>Duplicates with high CV</h3>
+<p>Flag samples with high coefficient of variation (duplicate
+measurements that are too different from each other)</p>
+<pre><code>High CV in a total of 10 duplicates. These are:</code></pre>
 <pre><code>   Sample
 1      B0
 2      BE
@@ -1385,519 +990,7 @@ Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
 <h3>Samples outside the curve</h3>
 <p>Samples that have a binding percentage over 80 or 20 do not provide
 accurate results, and we consider them to be outside the curve.</p>
-<pre><code>Total samples outside the curve: 20</code></pre>
-<table style="width:100%;">
-<colgroup>
-<col width="1%" />
-<col width="2%" />
-<col width="3%" />
-<col width="3%" />
-<col width="4%" />
-<col width="4%" />
-<col width="2%" />
-<col width="5%" />
-<col width="6%" />
-<col width="6%" />
-<col width="8%" />
-<col width="7%" />
-<col width="3%" />
-<col width="5%" />
-<col width="4%" />
-<col width="6%" />
-<col width="3%" />
-<col width="3%" />
-<col width="3%" />
-<col width="3%" />
-<col width="8%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">Wells</th>
-<th align="left">Sample</th>
-<th align="left">Category</th>
-<th align="right">Weight_mg</th>
-<th align="right">Buffer_nl</th>
-<th align="right">Spike</th>
-<th align="right">SpikeVol_uL</th>
-<th align="right">Dilution_sample</th>
-<th align="right">Dilution_spike</th>
-<th align="right">Vol_in_well.tube_uL</th>
-<th align="right">Extraction_ratio</th>
-<th align="right">Raw.OD</th>
-<th align="right">Binding.Perc</th>
-<th align="right">Conc_pg/ml</th>
-<th align="right">Ave_Conc_pg/ml</th>
-<th align="right">CV.Perc</th>
-<th align="right">SD</th>
-<th align="right">SEM</th>
-<th align="left">CV_categ</th>
-<th align="left">Binding.Perc_categ</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">5</td>
-<td align="left">A3</td>
-<td align="left">B0</td>
-<td align="left">b0</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0.874</td>
-<td align="right">100.0</td>
-<td align="right">140.60</td>
-<td align="right">86.84</td>
-<td align="right">87.500</td>
-<td align="right">76.000</td>
-<td align="right">53.70</td>
-<td align="left">HIGH CV</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="even">
-<td align="left">1</td>
-<td align="left">A1</td>
-<td align="left">NSB</td>
-<td align="left">nsb</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0.052</td>
-<td align="right">0.0</td>
-<td align="right">15610.00</td>
-<td align="right">15610.00</td>
-<td align="right">0.000</td>
-<td align="right">0.000</td>
-<td align="right">0.00</td>
-<td align="left">NA</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-<tr class="odd">
-<td align="left">26</td>
-<td align="left">C3</td>
-<td align="left">TA1</td>
-<td align="left">A</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.351351</td>
-<td align="right">0.171</td>
-<td align="right">14.0</td>
-<td align="right">4810.00</td>
-<td align="right">4617.00</td>
-<td align="right">5.900</td>
-<td align="right">273.000</td>
-<td align="right">193.00</td>
-<td align="left">NA</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-<tr class="even">
-<td align="left">47</td>
-<td align="left">E4</td>
-<td align="left">TA6</td>
-<td align="left">A</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">32</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.351351</td>
-<td align="right">0.856</td>
-<td align="right">84.2</td>
-<td align="right">158.90</td>
-<td align="right">226.00</td>
-<td align="right">42.000</td>
-<td align="right">95.000</td>
-<td align="right">67.20</td>
-<td align="left">HIGH CV</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="odd">
-<td align="left">67</td>
-<td align="left">G4</td>
-<td align="left">TA7</td>
-<td align="left">A</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">64</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.351351</td>
-<td align="right">1.010</td>
-<td align="right">103.0</td>
-<td align="right">33.09</td>
-<td align="right">62.13</td>
-<td align="right">66.100</td>
-<td align="right">41.100</td>
-<td align="right">29.00</td>
-<td align="left">HIGH CV</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="even">
-<td align="left">7</td>
-<td align="left">A5</td>
-<td align="left">TB1</td>
-<td align="left">B</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">275</td>
-<td align="right">1.333333</td>
-<td align="right">0.161</td>
-<td align="right">12.3</td>
-<td align="right">5172.00</td>
-<td align="right">5134.00</td>
-<td align="right">1.040</td>
-<td align="right">53.500</td>
-<td align="right">37.80</td>
-<td align="left">NA</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-<tr class="odd">
-<td align="left">29</td>
-<td align="left">C6</td>
-<td align="left">TB6</td>
-<td align="left">B</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">32</td>
-<td align="right">32</td>
-<td align="right">250</td>
-<td align="right">1.333333</td>
-<td align="right">0.830</td>
-<td align="right">88.2</td>
-<td align="right">187.30</td>
-<td align="right">178.90</td>
-<td align="right">6.590</td>
-<td align="right">11.800</td>
-<td align="right">8.34</td>
-<td align="left">NA</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="even">
-<td align="left">49</td>
-<td align="left">E6</td>
-<td align="left">TB7</td>
-<td align="left">B</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">64</td>
-<td align="right">64</td>
-<td align="right">250</td>
-<td align="right">1.333333</td>
-<td align="right">0.780</td>
-<td align="right">87.0</td>
-<td align="right">249.20</td>
-<td align="right">194.40</td>
-<td align="right">39.900</td>
-<td align="right">77.500</td>
-<td align="right">54.80</td>
-<td align="left">HIGH CV</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="odd">
-<td align="left">70</td>
-<td align="left">G7</td>
-<td align="left">TC5</td>
-<td align="left">C</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">16</td>
-<td align="right">1</td>
-<td align="right">250</td>
-<td align="right">1.481481</td>
-<td align="right">0.842</td>
-<td align="right">92.0</td>
-<td align="right">173.80</td>
-<td align="right">144.50</td>
-<td align="right">28.700</td>
-<td align="right">41.500</td>
-<td align="right">29.30</td>
-<td align="left">HIGH CV</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="even">
-<td align="left">10</td>
-<td align="left">A8</td>
-<td align="left">TC6</td>
-<td align="left">C</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">32</td>
-<td align="right">1</td>
-<td align="right">250</td>
-<td align="right">1.481481</td>
-<td align="right">0.897</td>
-<td align="right">97.7</td>
-<td align="right">118.80</td>
-<td align="right">97.49</td>
-<td align="right">30.900</td>
-<td align="right">30.100</td>
-<td align="right">21.30</td>
-<td align="left">HIGH CV</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="odd">
-<td align="left">31</td>
-<td align="left">C8</td>
-<td align="left">TC7</td>
-<td align="left">C</td>
-<td align="right">50</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">64</td>
-<td align="right">1</td>
-<td align="right">250</td>
-<td align="right">1.481481</td>
-<td align="right">0.939</td>
-<td align="right">96.4</td>
-<td align="right">83.16</td>
-<td align="right">107.50</td>
-<td align="right">32.000</td>
-<td align="right">34.400</td>
-<td align="right">24.30</td>
-<td align="left">HIGH CV</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="even">
-<td align="left">51</td>
-<td align="left">E8</td>
-<td align="left">TD1</td>
-<td align="left">D</td>
-<td align="right">20</td>
-<td align="right">110</td>
-<td align="right">1</td>
-<td align="right">110</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">220</td>
-<td align="right">1.333333</td>
-<td align="right">0.188</td>
-<td align="right">15.7</td>
-<td align="right">4278.00</td>
-<td align="right">4168.00</td>
-<td align="right">3.740</td>
-<td align="right">156.000</td>
-<td align="right">110.00</td>
-<td align="left">NA</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-<tr class="odd">
-<td align="left">52</td>
-<td align="left">E9</td>
-<td align="left">TD5</td>
-<td align="left">D</td>
-<td align="right">20</td>
-<td align="right">110</td>
-<td align="right">1</td>
-<td align="right">110</td>
-<td align="right">16</td>
-<td align="right">16</td>
-<td align="right">220</td>
-<td align="right">1.333333</td>
-<td align="right">0.757</td>
-<td align="right">80.2</td>
-<td align="right">281.40</td>
-<td align="right">268.00</td>
-<td align="right">7.060</td>
-<td align="right">18.900</td>
-<td align="right">13.40</td>
-<td align="left">NA</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="even">
-<td align="left">72</td>
-<td align="left">G9</td>
-<td align="left">TD6</td>
-<td align="left">D</td>
-<td align="right">20</td>
-<td align="right">110</td>
-<td align="right">1</td>
-<td align="right">110</td>
-<td align="right">32</td>
-<td align="right">32</td>
-<td align="right">220</td>
-<td align="right">1.333333</td>
-<td align="right">0.939</td>
-<td align="right">99.7</td>
-<td align="right">83.16</td>
-<td align="right">81.99</td>
-<td align="right">2.030</td>
-<td align="right">1.660</td>
-<td align="right">1.17</td>
-<td align="left">NA</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="odd">
-<td align="left">2</td>
-<td align="left">A10</td>
-<td align="left">TD7</td>
-<td align="left">D</td>
-<td align="right">20</td>
-<td align="right">110</td>
-<td align="right">1</td>
-<td align="right">110</td>
-<td align="right">64</td>
-<td align="right">64</td>
-<td align="right">220</td>
-<td align="right">1.333333</td>
-<td align="right">0.934</td>
-<td align="right">99.0</td>
-<td align="right">87.13</td>
-<td align="right">86.73</td>
-<td align="right">0.652</td>
-<td align="right">0.566</td>
-<td align="right">0.40</td>
-<td align="left">NA</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="even">
-<td align="left">43</td>
-<td align="left">E10</td>
-<td align="left">TP1B</td>
-<td align="left">P</td>
-<td align="right">6</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.333333</td>
-<td align="right">0.254</td>
-<td align="right">18.1</td>
-<td align="right">2863.00</td>
-<td align="right">3820.00</td>
-<td align="right">35.400</td>
-<td align="right">1350.000</td>
-<td align="right">957.00</td>
-<td align="left">HIGH CV</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-<tr class="odd">
-<td align="left">3</td>
-<td align="left">A11</td>
-<td align="left">TP2A</td>
-<td align="left">P</td>
-<td align="right">9</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.333333</td>
-<td align="right">0.208</td>
-<td align="right">17.3</td>
-<td align="right">3757.00</td>
-<td align="right">3793.00</td>
-<td align="right">1.340</td>
-<td align="right">50.800</td>
-<td align="right">35.90</td>
-<td align="left">NA</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-<tr class="even">
-<td align="left">44</td>
-<td align="left">E11</td>
-<td align="left">TP2C</td>
-<td align="left">P</td>
-<td align="right">9</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.333333</td>
-<td align="right">0.219</td>
-<td align="right">18.1</td>
-<td align="right">3510.00</td>
-<td align="right">3634.00</td>
-<td align="right">4.810</td>
-<td align="right">175.000</td>
-<td align="right">124.00</td>
-<td align="left">NA</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-<tr class="odd">
-<td align="left">4</td>
-<td align="left">A12</td>
-<td align="left">TP3B</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.333333</td>
-<td align="right">0.195</td>
-<td align="right">15.5</td>
-<td align="right">4084.00</td>
-<td align="right">4210.00</td>
-<td align="right">4.230</td>
-<td align="right">178.000</td>
-<td align="right">126.00</td>
-<td align="left">NA</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-<tr class="even">
-<td align="left">25</td>
-<td align="left">C12</td>
-<td align="left">TP3C</td>
-<td align="left">P</td>
-<td align="right">12</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">1.333333</td>
-<td align="right">0.186</td>
-<td align="right">13.9</td>
-<td align="right">4336.00</td>
-<td align="right">4661.00</td>
-<td align="right">9.870</td>
-<td align="right">460.000</td>
-<td align="right">325.00</td>
-<td align="left">NA</td>
-<td align="left">UNDER 20% binding</td>
-</tr>
-</tbody>
-</table>
+<pre><code>Total samples outside the curve: 20 (some are blanks or NSB)</code></pre>
 </div>
 <div id="total-samples-failed" class="section level3">
 <h3>Total samples failed</h3>
@@ -2099,11 +1192,14 @@ accurate results, and we consider them to be outside the curve.</p>
 </tr>
 </tbody>
 </table>
-<pre><code>Data set with low quality samples flagged: Data_QC_flagged.csv</code></pre>
-<pre><code>[1] 22</code></pre>
 <pre><code>Number of failed samples is 22</code></pre>
 <pre><code>Number of good quality data points is 19</code></pre>
+<p>Location</p>
 <pre><code>Good quality data is stored in Data_QC_filtered.csv file</code></pre>
+<pre><code>Data set with low quality samples flagged: Data_QC_flagged.csv</code></pre>
+<p>Overall quality of the assay</p>
+<pre><code>Intra-Assay CV including all samples is 11.28 %</code></pre>
+<pre><code>Intra-Assay CV including only good quality data is 4.76 %, for a total of 19 samples</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -2113,13 +1209,13 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.4.3 (2025-02-28)
+<pre><code>R version 4.5.0 (2025-04-11)
 Platform: aarch64-apple-darwin20
-Running under: macOS Sequoia 15.4
+Running under: macOS Sequoia 15.4.1
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -2131,19 +1227,19 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] dplyr_1.1.4 knitr_1.49 
+[1] dplyr_1.1.4 knitr_1.50 
 
 loaded via a namespace (and not attached):
- [1] vctrs_0.6.5       cli_3.6.3         rlang_1.1.4       xfun_0.49        
- [5] stringi_1.8.4     generics_0.1.3    promises_1.3.0    jsonlite_1.8.9   
- [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.35.0     
-[13] htmltools_0.5.8.1 httpuv_1.6.15     sass_0.4.9        fansi_1.0.6      
-[17] rmarkdown_2.29    jquerylib_0.1.4   evaluate_1.0.1    tibble_3.2.1     
-[21] fastmap_1.2.0     yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1    
-[25] stringr_1.5.1     compiler_4.4.3    fs_1.6.5          Rcpp_1.0.13-1    
-[29] pkgconfig_2.0.3   rstudioapi_0.17.1 later_1.3.2       digest_0.6.37    
-[33] R6_2.5.1          tidyselect_1.2.1  utf8_1.2.4        pillar_1.9.0     
-[37] magrittr_2.0.3    bslib_0.8.0       tools_4.4.3       cachem_1.1.0     </code></pre>
+ [1] vctrs_0.6.5       cli_3.6.4         rlang_1.1.6       xfun_0.52        
+ [5] stringi_1.8.7     generics_0.1.3    promises_1.3.2    jsonlite_2.0.0   
+ [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.36.2     
+[13] htmltools_0.5.8.1 httpuv_1.6.16     sass_0.4.10       rmarkdown_2.29   
+[17] evaluate_1.0.3    jquerylib_0.1.4   tibble_3.2.1      fastmap_1.2.0    
+[21] yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1     stringr_1.5.1    
+[25] compiler_4.5.0    fs_1.6.6          Rcpp_1.0.14       pkgconfig_2.0.3  
+[29] rstudioapi_0.17.1 later_1.4.2       digest_0.6.37     R6_2.6.1         
+[33] tidyselect_1.2.1  pillar_1.10.2     magrittr_2.0.3    bslib_0.9.0      
+[37] tools_4.5.0       cachem_1.1.0     </code></pre>
 </div>
 </div>
 </div>

@@ -4,8 +4,14 @@ output: html_document
 date: "2025-04-02"
 ---
 
-**Data Cleaning and Quality Control (QC)** details how files are loaded, merged, and cleaned, including the exclusion of unnecessary columns and handling of missing values.
+Here I show how files are loaded, merged, and cleaned, including the exclusion of unnecessary columns and handling of missing values.
 
+
+- Intra-Assay CV:  **11.28 %**
+
+- Intra-Assay CV after removing low quality data: **4.76 %**
+
+- Good quality data points: **19**
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
 # Install libraries
@@ -37,8 +43,8 @@ Load, inspect and merge 3 files:
 layout <- read.csv(file.path(data_path,"layout_wells_test4_021925.csv"), 
                    stringsAsFactors = TRUE, 
                    na.strings = c("", " "))
-dim(layout)
-kable(head(layout)) 
+#dim(layout)
+#kable(head(layout)) 
 
 # RESULTS  
 
@@ -48,12 +54,13 @@ results <- read.csv(file.path(data_path,"myassays_table_test4_021925.csv"),
 
 results <- results[2:length(results)]
 
-dim(results)
-kable(head(results)) 
+#dim(results)
+#kable(head(results)) 
 
 ```
 
-```{r echo = FALSE}
+Merged dataset: 
+```{r echo = FALSE, warning=FALSE}
 
 # Merge files
 
@@ -68,12 +75,12 @@ colnames(m) <- c("Wells", "Sample", "Category",
 m[, 4:12] <- lapply(m[, 4:12], 
                     function(x) as.numeric(as.character(x)))
 m <- m[order(m$Sample),]
-kable(tail(m)) 
+kable(m[c(10, 12, 14, 16, 24, 26, 28), ]) 
 
 ```
 
 ### Duplicates with high CV
-Identify and flag samples with high coefficient of variation (duplicate measurements that are too different from each other)
+Flag samples with high coefficient of variation (duplicate measurements that are too different from each other)
 ```{r echo = FALSE}
 #create new file
 m1 <- m %>%
@@ -83,8 +90,8 @@ cv_high <- m1 %>%
   filter(CV.Perc > CV_threshold) %>% 
   arrange(desc(CV.Perc))
 
-kable(cv_high)
-cat("High CV in a total of", nrow(cv_high), "duplicates")
+#kable(cv_high)
+cat("High CV in a total of", nrow(cv_high), "duplicates. These are:")
 print(cv_high[2])
 
 ```
@@ -100,8 +107,8 @@ m2 <- m1 %>%
 
 out_curve <- m2[!is.na(m2$Binding.Perc_categ), ]
 
-cat(paste("Total samples outside the curve:", nrow(out_curve), sep=" "))
-kable(out_curve)
+cat(paste("Total samples outside the curve:", nrow(out_curve), "(some are blanks or NSB)", sep=" "))
+#kable(out_curve)
 
 ```
 
@@ -118,13 +125,12 @@ data.flagged <- m2 %>%
 kable(tail(data.flagged))
 write.csv(data.flagged, file.path(data_path, "Data_QC_flagged.csv"), 
           row.names = FALSE) 
-cat("Data set with low quality samples flagged: Data_QC_flagged.csv")
+
 
 # table with samples that failed
 failed_samples <- data.flagged[!is.na(data.flagged$Failed_samples),]
 write.csv(failed_samples, file.path(data_path, "failed_samples.csv"), 
           row.names = FALSE) 
-nrow(failed_samples)
 
 # dataset with failed samples removed
 data.no_failed <- m2 %>% 
@@ -135,5 +141,28 @@ write.csv(data.no_failed, file.path(data_path, "Data_QC_filtered.csv"), row.name
 
 cat("Number of failed samples is", nrow(failed_samples))
 cat("Number of good quality data points is", nrow(data.no_failed))
-cat("Good quality data is stored in Data_QC_filtered.csv file")
+
 ```
+Location
+```{r echo= FALSE}
+cat("Good quality data is stored in Data_QC_filtered.csv file")
+cat("Data set with low quality samples flagged: Data_QC_flagged.csv")
+
+```
+
+Overall quality of the assay
+```{r echo = FALSE, warning=FALSE}
+
+
+temp <- data.flagged[!is.na(data.flagged$CV.Perc),]
+temp2 <- temp %>%
+  filter(Sample != c("B0", "BE", 
+                    "NSB"))
+
+CVraw <- round(mean(temp2$CV.Perc), 2)
+CV <- round(mean(data.no_failed$CV.Perc), 2)
+cat("Intra-Assay CV including all samples is", CVraw, "%")
+cat("Intra-Assay CV including only good quality data is", CV, "%, for a total of", nrow(data.no_failed), "samples")
+```
+
+

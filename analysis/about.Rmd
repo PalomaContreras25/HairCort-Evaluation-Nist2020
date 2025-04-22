@@ -25,16 +25,24 @@ All samples in this essay were obtained from the same person, and were extracted
 2. **Sample Processing**: Each sample is washed, dried, and ground into a fine powder to ensure homogeneity.
 3. **Cortisol Extraction**: Cortisol is extracted using methanol, following standard lab procedures to ensure consistent recovery.
 
-## ELISA Protocol Summary
-The ELISA assay is run on a microplate using a cortisol-specific antibody. Samples are prepared in multiple formats:
+## ELISA Protocol Summary 
 
+The ELISA assay is run on a microplate using a cortisol-specific antibody. After incubation, absorbance readings are measured, and cortisol concentrations are calculated using a standard curve. Samples are prepared in multiple formats:
+
+### ASSAY 3
 - **Spiked Samples**: 25 µL of a known cortisol standard is added to 25 uL of sample.
 - **Non-Spiked Samples**: 50 µL of unaltered sample for actual measurement.
 - **Dilution**: reconstitution using 60 uL, or using 250 uL
 - **Weight**: varies between 11 and 37.1 mg (mean=23.22)
 
-After incubation, absorbance readings are measured, and cortisol concentrations are calculated using a standard curve.
+### ASSAY 4
+- **Spiked Samples**:
+- **Non-Spiked Samples**: 
+- **Dilution**:
+- **Weight**: 
+
 
 The output from the plate reader, as well as all the information to interpret it, are stored in this repository. We used the original output from Myassays as it provides a better fitting curve than one calculated manually.
-For further details on calculations and models used in analysis, refer to `ELISA_computation.Rmd` and `ELISA_models.Rmd`.
+For further details on calculations used in these analyses, refer to the links in the Home page.
+
 

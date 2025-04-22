@@ -359,7 +359,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -370,8 +370,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -380,13 +380,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-04-09
+<strong>Last updated:</strong> 2025-04-22
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -410,18 +410,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -512,15 +515,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treeccad031a28e70028dc8e419fc1ce6ccda9e010cctargetblankccad031a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree82ad9289d2fb8bc31d61faa7388692d97861b9f8targetblank82ad928a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/ccad031a28e70028dc8e419fc1ce6ccda9e010cc" target="_blank">ccad031</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/82ad9289d2fb8bc31d61faa7388692d97861b9f8" target="_blank">82ad928</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treeccad031a28e70028dc8e419fc1ce6ccda9e010cctargetblankccad031a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree82ad9289d2fb8bc31d61faa7388692d97861b9f8targetblank82ad928a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -530,7 +533,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/ccad031a28e70028dc8e419fc1ce6ccda9e010cc" target="_blank">ccad031</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/82ad9289d2fb8bc31d61faa7388692d97861b9f8" target="_blank">82ad928</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -553,6 +556,13 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    data/Test3/.DS_Store
     Ignored:    data/Test4/.DS_Store
+
+Unstaged changes:
+    Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
+    Modified:   analysis/ELISA_QC_test3.Rmd
+    Modified:   analysis/ELISA_QC_test4.Rmd
+    Modified:   analysis/Test5_design.Rmd
+    Modified:   data/Test3/Data_QC_flagged.csv
 
 </code></pre>
 <p>
@@ -597,6 +607,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/bbb70a9fa145ec05bd59fb1aff4482c48d91a35b/docs/ELISA_QC_test3.html" target="_blank">bbb70a9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-09
+</td>
+<td>
+comparing methods
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -672,9 +699,15 @@ cleaning test3
 </div>
 </div>
 </div>
-<p><strong>Data Cleaning and Quality Control (QC)</strong> details how
-files are loaded, merged, and cleaned, including the exclusion of
-unnecessary columns and handling of missing values.</p>
+<p>Here I show how files are loaded, merged, and cleaned, including the
+exclusion of unnecessary columns and handling of missing values.</p>
+<p><strong>Summary</strong></p>
+<ul>
+<li><p>Intra-Assay CV: <strong>11.35 %</strong></p></li>
+<li><p>Intra-Assay CV after removing low quality data: <strong>5.799
+%</strong></p></li>
+<li><p>Good quality data points: <strong>30</strong></p></li>
+</ul>
 <pre class="r"><code># DATA SET 
 current_test &lt;- &quot;Test3&quot;
 data_path &lt;- file.path(&quot;./data&quot;, current_test)</code></pre>
@@ -691,227 +724,10 @@ lowBinLim &lt;- 20.0</code></pre>
 <ul>
 <li>layout: 7 columns (Wells, Sample, weight_mg, buffer_nl, spike,
 volume of the spike, dilution factor), 96 rows</li>
-<li>results: from myassays.com (not including standards), 82 rows</li>
+<li>results: from myassays.com (not including standards)</li>
+<li>info: (Wells, Sample, Categ, TotalVol_well_uL)</li>
 </ul>
-<pre><code>[1] 98  2</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Wells</th>
-<th align="left">Sample</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">A1</td>
-<td align="left">NSB</td>
-</tr>
-<tr class="even">
-<td align="left">A2</td>
-<td align="left">NSB</td>
-</tr>
-<tr class="odd">
-<td align="left">B1</td>
-<td align="left">STD1</td>
-</tr>
-<tr class="even">
-<td align="left">B2</td>
-<td align="left">STD1</td>
-</tr>
-<tr class="odd">
-<td align="left">C1</td>
-<td align="left">STD2</td>
-</tr>
-<tr class="even">
-<td align="left">C2</td>
-<td align="left">STD2</td>
-</tr>
-</tbody>
-</table>
-<pre><code>[1] 82  8</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Wells</th>
-<th align="right">Raw</th>
-<th align="right">X.</th>
-<th align="left">Conc.</th>
-<th align="right">Conc….Average.</th>
-<th align="right">X.CV</th>
-<th align="right">SD</th>
-<th align="right">SEM</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">A3</td>
-<td align="right">0.403</td>
-<td align="right">28.8</td>
-<td align="left">2899</td>
-<td align="right">2888.0</td>
-<td align="right">0.565</td>
-<td align="right">16.3</td>
-<td align="right">11.5</td>
-</tr>
-<tr class="even">
-<td align="left">A4</td>
-<td align="right">0.405</td>
-<td align="right">NA</td>
-<td align="left">2876</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">B3</td>
-<td align="right">1.050</td>
-<td align="right">81.1</td>
-<td align="left">314.1</td>
-<td align="right">324.9</td>
-<td align="right">4.700</td>
-<td align="right">15.3</td>
-<td align="right">10.8</td>
-</tr>
-<tr class="even">
-<td align="left">B4</td>
-<td align="right">1.040</td>
-<td align="right">NA</td>
-<td align="left">335.7</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">C3</td>
-<td align="right">0.959</td>
-<td align="right">77.3</td>
-<td align="left">461.9</td>
-<td align="right">396.6</td>
-<td align="right">23.300</td>
-<td align="right">92.4</td>
-<td align="right">65.3</td>
-</tr>
-<tr class="even">
-<td align="left">C4</td>
-<td align="right">1.040</td>
-<td align="right">NA</td>
-<td align="left">331.3</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<table>
-<colgroup>
-<col width="6%" />
-<col width="7%" />
-<col width="8%" />
-<col width="11%" />
-<col width="11%" />
-<col width="6%" />
-<col width="22%" />
-<col width="14%" />
-<col width="10%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Wells</th>
-<th align="left">Sample</th>
-<th align="left">Categ</th>
-<th align="right">weight_mg</th>
-<th align="right">buffer_nl</th>
-<th align="right">spike</th>
-<th align="right">vol_in_well.tube_uL</th>
-<th align="right">spike_vol_uL</th>
-<th align="right">Dilution</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">C3</td>
-<td align="left">1</td>
-<td align="left">NoSpike</td>
-<td align="right">13.1</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">D3</td>
-<td align="left">2</td>
-<td align="left">NoSpike</td>
-<td align="right">17.2</td>
-<td align="right">60</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">F3</td>
-<td align="left">4</td>
-<td align="left">NoSpike</td>
-<td align="right">11.7</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">G3</td>
-<td align="left">5</td>
-<td align="left">NoSpike</td>
-<td align="right">14.4</td>
-<td align="right">60</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">B5</td>
-<td align="left">8</td>
-<td align="left">NoSpike</td>
-<td align="right">15.3</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">E5</td>
-<td align="left">11</td>
-<td align="left">NoSpike</td>
-<td align="right">17.5</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code># Merge files
-m &lt;- merge(layout, results, by = &quot;Wells&quot;)
-m &lt;- merge(m, info, by = c(&quot;Sample&quot;, &quot;Wells&quot;))
-m &lt;- na.omit(m)
-colnames(m) &lt;- c(&quot;Sample&quot;, &quot;Wells&quot;, &quot;Raw.OD&quot;, 
-                 &quot;Binding.Perc&quot;, &quot;Conc_pg.ml&quot;,
-                 &quot;Ave_Conc_pg.ml&quot;, &quot;CV.Perc&quot;, 
-                 &quot;SD&quot;, &quot;SEM&quot;, &quot;Category&quot;, &quot;Weight_mg&quot;, &quot;Buffer_nl&quot;, 
-                 &quot;Spike&quot;, &quot;TotalVol_well_uL&quot;, &quot;SpikeVol_uL&quot;, &quot;Dilution&quot;) 
-#m[, 3:11] &lt;- lapply(m[, 3:11], 
- #                   function(x) as.numeric(as.character(x)))
-m &lt;- m[order(m$Sample),]
-kable(head(m)) </code></pre>
+<p>Merged data set:</p>
 <table>
 <colgroup>
 <col width="4%" />
@@ -1064,186 +880,9 @@ kable(head(m)) </code></pre>
 </table>
 <div id="duplicates-with-high-cv" class="section level3">
 <h3>Duplicates with high CV</h3>
-<p>Identify and flag samples with high coefficient of variation
-(duplicate measurements that are too different from each other)</p>
-<table>
-<colgroup>
-<col width="4%" />
-<col width="3%" />
-<col width="4%" />
-<col width="7%" />
-<col width="6%" />
-<col width="9%" />
-<col width="4%" />
-<col width="4%" />
-<col width="4%" />
-<col width="5%" />
-<col width="6%" />
-<col width="6%" />
-<col width="3%" />
-<col width="10%" />
-<col width="7%" />
-<col width="5%" />
-<col width="5%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Sample</th>
-<th align="left">Wells</th>
-<th align="right">Raw.OD</th>
-<th align="right">Binding.Perc</th>
-<th align="left">Conc_pg.ml</th>
-<th align="right">Ave_Conc_pg.ml</th>
-<th align="right">CV.Perc</th>
-<th align="right">SD</th>
-<th align="right">SEM</th>
-<th align="left">Category</th>
-<th align="right">Weight_mg</th>
-<th align="right">Buffer_nl</th>
-<th align="right">Spike</th>
-<th align="right">TotalVol_well_uL</th>
-<th align="right">SpikeVol_uL</th>
-<th align="right">Dilution</th>
-<th align="left">CV_categ</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">10</td>
-<td align="left">D5</td>
-<td align="right">0.743</td>
-<td align="right">37.6</td>
-<td align="left">940.7</td>
-<td align="right">3064.0</td>
-<td align="right">98.0</td>
-<td align="right">3000.0</td>
-<td align="right">2120.0</td>
-<td align="left">YesSpike</td>
-<td align="right">17.7</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="even">
-<td align="left">25_S</td>
-<td align="left">C9</td>
-<td align="right">0.347</td>
-<td align="right">31.1</td>
-<td align="left">3683</td>
-<td align="right">2802.0</td>
-<td align="right">44.5</td>
-<td align="right">1250.0</td>
-<td align="right">881.0</td>
-<td align="left">DONOTUSE</td>
-<td align="right">37.4</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="odd">
-<td align="left">35</td>
-<td align="left">D11</td>
-<td align="right">0.548</td>
-<td align="right">33.8</td>
-<td align="left">1727</td>
-<td align="right">2443.0</td>
-<td align="right">41.5</td>
-<td align="right">1010.0</td>
-<td align="right">716.0</td>
-<td align="left">NoSpike</td>
-<td align="right">32.1</td>
-<td align="right">60</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="even">
-<td align="left">1</td>
-<td align="left">C3</td>
-<td align="right">0.959</td>
-<td align="right">77.3</td>
-<td align="left">461.9</td>
-<td align="right">396.6</td>
-<td align="right">23.3</td>
-<td align="right">92.4</td>
-<td align="right">65.3</td>
-<td align="left">NoSpike</td>
-<td align="right">13.1</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="odd">
-<td align="left">20</td>
-<td align="left">F7</td>
-<td align="right">0.538</td>
-<td align="right">43.6</td>
-<td align="left">1785</td>
-<td align="right">1550.0</td>
-<td align="right">21.4</td>
-<td align="right">332.0</td>
-<td align="right">235.0</td>
-<td align="left">NoSpike</td>
-<td align="right">30.1</td>
-<td align="right">60</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="even">
-<td align="left">4</td>
-<td align="left">F3</td>
-<td align="right">1.070</td>
-<td align="right">80.6</td>
-<td align="left">295.8</td>
-<td align="right">334.5</td>
-<td align="right">16.3</td>
-<td align="right">54.6</td>
-<td align="right">38.6</td>
-<td align="left">NoSpike</td>
-<td align="right">11.7</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">HIGH CV</td>
-</tr>
-<tr class="odd">
-<td align="left">2</td>
-<td align="left">D3</td>
-<td align="right">0.675</td>
-<td align="right">53.8</td>
-<td align="left">1159</td>
-<td align="right">1045.0</td>
-<td align="right">15.3</td>
-<td align="right">160.0</td>
-<td align="right">113.0</td>
-<td align="left">NoSpike</td>
-<td align="right">17.2</td>
-<td align="right">60</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">HIGH CV</td>
-</tr>
-</tbody>
-</table>
-<pre><code>High CV in a total of 7 duplicates</code></pre>
+<p>Flag samples with high coefficient of variation (duplicate
+measurements that are too different from each other)</p>
+<pre><code>High CV in a total of 7 duplicates. These are:</code></pre>
 <pre><code>  Wells
 1    D5
 2    C9
@@ -1256,308 +895,19 @@ kable(head(m)) </code></pre>
 <div id="samples-outside-the-curve" class="section level3">
 <h3>Samples outside the curve</h3>
 <p>Samples that have a binding percentage over 80 or 20 do not provide
-accurate results, and we consider them to be outside the curve.</p>
+accurate results</p>
 <pre><code>Total samples outside the curve: 3</code></pre>
-<table>
-<colgroup>
-<col width="1%" />
-<col width="3%" />
-<col width="3%" />
-<col width="3%" />
-<col width="7%" />
-<col width="6%" />
-<col width="8%" />
-<col width="4%" />
-<col width="2%" />
-<col width="3%" />
-<col width="4%" />
-<col width="5%" />
-<col width="5%" />
-<col width="3%" />
-<col width="9%" />
-<col width="6%" />
-<col width="4%" />
-<col width="4%" />
-<col width="10%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">Sample</th>
-<th align="left">Wells</th>
-<th align="right">Raw.OD</th>
-<th align="right">Binding.Perc</th>
-<th align="left">Conc_pg.ml</th>
-<th align="right">Ave_Conc_pg.ml</th>
-<th align="right">CV.Perc</th>
-<th align="right">SD</th>
-<th align="right">SEM</th>
-<th align="left">Category</th>
-<th align="right">Weight_mg</th>
-<th align="right">Buffer_nl</th>
-<th align="right">Spike</th>
-<th align="right">TotalVol_well_uL</th>
-<th align="right">SpikeVol_uL</th>
-<th align="right">Dilution</th>
-<th align="left">CV_categ</th>
-<th align="left">Binding.Perc_categ</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">9</td>
-<td align="left">17</td>
-<td align="left">C7</td>
-<td align="right">1.08</td>
-<td align="right">84.3</td>
-<td align="left">278</td>
-<td align="right">270.6</td>
-<td align="right">3.86</td>
-<td align="right">10.5</td>
-<td align="right">7.39</td>
-<td align="left">NoSpike</td>
-<td align="right">24.5</td>
-<td align="right">60</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="even">
-<td align="left">25</td>
-<td align="left">30B</td>
-<td align="left">B3</td>
-<td align="right">1.05</td>
-<td align="right">81.1</td>
-<td align="left">314.1</td>
-<td align="right">324.9</td>
-<td align="right">4.70</td>
-<td align="right">15.3</td>
-<td align="right">10.80</td>
-<td align="left">NoSpike</td>
-<td align="right">29.6</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-<tr class="odd">
-<td align="left">34</td>
-<td align="left">4</td>
-<td align="left">F3</td>
-<td align="right">1.07</td>
-<td align="right">80.6</td>
-<td align="left">295.8</td>
-<td align="right">334.5</td>
-<td align="right">16.30</td>
-<td align="right">54.6</td>
-<td align="right">38.60</td>
-<td align="left">NoSpike</td>
-<td align="right">11.7</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">HIGH CV</td>
-<td align="left">ABOVE 80% binding</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div id="total-samples-failed" class="section level3">
 <h3>Total samples failed</h3>
-<table>
-<colgroup>
-<col width="1%" />
-<col width="3%" />
-<col width="2%" />
-<col width="3%" />
-<col width="6%" />
-<col width="5%" />
-<col width="7%" />
-<col width="3%" />
-<col width="2%" />
-<col width="2%" />
-<col width="4%" />
-<col width="4%" />
-<col width="4%" />
-<col width="2%" />
-<col width="8%" />
-<col width="5%" />
-<col width="4%" />
-<col width="4%" />
-<col width="9%" />
-<col width="12%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">Sample</th>
-<th align="left">Wells</th>
-<th align="right">Raw.OD</th>
-<th align="right">Binding.Perc</th>
-<th align="left">Conc_pg.ml</th>
-<th align="right">Ave_Conc_pg.ml</th>
-<th align="right">CV.Perc</th>
-<th align="right">SD</th>
-<th align="right">SEM</th>
-<th align="left">Category</th>
-<th align="right">Weight_mg</th>
-<th align="right">Buffer_nl</th>
-<th align="right">Spike</th>
-<th align="right">TotalVol_well_uL</th>
-<th align="right">SpikeVol_uL</th>
-<th align="right">Dilution</th>
-<th align="left">CV_categ</th>
-<th align="left">Binding.Perc_categ</th>
-<th align="left">Failed_samples</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">34</td>
-<td align="left">4</td>
-<td align="left">F3</td>
-<td align="right">1.070</td>
-<td align="right">80.6</td>
-<td align="left">295.8</td>
-<td align="right">334.5</td>
-<td align="right">16.30</td>
-<td align="right">54.6</td>
-<td align="right">38.6</td>
-<td align="left">NoSpike</td>
-<td align="right">11.7</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">HIGH CV</td>
-<td align="left">ABOVE 80% binding</td>
-<td align="left">HIGH CV;ABOVE 80% binding</td>
-</tr>
-<tr class="even">
-<td align="left">35</td>
-<td align="left">5</td>
-<td align="left">G3</td>
-<td align="right">0.944</td>
-<td align="right">72.1</td>
-<td align="left">488</td>
-<td align="right">501.4</td>
-<td align="right">3.79</td>
-<td align="right">19.0</td>
-<td align="right">13.4</td>
-<td align="left">NoSpike</td>
-<td align="right">14.4</td>
-<td align="right">60</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">36</td>
-<td align="left">6</td>
-<td align="left">H3</td>
-<td align="right">0.490</td>
-<td align="right">34.7</td>
-<td align="left">2099</td>
-<td align="right">2204.0</td>
-<td align="right">6.75</td>
-<td align="right">149.0</td>
-<td align="right">105.0</td>
-<td align="left">YesSpike</td>
-<td align="right">13.7</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">37</td>
-<td align="left">7</td>
-<td align="left">A5</td>
-<td align="right">0.436</td>
-<td align="right">30.5</td>
-<td align="left">2551</td>
-<td align="right">2669.0</td>
-<td align="right">6.25</td>
-<td align="right">167.0</td>
-<td align="right">118.0</td>
-<td align="left">YesSpike</td>
-<td align="right">16.4</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">38</td>
-<td align="left">8</td>
-<td align="left">B5</td>
-<td align="right">1.030</td>
-<td align="right">77.8</td>
-<td align="left">354.9</td>
-<td align="right">386.8</td>
-<td align="right">11.70</td>
-<td align="right">45.1</td>
-<td align="right">31.9</td>
-<td align="left">NoSpike</td>
-<td align="right">15.3</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">39</td>
-<td align="left">9</td>
-<td align="left">C5</td>
-<td align="right">0.432</td>
-<td align="right">30.3</td>
-<td align="left">2590</td>
-<td align="right">2693.0</td>
-<td align="right">5.46</td>
-<td align="right">147.0</td>
-<td align="right">104.0</td>
-<td align="left">YesSpike</td>
-<td align="right">19.2</td>
-<td align="right">250</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-</tbody>
-</table>
-<pre><code>Data set with low quality samples flagged: Data_QC_flagged.csv</code></pre>
 <pre><code>Number of failed samples is 9</code></pre>
 <pre><code>Number of good quality data points is 30</code></pre>
+<p>Location</p>
+<pre><code>Data set with low quality samples flagged saved in: Data_QC_flagged.csv</code></pre>
 <pre><code>Good quality data is stored in Data_QC_filtered.csv file</code></pre>
+<p>Overall quality of the assay</p>
+<pre><code>Intra-Assay CV including all samples is 11.35518 %</code></pre>
+<pre><code>Intra-Assay CV including only good quality data is 5.799733 %</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1567,13 +917,13 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.4.3 (2025-02-28)
+<pre><code>R version 4.5.0 (2025-04-11)
 Platform: aarch64-apple-darwin20
-Running under: macOS Sequoia 15.4
+Running under: macOS Sequoia 15.4.1
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -1585,19 +935,19 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] dplyr_1.1.4 knitr_1.49 
+[1] dplyr_1.1.4 knitr_1.50 
 
 loaded via a namespace (and not attached):
- [1] vctrs_0.6.5       cli_3.6.3         rlang_1.1.4       xfun_0.49        
- [5] stringi_1.8.4     generics_0.1.3    promises_1.3.0    jsonlite_1.8.9   
- [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.35.0     
-[13] htmltools_0.5.8.1 httpuv_1.6.15     sass_0.4.9        fansi_1.0.6      
-[17] rmarkdown_2.29    jquerylib_0.1.4   evaluate_1.0.1    tibble_3.2.1     
-[21] fastmap_1.2.0     yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1    
-[25] stringr_1.5.1     compiler_4.4.3    fs_1.6.5          Rcpp_1.0.13-1    
-[29] pkgconfig_2.0.3   rstudioapi_0.17.1 later_1.3.2       digest_0.6.37    
-[33] R6_2.5.1          tidyselect_1.2.1  utf8_1.2.4        pillar_1.9.0     
-[37] magrittr_2.0.3    bslib_0.8.0       tools_4.4.3       cachem_1.1.0     </code></pre>
+ [1] vctrs_0.6.5       cli_3.6.4         rlang_1.1.6       xfun_0.52        
+ [5] stringi_1.8.7     generics_0.1.3    promises_1.3.2    jsonlite_2.0.0   
+ [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.36.2     
+[13] htmltools_0.5.8.1 httpuv_1.6.16     sass_0.4.10       rmarkdown_2.29   
+[17] evaluate_1.0.3    jquerylib_0.1.4   tibble_3.2.1      fastmap_1.2.0    
+[21] yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1     stringr_1.5.1    
+[25] compiler_4.5.0    fs_1.6.6          Rcpp_1.0.14       pkgconfig_2.0.3  
+[29] rstudioapi_0.17.1 later_1.4.2       digest_0.6.37     R6_2.6.1         
+[33] tidyselect_1.2.1  pillar_1.10.2     magrittr_2.0.3    bslib_0.9.0      
+[37] tools_4.5.0       cachem_1.1.0     </code></pre>
 </div>
 </div>
 </div>

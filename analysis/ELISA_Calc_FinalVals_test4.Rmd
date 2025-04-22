@@ -10,23 +10,38 @@ output: workflowr::wflow_html
 **Cortisol value calculations** (includes bad quality samples, n = 41)
 
 
-|                        | Min.   | 1st Qu. |  Median |  Mean   | 3rd Qu. | Max.   |  NA's |
-|------------------------|--------|---------|---------|---------|---------|--------|-------|
+|                        | Min. | 1st Qu. | Median | Mean | 3rd Qu. | Max. | NA's |
+|------------------------|------|---------|---------|---------|---------|-------|------|
 |**A) Standard Method (mult. by sample dilution)**| 17.13 | 29.01  | 32.27  | 35.28 | 39.47 | 82.94 |    4  |
-|**B) Spike-Corrected Method**|-45.870 | -35.833 | -5.960 | -3.488 |  23.109 | 50.963  |  4 |
-|**C) Spike-Corrected (Sam's Method)**|  7.472 | 18.533    |24.559|  27.009| 31.196 |80.804    |   4 |
+|**B) Spike-Corrected Method (Nist 2020)**| **-45.870** | -35.833 | -5.960 | -3.488 |  23.109 | **50.963**  |  4 |
+|**C) Spike-Corrected (Sam's Method)**| **7.472** | 18.533    |24.559|  27.009| 31.196 |**80.804**    |   4 |
 
 
 **Cortisol value calculations** (removed bad quality samples)
 
-|                        | Min.   | 1st Qu. |  Median |  Mean   | 3rd Qu. | Max.   |  NA's |
-|------------------------|--------|---------|---------|---------|---------|--------|-------|
+|                        | Min.   | 1st Qu. |  Median |  Mean   | 3rd Qu. | Max.   |  
+|------------------------|--------|---------|---------|---------|---------|--------|
 |**A) Standard Method (mult. by sample dilution)**| 18.27 | 29.27  | 31.54  | 34.13 | 37.73 | 69.17 |
-|**B) Spike-Corrected Method**|-39.371 | -34.855 | -20.577 | -14.325 |  -6.825 | 40.400 |
-|**C) Spike-Corrected (Sam's Method)**|  11.80 | 18.45    |24.09|  24.05| 30.32 |40.40    |
+|**B) Spike-Corrected Method (Nist 2020)**|**-39.371** | -34.855 | -20.577 | -14.325 |  -6.825 | **40.400** |
+|**C) Spike-Corrected (Sam's Method)**| ** 11.80** | 18.45    |24.09|  24.05| 30.32 | **40.40**    |
+
+**Results:**  
+
+- Intra-assay CV: 14.5% 
+
+- Intra-assay CV after removing low quality samples: 10%
+
+- Inter-assay CV: **21%** (Bindings for 20mg sample diluted in 250 uL, no spike: 64.8% and 48% in test3 and test4, respectively)
 
 
-I calculated final cortisol values in pg/mg using the following key variables:
+**Conclusions**: 
+
+
+
+**Concerns:**
+Overall quality of the plate is not great, but serial dilusions show clear parallelism and standards have values within the expected
+
+## Explanation of each variable used in calculations
 
 - Ave_Conc_pg/ml: average ELISA reading per sample in pg/mL
 
@@ -45,25 +60,6 @@ I calculated final cortisol values in pg/mg using the following key variables:
 - std: standard reading value
 
 - extraction: methanol volume ratio = vol added / vol recovered (e.g. 1/0.75 ml)
-
-**Results:**  
-
-- Intra-assay CV: 14.5% 
-
-- Intra-assay CV after removing low quality samples: 10%
-
-- Inter-assay CV: 21% 
-
-(Bindings for 20mg sample diluted in 250 uL, no spike: 64.8% and 48% in test3 and test4, respectively)
-
-
-**Conclusions**: 
-
-
-
-
-**Concerns:**
-Overall quality of the plate is not great, but serial dilusions show clear parallelism and standards have values within the expected
 
 
 # Cortisol concentration calculations

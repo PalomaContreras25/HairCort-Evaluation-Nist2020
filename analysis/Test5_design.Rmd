@@ -14,35 +14,27 @@ VALIDATION 1: Spike-Recovery Test
 🎯 Purpose:
 To assess how much known cortisol is recovered from a pulverized extract. This helps detect matrix interference (e.g., suppression or enhancement).
 
-✅ How to Set It Up
 🔬 Materials:
 Pulverized, washed blank hair sample (very low or no cortisol)
-
-Cortisol standard solution (e.g., 1000 pg/mL in methanol or assay buffer)
-
+Cortisol standard solution (e.g., 1000 pg/mL in assay buffer)
 ELISA plate with standard curve
 
 🧪 Procedure:
 
-Tube	Contents	Description
-A	Pulverized blank hair + methanol (extraction only)	Unspiked control — tells you the background
-B	Pulverized blank hair + methanol + known cortisol (e.g., 100 pg)	Spiked sample — checks if you recover what you added
-C	Cortisol in methanol (no hair)	Solvent control — ensures no cortisol loss or pipetting error
+| Tube |	Contents |	Description |
+----------------------------------
+A	| Pulverized hair + methanol (extraction only) | Unspiked control — tells you the background
+B	| Pulverized hair + methanol + known cortisol (e.g., 100 pg) |	Spiked sample — checks if you recover what you added
+C	| Cortisol in methanol (no hair) |	Solvent control — ensures no cortisol loss or pipetting error
 Let the spiked tube sit for 30–60 min to simulate binding, then proceed with extraction and ELISA as usual.
 
 Reconstitute the dried extract and run both A and B in duplicate on the plate.
 
 🧮 Calculation:
-Recovery (%)
-=
-(
-Measured pg
-−
-Background pg (A)
-Spiked pg
-)
-×
-100
+Recovery (%) = 
+
+((Measured pg − Background pg (A)) /  Spiked pg ) * 100
+
 Recovery (%)=( 
 Spiked pg
 Measured pg−Background pg (A)

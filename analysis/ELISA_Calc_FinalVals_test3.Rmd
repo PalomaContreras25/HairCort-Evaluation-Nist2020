@@ -7,13 +7,15 @@ output: workflowr::wflow_html
 
 # Summary
 
-**Cortisol value calculations** were conducted using three methods:
+**Final cortisol value calculations** were conducted using three methods:
 
 - **Standard Method (Method A)**: Calculates cortisol concentration without correction for spiked samples.
+
 - **Spike-Corrected Method (Method B)**: Adjusts for spiked samples to account for addition of a known amount of cortisol, following Nist et al. 2020.
+
 - **Sam's Method (Method C)**: Adjusts for spiked samples using a different equation
 
-**Results**: As we see below, the formula used by Nist et al. results in negative values, which would mean that there is no cortisol in original samples. This could be an artifact of an extremely high absorbance level. Non-spiked samples, however, result in values that are within the range found in similar studies of cortisol in human hair. After accounting for differences in dilution and weight, our results suggest some optimal parameters. 
+**Results**: As we see below, the formula used by Nist et al. results in negative values, which would mean that there is no cortisol in original samples. This could be an artifact of an extremely high absorbance level caused by an excessive amount of spike. Non-spiked samples, on the other hand, result in values that are within the range found in similar studies of cortisol in human hair. 
 
 <table>
 Summary                 Nist et al.     (A) Standard      (B) Spike-Corrected        (C) Sam's     
@@ -25,18 +27,17 @@ Range cort conc (pg/mg)     ---           2.7 to 58.9       -29.933 to 11.763   
 
 
 <table>
+
 Weight (mg) of my samples
----------------                -------------  
-Range                           11 to 37.1
-Mean                            23.54
-Median                          22.4                 
+---------------           -------------  
+Range                     11 to 37.1
+Mean                      23.54
+Median                    22.4                 
                                                              
 </table>
 
-
-
-
 **Conclusions**: 
+After accounting for differences in dilution and weight, our results suggest future Assays should use the optimal parameters listed below: 
 
 - Dilution of 250uL is preferable over 60uL 
 - Non-spiked samples seem to generate expected results
@@ -48,21 +49,34 @@ Median                          22.4
 - Could be explained by the higher weight of our samples 
 - Dilution of 250uL results in values that are twice as big as with 60uL, but they should be very similar or at least overlap
 
-```{r define dataset}
+## Explanation of each variable used in calculations
+
+- Ave_Conc_pg/ml: average ELISA reading per sample in pg/mL
+
+- Weight_mg: hair weight in mg
+
+- Buffer_nl: assay buffer volume in nL → we convert to mL
+
+- Spike: binary indicator (1 = spiked sample)
+
+- SpikeVol_uL: volume of spike added in µL
+
+- Dilution: dilution factor (already present)
+
+- Vol_in_well.tube_uL: total volume in well/tube in µL (for spike correction)
+
+- std: standard reading value
+
+- extraction: methanol volume ratio = vol added / vol recovered (e.g. 1/0.75 ml)
+
+
+# Cortisol concentration calculations
+Input is data with low quality samples flagged, but they get removed before continuing with calculations. 
+```{r define dataset, echo =FALSE}
 # DATA SET 
 current_test <- "Test3"
 data_path <- file.path("./data", current_test)
-```
-
-```{r parameters}
-
-# Define volume of methanol used for cortisol extraction
-# vol added / vol recovered (mL)
-extraction <- 1.3 / 1
-
-# Reading of spike standard and conversion to ug/dL
-std <- (3133 + 3146) / 2. # test 3 backfit
-std.r <- std / 10000
+df <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
 ```
 
 ```{r libraries, echo = FALSE, message=FALSE}
@@ -72,30 +86,34 @@ library(broom)
 library(paletteer)
 library(dplyr)
 ```
+Parameters and unit transformations: 
+```{r parameters}
+# Define volume of methanol used for cortisol extraction
+# vol added / vol recovered (mL)
+extraction <- 1.3 / 1
 
-Loading files and transforming units, *including low quality data*
-
-```{r setup, include=TRUE, message=FALSE}
-df <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
-kable(tail(df))
+# Reading of spike standard and conversion to ug/dl
+std <- (3133 + 3146) / 2 # test 3 backfit
+std.r <- std / 10000 # std in ul/dl
 
 # Creating variables in indicated units
 # dilution (buffer)
 df$Buffer_ml <- c(df$Buffer_nl/1000)
 
-# remove unnecessary information 
+# Transform to μg/dl from assay output
+df$Ave_Conc_ug.dl <- c(df$Ave_Conc_pg.ml/10000)
+```
+
+```{r echo=FALSE}
+# remove unnecessary and low quality data 
 data <- df %>%
     filter(CV.Perc < 15) %>% 
   filter(Binding.Perc < 80 & Binding.Perc > 20) %>%
-    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Weight_mg, Buffer_ml, Spike, SpikeVol_uL, Dilution, TotalVol_well_uL, Failed_samples) 
-
-kable(tail(data, 10))
-dim(data)
+    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Ave_Conc_ug.dl, Weight_mg, Buffer_ml, Spike, SpikeVol_uL, Dilution, TotalVol_well_uL, Failed_samples) 
 
 # remove duplicates
 data.og <- data[!is.na(data$Binding.Perc), ]
-
-
+kable(head(data.og, 3))
 ```
 
 ## (A) Standard Calculation
@@ -117,23 +135,19 @@ Formula:
 ##### Calculate final values #####
 ##################################
 
-# Transform to μg/dl from assay output
-data$Ave_Conc_ug.dL <- c(data$Ave_Conc_pg.ml/10000)
-
 data$Final_conc_pg.mg <- c(
-    ((data$Ave_Conc_ug.dL) / data$Weight_mg) * # A/B *
-      extraction *                                  # C/D  *     
+    ((data$Ave_Conc_ug.dl) / data$Weight_mg) * # A/B *
+      extraction *                             # C/D  *     
       data$Buffer_ml * 10000 )                 # E * 10000
 data <- data[order(data$Sample),]
 write.csv(data, file.path(data_path, "Data_cort_values_methodA.csv"), row.names = F)
 
+```
+
+```{r echo = FALSE}
 # summary for all samples
 summary(data$Final_conc_pg.mg)
-
-kable(tail(data, 7))
-dim(data)
-
-data$Weight_mg
+kable(tail(data, 4))
 ```
 
 ## (B) Accounting for Spike
@@ -170,7 +184,7 @@ dSpike <- data
 dSpike$Final_conc_pg.mg <- 
   ifelse(
     dSpike$Spike == 1,    ## Only spiked samples
-      ((dSpike$Ave_Conc_ug.dL - (std.r)) / # (A-spike) / B
+      ((dSpike$Ave_Conc_ug.dl - (std.r)) / # (A-spike) / B
         dSpike$Weight_mg) 
         * extraction *                  # C / D
         dSpike$Buffer_ml * 10000 * 2,    # E * 10000 * 2
