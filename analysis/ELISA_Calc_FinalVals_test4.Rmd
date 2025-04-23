@@ -64,20 +64,7 @@ Overall quality of the plate is not great, but serial dilusions show clear paral
 
 # Cortisol concentration calculations
 
-```{r parameters}
-# set reading value of spike (std1, 0.333 ug/dL), 
-# and transforming to ug.dL
-
-std <- (3191+3228)/2
-std.r <- (std/10000)
-std
-std.r
-
-# according to chatgpt, the spike's contribution is
-# 1600 pg/mL, which is very similar to half of the reading for std 1 :]
-```
-
-```{r echo = FALSE, message=FALSE}
+```{r Loading files, echo = FALSE, message=FALSE}
 #path:
 data_path = "./data/Test4"
 library(knitr)
@@ -85,20 +72,29 @@ library(ggplot2)
 library(broom)
 library(paletteer)
 library(dplyr)
+df <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
 ```
 
-Loading files and transforming units, *including low quality data*
+Parameters and unit transformations: 
+```{r parameters}
+# Volume of methanol used for cortisol extraction varies, so it is included in file
+# as Extraction_ratio (vol added / vol recovered) in mL
 
-```{r setup, include=TRUE, message=FALSE}
-df <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
-kable(tail(df)) 
+# Reading of spike standard and conversion to ug/dl
+std <- (3191 + 3228) / 2 # test 4 backfit
+std.r <- std / 10000 # std in ul/dl
+
+# Creating variables in indicated units
+df$Buffer_ml <- c(df$Buffer_nl/1000) # dilution (buffer)
+df$Ave_Conc_ug.dl <- c(df$Ave_Conc_pg.ml/10000) # Transform to μg/dl from assay output
+```
+Identify and flag bad quality samples
+```{r filter, include=TRUE, message=FALSE, echo = FALSE}
 
 # remove outlier
 #df<- df[(df$Sample != "TP3A"),]
+# label samples by quality
 
-# Creating variables in indicated units
-# dilution (buffer)
-df$Buffer_ml <- c(df$Buffer_nl/1000)
 df$Failed_samples[is.na(df$Failed_samples)] <- "OK"
 table(df$Failed_samples)
 df$Failed_samples[df$Failed_samples == "ABOVE 80% binding"] <- "Out of curve"
@@ -117,33 +113,26 @@ df$Failed_samples <- factor(
   )
 )
 
-
-
 # remove unnecessary information 
 data <- df %>%
-    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Weight_mg, Buffer_ml, Spike, SpikeVol_uL, Dilution_sample, Dilution_spike, Extraction_ratio, Vol_in_well.tube_uL, Failed_samples) 
+    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_ug.dl, Ave_Conc_pg.ml, Weight_mg, Buffer_ml, Spike, SpikeVol_ul, Dilution_sample, Dilution_spike, Extraction_ratio, Vol_in_well.tube_ul, Failed_samples) 
 
-
-
-# remove duplicates
-data <- data[!is.na(data$Binding.Perc), ]
-
-kable(tail(data, 10))
-dim(data)
+data <- data[!is.na(data$Binding.Perc), ] # remove duplicates
 ```
 
 ## (A) Standard Calculation
 
 Formula: 
 
-((A/B) * (C/D) * E * 10,000) = F 
+((A/B) * (C/D) * E * 10,000 * SLd) = F 
 
 - A = μg/dl from assay output;
 - B = weight (in mg) of hair subjected to extraction;
 - C = vol. (in ml) of methanol added to the powdered hair;
 - D = vol. (in ml) of methanol recovered from the extract and subsequently dried down;
 - E = vol. (in ml) of assay buffer used to reconstitute the dried extract;
-- F = final value of hair CORT Concentration in pg/mg.
+- F = final value of hair CORT Concentration in pg/mg
+- **SPd** = sample dilution factor (if serially diluted)
 
 
 ```{r A}
@@ -151,33 +140,30 @@ Formula:
 ##### Calculate final values #####
 ##################################
 
-# Transform to μg/dl from assay output
-data$Ave_Conc_ug.dL <- c(data$Ave_Conc_pg.ml/10000)
+data$Final_pg.mg_A <- c(
+    ((data$Ave_Conc_ug.dl) / data$Weight_mg) *             # A/B *
+      data$Extraction_ratio *                              # C/D  *     
+      data$Buffer_ml * 10000 * data$Dilution_sample)       # E * 10000 * SPd 
 
-data$Final_conc_pg.mg <- c(
-    ((data$Ave_Conc_ug.dL) / data$Weight_mg) * # A/B *
-      data$Extraction_ratio *                                  # C/D  *     
-      data$Buffer_ml * 10000 * data$Dilution_sample)                 # E * 10000
+```
+
+```{r echo=FALSE}
 data <- data[order(data$Sample),]
 write.csv(data, file.path(data_path, "Data_cort_values_methodA.csv"), row.names = F)
 
 # summary for all samples
 data <- data %>%
   filter(!Sample %in% c("B0", "BE", "NSB", "POOL")) 
-dim(data)
-summary(data$Final_conc_pg.mg)
 
-# summary for good quality samples only
+cat("Summary of all samples (n =", nrow(data), "):")
+summary(data$Final_pg.mg_A)
+
 temp <- data %>% 
   filter(Failed_samples == 
            "OK")
-dim(temp)
-summary(temp$Final_conc_pg.mg)
+cat("Summary for good quality samples only (n =", nrow(temp), "):")
 
-
-kable(tail(data, 7))
-
-
+summary(temp$Final_pg.mg_A)
 ```
 
 ## (B) Accounting for Spike
@@ -196,125 +182,144 @@ analyzed using the following formula:
 A/B * C/D * E * 10,000 * 2 = F
 
 where 
+
 - A = μg/dl from assay output; 
 - B = weight (in mg) of collected hair; 
 - C = vol. (in ml) of methanol added to the powdered hair; 
 - D = vol. (in ml) of methanol recovered from the extract and subsequently dried down; 
 - E = vol. (in ml) of assay buffer used to reconstitute the dried extract; 10,000 accounts for changes in metrics; 2 accounts for the dilution factor after addition of the spike; and 
 - F = final value of hair cortisol concentration in pg/mg"
-
+- **SPd** = sample dilution factor (if serially diluted)
 
 ```{r B-calc}
-dSpike <- data
-
 ##################################
 ##### Calculate final values #####
 ##################################
 
 # spike is already divided by 10000 (unit is ug/dL)
-dSpike$Final_conc_pg.mg <- 
+data$Final_pg.mg_B <- 
   ifelse(
-    dSpike$Spike == 1,    ## Only spiked samples
-      ((dSpike$Ave_Conc_ug.dL - (std.r)) / # (A-spike) / B
-        dSpike$Weight_mg) 
-        * data$Extraction_ratio *                  # C / D
-        dSpike$Buffer_ml * 10000 * 2,    # E * 10000 * 2
-        dSpike$Final_conc_pg.mg  
+    data$Spike == 1,                                         ## Only spiked samples
+      ((data$Ave_Conc_ug.dl - (std.r)) /                     # (A-spike) 
+        data$Weight_mg)                                      # / B
+        * data$Extraction_ratio *                            # C / D
+        data$Buffer_ml * 10000 * 2 / data$Dilution_sample,   # E * 10000 * 2
+        data$Final_pg.mg_A  
     )
 
+```
 
-write.csv(dSpike, file.path(data_path, "Data_cort_values_methodB.csv"), row.names = F)
+```{r echo = FALSE}
+
+write.csv(data, file.path(data_path, "Data_cort_values_methodB.csv"), row.names = F)
 
 # summary for all samples
-summary(dSpike$Final_conc_pg.mg)
-dSpike$Sample
-# summary for all samples
-dSpike <- dSpike %>%
+data <- data %>%
   filter(!Sample %in% c("B0", "BE", "NSB", "POOL")) 
-dim(dSpike)
-summary(dSpike$Final_conc_pg.mg)
+
+cat("Summary all samples:")
+summary(data$Final_pg.mg_B)
 
 # summary for good quality samples only
-temp <- dSpike %>% 
+temp <- data %>% 
   filter(Failed_samples == 
            "OK")
-dim(temp)
-summary(temp$Final_conc_pg.mg)
-
-kable(tail(dSpike, 10))
+cat("Summary good quality samples only:")
+summary(temp$Final_pg.mg_B)
 ```
 
 ## (C) Sam's calculation
 
-- Simplify unnecessary unit transformations
+Simplifies unnecessary unit transformations and accounts for spike considering dilution of both sample and the spike
 
-- Account for spike considering dilution of both sample and the spike
+- Step 1: Calculate contribution of the spike
+- Step 2: Substract spike from plate reading values and calculate final values accounting for dilution of the sample, weight, and reconstitution
 
-Spike contribution (pg/mL) = (Vol. spike (mL) x Conc. spike (pg/mL) ) / Vol. reconstitution (mL) or total vol. in well (50uL) (depending on where the spike was added)
+**Step 1**: Calculate contribution of spike
+
+X * Y / Z / SPd = SP
+
+- SP = final value of spike contribution in pg/mL
+- X = volume of spike added (mL)
+- Y = concentration of the spike added (pg/mL)
+- SPd = if serially diluted, dilution factor for the spike (i.e: 1, 2, 4, 8, etc.)
+- Z = total volume (mL) in the well or tube, if spike is added before loading the plate (sample + spike)
 
 ```{r C calc}
-# Calculate contribution of spike according to the different volumes in which it was added
-# Consider that contribution of spike in serial dilutions gets smaller 
-
-# Vol. of spike transformed to mL
-data$SpikeVol_ml <- data$SpikeVol_uL/1000
-# Concentration of the spike:
-std
-# Vol. reconstitution (mL) is the total volume in tube or well (sample + spike), after adding spike.
-# transform to mL
-data$Vol_in_well.tube_ml <- data$Vol_in_well.tube_uL/1000
-
-  ##( Spike vol. x Spike Conc.)
-  ## ------------------------  / dilution = Spike contribution
-  ##      Total vol. 
+# Transforming units
+data$SpikeVol_ml <- data$SpikeVol_ul/1000                 # X to mL
+data$Vol_in_well.tube_ml <- data$Vol_in_well.tube_ul/1000 # Z to mL
   
-# Cortisol added by spike in wells: 0.0025 mL x 3200 pg/mL = 80 pg
+# Calculate spike contribution to each sample
+      ##  ( Spike vol. x Spike Conc.)
+      ##   ------------------------  / dilution = Spike contribution
+      ##        Total vol. 
+  
 # Calculate cort contribution of spike to each sample
-data$Spike.cont_pg.mL <- ((data$SpikeVol_ml * std  / # Volume of spike * Spike concentration
-                            data$Vol_in_well.tube_ml) / # divided by the total volume (spike + sample)
-                              data$Dilution_spike) # resulting number changes depending on the dilution
+data$Spike_contribution <- ((data$SpikeVol_ml * std  /     # X * Y
+                            data$Vol_in_well.tube_ml) /  # Z / 
+                              data$Dilution_spike)       # SP
+```
 
-dSpiked <- data
-                          
+```{r echo = FALSE}
+cat("The reading for standard 1 in this plate is", std)
+cat("The total contribution of the Spike to each sample is can be any of the following numbers (in pg/ml)")
+unique(data$Spike_contribution)
+
+```
+**Step 2 **: Substract spike and calculate final values
+
+((A - **SP**)/B) * (C/D) * E * **SLd**  = F
+
+- A = pg/ml from assay output;
+- *SP* = spike contribution (in pg/ml) 
+- B = weight (in mg) of hair subjected to extraction;
+- C = vol. (in ml) of methanol added to the powdered hair;
+- D = vol. (in ml) of methanol recovered from the extract and subsequently dried down;
+- E = vol. (in ml) of assay buffer used to reconstitute the dried extract;
+- **SLd** = Sample dilution factor (if serially diluted)
+- F = final value of hair CORT Concentration in pg/mg.
+
+
+```{r}
 ##################################
 ##### Calculate final values #####
 ##################################
 
+data$Final_pg.mg_C <- 
+     (((data$Ave_Conc_pg.ml - data$Spike_contribution)) /    # (A - spike) 
+      data$Weight_mg) *                                    # / B *
+     data$Extraction_ratio *                               # C / D *
+      data$Buffer_ml * data$Dilution_sample                # E * SLd 
 
-dSpiked$Final_conc_pg.mg <- 
-     (((dSpiked$Ave_Conc_pg.ml - dSpiked$Spike.cont_pg.mL)) / # (A - spike) / B
-      dSpiked$Weight_mg) *
-     dSpiked$Extraction_ratio *      # C / D
-      dSpiked$Buffer_ml * dSpiked$Dilution_sample    # E * 
+```
 
-
-
-write.csv(dSpiked, file.path(data_path, "Data_cort_values_methodC.csv"), row.names = F)
-
+```{r echo = FALSE}
+write.csv(data, file.path(data_path, "Data_cort_values_methodC.csv"), row.names = F)
+write.csv(data, file.path(data_path, "Data_cort_values_method_ALL.csv"), row.names = F)
 # summary for all samples
-
-dSpiked <- dSpiked %>%
+data <- data %>%
   filter(!Sample %in% c("B0", "BE", "NSB", "POOL")) 
-dim(dSpiked)
-summary(dSpiked$Final_conc_pg.mg)
+cat("Summary for all samples:")
+summary(data$Final_pg.mg_C)
 
-# summary for good quality samples only
-temp <- dSpiked %>% 
+cat("Summary for good quality samples only:")
+temp <- data %>% 
   filter(Failed_samples == 
            "OK")
-dim(temp)
-summary(temp$Final_conc_pg.mg)
+summary(temp$Final_pg.mg_C)
 
-kable(tail(dSpike, 10))
-
-kable(head(dSpiked[!is.na(dSpiked$Final_conc_pg.mg) , c("Sample", "Final_conc_pg.mg", "Ave_Conc_pg.ml", "Spike.cont_pg.mL", "Binding.Perc", "Weight_mg", "Buffer_ml", "SpikeVol_uL", "Dilution_sample", "Dilution_spike", "Vol_in_well.tube_uL", "Extraction_ratio")],10))
-
+kable(tail(data[ , c("Sample", "Final_pg.mg_A", "Final_pg.mg_B", "Final_pg.mg_C", "Spike_contribution", "Binding.Perc", "SpikeVol_ul", "Dilution_sample", "Dilution_spike", "Extraction_ratio")]), n= 3)
 
 ```
 
 # Plots 
 
 ## (A) Standard Calculation
+
+Final cortisol concentrations not accounting for spike. Tags are sample numbers.
+
+Expected results: a straight horizontal line showing that I obtained same cortisol concentration value in the Y axis, across different sample weights.
 
 ```{r echo = FALSE, warning=FALSE }
 # scatterplot method A
@@ -330,13 +335,12 @@ data$Buffer <- replace(data$Buffer, data$Buffer == 0.11, '110 uL')
 data$Buffer <- replace(data$Buffer, data$Buffer == 0.22, '220 uL')
 data$Buffer <- replace(data$Buffer, data$Buffer == 0.25, '250 uL')
 
-
-ggplot(data, aes(y = Final_conc_pg.mg, 
-                 x = Binding.Perc, 
+ggplot(data, aes(y = Final_pg.mg_A, 
+                 x = 1:length(data$Sample), 
                  color = Failed_samples,
                  shape = Buffer)) +
   geom_point(size = 2.5, alpha = 0.85) +  
-   geom_text(aes(label = Sample), size = 2.5, vjust = -0.65, hjust = -0.18) +
+  geom_text(aes(label = Sample), size = 2.5, vjust = -0.65, hjust = -0.18) +
     theme_minimal() +  
   geom_hline(yintercept = 0, 
              linetype = "dashed", color = "red") +
@@ -344,7 +348,7 @@ ggplot(data, aes(y = Final_conc_pg.mg,
   labs(
     title = "(A) Standard Calculation Cortisol Values",
     y = "Final Concentration (pg/mg)",
-    x = "Binding %") + 
+    x = "Sample") + 
   theme(
     plot.title = element_text(hjust = 0.5, 
                               size = 17, face = "bold"),
@@ -355,23 +359,20 @@ ggplot(data, aes(y = Final_conc_pg.mg,
 ```
 
 ## (B) Accounting for Spike
+
+Final cortisol concentrations accounting for Spike as instructed in Nist et al. 2020.
+
+Expected results: lower values than in the previous plot for the spiked samples, but not as low as negative samples (for all of them). Spiked and non-spiked samples should be aligned (same concentration across different weights)
+
 ```{r echo = FALSE, warning=FALSE }
 
-dSpike <- dSpike %>%
+data <- data %>%
   filter(!Sample %in% c("B0", "BE", "NSB", "POOL"))
 #TA6","TA7","TB7","TC7", "TC6","TC5", #"TA2","TC3", "TD6", "TD7", "TB6", "TA1", "TB1", "TD1")
 
-dSpike$Spike <- replace(dSpike$Spike, dSpike$Spike == 1, 'Yes')
-dSpike$Spike <- replace(dSpike$Spike, dSpike$Spike == 0, 'No')
-dSpike$Buffer <- dSpike$Buffer_ml
-dSpike$Buffer <- replace(dSpike$Buffer, dSpike$Buffer == 0.06, '60 uL')
-dSpike$Buffer <- replace(dSpike$Buffer, dSpike$Buffer == 0.11, '110 uL')
-dSpike$Buffer <- replace(dSpike$Buffer, dSpike$Buffer == 0.22, '220 uL')
-dSpike$Buffer <- replace(dSpike$Buffer, dSpike$Buffer == 0.25, '250 uL')
-head(dSpike)
 # scatterplot
-ggplot(dSpike, aes(y = Final_conc_pg.mg, 
-                 x = Binding.Perc, 
+ggplot(data, aes(y = Final_pg.mg_B, 
+                 x = 1:length(data$Sample), 
                  color =  Failed_samples,
                  shape = Buffer)) +
   geom_point(size = 2.5,  alpha = 0.85) +  
@@ -383,7 +384,7 @@ ggplot(dSpike, aes(y = Final_conc_pg.mg,
   labs(
     title = "(B) Calculation Accounting for Spike",
     y = "Final Concentration (pg/mg)",
-    x = "Binding %" ) +
+    x = "Sample" ) +
   theme(
     plot.title = element_text(hjust = 0.5, 
                               size = 17, face = "bold"),
@@ -396,24 +397,19 @@ ggplot(dSpike, aes(y = Final_conc_pg.mg,
 
 ## (C) Sam's calculation
 
+Final cortisol concentration values using new method.
+
+Expected results: one unique horizontal line, regardless of the spiking status and dilution. 
+
 ```{r echo = FALSE, warning=FALSE }
 
-dSpiked <- dSpiked %>%
+data <- data %>%
   filter(!Sample %in% c("B0", "BE", "NSB", "POOL"))
 #TA6","TA7","TB7","TC7", "TC6","TC5", #"TA2","TC3", "TD6", "TD7", "TB6", "TA1", "TB1", "TD1")
-dSpiked$Spike <- replace(dSpiked$Spike, dSpiked$Spike == 1, 'Yes')
-dSpiked$Spike <- replace(dSpiked$Spike, dSpiked$Spike == 0, 'No')
-dSpiked$Buffer <- dSpiked$Buffer_ml
-dSpiked$Buffer <- replace(dSpiked$Buffer, dSpiked$Buffer == 0.06, '60 uL')
-dSpiked$Buffer <- replace(dSpiked$Buffer, dSpiked$Buffer == 0.11, '110 uL')
-dSpiked$Buffer <- replace(dSpiked$Buffer, dSpiked$Buffer == 0.22, '220 uL')
-dSpiked$Buffer <- replace(dSpiked$Buffer, dSpiked$Buffer == 0.25, '250 uL')
 
-# scatterplot
-dSpikedplot <- filter(dSpiked, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Binding.Perc)) 
 
-ggplot(dSpikedplot, aes(y = Final_conc_pg.mg, 
-                 x = Binding.Perc, 
+ggplot(data, aes(y = Final_pg.mg_C, 
+                 x = 1:length(data$Sample), 
                  color = Failed_samples,
                  shape = Buffer)) +
   geom_point(size = 2.5,  alpha = 0.85) +  
@@ -426,7 +422,7 @@ ggplot(dSpikedplot, aes(y = Final_conc_pg.mg,
   labs(
     title = "(C) Sam's calculation",
     y = "Final Concentration (pg/mg)",
-    x = "Binding %" ) +
+    x = "Sample" ) +
   theme(
     plot.title = element_text(hjust = 0.5, 
                               size = 17, face = "bold"),
@@ -436,10 +432,38 @@ ggplot(dSpikedplot, aes(y = Final_conc_pg.mg,
   scale_color_paletteer_d("vangogh::CafeTerrace")
 
 
-dSpikedplot <- filter(dSpiked, Category == "P", !is.na(Binding.Perc)) 
 
-ggplot(dSpikedplot, aes(y = Final_conc_pg.mg, 
-                 x = Binding.Perc, 
+# scatterplot
+dataplot <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Binding.Perc)) 
+
+ggplot(dataplot, aes(y = Final_pg.mg_C, 
+                 x = 1:length(dataplot$Sample), 
+                 color = Failed_samples,
+                 shape = Buffer)) +
+  geom_point(size = 2.5,  alpha = 0.85) +  
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
+  theme_minimal() +  
+ #   ylim(-26,30) +
+  #xlim(0,52) +
+  geom_hline(yintercept = 0, 
+             linetype = "dashed", color = "red") +
+  labs(
+    title = "(C) Sam's calculation",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample" ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 17, face = "bold"),
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 10)  
+  )+ 
+  scale_color_paletteer_d("vangogh::CafeTerrace")
+
+
+dataplot <- filter(data, Category == "P", !is.na(Binding.Perc)) 
+
+ggplot(dataplot, aes(y = Final_pg.mg_C, 
+                 x = 1:length(dataplot$Sample), 
                  color = Failed_samples,
                  shape = Buffer)) +
   geom_point(size = 2.5,  alpha = 0.85) +  
@@ -452,7 +476,7 @@ ggplot(dSpikedplot, aes(y = Final_conc_pg.mg,
   labs(
     title = "(C) Sam's calculation, Precision",
     y = "Final Concentration (pg/mg)",
-    x = "Binding %" ) +
+    x = "Samples" ) +
   theme(
     plot.title = element_text(hjust = 0.5, 
                               size = 17, face = "bold"),
@@ -464,26 +488,23 @@ ggplot(dSpikedplot, aes(y = Final_conc_pg.mg,
 ```
 
 
+## (C) Contribution of spike 
+```{r echo = FALSE}
 
-# Evaluation method C
-
-
-```{r}
-
-ggplot(dSpiked, aes(y = Final_conc_pg.mg, 
-                  x = Spike.cont_pg.mL, 
+ggplot(data, aes(y = Spike_contribution, 
+                  x = 1:length(Sample), 
                   color = (Failed_samples))) + 
-                 # fill = factor(Spike.cont_pg.mL))) +
-  geom_point(size = 2.5) +  
-  geom_text(label = c(dSpiked$Sample), nudge_y = 0.95, nudge_x = -1.2) +
- # geom_hline(yintercept = mean(data$Final_conc_pg.mg), 
+                 # fill = factor(Spike_contribution))) +
+  geom_point(size = 3) +  
+  geom_text(label = c(data$Sample), nudge_y = 40, nudge_x = 0, size = 1.8) +
+ # geom_hline(yintercept = mean(data$Final_pg.mg), 
   #           color = "gray80",
    #          linetype = "dashed") +
   theme_minimal() +  
   labs(
-    title = "Final Cort Concentration and Contribution of spike",
-    y = "Final Concentration (pg/mg)",
-    x = "Contribution of spike (pg/ml)"  
+    title = "Spike contribution and quality of each sample",
+    y = "Spike contribution (pg/mg)",
+    x = "Sample"  
   ) +
   theme(
     plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
@@ -493,3 +514,139 @@ ggplot(dSpiked, aes(y = Final_conc_pg.mg,
 
 ```
 
+
+# Evaluation using C 
+
+```{r message=FALSE, echo = FALSE}
+# All samples 
+data2 <- data
+
+#two datasets, separated by spike
+data2.sp <- data2[data2$Spike == "Yes", ]
+data2.nsp <- data2[data2$Spike == "No", ]
+
+#### fit models ####
+
+# model all
+model.all <- lm(Final_pg.mg_C ~ Weight_mg, 
+              data = data2)
+r_squared.all <- summary(model.all)$r.squared
+
+# model Spike
+model.sp <- lm(Final_pg.mg_C ~ Weight_mg, 
+              data = data2.sp)
+r_squared.sp <- summary(model.sp)$r.squared
+model.nsp <- lm(Final_pg.mg_C ~ Weight_mg, 
+              data = data2.nsp)
+r_squared.nsp <- summary(model.nsp)$r.squared
+
+# Calculate residuals
+residuals.all <- residuals(model.all)
+residuals.sp <- residuals(model.sp)
+residuals.nsp <- residuals(model.nsp)
+
+residuals.all
+residuals.sp
+residuals.nsp
+# Quantify residuals
+
+# Mean Absolute Error
+mae.all <- mean(abs(residuals.all))      
+# Standard Deviation of Residuals
+std_dev.all <- sd(residuals.all)
+
+# Mean Absolute Error
+mae.sp <- mean(abs(residuals.sp))      
+# Standard Deviation of Residuals
+std_dev.sp <- sd(residuals.sp)
+
+# Mean Absolute Error
+mae.nsp <- mean(abs(residuals.nsp))      
+# Standard Deviation of Residuals
+std_dev.nsp <- sd(residuals.nsp)
+
+```
+
+```{r plot, message=FALSE, echo = FALSE}
+# scatterplot
+
+ggplot(data2, aes(y = Final_pg.mg_C, 
+                  x = 1:length(Sample), 
+                  color = Buffer, 
+                  fill = Buffer)) +
+  geom_point(size = 2.5) +  
+  geom_text(label = c(data2$Sample), nudge_y = 0.75, nudge_x = -0.5) +
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE, alpha = 0.2) + 
+  geom_hline(yintercept = mean(data2$Final_pg.mg_C), 
+             color = "gray80",
+             linetype = "dashed") +
+  theme_minimal() +  
+  ylim(0, max(data2$Final_pg.mg_C)+4) + 
+  labs(
+    title = "Final Cort Concentration by buffer
+    (All samples) method C",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample number"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) +
+  # Add R^2 annotation
+  annotate("text", x = 5, 
+           y = max(data2$Final_pg.mg_C) * 0.84,
+           label = paste("R² =", round(r_squared.sp, 3)), 
+           size = 5, color = "black")
+
+
+ggplot(data2, aes(y = Final_pg.mg_C, 
+                  x = 1:length(Sample),
+                  fill= Category)) +
+  geom_point(size = 2.5) +  
+  geom_text(label = c(data2$Sample), nudge_y = 0.75, nudge_x = -1, size = 2) +
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.3) + 
+  geom_hline(yintercept = mean(data2$Final_pg.mg_C), 
+             color = "lightblue3",
+             linetype = "dashed") +
+  theme_minimal() +  
+  labs(
+    title = "Final Cort Concentration by Category
+    (All samples) method C",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample number"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) +
+  # Add R^2 annotation
+  annotate("text", x = max(data2$Weight_mg) * 0.7, 
+           y = max(data2$Final_pg.mg_C),
+           label = paste("R² =", round(r_squared.all, 2)), 
+           size = 5, color = "black")
+```
+
+## Optimal dilution (using method C results)
+
+**Error using spiked samples only**
+```{r echo = FALSE}
+cat("Mean Absolute Error (MAE) ALL:", round(mae.sp, 3), "\n") 
+cat("Standard Deviation of Residuals ALL:", round(std_dev.sp, 3), "\n")
+```
+**Error using non-spiked samples only**
+```{r echo = FALSE}
+cat("Mean Absolute Error (MAE) ALL:", round(mae.nsp, 3), "\n") 
+cat("Standard Deviation of Residuals ALL:", round(std_dev.nsp, 3), "\n")
+```
+**Error using all samples**
+```{r echo = FALSE}
+cat("Mean Absolute Error (MAE) ALL:", round(mae.all, 3), "\n") 
+cat("Standard Deviation of Residuals ALL:", round(std_dev.all, 3), "\n")
+```

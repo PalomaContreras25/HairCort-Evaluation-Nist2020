@@ -1,4 +1,4 @@
-"Wells","Sample","Category","Binding.Perc","Ave_Conc_pg.ml","Ave_Conc_ug.dl","Weight_mg","Buffer_ml","Spike","SpikeVol_uL","Dilution","TotalVol_well_uL","Failed_samples","Final_conc_pg.mg"
+"Wells","Sample","Category","Binding.Perc","Ave_Conc_pg.ml","Ave_Conc_ug.dl","Weight_mg","Buffer_ml","Spike","SpikeVol_ul","Dilution","TotalVol_well_ul","Failed_samples","Final_conc_pg.mg"
 "E5","11","NoSpike",71.6,513.2,0.05132,17.5,0.25,0,0,1,50,NA,9.53085714285714
 "F5","12","YesSpike",30,2728,0.2728,24.1,0.25,1,25,1,50,NA,36.7883817427386
 "G5","13","YesSpike",32.1,2477,0.2477,16.8,0.25,1,25,1,50,NA,47.9181547619048
