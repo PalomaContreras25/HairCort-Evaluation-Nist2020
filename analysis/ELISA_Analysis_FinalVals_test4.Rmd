@@ -126,7 +126,7 @@ Expected values are defined using the dilution factor, starting with the concent
 
 - 70–130% may be acceptable at very low concentrations.
 
-```{r calc-expected, echo = FALSE}
+```{r calc-expected, echo = FALSE, include = FALSE}
 # Expected values, using different calculation methods
 a$Expected_A <- NA
 a$Expected_A[1:7] <- 31.19595 / a$Dilution_sample[1:7] 
@@ -148,7 +148,7 @@ a$Expected_C[22:28] <-  18.7971667 / a$Dilution_sample[1:7]
 
 ```
 
-## Method A
+
 ```{r expABCD.conc.expect.vs.observed, results = 'hide', include = FALSE}
 
 ggplot(a, aes(x = Expected_A, 
@@ -174,7 +174,7 @@ ggplot(a, aes(x = Expected_A,
 
 ```
 
-```{r expABCD.conc.expect.vs.observedA-filt}
+```{r expABCD.conc.expect.vs.observedA-filt, include = FALSE}
 print(a)
 exp <- a %>%
   filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2"))
@@ -198,9 +198,9 @@ ggplot(exp, aes(x = Expected_A,
 ``` 
 
 
-## Method B
 
-```{r expABCD.conc.expect.vs.observedB-filt, fig.width=8, fig.height=6}
+
+```{r expABCD.conc.expect.vs.observedB-filt, fig.width=8, fig.height=6, include = FALSE}
 
 # Scatter plot of Experiment A and B, observed binding % 
 ## PLOT ## 
@@ -227,9 +227,9 @@ ggplot(exp, aes(x = Expected_B,
 
 ```
 
-## Method C
 
-```{r expABCD.conc.expect.vs.observed_D-filt }
+
+```{r expABCD.conc.expect.vs.observed_D-filt, include = FALSE}
 ggplot(exp, aes(x = Expected_C, 
                  y = Final_pg.mg_C, color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.3, alpha = 0.1) +
@@ -254,35 +254,39 @@ ggplot(exp, aes(x = Expected_C,
 ```{r expE-concvals-final-vals-A}
 
 # Scatter plot of Experiment a, observed binding % 
+data <- cort_vals[!(cort_vals$Sample == "NSB"),]
+a <- filter(data, Category == "P", !is.na(Final_pg.mg_A)) 
+a$Sample_num <- 1:length(a$Sample)
 
-exp <- exp %>%
+exp <- a %>%
   mutate(Group = substr(Sample, 1, 3))
 
 cv_values <- exp %>% 
   group_by(Group) %>%
   dplyr::summarise(
-    cv_BP = round((sd(Final_pg.mg_A) / mean( Final_pg.mg_A)) * 100, 1), 
-    mean_BP = round( mean( Final_pg.mg_A, na.rm = TRUE), 1),
-    sd_BP = round(sd( Final_pg.mg_A, na.rm = TRUE), 1)
+    cv_cort = round((sd(Final_pg.mg_A) / mean( Final_pg.mg_A)) * 100, 1), 
+    mean_cort = round( mean( Final_pg.mg_A, na.rm = TRUE), 1),
+    sd_cort = round(sd( Final_pg.mg_A, na.rm = TRUE), 1)
   )
-cv_values
+cat("Variation in final cortisol values")
+tail(cv_values)
 
 # overall stats
 all <- exp %>%
   summarise(
-    Mean_BP = round(mean( Final_pg.mg_A, na.rm = TRUE),1),
-    SD_BP = round(sd( Final_pg.mg_A, na.rm = TRUE),1),
-    CV_BP = round((SD_BP / Mean_BP) * 100, 1)
+    Mean_cort = round(mean( Final_pg.mg_A, na.rm = TRUE),1),
+    SD_cort = round(sd( Final_pg.mg_A, na.rm = TRUE),1),
+    CV_cort = round((SD_cort / Mean_cort) * 100, 1)
   )
 
 
 ggplot(exp, aes(x = Weight_mg, 
                  y =  Final_pg.mg_A)) +
-geom_point(size = 3, color = "gray40", alpha = 1) +
-#  geom_pointrange(data = cv_values,
- #                 aes(x = c(6,9,12), y = mean_BP,
-  #                    ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
-   #               color = "orange", size = 0.5, alpha = 0.8) +
+  geom_point(size = 3, color = "gray40", alpha = 1) +
+  geom_pointrange(data = cv_values,
+                  aes(x = c(6,9,12), y = mean_cort,
+                     ymin = mean_cort - sd_cort, ymax = mean_cort + sd_cort),
+                color = "orange", size = 0.5, alpha = 0.6) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
    labs(title = "Experiment E: Final conc vals (methodA) by sample weight",
@@ -291,14 +295,12 @@ geom_point(size = 3, color = "gray40", alpha = 1) +
   scale_y_continuous(n.breaks = 10) +
   coord_cartesian(xlim = c(4,14)) +
   theme_minimal() +
-  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$cv_BP[cv_values$Group == "TP1"], "%"), size = 4) +
-  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$cv_BP[cv_values$Group == "TP2"], "%"), size = 4) +
-  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$cv_BP[cv_values$Group == "TP3"], "%"), size = 4) +
-  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
-  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
-  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
-
-print(cv_values)
+  annotate("text", x = 5.5, y = 65, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 8.5, y = 65, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 11.5, y = 65, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 5.5, y = 60, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 8.5, y = 60, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 11.5, y = 60, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP3"],2)), size = 4) 
 
 ```
 
@@ -315,17 +317,17 @@ exp <- exp %>%
 cv_values <- exp %>%
   group_by(Group) %>%
   dplyr::summarise(
-    CV_BP = round((sd( Final_pg.mg_B) / mean(Final_pg.mg_B)) * 100, 1), 
-    mean_BP = mean( Final_pg.mg_B, na.rm = TRUE),
-    sd_BP = sd( Final_pg.mg_B, na.rm = TRUE)
+    CV_cort = round((sd( Final_pg.mg_B) / mean(Final_pg.mg_B)) * 100, 1), 
+    mean_cort = mean( Final_pg.mg_B, na.rm = TRUE),
+    sd_cort = sd( Final_pg.mg_B, na.rm = TRUE)
   )
 
 # overall stats
 all <- exp %>%
   summarise(
-    Mean_BP = mean( Final_pg.mg_B, na.rm = TRUE),
-    SD_BP = sd( Final_pg.mg_B, na.rm = TRUE),
-    CV_BP = (SD_BP / Mean_BP) * 100
+    Mean_cort = mean( Final_pg.mg_B, na.rm = TRUE),
+    SD_cort = sd( Final_pg.mg_B, na.rm = TRUE),
+    CV_cort = (SD_cort / Mean_cort) * 100
   )
 
 
@@ -333,25 +335,25 @@ ggplot(exp, aes(x = Weight_mg,
                  y =  Final_pg.mg_B)) +
 geom_point(size = 3, color = "gray40", alpha = 1) +
   geom_pointrange(data = cv_values,
-                  aes(x = c(6,9,12), y = mean_BP,
-                      ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
-                  color = "orange", size = 0.5, alpha = 0.8) +
+                  aes(x = c(6,9,12), y = mean_cort,
+                      ymin = mean_cort - sd_cort, ymax = mean_cort + sd_cort),
+                  color = "orange", size = 0.5, alpha = 0.6) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
   geom_hline(yintercept = 0, linetype = "dashed", 
-                  color = "red", linewidth = 1) +  
+                  color = "red", linewidth = 0.8) +  
    labs(title = "Experiment E: Final conc vals (methodB) by sample weight",
        subtitle = "Precision, 25uL spike, 25uL sample",
        x = "Sample weight (mg)", y = " Final_pg.mg_B") +
   scale_y_continuous(n.breaks = 10) +
   coord_cartesian(xlim = c(4,14)) +
   theme_minimal() +
-  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
-  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
-  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
-  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
-  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
-  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
+  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_cort[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_cort[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_cort[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP3"],2)), size = 4) 
 
 print(cv_values)
 
@@ -372,27 +374,27 @@ exp <- exp %>%
 cv_values <- exp %>% 
   group_by(Group) %>%
   dplyr::summarise(
-    mean_BP = round( mean( Final_pg.mg_C, na.rm = TRUE), 1),
-    sd_BP = round(sd( Final_pg.mg_C, na.rm = TRUE), 1),
-    cv_BP = round((sd( Final_pg.mg_C ) / mean( Final_pg.mg_C)) * 100, 1), 
+    mean_cort = round( mean( Final_pg.mg_C, na.rm = TRUE), 1),
+    sd_cort = round(sd( Final_pg.mg_C, na.rm = TRUE), 1),
+    cv_cort = round((sd( Final_pg.mg_C ) / mean( Final_pg.mg_C)) * 100, 1), 
   )
 
 # overall stats
 all <- exp %>%
   summarise(
-    Mean_BP = round(mean( Final_pg.mg_C, na.rm = TRUE),1),
-    SD_BP = round(sd( Final_pg.mg_C, na.rm = TRUE),1),
-    CV_BP = round((SD_BP / Mean_BP) * 100, 1)
+    Mean_cort = round(mean( Final_pg.mg_C, na.rm = TRUE),1),
+    SD_cort = round(sd( Final_pg.mg_C, na.rm = TRUE),1),
+    CV_cort = round((SD_cort / Mean_cort) * 100, 1)
   )
 
 
 ggplot(exp, aes(x = Weight_mg, 
                  y =  Final_pg.mg_C)) +
 geom_point(size = 3, color = "gray40", alpha = 1) +
-  #geom_pointrange(data = cv_values,
-   #               aes(x = c(6,9,12), y = mean_BP,
-    #                  ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
-     #             color = "orange", size = 0.5, alpha = 0.8) +
+  geom_pointrange(data = cv_values,
+                 aes(x = c(6,9,12), y = mean_cort,
+                     ymin = mean_cort - sd_cort, ymax = mean_cort + sd_cort),
+                 color = "orange", size = 0.5, alpha = 0.8) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
    labs(title = "Experiment E: Final conc vals (methodD) by sample weight",
@@ -401,12 +403,12 @@ geom_point(size = 3, color = "gray40", alpha = 1) +
   scale_y_continuous(n.breaks = 10) +
   coord_cartesian(xlim = c(4,14)) +
   theme_minimal() +
-  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$cv_BP[cv_values$Group == "TP1"], "%"), size = 4) +
-  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$cv_BP[cv_values$Group == "TP2"], "%"), size = 4) +
-  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$cv_BP[cv_values$Group == "TP3"], "%"), size = 4) +
-  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
-  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
-  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4) 
+  annotate("text", x = 6, y = 38, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP1"], "%"), size = 4) +
+  annotate("text", x = 9, y = 38, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP2"], "%"), size = 4) +
+  annotate("text", x = 12, y = 38, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP3"], "%"), size = 4) +
+  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP1"],2)), size = 4) +
+  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP2"],2)), size = 4) +
+  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP3"],2)), size = 4) 
 
 print(cv_values)
 
