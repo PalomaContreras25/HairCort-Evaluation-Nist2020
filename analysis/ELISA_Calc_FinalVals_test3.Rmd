@@ -20,9 +20,9 @@ output: workflowr::wflow_html
 <table>
 Summary                 Nist et al.     (A) Standard      (B) Spike-Corrected        (C) Sam's     
 ---------------         ------------   ---------------    ---------------------      -----------------
-Mean cort conc (pg/mg)      ---         16.796              -0.1866                    16.796
-Median cort conc (pg/mg)    ---           10.801            4.4386                     10.801
-Range cort conc (pg/mg)     ---           2.7 to 60.4       -30.7005 to 12.0647         2.786 to 60.483
+Mean cort conc (pg/mg)      ---         16.796              -0.1866                    9.568
+Median cort conc (pg/mg)    ---           10.801            4.4386                     10.058
+Range cort conc (pg/mg)     ---           2.7 to 60.4       -30.7005 to 12.0647         2.786 to 22.566
 </table>
 
 
@@ -61,7 +61,7 @@ After accounting for differences in dilution and weight, our results suggest fut
 
 - SpikeVol_uL: volume of spike added in µL
 
-- Dilution: dilution factor (already present)
+- Dilution: dilution factor (already accounted for)
 
 - Vol_in_well.tube_uL: total volume in well/tube in µL (for spike correction)
 
@@ -93,8 +93,8 @@ Parameters and unit transformations:
 extraction <- 1 / 0.75
 
 # Reading of spike standard and conversion to ug/dl
-std <- (3133 + 3146) / 2 # test 3 backfit
-std.r <- std / 10000 # std in ul/dl
+std <- 3139.5 # test 3 backfit
+std_ul.dl <- std / 10000 # std in ul/dl
 
 # Creating variables in indicated units
 
@@ -183,7 +183,7 @@ where
 dSpike$Final_conc_pg.mg <- 
   ifelse(
     dSpike$Spike == 1,                     ## Only spiked samples
-      ((dSpike$Ave_Conc_ug.dl - (std.r)) / # (A-spike) 
+      ((dSpike$Ave_Conc_ug.dl - (std_ul.dl)) / # (A-spike) 
         dSpike$Weight_mg)                  # / B
         * extraction *                     # C / D
         dSpike$Buffer_ml * 10000 * 2,      # E * 10000 * 2
@@ -379,18 +379,18 @@ dSpiked$Group <- interaction(dSpiked$Buffer, dSpiked$Spike, sep = "_")
 
 # scatterplot
 ggplot(dSpiked, aes(y = Final_conc_pg.mg, 
-                 x = Weight_mg)) +
+                 x = Weight_mg, 
+                 fill = Buffer,
+                 shape = Spike, 
+                 color = Buffer)) +
     geom_smooth(method = "lm", 
-                aes(group = Group), 
               se = TRUE,
               alpha = 0.2,
               linewidth = 0.4,
-              color = "gray70"
+              color = "gray60"
                 ) +
     geom_point(size = 3.5,  
-               alpha = 0.85, 
-               aes(shape = Buffer, 
-                   color = Spike)) + 
+               alpha = 0.85) + 
     geom_text(aes(label = Sample), 
               size = 3, vjust = -1, hjust = -0.1) +
     geom_hline(yintercept = 0, 
@@ -414,220 +414,28 @@ ggplot(dSpiked, aes(y = Final_conc_pg.mg,
 
 # Evaluation using method C
 
-
-```{r message=FALSE, echo = FALSE}
-# non-spiked samples only
-data <- dSpiked
-data2 <-data[data$Spike == "No", ]
-
-#two datasets, separated by dilution
-data2.06 <- data2[data2$Buffer == "60 uL", ]
-data2.25 <- data2[data2$Buffer == "250 uL", ]
-
-#### fit models ####
-
-# model Buffer = 0.06
-model06 <- lm(Final_conc_pg.mg ~ Weight_mg, 
-              data = data2.06)
-r_squared06 <- summary(model06)$r.squared
-
-# model Buffer = 0.25
-model25 <- lm(Final_conc_pg.mg ~ Weight_mg, 
-              data = data2.25)
-r_squared25 <- summary(model25)$r.squared
-
-# Calculate residuals
-residuals06 <- residuals(model06)
-residuals25 <- residuals(model25)
-
-# Quantify residuals
-# Mean Absolute Error
-mae06 <- mean(abs(residuals06))          
-# Standard Deviation of Residuals
-std_dev06 <- sd(residuals06)   
-
-# Mean Absolute Error
-mae25 <- mean(abs(residuals25))      
-# Standard Deviation of Residuals
-std_dev25 <- sd(residuals25)                      
-
-
-
-# scatterplot
-
-ggplot(data2, aes(y = Final_conc_pg.mg, 
-                  x = Weight_mg, 
-                  color = Buffer, 
-                  fill = Buffer)) +
-  geom_point(size = 2.5) +  
-  geom_text(label = c(data2$Sample), nudge_y = 0.75, nudge_x = -0.5) +
-  geom_smooth(method = "lm", 
-              color = "gold3", 
-              se = TRUE,
-              alpha = 0.1) + 
-  geom_hline(yintercept = mean(data2$Final_conc_pg.mg), 
-             color = "gray80",
-             linetype = "dashed") +
-  geom_hline(yintercept = mean(data2.06$Final_conc_pg.mg), 
-             color = "lightblue3",
-             linetype = "dashed") +
-  geom_hline(yintercept = mean(data2.25$Final_conc_pg.mg), 
-             color = "lightpink3",
-             linetype = "dashed") +
-  theme_minimal() +  
-  xlim(5, max(data2$Weight_mg) + 4) +
-  ylim(0, max(data2$Final_conc_pg.mg)+4) + 
-  labs(
-    title = "Final Cort Concentration and Weight
-    (Non-spiked only), method A",
-    y = "Final Concentration (pg/mg)",
-    x = "Weight (mg)"  
-  ) +
-  theme(
-    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
-    axis.title = element_text(size = 14),  
-    axis.text = element_text(size = 12) 
-  ) +
-  # Add R^2 annotation
-  annotate("text", x = max(data2$Weight_mg) * 0.7, 
-           y = min(data2$Final_conc_pg.mg) * 1.5,
-           label = paste("R² =", round(r_squared06, 3)), 
-           size = 5, color = "black") +
-  annotate("text", x = max(data2$Weight_mg) * 0.7, 
-           y = max(data2$Final_conc_pg.mg) * 0.84,
-           label = paste("R² =", round(r_squared25, 3)), 
-           size = 5, color = "black")
-
-```
-
-The previous figure shows that: 
-
-- results are very stable across weights, particularly for the samples where a dilution of 250 uL was used 
-- there is more error when using a dilution of 60 uL   
-- dilution affects estimation of cortisol concentration in a significant way: even though final concentration numbers account for differences in the dilutions, the results we observe for each group do not overlap
-- the average value when using 250 uL of buffer is twice as big as when using 60 uL
-
-```{r message=FALSE, echo = FALSE}
+```{r all samples, message=FALSE, echo = FALSE}
 # All samples 
 data2 <- dSpiked
 
-#two datasets, separated by dilution
-data2.06 <- data2[data2$Buffer == "60 uL", ]
-data2.25 <- data2[data2$Buffer == "250 uL", ]
-#two datasets, separated by spike
-data2.sp <- data2[data2$Spike == "Yes", ]
-data2.nsp <- data2[data2$Spike == "No", ]
-
 #### fit models ####
-
-# model Buffer = 0.06
-model06 <- lm(Final_conc_pg.mg ~ Weight_mg, 
-              data = data2.06)
-r_squared06 <- summary(model06)$r.squared
-
-# model Buffer = 0.25
-model25 <- lm(Final_conc_pg.mg ~ Weight_mg, 
-              data = data2.25)
-r_squared25 <- summary(model25)$r.squared
 
 # model all
 model.all <- lm(Final_conc_pg.mg ~ Weight_mg, 
               data = data2)
 r_squared.all <- summary(model.all)$r.squared
 
-# model Spike
-model.sp <- lm(Final_conc_pg.mg ~ Weight_mg, 
-              data = data2.sp)
-r_squared.sp <- summary(model.sp)$r.squared
-model.nsp <- lm(Final_conc_pg.mg ~ Weight_mg, 
-              data = data2.nsp)
-r_squared.nsp <- summary(model.nsp)$r.squared
-
 # Calculate residuals
-residuals06 <- residuals(model06)
-residuals25 <- residuals(model25)
 residuals.all <- residuals(model.all)
-residuals.sp <- residuals(model.sp)
-residuals.nsp <- residuals(model.nsp)
-
-residuals.all
-residuals.sp
-residuals.nsp
-# Quantify residuals
-# Mean Absolute Error
-mae06 <- mean(abs(residuals06))          
-# Standard Deviation of Residuals
-std_dev06 <- sd(residuals06)   
-
-# Mean Absolute Error
-mae25 <- mean(abs(residuals25))      
-# Standard Deviation of Residuals
-std_dev25 <- sd(residuals25)                      
 
 # Mean Absolute Error
 mae.all <- mean(abs(residuals.all))      
 # Standard Deviation of Residuals
 std_dev.all <- sd(residuals.all)
 
-# Mean Absolute Error
-mae.sp <- mean(abs(residuals.sp))      
-# Standard Deviation of Residuals
-std_dev.sp <- sd(residuals.sp)
-
-# Mean Absolute Error
-mae.nsp <- mean(abs(residuals.nsp))      
-# Standard Deviation of Residuals
-std_dev.nsp <- sd(residuals.nsp)
-
 ```
 
-```{r plot, message=FALSE, echo = FALSE}
-# scatterplot
-
-ggplot(data2, aes(y = Final_conc_pg.mg, 
-                  x = Weight_mg, 
-                  color = Buffer, 
-                  fill = Buffer)) +
-  geom_point(size = 2.5) +  
-  geom_text(label = c(data2$Sample), nudge_y = 0.75, nudge_x = -0.5) +
-  geom_smooth(method = "lm", 
-              color = "gold3", 
-              se = TRUE,
-              alpha = 0.1) + 
-  geom_hline(yintercept = mean(data2$Final_conc_pg.mg), 
-             color = "gray80",
-             linetype = "dashed") +
-  geom_hline(yintercept = mean(data2.06$Final_conc_pg.mg), 
-             color = "lightblue3",
-             linetype = "dashed") +
-  geom_hline(yintercept = mean(data2.25$Final_conc_pg.mg), 
-             color = "lightpink3",
-             linetype = "dashed") +
-  theme_minimal() +  
-  xlim(5, max(data2$Weight_mg) + 4) +
-  ylim(0, max(data2$Final_conc_pg.mg)+4) + 
-  labs(
-    title = "Final Cort Concentration and Weight
-    (All samples) method C",
-    y = "Final Concentration (pg/mg)",
-    x = "Weight (mg)"  
-  ) +
-  theme(
-    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
-    axis.title = element_text(size = 14),  
-    axis.text = element_text(size = 12) 
-  ) +
-  # Add R^2 annotation
-  annotate("text", x = max(data2$Weight_mg) * 0.7, 
-           y = min(data2$Final_conc_pg.mg) * 1.5,
-           label = paste("R² =", round(r_squared06, 3)), 
-           size = 5, color = "black") +
-  annotate("text", x = max(data2$Weight_mg) * 0.7, 
-           y = max(data2$Final_conc_pg.mg) * 0.84,
-           label = paste("R² =", round(r_squared25, 3)), 
-           size = 5, color = "black")
-
-
+```{r plot1, echo = FALSE}
 ggplot(data2, aes(y = Final_conc_pg.mg, 
                   x = Weight_mg)) +
   geom_point(size = 2.5, color = "darkorange2") +  
@@ -643,7 +451,7 @@ ggplot(data2, aes(y = Final_conc_pg.mg,
   xlim(5, max(data2$Weight_mg) + 4) +
   ylim(0, max(data2$Final_conc_pg.mg)+4) + 
   labs(
-    title = "Final Cort Concentration and Weight
+    title = "Final Cort Concentration vs Weight
     (All samples) method C",
     y = "Final Concentration (pg/mg)",
     x = "Weight (mg)"  
@@ -654,11 +462,236 @@ ggplot(data2, aes(y = Final_conc_pg.mg,
     axis.text = element_text(size = 12) 
   ) +
   # Add R^2 annotation
-  annotate("text", x = max(data2$Weight_mg) * 0.7, 
+  annotate("text", x = 28, 
            y = max(data2$Final_conc_pg.mg),
-           label = paste("R² =", round(r_squared.all, 5)), 
-           size = 5, color = "black")
+           label = paste("R² =", round(r_squared.all, 4)), 
+           size = 4, color = "black") + 
+    annotate("text", x = 30, 
+           y = max(data2$Final_conc_pg.mg) - 1.5,
+           label = paste("Mean Residuals =", round(mae.all, 3)), 
+           size = 4, color = "black") +
+   annotate("text", x = 30, 
+           y = max(data2$Final_conc_pg.mg) - 3,
+           label = paste("SD Residuals =", round(std_dev.all, 3)), 
+           size = 4, color = "black")
 ```
+
+```{r separate reconstitution vols, echo = FALSE}
+# Calc modelo 250 and 60 ul
+
+#two datasets, separated by dilution
+data2.06 <- data2[data2$Buffer == "60 uL", ]
+data2.25 <- data2[data2$Buffer == "250 uL", ]
+
+#### fit models ####
+
+# model Buffer = 0.06
+model06 <- lm(Final_conc_pg.mg ~ Weight_mg, 
+              data = data2.06)
+r_squared06 <- summary(model06)$r.squared
+
+# model Buffer = 0.25
+model25 <- lm(Final_conc_pg.mg ~ Weight_mg, 
+              data = data2.25)
+r_squared25 <- summary(model25)$r.squared
+
+# Calculate residuals
+residuals06 <- residuals(model06)
+residuals25 <- residuals(model25)
+
+# Quantify residuals
+# Mean Absolute Error
+mae06 <- mean(abs(residuals06))          
+# Standard Deviation of Residuals
+std_dev06 <- sd(residuals06)   
+
+# Mean Absolute Error
+mae25 <- mean(abs(residuals25))      
+# Standard Deviation of Residuals
+std_dev25 <- sd(residuals25)                      
+
+```
+
+```{r plot2, message=FALSE, echo = FALSE}
+             
+# scatterplot
+ggplot(data2, aes(y = Final_conc_pg.mg, 
+                  x = Weight_mg,
+                  color = Buffer,
+                  fill = Buffer)) +
+  geom_point(size = 2.5, 
+             aes(shape = Spike)) +  
+  geom_text(label = c(data2$Sample),size = 3, nudge_y = 0.75, nudge_x = -0.5) +
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.2,
+              linewidth = 0.4) + 
+  geom_hline(yintercept = mean(data2$Final_conc_pg.mg), 
+             color = "gray80",
+             linetype = "dashed") +
+  geom_hline(yintercept = mean(data2.06$Final_conc_pg.mg), 
+             color = "turquoise2",
+             linetype = "dashed") +
+  geom_hline(yintercept = mean(data2.25$Final_conc_pg.mg), 
+             color = "salmon",
+             linetype = "dashed") +
+  theme_minimal() +  
+  xlim(5, max(data2$Weight_mg) + 4) +
+  ylim(-1.5, max(data2$Final_conc_pg.mg)+4) + 
+  labs(
+    title = "Final Cort Concentration and Weight
+    (All samples) method C", 
+    subtitle = "Grouped by reconstitution volume",
+    y = "Final Concentration (pg/mg)",
+    x = "Weight (mg)"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  )  +
+  # Add R^2 annotation
+     annotate("text", x = min(data2$Weight_mg) - 5.2, 
+           y = min(data2$Final_conc_pg.mg) + 1.0,
+           label = paste("60 uL"), 
+           size = 3.8, color = "turquoise4") +
+  annotate("text", x = min(data2$Weight_mg) - 4.45 , 
+           y = min(data2$Final_conc_pg.mg - 0.8),
+           label = paste("R² =", round(r_squared06, 3)), 
+           size = 3.8, color = "turquoise4") +
+  annotate("text", x = min(data2$Weight_mg - 1) , 
+           y = min(data2$Final_conc_pg.mg) - 2,
+           label = paste("Mean Residuals =", round(mae06, 3)), 
+           size = 3.8, color = "turquoise4") +
+  annotate("text", x = min(data2$Weight_mg) -1.5, 
+           y = min(data2$Final_conc_pg.mg) - 3.2,
+           label = paste("SD Residuals =", round(std_dev06, 3)), 
+           size = 3.8, color = "turquoise4") +
+   annotate("text", x = max(data2$Weight_mg) - 5, 
+           y = max(data2$Final_conc_pg.mg) + 1.65,
+           label = paste("250 uL"), 
+           size = 3.8, color = "salmon2") +
+  annotate("text", x = max(data2$Weight_mg) - 4, 
+           y = max(data2$Final_conc_pg.mg),
+           label = paste("R² =", round(r_squared25, 3)), 
+           size = 3.8, color = "salmon2") +
+  annotate("text", x = max(data2$Weight_mg - 1) , 
+           y = max(data2$Final_conc_pg.mg) - 1.2,
+           label = paste("Mean Residuals =", round(mae25, 3)), 
+           size = 3.8, color = "salmon2") +
+  annotate("text", x = max(data2$Weight_mg) -1.5, 
+           y = max(data2$Final_conc_pg.mg) - 2.4,
+           label = paste("SD Residuals =", round(std_dev25, 3)), 
+           size = 3.8, color = "salmon2") 
+   
+```
+
+The previous figure shows that: 
+
+- results are relatively stable across weights, particularly for the samples where a dilution of 250 uL was used 
+- For the 250 uL reconstitutions, about 18% of the variability in Final_conc_pg.mg is explained by Weight_mg 
+- For the 60 uL reconstitutionsAbout 6.6% of the variability is explained by Weight_mg. 
+- Reconstitution volume affects estimation of cortisol concentration in a significant way: even though final concentration numbers account for differences in the dilutions, the results we observe for each group do not overlap
+- the average value when using 250 uL of buffer is twice as big as when using 60 uL
+
+
+```{r prep-spiked, echo = FALSE, warning = FALSE}
+#two datasets, separated by spiked or not
+data2.sp <- data2[data2$Spike == "Yes", ]
+data2.nsp <- data2[data2$Spike == "No", ]
+
+# model Spike
+model.sp <- lm(Final_conc_pg.mg ~ Weight_mg, 
+              data = data2.sp)
+r_squared.sp <- summary(model.sp)$r.squared
+# model non spike
+model.nsp <- lm(Final_conc_pg.mg ~ Weight_mg, 
+              data = data2.nsp)
+r_squared.nsp <- summary(model.nsp)$r.squared
+# residuals 
+residuals.sp <- residuals(model.sp)
+residuals.nsp <- residuals(model.nsp)
+
+# Mean Absolute Error
+mae.sp <- mean(abs(residuals.sp))      
+# Standard Deviation of Residuals
+std_dev.sp <- sd(residuals.sp)
+
+# Mean Absolute Error
+mae.nsp <- mean(abs(residuals.nsp))      
+# Standard Deviation of Residuals
+std_dev.nsp <- sd(residuals.nsp)
+```
+
+```{r plot3-spiked vs non-spiked, message=FALSE, echo = FALSE}
+
+# scatterplot
+
+ggplot(data2, aes(y = Final_conc_pg.mg, 
+                  x = Weight_mg, 
+                  color = Spike, 
+                  fill = Spike)) +
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.2,
+              linewidth = 0.5) + 
+  geom_hline(yintercept = mean(data2$Final_conc_pg.mg), 
+             color = "gray80",
+             linetype = "dashed") +
+  geom_hline(yintercept = mean(data2.sp$Final_conc_pg.mg), 
+             color = "turquoise4",
+             linetype = "dashed") +
+  geom_hline(yintercept = mean(data2.nsp$Final_conc_pg.mg), 
+             color = "salmon",
+             linetype = "dashed") +
+  geom_point(size = 2) +  
+  geom_text(label = c(data2$Sample), 
+            nudge_y = 0.75, nudge_x = -0.5,
+            size = 2.8) +
+  theme_minimal() +  
+         xlim(5, max(data2$Weight_mg) + 4) +
+         ylim(0, max(data2$Final_conc_pg.mg)+4) + 
+  labs(
+    title = "Final Cort Concentration and Weight, method C",
+    subtitle = "Grouped by spiked/non-spiked", 
+    y = "Final Concentration (pg/mg)",
+    x = "Weight (mg)"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) +
+  # Add R^2 annotation
+  annotate("text", x = max(data2$Weight_mg) - 4.5 , 
+           y = min(data2$Final_conc_pg.mg),
+           label = paste("R² =", round(r_squared.nsp, 3)), 
+           size = 4, color = "turquoise4") +
+  annotate("text", x = max(data2$Weight_mg - 1) , 
+           y = min(data2$Final_conc_pg.mg) - 1.1,
+           label = paste("Mean Residuals =", round(mae.nsp, 3)), 
+           size = 4, color = "turquoise4") +
+  annotate("text", x = max(data2$Weight_mg) -1.5, 
+           y = min(data2$Final_conc_pg.mg) - 2.2,
+           label = paste("SD Residuals =", round(std_dev.nsp, 3)), 
+           size = 4, color = "turquoise4") +
+  annotate("text", x = max(data2$Weight_mg) -4.25, 
+           y = max(data2$Final_conc_pg.mg),
+           label = paste("R² =", round(r_squared.sp, 3)), 
+           size = 4, color = "salmon2") +
+    annotate("text", x = max(data2$Weight_mg - 1) , 
+           y = max(data2$Final_conc_pg.mg) - 1.1,
+           label = paste("Mean Residuals =", round(mae.sp, 3)), 
+           size = 4, color = "salmon2") +
+  annotate("text", x = max(data2$Weight_mg) -1.5, 
+           y = max(data2$Final_conc_pg.mg) - 2.2,
+           label = paste("SD Residuals =", round(std_dev.sp, 3)), 
+           size = 4, color = "salmon2") 
+```
+
+
 
 ```{r, echo=FALSE, message=FALSE, results = 'hide', include = FALSE}
 qqnorm( residuals.all) 
@@ -672,8 +705,6 @@ plot(density(residuals25))
 qqnorm( residuals06) 
 qqline(residuals06)
 plot(density(residuals06))
-
-
 
 ```
 
