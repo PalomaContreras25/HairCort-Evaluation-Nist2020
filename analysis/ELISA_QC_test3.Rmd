@@ -78,7 +78,7 @@ colnames(m) <- c("Sample", "Wells", "Raw.OD",
                  "Binding.Perc", "Conc_pg.ml",
                  "Ave_Conc_pg.ml", "CV.Perc", 
                  "SD", "SEM", "Category", "Weight_mg", "Buffer_nl", 
-                 "Spike", "TotalVol_well_uL", "SpikeVol_uL", "Dilution") 
+                 "Spike", "TotalVol_well_ul", "SpikeVol_ul", "Dilution", "Sample_comparable") 
 #m[, 3:11] <- lapply(m[, 3:11], 
  #                   function(x) as.numeric(as.character(x)))
 m <- m[order(m$Sample),]

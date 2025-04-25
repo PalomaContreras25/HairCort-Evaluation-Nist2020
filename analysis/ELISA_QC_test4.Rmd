@@ -2,6 +2,8 @@
 title: "QC_ELISA 4"
 output: html_document
 date: "2025-04-02"
+editor_options: 
+  chunk_output_type: console
 ---
 
 Here I show how files are loaded, merged, and cleaned, including the exclusion of unnecessary columns and handling of missing values.
@@ -68,14 +70,16 @@ m <- merge(layout, results, by = "Wells")
 
 colnames(m) <- c("Wells", "Sample", "Category", 
                 "Weight_mg", "Buffer_nl", "Spike", 
-                "SpikeVol_uL", "Dilution_sample", "Dilution_spike", "Vol_in_well.tube_uL", "Extraction_ratio", "Raw.OD",  
-                 "Binding.Perc", "Conc_pg/ml",
-                 "Ave_Conc_pg/ml", "CV.Perc", 
+                "SpikeVol_ul", "Dilution_spike", "Vol_in_well.tube_ul", 
+                "Extraction_ratio", "Dilution_sample", "Raw.OD",  
+                 "Binding.Perc", "Conc_pg.ml",
+                 "Ave_Conc_pg.ml", "CV.Perc", 
                  "SD", "SEM") 
+
 m[, 4:12] <- lapply(m[, 4:12], 
                     function(x) as.numeric(as.character(x)))
 m <- m[order(m$Sample),]
-kable(m[c(10, 12, 14, 16, 24, 26, 28), ]) 
+kable(m[c(10, 11, 12, 13, 15, 23, 26, 27), ]) 
 
 ```
 
@@ -105,7 +109,7 @@ m2 <- m1 %>%
                                      ifelse(Binding.Perc < lowBinLim, "UNDER 20% binding", 
                                             NA)))
 
-out_curve <- m2[!is.na(m2$Binding.Perc_categ), ]
+out_curve <- m2[!is.na(m2$Binding.Perc_categ), ] 
 
 cat(paste("Total samples outside the curve:", nrow(out_curve), "(some are blanks or NSB)", sep=" "))
 #kable(out_curve)

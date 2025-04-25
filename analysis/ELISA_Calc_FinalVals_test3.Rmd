@@ -106,8 +106,8 @@ df$Ave_Conc_ug.dl <- c(df$Ave_Conc_pg.ml/10000) # Transform to μg/dl from assay
 # remove unnecessary and low quality data 
 data <- df %>%
     filter(CV.Perc < 15) %>% 
-  filter(Binding.Perc < 80 & Binding.Perc > 20) %>%
-    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Ave_Conc_ug.dl, Weight_mg, Buffer_ml, Spike, SpikeVol_ul, Dilution, TotalVol_well_ul, Failed_samples) 
+    filter(Binding.Perc < 80 & Binding.Perc > 20) %>%
+    dplyr::select(Wells, Sample, Category, Binding.Perc, Ave_Conc_pg.ml, Ave_Conc_ug.dl, Weight_mg, Buffer_ml, Spike, SpikeVol_ul, Dilution, TotalVol_well_ul, Failed_samples, Sample_comparable) 
 
 # remove duplicates
 data.og <- data[!is.na(data$Binding.Perc), ]
