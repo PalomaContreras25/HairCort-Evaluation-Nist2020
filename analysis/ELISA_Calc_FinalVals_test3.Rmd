@@ -20,9 +20,9 @@ output: workflowr::wflow_html
 <table>
 Summary                 Nist et al.     (A) Standard      (B) Spike-Corrected        (C) Sam's     
 ---------------         ------------   ---------------    ---------------------      -----------------
-Mean cort conc (pg/mg)      ---         16.376              -0.182                    9.329
-Median cort conc (pg/mg)    ---           10.531            4.328                     9.806
-Range cort conc (pg/mg)     ---           2.7 to 58.9       -29.933 to 11.763         2.716 to 22.002
+Mean cort conc (pg/mg)      ---         16.796              -0.1866                    16.796
+Median cort conc (pg/mg)    ---           10.801            4.4386                     10.801
+Range cort conc (pg/mg)     ---           2.7 to 60.4       -30.7005 to 12.0647         2.786 to 60.483
 </table>
 
 
@@ -90,7 +90,7 @@ Parameters and unit transformations:
 ```{r parameters}
 # Define volume of methanol used for cortisol extraction
 # vol added / vol recovered (mL)
-extraction <- 1.3 / 1
+extraction <- 1 / 0.75
 
 # Reading of spike standard and conversion to ug/dl
 std <- (3133 + 3146) / 2 # test 3 backfit
@@ -255,7 +255,6 @@ cat("The total contribution of the Spike to each sample is 1569.75 pg/mL")
 - C = vol. (in ml) of methanol added to the powdered hair;
 - D = vol. (in ml) of methanol recovered from the extract and subsequently dried down;
 - E = vol. (in ml) of assay buffer used to reconstitute the dried extract;
-- **SLd** = Sample dilution factor (if serially diluted)
 - F = final value of hair CORT Concentration in pg/mg.
 
 
@@ -267,8 +266,8 @@ dSpiked$Final_conc_pg.mg <-
    ((dSpiked$Ave_Conc_pg.ml - dSpiked$Spike.cont_pg.ml) / # (A - spike) 
    dSpiked$Weight_mg) *                                   # / B *
    extraction *                                           # C / D
-   dSpiked$Buffer_ml * dSpiked$Dilution                   # E * Sample dilution
-dSpiked[ , c("Ave_Conc_pg.ml", "Buffer_ml","Spike.cont_pg.ml", "Final_conc_pg.mg")]
+   dSpiked$Buffer_ml                 # E 
+dSpiked[ , c("Sample", "Ave_Conc_pg.ml", "Buffer_ml","Spike.cont_pg.ml", "Final_conc_pg.mg")]
 ```
 
 ```{r echo = FALSE}
@@ -376,22 +375,34 @@ dSpiked$Buffer <- replace(dSpiked$Buffer, dSpiked$Buffer == 0.11, '110 uL')
 dSpiked$Buffer <- replace(dSpiked$Buffer, dSpiked$Buffer == 0.110, '110 uL')
 dSpiked$Buffer <- replace(dSpiked$Buffer, dSpiked$Buffer == 0.25, '250 uL')
 
+dSpiked$Group <- interaction(dSpiked$Buffer, dSpiked$Spike, sep = "_")
+
 # scatterplot
 ggplot(dSpiked, aes(y = Final_conc_pg.mg, 
-                 x = Weight_mg, 
-                 color = Spike,
-                 shape = Buffer)) +
-  geom_point(size = 3.5,  alpha = 0.85) +  
-  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.1) +
+                 x = Weight_mg)) +
+    geom_smooth(method = "lm", 
+                aes(group = Group), 
+              se = TRUE,
+              alpha = 0.2,
+              linewidth = 0.4,
+              color = "gray70"
+                ) +
+    geom_point(size = 3.5,  
+               alpha = 0.85, 
+               aes(shape = Buffer, 
+                   color = Spike)) + 
+    geom_text(aes(label = Sample), 
+              size = 3, vjust = -1, hjust = -0.1) +
+    geom_hline(yintercept = 0, 
+             linetype = "dashed", color = "red3") +
   theme_minimal() +  
    # ylim(-26,30) +
   #xlim(0,52) +
-  geom_hline(yintercept = 0, 
-             linetype = "dashed", color = "red") +
   labs(
     title = "(C) Sam's method ",
     y = "Final Concentration (pg/mg)",
-    x = "Weight (mg)" ) +
+    x = "Weight (mg)"
+    ) +
   theme(
     plot.title = element_text(hjust = 0.5, 
                               size = 17, face = "bold"),

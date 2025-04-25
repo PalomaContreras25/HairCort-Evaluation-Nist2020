@@ -19,9 +19,9 @@ Here I use QCed results from an ELISA plate. All hair samples were obtained from
 
 I removed the samples that have a Coef of variation higher than 15%.
 
-```{r libraries, echo = TRUE, warning = FALSE, message=FALSE}
+```{r libraries, echo = FALSE, warning = FALSE, message=FALSE}
 # Install libraries
-library(dplyr)
+
 library(knitr)
 library(ggplot2)
 library(RColorBrewer)
@@ -29,6 +29,7 @@ library(stats)
 library(coefplot)
 library(arm)
 library(bbmle)
+library(dplyr)
 ```
 
 # Summary of results 

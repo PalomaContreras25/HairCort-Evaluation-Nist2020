@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -386,9 +386,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -412,18 +412,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -514,15 +517,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treee98589f0dae11886730ada0164bbafe63a6f5bf6targetblanke98589fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree0ed450f2d422ad72438387283ed9e2f699969b6etargetblank0ed450fa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/e98589f0dae11886730ada0164bbafe63a6f5bf6" target="_blank">e98589f</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/0ed450f2d422ad72438387283ed9e2f699969b6e" target="_blank">0ed450f</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treee98589f0dae11886730ada0164bbafe63a6f5bf6targetblanke98589fa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree0ed450f2d422ad72438387283ed9e2f699969b6etargetblank0ed450fa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -532,7 +535,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/e98589f0dae11886730ada0164bbafe63a6f5bf6" target="_blank">e98589f</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/0ed450f2d422ad72438387283ed9e2f699969b6e" target="_blank">0ed450f</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -558,30 +561,14 @@ Ignored files:
 
 Unstaged changes:
     Modified:   analysis/ELISA_Analysis_FinalVals_comparisons_test3_test4.Rmd
+    Modified:   analysis/ELISA_Analysis_FinalVals_test4.Rmd
+    Modified:   analysis/ELISA_Analysis_RawVals_test3.Rmd
     Modified:   analysis/ELISA_Calc_FinalVals_test3.Rmd
     Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
-    Modified:   analysis/ELISA_QC_test3.Rmd
-    Modified:   analysis/ELISA_QC_test4.Rmd
     Modified:   data/Test3/Data_Cortisol_Processed.csv
-    Modified:   data/Test3/Data_QC_filtered.csv
-    Modified:   data/Test3/Data_QC_flagged.csv
     Modified:   data/Test3/Data_cort_values_methodA.csv
     Modified:   data/Test3/Data_cort_values_methodB.csv
     Modified:   data/Test3/Data_cort_values_methodC.csv
-    Modified:   data/Test3/failed_samples.csv
-    Modified:   data/Test3/precision_accuracy_summary.csv
-    Modified:   data/Test3/sample_info_test3_091524.csv
-    Modified:   data/Test4/Data_Cortisol_Processed.csv
-    Modified:   data/Test4/Data_QC_filtered.csv
-    Modified:   data/Test4/Data_QC_flagged.csv
-    Modified:   data/Test4/Data_cort_values_methodA.csv
-    Modified:   data/Test4/Data_cort_values_methodB.csv
-    Modified:   data/Test4/Data_cort_values_methodC.csv
-    Modified:   data/Test4/Data_cort_values_method_ALL.csv
-    Modified:   data/Test4/Standard_data_test4.csv
-    Modified:   data/Test4/failed_samples.csv
-    Modified:   data/Test4/layout_wells_test4_021925.csv
-    Modified:   data/Test4/myassays_table_test4_021925.csv
 
 </code></pre>
 <p>
@@ -627,6 +614,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/0ed450f2d422ad72438387283ed9e2f699969b6e/docs/ELISA_Analysis_FinalVals_test4.html" target="_blank">0ed450f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+<td>
+updated input (myassays.com) including dilution
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -914,11 +918,47 @@ different ways of calculating final values: the standard method not
 accounting for spike, and an alternative method accounting for it. The
 way the spike is included in the formula is defined in file
 ELISA_Calc_FinalVals_test4.html.</p>
+<p><em>Plate description</em></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Category</th>
+<th align="center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">TA</td>
+<td align="center">Non-spiked serial dilution</td>
+</tr>
+<tr class="even">
+<td align="left">TB</td>
+<td align="center">Spiked only in first dilution (TB1) then serially
+diluted</td>
+</tr>
+<tr class="odd">
+<td align="left">TC</td>
+<td align="center">Each dilution individually spiked with 25 µL of
+std1</td>
+</tr>
+<tr class="even">
+<td align="left">TD</td>
+<td align="center">First tube spiked 1:1 with std1 (110 µL), then
+serially diluted</td>
+</tr>
+<tr class="odd">
+<td align="left">TP</td>
+<td align="center">Precision replicates (different weights: 6, 9, 12 mg)
+spiked with 25 µL</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="overall-results" class="section level1">
 <h1>Overall Results</h1>
 <div id="a-standard-method" class="section level2">
 <h2>A) Standard method</h2>
+<pre><code>Data has 28 data points</code></pre>
 <p><img src="figure/ELISA_Analysis_FinalVals_test4.Rmd/expABC.Final_pg.mg_A-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-expABC.Final_pg.mg_A-1">
@@ -942,6 +982,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0ed450f2d422ad72438387283ed9e2f699969b6e/docs/figure/ELISA_Analysis_FinalVals_test4.Rmd/expABC.Final_pg.mg_A-1.png" target="_blank">0ed450f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e98589f0dae11886730ada0164bbafe63a6f5bf6/docs/figure/ELISA_Analysis_FinalVals_test4.Rmd/expABC.Final_pg.mg_A-1.png" target="_blank">e98589f</a>
@@ -997,6 +1048,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0ed450f2d422ad72438387283ed9e2f699969b6e/docs/figure/ELISA_Analysis_FinalVals_test4.Rmd/expABC.Final_pg.mg_B-1.png" target="_blank">0ed450f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e98589f0dae11886730ada0164bbafe63a6f5bf6/docs/figure/ELISA_Analysis_FinalVals_test4.Rmd/expABC.Final_pg.mg_B-1.png" target="_blank">e98589f</a>
 </td>
 <td>
@@ -1049,6 +1111,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0ed450f2d422ad72438387283ed9e2f699969b6e/docs/figure/ELISA_Analysis_FinalVals_test4.Rmd/expABC.Final_pg.mg_C-1.png" target="_blank">0ed450f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e98589f0dae11886730ada0164bbafe63a6f5bf6/docs/figure/ELISA_Analysis_FinalVals_test4.Rmd/expABC.Final_pg.mg_C-1.png" target="_blank">e98589f</a>
 </td>
 <td>
@@ -1073,6 +1146,98 @@ Paloma
 </table>
 </div>
 </div>
+</div>
+</div>
+<div id="comparing-all-calculation-methods" class="section level1">
+<h1>Comparing all calculation methods</h1>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<pre><code>Results:</code></pre>
+<pre><code>   Sample Final_pg.mg_A Final_pg.mg_B Final_pg.mg_C
+32   TP2A      33.71556     10.373333      19.45111
+33   TP2B      27.56444     -1.928889      13.30000
+34   TP2C      32.30222      7.546667      18.03778
+35   TP3A      69.17117    -20.686937      29.41385
+36   TP3B      28.06667     13.340000      17.36833
+37   TP3C      31.07333     19.353333      20.37500</code></pre>
+<pre><code>Summary of final values for each calculation method</code></pre>
+<pre><code>Method A:</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  17.13   29.02   32.27   35.28   39.47   82.93 </code></pre>
+<pre><code>Method B:</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ -35.83   10.61   17.00   19.97   30.62  123.07 </code></pre>
+<pre><code>Method C:</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  11.80   19.45   29.34   29.54   33.10   82.90 </code></pre>
+<p><img src="figure/ELISA_Analysis_FinalVals_test4.Rmd/4-results-boxplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ELISA_Analysis_FinalVals_test4.Rmd/4-results-scatterplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ELISA_Analysis_FinalVals_test4.Rmd/4-results-A%20and%20C-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code># A tibble: 6 × 21
+  Wells Sample Category Binding.Perc Ave_Conc_ug.dl Ave_Conc_pg.ml Weight_mg
+  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt;          &lt;dbl&gt;          &lt;int&gt;     &lt;int&gt;
+1 G3    TA3    A                44.3          0.453           4532        50
+2 G3    TA3    A                44.3          0.453           4532        50
+3 A4    TA4    A                55.2          0.598           5979        50
+4 A4    TA4    A                55.2          0.598           5979        50
+5 C4    TA5    A                74.1          0.564           5639        50
+6 C4    TA5    A                74.1          0.564           5639        50
+# ℹ 14 more variables: Buffer_ml &lt;dbl&gt;, Spike &lt;int&gt;, SpikeVol_ul &lt;int&gt;,
+#   Dilution_sample &lt;int&gt;, Dilution_spike &lt;int&gt;, Extraction_ratio &lt;dbl&gt;,
+#   Vol_in_well.tube_ul &lt;int&gt;, Failed_samples &lt;chr&gt;, Final_pg.mg_B &lt;dbl&gt;,
+#   SpikeVol_ml &lt;dbl&gt;, Vol_in_well.tube_ml &lt;dbl&gt;, Spike_contribution &lt;dbl&gt;,
+#   Method &lt;chr&gt;, Final_pg.mg &lt;dbl&gt;</code></pre>
+<p><img src="figure/ELISA_Analysis_FinalVals_test4.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/961ce6a6e6afaf169b3e86741aa75ec90f580429/docs/figure/ELISA_Analysis_FinalVals_test4.Rmd/unnamed-chunk-2-1.png" target="_blank">961ce6a</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-05
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/ced6eede4f190eb8ce9dcb3ade4b06320a5b38c2/docs/figure/ELISA_Analysis_FinalVals_test4.Rmd/unnamed-chunk-2-1.png" target="_blank">ced6eed</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  11.80   22.14   28.91   27.13   31.88   40.40 </code></pre>
 </div>
 </div>
 <div id="accuracy" class="section level1">
@@ -1402,36 +1567,38 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] ggpmisc_0.6.1      ggpp_0.5.8-1       dplyr_1.1.4        plyr_1.8.9        
- [5] bbmle_1.0.25.1     arm_1.14-4         lme4_1.1-37        Matrix_1.7-3      
- [9] MASS_7.3-65        coefplot_1.2.8     ggplot2_3.5.2      RColorBrewer_1.1-3
-[13] knitr_1.50        
+ [1] lubridate_1.9.4    forcats_1.0.0      stringr_1.5.1      purrr_1.0.4       
+ [5] readr_2.1.5        tidyr_1.3.1        tibble_3.2.1       tidyverse_2.0.0   
+ [9] dplyr_1.1.4        ggpmisc_0.6.1      ggpp_0.5.8-1       plyr_1.8.9        
+[13] bbmle_1.0.25.1     arm_1.14-4         lme4_1.1-37        Matrix_1.7-3      
+[17] MASS_7.3-65        coefplot_1.2.8     ggplot2_3.5.2      RColorBrewer_1.1-3
+[21] knitr_1.50        
 
 loaded via a namespace (and not attached):
- [1] gtable_0.3.6        xfun_0.52           bslib_0.9.0        
- [4] lattice_0.22-6      numDeriv_2016.8-1.1 vctrs_0.6.5        
- [7] tools_4.5.0         Rdpack_2.6.4        generics_0.1.3     
-[10] tibble_3.2.1        pkgconfig_2.0.3     lifecycle_1.0.4    
-[13] farver_2.1.2        compiler_4.5.0      stringr_1.5.1      
-[16] git2r_0.36.2        MatrixModels_0.5-4  munsell_0.5.1      
-[19] SparseM_1.84-2      httpuv_1.6.16       quantreg_6.1       
-[22] htmltools_0.5.8.1   sass_0.4.10         yaml_2.3.10        
-[25] later_1.4.2         pillar_1.10.2       nloptr_2.2.1       
-[28] jquerylib_0.1.4     whisker_0.4.1       cachem_1.1.0       
-[31] reformulas_0.4.0    boot_1.3-31         abind_1.4-8        
-[34] useful_1.2.6.1      nlme_3.1-168        tidyselect_1.2.1   
-[37] bdsmatrix_1.3-7     digest_0.6.37       mvtnorm_1.3-3      
-[40] stringi_1.8.7       reshape2_1.4.4      labeling_0.4.3     
-[43] splines_4.5.0       rprojroot_2.0.4     fastmap_1.2.0      
-[46] grid_4.5.0          colorspace_2.1-1    cli_3.6.4          
-[49] magrittr_2.0.3      utf8_1.2.4          survival_3.8-3     
-[52] withr_3.0.2         scales_1.3.0        promises_1.3.2     
-[55] confintr_1.0.2      rmarkdown_2.29      workflowr_1.7.1    
-[58] coda_0.19-4.1       evaluate_1.0.3      rbibutils_2.3      
-[61] mgcv_1.9-1          rlang_1.1.6         Rcpp_1.0.14        
-[64] glue_1.8.0          polynom_1.4-1       rstudioapi_0.17.1  
-[67] minqa_1.2.8         jsonlite_2.0.0      R6_2.6.1           
-[70] fs_1.6.6           </code></pre>
+ [1] tidyselect_1.2.1    farver_2.1.2        fastmap_1.2.0      
+ [4] promises_1.3.2      digest_0.6.37       timechange_0.3.0   
+ [7] lifecycle_1.0.4     survival_3.8-3      magrittr_2.0.3     
+[10] compiler_4.5.0      rlang_1.1.6         sass_0.4.10        
+[13] tools_4.5.0         utf8_1.2.4          useful_1.2.6.1     
+[16] yaml_2.3.10         labeling_0.4.3      abind_1.4-8        
+[19] workflowr_1.7.1     withr_3.0.2         numDeriv_2016.8-1.1
+[22] grid_4.5.0          git2r_0.36.2        colorspace_2.1-1   
+[25] scales_1.3.0        cli_3.6.4           mvtnorm_1.3-3      
+[28] rmarkdown_2.29      reformulas_0.4.0    generics_0.1.3     
+[31] rstudioapi_0.17.1   reshape2_1.4.4      tzdb_0.5.0         
+[34] bdsmatrix_1.3-7     minqa_1.2.8         polynom_1.4-1      
+[37] cachem_1.1.0        splines_4.5.0       vctrs_0.6.5        
+[40] boot_1.3-31         jsonlite_2.0.0      SparseM_1.84-2     
+[43] confintr_1.0.2      hms_1.1.3           jquerylib_0.1.4    
+[46] glue_1.8.0          nloptr_2.2.1        stringi_1.8.7      
+[49] gtable_0.3.6        later_1.4.2         munsell_0.5.1      
+[52] pillar_1.10.2       htmltools_0.5.8.1   quantreg_6.1       
+[55] R6_2.6.1            Rdpack_2.6.4        rprojroot_2.0.4    
+[58] evaluate_1.0.3      lattice_0.22-6      rbibutils_2.3      
+[61] httpuv_1.6.16       bslib_0.9.0         MatrixModels_0.5-4 
+[64] Rcpp_1.0.14         coda_0.19-4.1       nlme_3.1-168       
+[67] mgcv_1.9-1          whisker_0.4.1       xfun_0.52          
+[70] fs_1.6.6            pkgconfig_2.0.3    </code></pre>
 </div>
 </div>
 </div>

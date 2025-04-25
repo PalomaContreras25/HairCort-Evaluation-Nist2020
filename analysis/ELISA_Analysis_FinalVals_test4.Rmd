@@ -8,6 +8,15 @@ output: workflowr::wflow_html
 
 Here I plan to include measurements and visualizations of the accuracy, precision, and linearity of ELISA #4. I will do this using two different ways of calculating final values: the standard method not accounting for spike, and an alternative method accounting for it. The way the spike is included in the formula is defined in file ELISA_Calc_FinalVals_test4.html.
 
+*Plate description*
+
+Category	  Description
+---------  ---------------------------------------------------------------
+TA        	Non-spiked serial dilution
+TB         	Spiked only in first dilution (TB1) then serially diluted
+TC        	Each dilution individually spiked with 25 µL of std1
+TD          First tube spiked 1:1 with std1 (110 µL), then serially diluted
+TP        	Precision replicates (different weights: 6, 9, 12 mg) spiked with 25 µL
 
 ```{r echo=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
@@ -23,9 +32,10 @@ library(coefplot)
 library(arm)
 library(bbmle)
 library(plyr)
-library(dplyr)
 library(ggpmisc)
 library(ggplot2)
+library(dplyr)
+library(tidyverse)
 ```
 
 ```{r loading}
@@ -39,13 +49,15 @@ cort_vals<- read.csv("./data/Test4/Data_cort_values_method_ALL.csv")
 
 ```{r loading valsA}
 # remove NSB
-data <- cort_vals[!(cort_vals$Sample == "NSB"),]
+data <- cort_vals[!(cort_vals$Sample == c("B0", "BE", "NSB", "POOL")),]
 ```
 
 ```{r expABC.Final_pg.mg_A, fig.width=8, fig.height=6}
 # Scatter plot of Experiment A and B, observed binding % 
 a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Final_pg.mg_A)) 
 a$Sample_num <- 1:length(a$Sample)
+a$Failed_samples[is.na(a$Failed_samples)] <- "OK"
+cat(paste("Data has", nrow(a), "data points", sep= " "))
 
 
 ## PLOT WITHOUT POOR QUALITY SAMPLES ### 
@@ -54,7 +66,7 @@ exp <- a %>%
 
 ggplot(exp, aes(x = Sample_num, 
                  y = Final_pg.mg_A, color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.15) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.2, aes(group = exp$Category)) +
   geom_smooth(formula = y ~ log(x), se = FALSE, linewidth = 0.2, linetype = 2) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
@@ -114,6 +126,160 @@ ggplot(exp, aes(x = Sample_num,
   scale_y_continuous(n.breaks = 10) + 
   theme_minimal() 
 
+```
+
+
+# Comparing all calculation methods
+## Summary
+```{r 4-results-boxplot, echo = FALSE}
+# Save result
+cat("Results:")
+tail(data[,c("Sample", "Final_pg.mg_A", "Final_pg.mg_B", "Final_pg.mg_C")])
+data4<-data
+
+# View summary
+cat("Summary of final values for each calculation method")
+cat("Method A:")
+summary(data$Final_pg.mg_A)
+cat("Method B:")
+summary(data$Final_pg.mg_B)
+cat("Method C:")
+summary(data$Final_pg.mg_C)
+
+# Reshape from wide to long format
+data_long <- data %>%
+  select(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "Method",
+    values_to = "pg_mg"
+  )
+
+# Optional: clean group names for prettier x-axis labels
+data_long$Group <- gsub("Final_pg.mg_", "", data_long$Method)
+
+# Plot boxplots
+ggplot(data_long, aes(x = Group, y = pg_mg, fill = Method)) +
+  geom_boxplot(outlier.shape = 21, outlier.fill = "white", outlier.color = "black") +
+  labs(
+    title = "Test4: Final values using calculation methods A, B, and C",
+    x = "Method",
+    y = "pg/mg"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+```{r 4-results-scatterplot, echo = FALSE}
+
+# Reshape data for plotting
+data_long <- data %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
+  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +
+  geom_point(size = 2.8, alpha = 0.7, position = position_dodge(width=0.5)) +
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue",
+               "Final_pg.mg_B" = "orange",
+               "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A (Traditional)",
+               "Method B (Nist et al.)",
+               "Method C (Sam's)")
+  ) +
+  labs(
+    title = "Hair Cortisol by Sample and Calculation Method",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    legend.position = "top"
+  )
+
+
+```
+
+
+```{r 4-results-A and C, echo =FALSE}
+
+# Reshape to long format
+data_long <- data %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_C),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+# Plot with lines connecting A and C values for each sample
+ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
+  geom_line(aes(group = Sample), linewidth = 0.6, color = "gray70") +  # light line connecting methods
+  geom_point(size = 2.8, alpha = 0.8, position = position_dodge(width = 0.5)) +
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue", "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A", "Method C")
+  ) +
+  labs(
+    title = "Comparing final values obtained using 2 methods, by Sample",
+    x = "Sample ID",
+    y = "Final Cortisol Concentration (pg/mg)",
+    color = "Calculation Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+    legend.position = "top"
+  )
+
+```
+
+
+```{r}
+# Filter to include only good quality samples
+data_ok <- data %>%
+    filter(!is.na(Binding.Perc)) %>%
+  filter(Failed_samples == "OK")
+
+# Reshape data for plotting
+data_long_ok <- data_ok %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_C),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+head(data_long_ok)
+# Plot for OK samples only
+ggplot(data_long_ok, aes(x = Sample, y = Final_pg.mg, color = Method)) +
+  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) +
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue",
+               "Final_pg.mg_B" = "orange",
+               "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A (Basic)",
+               "Method B (Subtraction + x2)",
+               "Method D (Spike contribution)")
+  ) +
+  labs(
+    title = "Hair Cortisol (Good Samples Only) — Test4",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    legend.position = "top"
+  )
+summary(data_ok$Final_pg.mg_C)
 ```
 
 
