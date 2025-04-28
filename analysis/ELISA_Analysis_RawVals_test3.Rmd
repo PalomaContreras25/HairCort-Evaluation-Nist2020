@@ -1,5 +1,5 @@
 ---
-title: "Results"
+title: "Analysis raw values, test3"
 author: "Paloma"
 date: "2024-10-16"
 output: workflowr::wflow_html
@@ -41,23 +41,22 @@ The **figures** below were used to decide that the **optimal parameters** are:
 - **Spike** Non-spiked samples provide lower binding deviation from 50% (i.e. measures are close to falling outside the curve) 
 
 
-```{r}
+```{r warning = FALSE}
 # Loading data
 data <- read.csv("./data/Test3/Data_QC_filtered.csv")
-std <- read.csv("./data/Test3/standard_data.csv")
+std <- read.csv("./data/Test3/Standard_data_test3.csv")
 
 
 #Inclusion of standard readings in plot
 data1 <- data[,c("Wells","Binding.Perc", "Ave_Conc_pg.ml", "Weight_mg", "Buffer_nl", "Spike", "Sample")]
 std1 <- std[,c("Wells", "Binding.Perc", "Backfit")] 
-std1$Binding.Perc <- std1$Binding.Perc*100
+#std1$Binding.Perc <- std1$Binding.Perc*100
 std1$Spike <- 2
 std1$Buffer_nl <- 250
 std1$Weight_mg <- 20
 colnames(std1)[3]<- c("Ave_Conc_pg.ml")
 
-library(plyr)
-data_std <- join(data1, std1, type = "full") 
+data_std <- plyr::join(data1, std1, type = "full") 
 
 # Scatter plot of Binding Percentage vs Weight
 

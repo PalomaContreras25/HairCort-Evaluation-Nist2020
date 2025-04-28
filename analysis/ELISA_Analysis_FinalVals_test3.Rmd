@@ -1,0 +1,368 @@
+---
+title: "Final vals analysis, test3"
+output: html_document
+date: "2025-04-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+library(knitr)
+library(ggplot2)
+library(broom)
+library(paletteer)
+library(dplyr)
+library(tidyverse)
+library(readr)
+
+```
+
+# Test3
+
+**Plate description**
+
+Combined variables to evaluate effect of weight, dilution, and addition of spike
+
+```{r test3, echo = TRUE}
+#path:
+data_path  = "./data/Test3"
+
+# Load the dataset
+data3 <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
+data <- data3
+data$Failed_samples[is.na(data$Failed_samples)] <- "OK"
+# Conversion and Constants
+data$Buffer_ml <- data$Buffer_nl / 1000
+data$TotalVol_well_ml <- data$TotalVol_well_ul / 1000
+data$SpikeVol_ml <- data$SpikeVol_ul / 1000
+data$Ave_Conc_ug.dl <- data$Ave_Conc_pg.ml / 10000
+# Extraction ratio
+extraction <- 1 / 0.75
+
+# Spike concentration (pg/mL)
+std_conc <- 3139.5
+
+# Method A: No spike correction
+data$Final_pg.mg_A <- ((data$Ave_Conc_pg.ml / data$Weight_mg) *
+                         extraction * data$Buffer_ml * data$Dilution)
+
+# Method B: Subtract spike reading (std) and apply dilution factor (×2)
+data$Final_pg.mg_B <- ifelse(
+  data$Spike == 1,
+  ((data$Ave_Conc_pg.ml - std_conc) / data$Weight_mg) *
+    extraction * data$Buffer_ml * 2,
+  # fallback to method A if not spiked
+ data$Final_pg.mg_A
+)
+
+# Method C: Spike contribution subtracted
+data$Spike_contribution <- ((data$SpikeVol_ml * std_conc) / data$TotalVol_well_ml) / data$Dilution
+
+summary(data$Spike_contribution)
+
+data$Final_pg.mg_C <- (
+  (data$Ave_Conc_pg.ml - data$Spike_contribution) / data$Weight_mg) *
+    extraction * data$Buffer_ml * data$Dilution
+
+
+# Save result
+write.csv(data, file.path(data_path,"Data_cort_values_ABC.csv"), row.names = FALSE)
+
+# View summary
+summary(data$Final_pg.mg_A)
+summary(data$Final_pg.mg_B)
+summary(data$Final_pg.mg_C)
+
+data3 <- data
+```
+
+
+```{r}
+
+# Reshape data for plotting
+data_long <- data %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
+  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) + 
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue",
+               "Final_pg.mg_B" = "orange",
+               "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A (Traditional)",
+               "Method B (Subtraction + x2)",
+               "Method C (Spike contribution)")
+  ) +
+  labs(
+    title = "Hair Cortisol by Sample and Calculation Method",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    legend.position = "top"
+  )
+
+
+```
+
+
+```{r}
+# Reshape to long format
+data_long <- data %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_C),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+# Plot
+
+# Plot with lines connecting A and D values for each sample
+ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method)) +
+  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +  # light line connecting methods
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) +
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue", 
+               "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A", "Method C")
+  ) +
+  labs(
+    title = "Hair Cortisol Concentration by Sample",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Calculation Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+    legend.position = "top"
+  )
+```
+
+
+```{r}
+# Filter to include only good quality samples
+data_ok <- data %>%
+  filter(Failed_samples == "OK")
+
+# Reshape data for plotting
+data_long_ok <- data_ok %>%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_C),
+    names_to = "Method",
+    values_to = "Final_pg.mg"
+  )
+
+print(data_long_ok, n=5)
+
+# Plot for OK samples only
+ggplot(data_long_ok, aes(x = Sample, y = Final_pg.mg, color = Method)) +
+  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) +
+  scale_color_manual(
+    values = c("Final_pg.mg_A" = "steelblue",
+             #  "Final_pg.mg_B" = "orange",
+               "Final_pg.mg_C" = "darkgreen"),
+    labels = c("Method A (Traditional)",
+              # "Method B (Subtraction + x2)",
+               "Method C (Spike contribution)")
+  ) +
+  labs(
+    title = "Hair Cortisol (Good Samples Only) — Test3",
+    x = "Sample ID",
+    y = "Final Cortisol (pg/mg)",
+    color = "Method"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    legend.position = "top"
+  )
+
+```
+
+
+
+
+# Recovery test 3
+
+```{r recov3}
+library(dplyr)
+# Load the datax
+df <- read.csv(file.path(data_path, "Data_Cortisol_Processed.csv"))
+data3_processed <- df
+# Clean: extract numeric SampleID suffix to help match pairs
+df <- df %>%
+  mutate(SampleID = str_extract(Sample_comparable, "\\d+$"))
+
+# Step 1: Wide format - match NoSpike and YesSpike using SampleID
+df_wide <- df %>%
+  filter(Category %in% c("NoSpike", "YesSpike")) %>%
+  dplyr::select(SampleID, Category, Ave_Conc_pg.ml)
+
+# Step 3: Identify IDs that have BOTH NoSpike and YesSpike
+df_avg <- df_wide %>%
+  dplyr::group_by(SampleID, Category) %>%
+  dplyr::summarise(Ave_pgml = mean(Ave_Conc_pg.ml, na.rm = TRUE), .groups = "drop")
+
+# Step 3: Identify IDs that have BOTH NoSpike and YesSpike
+paired_ids <- df_avg %>%
+  dplyr::count(SampleID) %>%
+  filter(n == 2) %>%
+  pull(SampleID)
+
+
+df_paired <- df_avg %>%
+  filter(SampleID %in% paired_ids)
+
+df_recovery <- df_paired %>%
+  pivot_wider(names_from = Category, values_from = Ave_pgml)
+
+# Step : Define known spike contribution (pg/mL)
+# Assume 25 µL of 3200 pg/mL added into 50 µL total = (25/1000 * 3200) / (50/1000)
+known_spike_pgml <- 1569.75  # = 1600 pg/mL
+
+df_recovery <- df_recovery %>%
+  mutate(Recovery_pct = ((YesSpike - NoSpike) / known_spike_pgml) * 100)
+
+df_recovery <- df_recovery %>%
+  mutate(Recovery_Class = case_when(
+      Recovery_pct < 80 ~ "Under-recovery",
+      Recovery_pct > 120 ~ "Over-recovery",
+      TRUE ~ "Acceptable"))
+
+# Step 5: Plot
+ggplot(df_recovery, aes(x = SampleID, y = Recovery_pct, fill = Recovery_Class)) +
+  geom_bar(stat = "identity") +
+  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
+  scale_fill_manual(values = c(
+    "Under-recovery" = "red",
+    "Acceptable" = "steelblue",
+    "Over-recovery" = "orange2"
+  )) +
+  labs(
+    title = "Spike Recovery (%) at ELISA Level",
+    subtitle = "Dashed lines show 80–120% acceptable range",
+    x = "Sample ID",
+    y = "Recovery (%)",
+    fill = "Recovery Classification"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Step 4: View or export summary table
+print(df_recovery)
+
+```
+All samples show recovery ≥ 105%, with most between 105% and 132%
+
+Sample 5, 8, 9, and 11–12 exceed the standard acceptable range of 80–120%
+
+This suggests slightly inflated recovery, potentially due to:
+
+Minor pipetting differences
+
+Matrix effects (e.g., enhanced absorbance in spiked matrix)
+
+Slight overestimation in YesSpike values relative to expected spike contribution
+
+
+Spike recovery ranged from 105% to 155% across 10 matched sample pairs. Most samples fell near or slightly above the commonly accepted 80–120% range, with the highest recovery observed in Sample 5 (155%). These results indicate that the ELISA assay successfully detects added cortisol with high sensitivity, though minor over-recovery may reflect matrix effects or variation in sample absorbance. Overall, recovery was consistent and supports the validity of the spike-in approach at the ELISA level.
+
+
+
+# Precision and accuracy, test3
+
+```{r prec and acc}
+df <- data3_processed
+
+# Step 1: Clean and filter only relevant categories
+df_sub <- df %>%
+  filter(Category %in% c("NoSpike", "YesSpike")) %>%
+  mutate(Sample_comparable = as.character(Sample_comparable))
+
+# Step 2: Keep only Sample_comparable IDs with both YesSpike and NoSpike
+valid_pairs <- df_sub %>%
+  distinct(Sample_comparable, Category) %>%
+  dplyr::count(Sample_comparable) %>%
+  filter(n == 2) %>%
+  pull(Sample_comparable)
+
+df_matched <- df_sub %>%
+  filter(Sample_comparable %in% valid_pairs)
+
+# Step 3: Pivot to wide format for recovery calculation
+df_wide <- df_matched %>%
+  dplyr::select(Sample_comparable, Category, Ave_Conc_pg.ml) 
+
+df_avg <- df_wide %>%
+  dplyr::group_by(Sample_comparable, Category) %>%
+  dplyr::summarise(Ave_pgml = mean(Ave_Conc_pg.ml, na.rm = TRUE), .groups = "drop")
+
+Spike_contribution <- 1569.75
+
+df_recovery <- df_avg %>%
+  pivot_wider(names_from = Category, values_from = Ave_pgml)
+
+
+# Step 4: Calculate Recovery % and accuracy flag
+df_wide <- df_recovery %>%
+  mutate(
+    Recovery_pct = ((YesSpike - NoSpike) / Spike_contribution) * 100,
+    Accuracy_Flag = case_when(
+      is.na(Recovery_pct) ~ NA_character_,
+      Recovery_pct < 80 ~ "Under-recovery",
+      Recovery_pct > 120 ~ "Over-recovery",
+      TRUE ~ "Acceptable"
+    )
+  )
+
+# Step 5: Extract precision values
+df_precision <- df %>%
+  dplyr::select(Sample, Sample_comparable, CV.Perc, Weight_mg, Buffer_ml) %>%
+  mutate(Precision_Flag = case_when(
+    is.na(CV.Perc) ~ NA_character_,
+    CV.Perc <= 15 ~ "Acceptable",
+    TRUE ~ "High CV"
+  ))
+
+df_precision$Sample_comparable<- as.character(df_precision$Sample_comparable)
+# Step 6: Merge precision with accuracy summary
+df_summary <- left_join(df_wide, df_precision, by = "Sample_comparable") %>%
+  distinct(Sample_comparable, .keep_all = TRUE) %>%
+  dplyr::select(Sample, Weight_mg, Buffer_ml, CV.Perc, Precision_Flag, Recovery_pct, Accuracy_Flag)
+
+df_sorted <- df_summary %>% arrange(Weight_mg, Buffer_ml)
+df_sorted$Sample <- 1:nrow(df_sorted)
+# Step 7: View or export
+print(df_sorted)
+
+
+# Optional: Save to file
+write.csv(df_sorted, file.path(data_path, "precision_accuracy_summary.csv"), row.names = FALSE)
+
+ggplot(df_sorted, aes(x = Weight_mg, y = Recovery_pct,
+                      color = Accuracy_Flag, shape = Precision_Flag)) +
+  geom_point(size = 4) +
+  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkgray") +
+  labs(
+    title = "Spike Recovery (%) vs Hair Weight (mg)",
+    subtitle = "Dashed lines show 80–120% acceptable range",
+    x = "Hair Weight (mg)",
+    y = "Recovery (%)",
+    color = "Accuracy",
+    shape = "Precision"
+  ) +
+  theme_minimal()           
+           
+
+
+```
+

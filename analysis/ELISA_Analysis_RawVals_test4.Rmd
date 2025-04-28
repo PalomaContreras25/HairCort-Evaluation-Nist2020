@@ -1,5 +1,5 @@
 ---
-title: "Results - test4"
+title: "Analysis - raw vals test4"
 author: "Paloma"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
@@ -58,7 +58,8 @@ a$Sample_num <- 1:length(a$Sample)
 
 ggplot(a, aes(x = Sample_num, 
                  y = Binding.Perc, color = Category)) +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.5, alpha = 0.3) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.3, alpha = 0.3) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, aes(group = a$Category)) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 80, linetype = "dashed", 
@@ -76,10 +77,12 @@ ggplot(a, aes(x = Sample_num,
 
 exp <- a %>%
   filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "TA2","TC3", "TD6", "TD7", "TB6", "TA1", "TB1", "TD1"))
+exp$Sample_num <- 1:length(exp$Sample)
 
 ggplot(exp, aes(x = Sample_num, 
                  y = Binding.Perc, color = Category)) +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.5, alpha = 0.3) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.2, alpha = 0.3) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, aes(group = exp$Category)) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 80, linetype = "dashed", 
@@ -95,25 +98,6 @@ ggplot(exp, aes(x = Sample_num,
   scale_y_continuous(n.breaks = 10) + 
     coord_cartesian(ylim = c(0, 105)) +
   theme_minimal() 
-
-ggplot(exp, aes(x = Sample_num, 
-                 y = Binding.Perc, color = Category)) +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 1), se = TRUE, linewidth = 0.5, alpha = 0.3) +
-  geom_point(size = 2) +
-  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
-  geom_hline(yintercept = 80, linetype = "dashed", 
-             color = "gray", linewidth = 1) +  
-  geom_hline(yintercept = 20, linetype = "dashed", 
-             color = "gray", linewidth = 1) +  # Add horizontal line 
-  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
-               formula = y ~ x, parse = TRUE, size = 2.5) +
- # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
-  labs(title = "All serial dilutions plus standard: observed binding %",
-       subtitle = "removed high CV samples, linear model",
-       x = "Sample", y = "Binding Percentage") +
-  scale_y_continuous(n.breaks = 10) + 
-  theme_minimal() 
-
 
 ```
 

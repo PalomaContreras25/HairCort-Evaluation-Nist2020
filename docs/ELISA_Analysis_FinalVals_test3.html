@@ -10,9 +10,9 @@
 
 
 
-<meta name="date" content="2025-04-17" />
+<meta name="date" content="2025-04-08" />
 
-<title>Test5_design</title>
+<title>Final vals analysis, test3</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -350,8 +350,8 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Test5_design</h1>
-<h4 class="date">2025-04-17</h4>
+<h1 class="title toc-ignore">Final vals analysis, test3</h1>
+<h4 class="date">2025-04-08</h4>
 
 </div>
 
@@ -419,10 +419,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -570,7 +570,6 @@ Unstaged changes:
     Modified:   analysis/ELISA_Analysis_RawVals_test4.Rmd
     Modified:   analysis/ELISA_Calc_FinalVals_test3.Rmd
     Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
-    Modified:   analysis/Test5_design.Rmd
 
 </code></pre>
 <p>
@@ -586,260 +585,378 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/Test5_design.Rmd</code>) and HTML
-(<code>docs/Test5_design.html</code>) files. If you’ve configured a
-remote Git repository (see <code>?wflow_git_remote</code>), click on the
-hyperlinks in the table below to view the files as they were in that
-past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/7240d2e077315a9ed12a32a724dab7a50ad4a271/analysis/Test5_design.Rmd" target="_blank">7240d2e</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-22
-</td>
-<td>
-organized files
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/7240d2e077315a9ed12a32a724dab7a50ad4a271/docs/Test5_design.html" target="_blank">7240d2e</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-22
-</td>
-<td>
-organized files
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/82ad9289d2fb8bc31d61faa7388692d97861b9f8/analysis/Test5_design.Rmd" target="_blank">82ad928</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-17
-</td>
-<td>
-upd
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/82ad9289d2fb8bc31d61faa7388692d97861b9f8/docs/Test5_design.html" target="_blank">82ad928</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-17
-</td>
-<td>
-upd
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<div id="validation-1-spike-recovery-test" class="section level1">
-<h1>VALIDATION 1: Spike-Recovery Test</h1>
-<p>🎯 <strong>Purpose</strong>: To assess how much known cortisol is
-recovered from a pulverized extract. This helps detect matrix
-interference (e.g., suppression or enhancement).</p>
-<p>🔬 <strong>Materials</strong>:</p>
-<ul>
-<li>Pulverized, washed blank hair sample (very low or no cortisol)</li>
-<li>Cortisol standard solution (e.g., 1000 pg/mL in assay buffer)</li>
-<li>ELISA plate with standard curve</li>
-</ul>
-<p>🧪 <strong>Procedure</strong>:</p>
-<table>
-<colgroup>
-<col width="22%" />
-<col width="29%" />
-<col width="25%" />
-<col width="22%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Tube</th>
-<th>Contents</th>
-<th>Description</th>
-<th>Explanation</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>A</td>
-<td>Pulverized hair + methanol (extraction only)</td>
-<td>Unspiked control</td>
-<td>get a baseline value</td>
-</tr>
-<tr class="even">
-<td>B</td>
-<td>Pulverized hair + methanol + known cortisol (e.g., 100 pg)</td>
-<td>Spiked sample</td>
-<td>checks if you recover what you added</td>
-</tr>
-<tr class="odd">
-<td>C</td>
-<td>Cortisol in methanol (no hair)</td>
-<td>Solvent control</td>
-<td>ensures no cortisol loss or pipetting error</td>
-</tr>
-</tbody>
-</table>
-<p><strong>REMEMBER</strong>: Let the spiked tube sit for 30–60 min to
-simulate binding, then proceed with extraction and ELISA as usual.</p>
-<p>Reconstitute the dried extract and run both A and B in duplicate on
-the plate.</p>
-<p>🧮 <strong>Calculation</strong>:</p>
-<p>Recovery (%) = ((Measured pg − Background pg (A)) / Spiked pg ) *
-100</p>
-<p>Expected:</p>
-<p>80–120% recovery is generally considered acceptable. If &lt;80% or
-&gt;120%, matrix effects are likely.</p>
+<div id="test3" class="section level1">
+<h1>Test3</h1>
+<p><strong>Plate description</strong></p>
+<p>Combined variables to evaluate effect of weight, dilution, and
+addition of spike</p>
+<pre class="r"><code>#path:
+data_path  = &quot;./data/Test3&quot;
+
+# Load the dataset
+data3 &lt;- read.csv(file.path(data_path,&quot;Data_QC_flagged.csv&quot;))
+data &lt;- data3
+data$Failed_samples[is.na(data$Failed_samples)] &lt;- &quot;OK&quot;
+# Conversion and Constants
+data$Buffer_ml &lt;- data$Buffer_nl / 1000
+data$TotalVol_well_ml &lt;- data$TotalVol_well_ul / 1000
+data$SpikeVol_ml &lt;- data$SpikeVol_ul / 1000
+data$Ave_Conc_ug.dl &lt;- data$Ave_Conc_pg.ml / 10000
+# Extraction ratio
+extraction &lt;- 1 / 0.75
+
+# Spike concentration (pg/mL)
+std_conc &lt;- 3139.5
+
+# Method A: No spike correction
+data$Final_pg.mg_A &lt;- ((data$Ave_Conc_pg.ml / data$Weight_mg) *
+                         extraction * data$Buffer_ml * data$Dilution)
+
+# Method B: Subtract spike reading (std) and apply dilution factor (×2)
+data$Final_pg.mg_B &lt;- ifelse(
+  data$Spike == 1,
+  ((data$Ave_Conc_pg.ml - std_conc) / data$Weight_mg) *
+    extraction * data$Buffer_ml * 2,
+  # fallback to method A if not spiked
+ data$Final_pg.mg_A
+)
+
+# Method C: Spike contribution subtracted
+data$Spike_contribution &lt;- ((data$SpikeVol_ml * std_conc) / data$TotalVol_well_ml) / data$Dilution
+
+summary(data$Spike_contribution)</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    0.0     0.0     0.0   563.5  1569.8  1569.8 </code></pre>
+<pre class="r"><code>data$Final_pg.mg_C &lt;- (
+  (data$Ave_Conc_pg.ml - data$Spike_contribution) / data$Weight_mg) *
+    extraction * data$Buffer_ml * data$Dilution
+
+
+# Save result
+write.csv(data, file.path(data_path,&quot;Data_cort_values_ABC.csv&quot;), row.names = FALSE)
+
+# View summary
+summary(data$Final_pg.mg_A)</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.8836  5.5134 10.5540 14.4346 12.9448 60.4831 </code></pre>
+<pre class="r"><code>summary(data$Final_pg.mg_B)</code></pre>
+<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-30.7005  -3.0170   4.3358   0.8079   9.6526  12.0647 </code></pre>
+<pre class="r"><code>summary(data$Final_pg.mg_C)</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.8836  5.0099  7.8851  8.6067 10.9813 22.5664 </code></pre>
+<pre class="r"><code>data3 &lt;- data</code></pre>
+<pre class="r"><code># Reshape data for plotting
+data_long &lt;- data %&gt;%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C),
+    names_to = &quot;Method&quot;,
+    values_to = &quot;Final_pg.mg&quot;
+  )
+
+ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
+  geom_line(aes(group = Sample), color = &quot;gray75&quot;, size = 0.5) +
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) + 
+  scale_color_manual(
+    values = c(&quot;Final_pg.mg_A&quot; = &quot;steelblue&quot;,
+               &quot;Final_pg.mg_B&quot; = &quot;orange&quot;,
+               &quot;Final_pg.mg_C&quot; = &quot;darkgreen&quot;),
+    labels = c(&quot;Method A (Traditional)&quot;,
+               &quot;Method B (Subtraction + x2)&quot;,
+               &quot;Method C (Spike contribution)&quot;)
+  ) +
+  labs(
+    title = &quot;Hair Cortisol by Sample and Calculation Method&quot;,
+    x = &quot;Sample ID&quot;,
+    y = &quot;Final Cortisol (pg/mg)&quot;,
+    color = &quot;Method&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    legend.position = &quot;top&quot;
+  )</code></pre>
+<p><img src="figure/ELISA_Analysis_FinalVals_test3.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Reshape to long format
+data_long &lt;- data %&gt;%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_C),
+    names_to = &quot;Method&quot;,
+    values_to = &quot;Final_pg.mg&quot;
+  )
+
+# Plot
+
+# Plot with lines connecting A and D values for each sample
+ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method)) +
+  geom_line(aes(group = Sample), color = &quot;gray75&quot;, size = 0.5) +  # light line connecting methods
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) +
+  scale_color_manual(
+    values = c(&quot;Final_pg.mg_A&quot; = &quot;steelblue&quot;, 
+               &quot;Final_pg.mg_C&quot; = &quot;darkgreen&quot;),
+    labels = c(&quot;Method A&quot;, &quot;Method C&quot;)
+  ) +
+  labs(
+    title = &quot;Hair Cortisol Concentration by Sample&quot;,
+    x = &quot;Sample ID&quot;,
+    y = &quot;Final Cortisol (pg/mg)&quot;,
+    color = &quot;Calculation Method&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+    legend.position = &quot;top&quot;
+  )</code></pre>
+<p><img src="figure/ELISA_Analysis_FinalVals_test3.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Filter to include only good quality samples
+data_ok &lt;- data %&gt;%
+  filter(Failed_samples == &quot;OK&quot;)
+
+# Reshape data for plotting
+data_long_ok &lt;- data_ok %&gt;%
+  pivot_longer(
+    cols = c(Final_pg.mg_A, Final_pg.mg_C),
+    names_to = &quot;Method&quot;,
+    values_to = &quot;Final_pg.mg&quot;
+  )
+
+print(data_long_ok, n=5)</code></pre>
+<pre><code># A tibble: 60 × 28
+  Sample Wells Raw.OD Binding.Perc Conc_pg.ml Ave_Conc_pg.ml CV.Perc    SD   SEM
+  &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 11     E5     0.939         71.6       497.           513.    4.5   23.1  16.3
+2 11     E5     0.939         71.6       497.           513.    4.5   23.1  16.3
+3 12     F5     0.422         30        2690           2728     1.92  52.5  37.1
+4 12     F5     0.422         30        2690           2728     1.92  52.5  37.1
+5 13     G5     0.451         32.1      2412           2477     3.68  91.1  64.4
+# ℹ 55 more rows
+# ℹ 19 more variables: Category &lt;chr&gt;, Weight_mg &lt;dbl&gt;, Buffer_nl &lt;int&gt;,
+#   Spike &lt;int&gt;, TotalVol_well_ul &lt;int&gt;, SpikeVol_ul &lt;int&gt;, Dilution &lt;int&gt;,
+#   Sample_comparable &lt;int&gt;, CV_categ &lt;chr&gt;, Binding.Perc_categ &lt;chr&gt;,
+#   Failed_samples &lt;chr&gt;, Buffer_ml &lt;dbl&gt;, TotalVol_well_ml &lt;dbl&gt;,
+#   SpikeVol_ml &lt;dbl&gt;, Ave_Conc_ug.dl &lt;dbl&gt;, Final_pg.mg_B &lt;dbl&gt;,
+#   Spike_contribution &lt;dbl&gt;, Method &lt;chr&gt;, Final_pg.mg &lt;dbl&gt;</code></pre>
+<pre class="r"><code># Plot for OK samples only
+ggplot(data_long_ok, aes(x = Sample, y = Final_pg.mg, color = Method)) +
+  geom_line(aes(group = Sample), color = &quot;gray75&quot;, size = 0.5) +
+  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) +
+  scale_color_manual(
+    values = c(&quot;Final_pg.mg_A&quot; = &quot;steelblue&quot;,
+             #  &quot;Final_pg.mg_B&quot; = &quot;orange&quot;,
+               &quot;Final_pg.mg_C&quot; = &quot;darkgreen&quot;),
+    labels = c(&quot;Method A (Traditional)&quot;,
+              # &quot;Method B (Subtraction + x2)&quot;,
+               &quot;Method C (Spike contribution)&quot;)
+  ) +
+  labs(
+    title = &quot;Hair Cortisol (Good Samples Only) — Test3&quot;,
+    x = &quot;Sample ID&quot;,
+    y = &quot;Final Cortisol (pg/mg)&quot;,
+    color = &quot;Method&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    legend.position = &quot;top&quot;
+  )</code></pre>
+<p><img src="figure/ELISA_Analysis_FinalVals_test3.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="validation-2-parallelism-test" class="section level1">
-<h1>🧪 VALIDATION 2: Parallelism Test</h1>
-<p>🎯 <strong>Purpose</strong>:</p>
-<p>To determine whether a serial dilution of your extract runs parallel
-to the standard curve, indicating minimal matrix effects (no inhibition
-or enhancement).</p>
-<p>🔬 <strong>Materials:</strong></p>
-<ul>
-<li>A high-concentration pulverized extract (from a real or pooled
-sample)</li>
-<li>Your ELISA standard curve</li>
-<li>Assay buffer for dilution</li>
-</ul>
-<p>🧪 <strong>Plate Layout</strong> :</p>
-<table>
-<thead>
-<tr class="header">
-<th>Well</th>
-<th>Dilution</th>
-<th>Contents</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>S1</td>
-<td>Neat extract</td>
-<td>100%</td>
-</tr>
-<tr class="even">
-<td>S2</td>
-<td>1:2 dilution</td>
-<td>50%</td>
-</tr>
-<tr class="odd">
-<td>S3</td>
-<td>1:4 dilution</td>
-<td>25%</td>
-</tr>
-<tr class="even">
-<td>S4</td>
-<td>1:8 dilution</td>
-<td>12.5%</td>
-</tr>
-<tr class="odd">
-<td>S5</td>
-<td>1:16 dilution</td>
-<td>6.25%</td>
-</tr>
-</tbody>
-</table>
-<p>… …</p>
-<p>Run all diluted samples in duplicate.</p>
-<p>📉 <strong>Plotting &amp; Interpreting</strong>:</p>
-<p>Plot absorbance (y-axis) vs. log concentration (x-axis) for:</p>
-<ul>
-<li>The standard curve</li>
-<li>Your diluted extract</li>
-<li>Check for parallelism between the sample and the standard
-curve.</li>
-</ul>
-<p>Expected:</p>
-<p>If sample curve is parallel to the standard, no major matrix effect
-is present. If the sample curve bends or flattens relative to the
-standard, there’s likely matrix interference.</p>
-<p>🧪 <strong>Summary of Both Tests</strong></p>
-<table>
-<colgroup>
-<col width="33%" />
-<col width="33%" />
-<col width="33%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Test</th>
-<th>What It Tells You</th>
-<th>Outcome to Look For</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Spike-Recovery</td>
-<td>Do matrix components suppress/enhance cortisol signal?</td>
-<td>Recovery 80–120%</td>
-</tr>
-<tr class="even">
-<td>Parallelism</td>
-<td>Do serial dilutions track with the standard curve?</td>
-<td>Same shape/parallel curves</td>
-</tr>
-</tbody>
-</table>
+<div id="recovery-test-3" class="section level1">
+<h1>Recovery test 3</h1>
+<pre class="r"><code>library(dplyr)
+# Load the datax
+df &lt;- read.csv(file.path(data_path, &quot;Data_Cortisol_Processed.csv&quot;))
+data3_processed &lt;- df
+# Clean: extract numeric SampleID suffix to help match pairs
+df &lt;- df %&gt;%
+  mutate(SampleID = str_extract(Sample_comparable, &quot;\\d+$&quot;))
+
+# Step 1: Wide format - match NoSpike and YesSpike using SampleID
+df_wide &lt;- df %&gt;%
+  filter(Category %in% c(&quot;NoSpike&quot;, &quot;YesSpike&quot;)) %&gt;%
+  dplyr::select(SampleID, Category, Ave_Conc_pg.ml)
+
+# Step 3: Identify IDs that have BOTH NoSpike and YesSpike
+df_avg &lt;- df_wide %&gt;%
+  dplyr::group_by(SampleID, Category) %&gt;%
+  dplyr::summarise(Ave_pgml = mean(Ave_Conc_pg.ml, na.rm = TRUE), .groups = &quot;drop&quot;)
+
+# Step 3: Identify IDs that have BOTH NoSpike and YesSpike
+paired_ids &lt;- df_avg %&gt;%
+  dplyr::count(SampleID) %&gt;%
+  filter(n == 2) %&gt;%
+  pull(SampleID)
+
+
+df_paired &lt;- df_avg %&gt;%
+  filter(SampleID %in% paired_ids)
+
+df_recovery &lt;- df_paired %&gt;%
+  pivot_wider(names_from = Category, values_from = Ave_pgml)
+
+# Step : Define known spike contribution (pg/mL)
+# Assume 25 µL of 3200 pg/mL added into 50 µL total = (25/1000 * 3200) / (50/1000)
+known_spike_pgml &lt;- 1569.75  # = 1600 pg/mL
+
+df_recovery &lt;- df_recovery %&gt;%
+  mutate(Recovery_pct = ((YesSpike - NoSpike) / known_spike_pgml) * 100)
+
+df_recovery &lt;- df_recovery %&gt;%
+  mutate(Recovery_Class = case_when(
+      Recovery_pct &lt; 80 ~ &quot;Under-recovery&quot;,
+      Recovery_pct &gt; 120 ~ &quot;Over-recovery&quot;,
+      TRUE ~ &quot;Acceptable&quot;))
+
+# Step 5: Plot
+ggplot(df_recovery, aes(x = SampleID, y = Recovery_pct, fill = Recovery_Class)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  geom_hline(yintercept = c(80, 120), linetype = &quot;dashed&quot;, color = &quot;darkred&quot;) +
+  scale_fill_manual(values = c(
+    &quot;Under-recovery&quot; = &quot;red&quot;,
+    &quot;Acceptable&quot; = &quot;steelblue&quot;,
+    &quot;Over-recovery&quot; = &quot;orange2&quot;
+  )) +
+  labs(
+    title = &quot;Spike Recovery (%) at ELISA Level&quot;,
+    subtitle = &quot;Dashed lines show 80–120% acceptable range&quot;,
+    x = &quot;Sample ID&quot;,
+    y = &quot;Recovery (%)&quot;,
+    fill = &quot;Recovery Classification&quot;
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="figure/ELISA_Analysis_FinalVals_test3.Rmd/recov3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Step 4: View or export summary table
+print(df_recovery)</code></pre>
+<pre><code># A tibble: 9 × 5
+  SampleID NoSpike YesSpike Recovery_pct Recovery_Class
+  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;         
+1 1           644.    2287          105. Acceptable    
+2 13          397.    2504          134. Over-recovery 
+3 14          450     2477          129. Over-recovery 
+4 15          680.    2535          118. Acceptable    
+5 17          794.    2728          123. Over-recovery 
+6 19          325.    2888          163. Over-recovery 
+7 2           501.    2204          108. Acceptable    
+8 3          1045     2866.         116. Acceptable    
+9 5           271.    3196          186. Over-recovery </code></pre>
+<p>All samples show recovery ≥ 105%, with most between 105% and 132%</p>
+<p>Sample 5, 8, 9, and 11–12 exceed the standard acceptable range of
+80–120%</p>
+<p>This suggests slightly inflated recovery, potentially due to:</p>
+<p>Minor pipetting differences</p>
+<p>Matrix effects (e.g., enhanced absorbance in spiked matrix)</p>
+<p>Slight overestimation in YesSpike values relative to expected spike
+contribution</p>
+<p>Spike recovery ranged from 105% to 155% across 10 matched sample
+pairs. Most samples fell near or slightly above the commonly accepted
+80–120% range, with the highest recovery observed in Sample 5 (155%).
+These results indicate that the ELISA assay successfully detects added
+cortisol with high sensitivity, though minor over-recovery may reflect
+matrix effects or variation in sample absorbance. Overall, recovery was
+consistent and supports the validity of the spike-in approach at the
+ELISA level.</p>
+</div>
+<div id="precision-and-accuracy-test3" class="section level1">
+<h1>Precision and accuracy, test3</h1>
+<pre class="r"><code>df &lt;- data3_processed
+
+# Step 1: Clean and filter only relevant categories
+df_sub &lt;- df %&gt;%
+  filter(Category %in% c(&quot;NoSpike&quot;, &quot;YesSpike&quot;)) %&gt;%
+  mutate(Sample_comparable = as.character(Sample_comparable))
+
+# Step 2: Keep only Sample_comparable IDs with both YesSpike and NoSpike
+valid_pairs &lt;- df_sub %&gt;%
+  distinct(Sample_comparable, Category) %&gt;%
+  dplyr::count(Sample_comparable) %&gt;%
+  filter(n == 2) %&gt;%
+  pull(Sample_comparable)
+
+df_matched &lt;- df_sub %&gt;%
+  filter(Sample_comparable %in% valid_pairs)
+
+# Step 3: Pivot to wide format for recovery calculation
+df_wide &lt;- df_matched %&gt;%
+  dplyr::select(Sample_comparable, Category, Ave_Conc_pg.ml) 
+
+df_avg &lt;- df_wide %&gt;%
+  dplyr::group_by(Sample_comparable, Category) %&gt;%
+  dplyr::summarise(Ave_pgml = mean(Ave_Conc_pg.ml, na.rm = TRUE), .groups = &quot;drop&quot;)
+
+Spike_contribution &lt;- 1569.75
+
+df_recovery &lt;- df_avg %&gt;%
+  pivot_wider(names_from = Category, values_from = Ave_pgml)
+
+
+# Step 4: Calculate Recovery % and accuracy flag
+df_wide &lt;- df_recovery %&gt;%
+  mutate(
+    Recovery_pct = ((YesSpike - NoSpike) / Spike_contribution) * 100,
+    Accuracy_Flag = case_when(
+      is.na(Recovery_pct) ~ NA_character_,
+      Recovery_pct &lt; 80 ~ &quot;Under-recovery&quot;,
+      Recovery_pct &gt; 120 ~ &quot;Over-recovery&quot;,
+      TRUE ~ &quot;Acceptable&quot;
+    )
+  )
+
+# Step 5: Extract precision values
+df_precision &lt;- df %&gt;%
+  dplyr::select(Sample, Sample_comparable, CV.Perc, Weight_mg, Buffer_ml) %&gt;%
+  mutate(Precision_Flag = case_when(
+    is.na(CV.Perc) ~ NA_character_,
+    CV.Perc &lt;= 15 ~ &quot;Acceptable&quot;,
+    TRUE ~ &quot;High CV&quot;
+  ))
+
+df_precision$Sample_comparable&lt;- as.character(df_precision$Sample_comparable)
+# Step 6: Merge precision with accuracy summary
+df_summary &lt;- left_join(df_wide, df_precision, by = &quot;Sample_comparable&quot;) %&gt;%
+  distinct(Sample_comparable, .keep_all = TRUE) %&gt;%
+  dplyr::select(Sample, Weight_mg, Buffer_ml, CV.Perc, Precision_Flag, Recovery_pct, Accuracy_Flag)
+
+df_sorted &lt;- df_summary %&gt;% arrange(Weight_mg, Buffer_ml)
+df_sorted$Sample &lt;- 1:nrow(df_sorted)
+# Step 7: View or export
+print(df_sorted)</code></pre>
+<pre><code># A tibble: 9 × 7
+  Sample Weight_mg Buffer_ml CV.Perc Precision_Flag Recovery_pct Accuracy_Flag
+   &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;                 &lt;dbl&gt; &lt;chr&gt;        
+1      1      12        0.06  11.1   Acceptable             105. Acceptable   
+2      2      13.1      0.25  23.3   High CV                134. Over-recovery
+3      3      14.4      0.06   3.79  Acceptable             108. Acceptable   
+4      4      17.5      0.25   4.5   Acceptable             129. Over-recovery
+5      5      17.7      0.06  98     High CV                116. Acceptable   
+6      6      21.5      0.25   1.03  Acceptable             118. Acceptable   
+7      7      23.4      0.06   4.47  Acceptable             186. Over-recovery
+8      8      24.1      0.25   1.92  Acceptable             123. Over-recovery
+9      9      29.6      0.25   0.565 Acceptable             163. Over-recovery</code></pre>
+<pre class="r"><code># Optional: Save to file
+write.csv(df_sorted, file.path(data_path, &quot;precision_accuracy_summary.csv&quot;), row.names = FALSE)
+
+ggplot(df_sorted, aes(x = Weight_mg, y = Recovery_pct,
+                      color = Accuracy_Flag, shape = Precision_Flag)) +
+  geom_point(size = 4) +
+  geom_hline(yintercept = c(80, 120), linetype = &quot;dashed&quot;, color = &quot;darkgray&quot;) +
+  labs(
+    title = &quot;Spike Recovery (%) vs Hair Weight (mg)&quot;,
+    subtitle = &quot;Dashed lines show 80–120% acceptable range&quot;,
+    x = &quot;Hair Weight (mg)&quot;,
+    y = &quot;Recovery (%)&quot;,
+    color = &quot;Accuracy&quot;,
+    shape = &quot;Precision&quot;
+  ) +
+  theme_minimal()           </code></pre>
+<p><img src="figure/ELISA_Analysis_FinalVals_test3.Rmd/prec%20and%20acc-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -866,17 +983,26 @@ tzcode source: internal
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+ [1] lubridate_1.9.4 forcats_1.0.0   stringr_1.5.1   purrr_1.0.4    
+ [5] readr_2.1.5     tidyr_1.3.1     tibble_3.2.1    tidyverse_2.0.0
+ [9] dplyr_1.1.4     paletteer_1.6.0 broom_1.0.8     ggplot2_3.5.2  
+[13] knitr_1.50     
+
 loaded via a namespace (and not attached):
- [1] vctrs_0.6.5       cli_3.6.4         knitr_1.50        rlang_1.1.6      
- [5] xfun_0.52         stringi_1.8.7     promises_1.3.2    jsonlite_2.0.0   
- [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.36.2     
-[13] htmltools_0.5.8.1 httpuv_1.6.16     sass_0.4.10       rmarkdown_2.29   
-[17] evaluate_1.0.3    jquerylib_0.1.4   tibble_3.2.1      fastmap_1.2.0    
-[21] yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1     stringr_1.5.1    
-[25] compiler_4.5.0    fs_1.6.6          Rcpp_1.0.14       pkgconfig_2.0.3  
-[29] rstudioapi_0.17.1 later_1.4.2       digest_0.6.37     R6_2.6.1         
-[33] pillar_1.10.2     magrittr_2.0.3    bslib_0.9.0       tools_4.5.0      
-[37] cachem_1.1.0     </code></pre>
+ [1] utf8_1.2.4        sass_0.4.10       generics_0.1.3    stringi_1.8.7    
+ [5] hms_1.1.3         digest_0.6.37     magrittr_2.0.3    timechange_0.3.0 
+ [9] evaluate_1.0.3    grid_4.5.0        fastmap_1.2.0     rprojroot_2.0.4  
+[13] workflowr_1.7.1   jsonlite_2.0.0    backports_1.5.0   rematch2_2.1.2   
+[17] promises_1.3.2    scales_1.3.0      jquerylib_0.1.4   cli_3.6.4        
+[21] rlang_1.1.6       munsell_0.5.1     withr_3.0.2       cachem_1.1.0     
+[25] yaml_2.3.10       tools_4.5.0       tzdb_0.5.0        colorspace_2.1-1 
+[29] httpuv_1.6.16     vctrs_0.6.5       R6_2.6.1          lifecycle_1.0.4  
+[33] git2r_0.36.2      fs_1.6.6          pkgconfig_2.0.3   pillar_1.10.2    
+[37] bslib_0.9.0       later_1.4.2       gtable_0.3.6      glue_1.8.0       
+[41] Rcpp_1.0.14       xfun_0.52         tidyselect_1.2.1  rstudioapi_0.17.1
+[45] farver_2.1.2      htmltools_0.5.8.1 labeling_0.4.3    rmarkdown_2.29   
+[49] compiler_4.5.0   </code></pre>
 </div>
 </div>
 </div>

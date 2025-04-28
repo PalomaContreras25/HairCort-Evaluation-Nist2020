@@ -1,5 +1,5 @@
 ---
-title: "Cortisol Concentration Values, Test4"
+title: "Calculation Final Values, Test4"
 author: "Paloma Contreras"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
@@ -13,8 +13,8 @@ output: workflowr::wflow_html
 |                        | Min. | 1st Qu. | Median | Mean | 3rd Qu. | Max. | NA's |
 |------------------------|------|---------|---------|---------|---------|-------|------|
 |**A) Standard Method (mult. by sample dilution)**| 17.13 | 29.01  | 32.27  | 35.28 | 39.47 | 82.94 |    4  |
-|**B) Spike-Corrected Method (Nist 2020)**| **-45.870** | -35.833 | -5.960 | -3.488 |  23.109 | **50.963**  |  4 |
-|**C) Spike-Corrected (Sam's Method)**| **7.472** | 18.533    |24.559|  27.009| 31.196 |**80.804**    |   4 |
+|**B) Spike-Corrected Method (Nist 2020)**| **-35.83** | 10.61 | 17.00 |  19.97 | 30.62 | **123.07**  |  4 |
+|**C) Spike-Corrected (Sam's Method)**| **11.8** |  19.45   |29.34 |29.54  |33.1  |**82.90**    |   4 |
 
 
 **Cortisol value calculations** (removed bad quality samples)
@@ -23,13 +23,13 @@ output: workflowr::wflow_html
 |------------------------|--------|---------|---------|---------|---------|--------|
 |**A) Standard Method (mult. by sample dilution)**| 18.27 | 29.27  | 31.54  | 34.13 | 37.73 | 69.17 |
 |**B) Spike-Corrected Method (Nist 2020)**|**-39.371** | -34.855 | -20.577 | -14.325 |  -6.825 | **40.400** |
-|**C) Spike-Corrected (Sam's Method)**| ** 11.80** | 18.45    |24.09|  24.05| 30.32 | **40.40**    |
+|**C) Spike-Corrected (Sam's Method)**| ** 11.80** | 22.14     |28.91|  27.13| 31.88 | **40.40**    |
 
 **Results:**  
 
-- Intra-assay CV: 14.5% 
+- Intra-assay CV: 14.48% 
 
-- Intra-assay CV after removing low quality samples: 10%
+- Intra-assay CV after removing low quality samples: 4.76%
 
 - Inter-assay CV: **21%** (Bindings for 20mg sample diluted in 250 uL, no spike: 64.8% and 48% in test3 and test4, respectively)
 
@@ -73,6 +73,7 @@ library(broom)
 library(paletteer)
 library(dplyr)
 df <- read.csv(file.path(data_path,"Data_QC_flagged.csv"))
+
 ```
 
 Parameters and unit transformations: 
@@ -114,6 +115,16 @@ df$Failed_samples <- factor(
   )
 )
 
+cat("Summary CV for all samples:")
+summary(df$CV.Perc)
+
+cat("Summary CV for good quality samples only:")
+temp <- df %>% 
+  filter(Failed_samples == 
+           "OK")
+summary(temp$CV.Perc)
+
+
 # remove unnecessary information 
 data <- df %>%
     dplyr::select(Wells, Sample, Category, Binding.Perc, 
@@ -122,7 +133,10 @@ data <- df %>%
                   Dilution_spike, Extraction_ratio, Vol_in_well.tube_ul, 
                   Failed_samples) 
 
+
+
 data <- data[!is.na(data$Binding.Perc), ] # remove duplicates
+
 ```
 
 ## (A) Standard Calculation
@@ -256,7 +270,7 @@ data$Vol_in_well.tube_ml <- data$Vol_in_well.tube_ul/1000 # Z to mL
   
 # Calculate spike contribution to each sample
       ##  ( Spike vol. x Spike Conc.)
-      ##   ------------------------  / dilution = Spike contribution
+      ##   ------------------------  / dilution = Spike contribution (pg/ml)
       ##        Total vol. 
   
 # Calculate cort contribution of spike to each sample

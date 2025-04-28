@@ -36,6 +36,7 @@ library(ggpmisc)
 library(ggplot2)
 library(dplyr)
 library(tidyverse)
+library(broom)
 ```
 
 ```{r loading}
@@ -49,7 +50,7 @@ cort_vals<- read.csv("./data/Test4/Data_cort_values_method_ALL.csv")
 
 ```{r loading valsA}
 # remove NSB
-data <- cort_vals[!(cort_vals$Sample == c("B0", "BE", "NSB", "POOL")),]
+data <- cort_vals
 ```
 
 ```{r expABC.Final_pg.mg_A, fig.width=8, fig.height=6}
@@ -67,7 +68,6 @@ exp <- a %>%
 ggplot(exp, aes(x = Sample_num, 
                  y = Final_pg.mg_A, color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.2, aes(group = exp$Category)) +
-  geom_smooth(formula = y ~ log(x), se = FALSE, linewidth = 0.2, linetype = 2) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 0, linetype = "dashed", 
@@ -91,8 +91,7 @@ ggplot(exp, aes(x = Sample_num,
 
 ggplot(exp, aes(x = Sample_num, 
                  y = Final_pg.mg_B, color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
-  geom_smooth(formula = y ~ log(x), se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.1) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.2) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 0, linetype = "dashed", 
@@ -114,8 +113,9 @@ ggplot(exp, aes(x = Sample_num,
 
 ggplot(exp, aes(x = Sample_num, 
                  y = Final_pg.mg_C, color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.05) +
-  geom_smooth(formula = y ~ log(x), se = FALSE, linewidth = 0.3, linetype = 2, alpha = 0.1) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.2) +
+ # geom_smooth(formula = y ~ log(x), se = FALSE, linewidth = 0.3, linetype = 2, alpha = 0.2) +
+ # geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = FALSE, linewidth = 0.5, alpha = 0.3) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 0, linetype = "dashed", 
@@ -148,7 +148,7 @@ summary(data$Final_pg.mg_C)
 
 # Reshape from wide to long format
 data_long <- data %>%
-  select(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C) %>%
+  dplyr::select(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C) %>%
   pivot_longer(
     cols = everything(),
     names_to = "Method",
@@ -182,7 +182,7 @@ data_long <- data %>%
   )
 
 ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
-  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +
+  geom_line(aes(group = Sample), color = "gray75", linewidth = 0.5) +
   geom_point(size = 2.8, alpha = 0.7, position = position_dodge(width=0.5)) +
   scale_color_manual(
     values = c("Final_pg.mg_A" = "steelblue",
@@ -328,7 +328,7 @@ ggplot(a, aes(x = Expected_A,
  geom_abline(slope = 1, intercept = 0, 
              linetype = "dashed", color = "gold") +
   geom_point(size = 2) +
-  stat_poly_eq(aes(x = a$Expected_A, 
+  stat_poly_eq(aes(x = Expected_A, 
                    label = paste(..rr.label.., sep = "~~~")),
                formula = y ~ x, parse = TRUE, size = 3) +
   labs(title = "Expected vs observed cortisol concentrations (not accounting for spike)",
@@ -420,7 +420,6 @@ ggplot(exp, aes(x = Expected_C,
 ```{r expE-concvals-final-vals-A}
 
 # Scatter plot of Experiment a, observed binding % 
-data <- cort_vals[!(cort_vals$Sample == "NSB"),]
 a <- filter(data, Category == "P", !is.na(Final_pg.mg_A)) 
 a$Sample_num <- 1:length(a$Sample)
 
@@ -563,7 +562,7 @@ geom_point(size = 3, color = "gray40", alpha = 1) +
                  color = "orange", size = 0.5, alpha = 0.8) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
-   labs(title = "Experiment E: Final conc vals (methodD) by sample weight",
+   labs(title = "Experiment E: Final conc vals (methodC) by sample weight",
        subtitle = "Precision, 25uL spike, 25uL sample",
        x = "Sample weight (mg)", y = " Final_pg.mg_C") +
   scale_y_continuous(n.breaks = 10) +
@@ -579,3 +578,468 @@ geom_point(size = 3, color = "gray40", alpha = 1) +
 print(cv_values)
 
 ```
+
+
+# evaluation test4 (method C)
+
+```{r}
+# Load the dataset
+df <- data4
+
+# Clean data 
+df <- df %>% filter(!is.na(Final_pg.mg_C), !Sample %in% c("NSB", "Blank", "B0"))
+
+# Set factors for plotting and grouping
+#df$Dilution_sample <- as.factor(df$Dilution_sample)
+df$Category <- as.factor(df$Category)
+
+# 1. === PARALLELISM TEST ===
+# Plot concentration vs. dilution to check for proportional decrease
+
+ggplot(df, aes(x = log10(as.numeric(Dilution_sample)), y = Final_pg.mg_C , color = Category)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Parallelism Test", x = "Log10(Dilution_sample)", y = "Final Cortisol (pg/mg)")
+
+# Optional: Run ANOVA for parallelism by slope comparison
+parallel_model <- lm(Final_pg.mg_C  ~ log10(Dilution_sample) * Category, data = df)
+summary(parallel_model)
+```
+Term	Estimate	p-value	Interpretation
+(Intercept)	35.08	1.7e-05	Baseline value for TA at no dilution
+CategoryC	–19.89	0.0473 *	TC starts significantly lower than TA
+CategoryD	–18.70	0.0612 .	TD also starts lower, marginally significant
+CategoryP	–15.34	0.0517 .	TP slightly lower, borderline significant
+Interaction (log10 × CategoryB)	+17.33	0.0598 .	TB's slope is steeper than TA (marginal)
+
+TC and TD show parallel dilution curves relative to TA, suggesting you can safely apply Method D.
+
+TB may have a steeper slope, suggesting spiking only the first tube might amplify dilution effect slightly.
+
+
+```{r plot parallelism_binding}
+ggplot(df, aes(x = log10(as.numeric(Dilution_sample)), y = Binding.Perc , color = Category)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Parallelism Test", x = "Log10(Dilution_sample)", y = "Binding %")
+
+# Optional: Run ANOVA for parallelism by slope comparison
+parallel_model <- lm(Binding.Perc  ~ log10(Dilution_sample) * Category, data = df)
+summary(parallel_model)
+
+```
+
+Term	Estimate	p-value	Interpretation
+(Intercept)	11.70	0.0081 **	Baseline binding % for Category A (TA) at no dilution
+log10(Dilution_sample)	49.88	1.6e-13 ***	Strong increase in binding % with increasing dilution
+CategoryB	4.71	0.424	TB baseline slightly higher than TA, not significant
+CategoryC	10.10	0.093 .	TC baseline marginally higher than TA
+CategoryD	6.19	0.295	TD not significantly different from TA at baseline
+CategoryP	7.94	0.093 .	TP marginally higher binding at baseline
+log10(Dilution_sample):CategoryB	–4.66	0.391	TB slope not significantly different from TA
+log10(Dilution_sample):CategoryC	–3.19	0.556	TC slope ≈ TA
+log10(Dilution_sample):CategoryD	–0.36	0.947	TD slope ≈ TA 
+
+ Strong Main Effect of Dilution
+Binding % increases significantly with higher dilution (p < 0.001).
+
+This is expected: lower concentration = higher % binding in competitive ELISA.
+
+2. No Significant Interaction Terms
+The interaction terms (slope differences) are not significant (all p > 0.39).
+
+This means the binding curves across all categories are parallel.
+
+3. Intercept Differences (Baseline Shift)
+Some categories (notably TC and TP) start with higher binding %, but this is only marginally significant (p ≈ 0.09).
+
+This suggests potential small matrix effects, but not enough to invalidate comparison.
+
+```{r}
+
+# 3. === ACCURACY TEST ===
+# If you have expected values, compare to observed
+
+# Example expected values for some spiked standards (you can edit this!)
+expected_vals <- tibble(
+  Sample = c("STD1", "STD2", "STD3", "STD4", "STD5"),
+  Expected_pg.mg = c(3200, 1600, 800, 400, 200)  # replace with your known expected values
+)
+
+# Join expected to observed and compute error
+accuracy_df <- df %>%
+  inner_join(expected_vals, by = "Sample") %>%
+  mutate(
+    AbsError = abs(Final_pg.mg_C  - Expected_pg.mg),
+    RelError = AbsError / Expected_pg.mg * 100
+  )
+
+# Plot observed vs expected
+ggplot(accuracy_df, aes(x = Expected_pg.mg, y = Final_pg.mg_C )) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, linetype = 2) +
+  labs(title = "Accuracy: Observed vs Expected", x = "Expected (pg/mg)", y = "Observed (pg/mg)")
+
+
+
+# Log buffer as dilution proxy
+df$log_dilution <- log10(df$Dilution_sample)
+
+# Parallelism test for TA vs TC
+df_sub <- df %>% filter(Category %in% c("A", "C"))
+
+model_parallel <- lm(Final_pg.mg_C ~ log_dilution * Category, data = df_sub)
+summary(model_parallel)
+
+```
+
+Term	Estimate	p-value	Interpretation
+(Intercept)	35.08	0.0003	Cortisol for TA at dilution = 1 (log10 = 0)
+log_dilution	1.58	0.794	Slope of dilution for TA — not significant
+CategoryC	–19.89	0.052 .	TC starts ~20 pg/mg lower than TA — borderline significant
+Interaction (log_dilution:CategoryC)	9.44	0.282	TC slope vs TA — not significant → ✅ parallel slopes
+
+🔍 Parallelism holds: no significant difference in slope between TA and TC (p = 0.282)
+
+⚠️ Intercept difference between TA and TC is borderline significant (p = 0.052)
+
+TC starts lower than TA, suggesting a shift in baseline cortisol, but dilution behavior is similar
+
+
+```{r}
+
+# Filter dataset to include only TA (A) and TC (C)
+df_sub <- df %>%
+  filter(Category %in% c("A", "C")) %>%
+  mutate(
+    Category = factor(Category, levels = c("A", "C")),
+    log_dilution = log10(Dilution_sample)
+  )
+
+# Plot
+ggplot(df_sub, aes(x = log_dilution, y = Final_pg.mg_C, color = Category)) +
+    geom_smooth(method = "lm", se = TRUE, linewidth = 1.2, alpha = 0.3) +
+  geom_point(size = 3, alpha = 0.8) +
+
+  labs(
+    title = "Parallelism Test: TA vs TC",
+    subtitle = "Final Cortisol (pg/mg) vs Log10(Dilution) with 95% CI",
+    x = "Log10(Dilution Sample)",
+    y = "Final Cortisol (pg/mg)",
+    color = "Category"
+  ) +
+  scale_color_manual(
+    values = c("A" = "steelblue", "C" = "darkgreen"),
+    labels = c("TA (Non-Spiked)", "TC (All Dilutions Spiked)")
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "top"
+  )
+
+
+```
+If slope ≈ 0 and variance is low → good precision.
+
+You can also compute %CV across replicates.
+```{r}
+
+# Load your data
+
+# Extract meaningful category label
+df$Category <- str_extract(df$Sample, "^T[ABCD]")
+
+# Keep only A–D dilution categories
+df <- df %>% filter(Category %in% c("TA", "TB", "TC", "TD"))
+
+# Create log dilution
+df$log_dilution <- log10(df$Dilution_sample)
+
+# All pairwise category combinations
+pairs <- combn(unique(df$Category), 2, simplify = FALSE)
+
+# Loop and test each pair for both variables
+for (pair in pairs) {
+  sub_df <- df %>% filter(Category %in% pair)
+  pair_label <- paste(pair, collapse = "_vs_")
+  
+  ### 1. Final Values Model
+  model_final <- lm(Final_pg.mg_C ~ log_dilution * Category, data = sub_df)
+  p_final <- tidy(model_final) %>% 
+    filter(str_detect(term, "log_dilution:Category")) %>%
+    pull(p.value)
+  
+  ### 2. Binding % Model
+  model_binding <- lm(Binding.Perc ~ log_dilution * Category, data = sub_df)
+  p_bind <- tidy(model_binding) %>% 
+    filter(str_detect(term, "log_dilution:Category")) %>%
+    pull(p.value)
+  
+  ### Plot for Final Values
+p1 <- ggplot(sub_df, aes(x = log_dilution, y = Final_pg.mg_C, color = Category)) +
+   geom_smooth(method = "lm", se = TRUE, alpha = 0.3) +  
+  geom_point(size = 2) +
+   
+    labs(
+      title = paste("Final Values –", pair_label),
+      subtitle = paste("Interaction p =", round(p_final, 4)),
+      x = "log10(Dilution)", y = "Final Cortisol (pg/mg)"
+    ) +
+    theme_minimal() +
+    theme(plot.title = element_text(face = "bold"))
+  print(p1)
+  
+  ### Plot for Binding %
+p2 <- ggplot(sub_df, aes(x = log_dilution, y = Binding.Perc, color = Category)) +
+   geom_smooth(method = "lm", se = TRUE, alpha = 0.3) + 
+   geom_point(size = 2) +
+
+    labs(
+      title = paste("Binding % –", pair_label),
+      subtitle = paste("Interaction p =", round(p_bind, 4)),
+      x = "log10(Dilution)", y = "Binding (%)"
+    ) +
+    theme_minimal() +
+    theme(plot.title = element_text(face = "bold"))
+  print(p2)
+  
+  ### Print results to console
+  cat("\n=== ", pair_label, " ===\n")
+  cat("Interaction p (Final values):", round(p_final, 4), "\n")
+  cat("Interaction p (Binding %):   ", round(p_bind, 4), "\n")
+  }
+
+```
+Comparison	Final Values p	Binding % p	Interpretation
+TA vs TB	0.164	0.381	Not significantly different slopes. Likely parallel.
+
+TA vs TC	0.366	0.604	Parallel; spiking all tubes in TC doesn't distort slope much.
+
+TA vs TD	0.951	0.928	Extremely parallel — almost identical slopes.
+TB vs TC	0.479	0.845	No significant slope difference. Spike methods act similarly.
+
+TB vs TD	0.162	0.471	Slight trend in slope difference, but still not statistically significant.
+
+TC vs TD	0.367	0.674	Parallel. Spiking either all tubes (TC) or just first tube (TD) gives similar dilution response.
+
+All p-values are > 0.05, meaning there is no strong evidence of non-parallelism.
+
+This suggests your serial dilutions are behaving consistently, even with different spiking strategies.
+
+The fact that binding percentage curves are also parallel confirms this is not an artifact of back-calculation — it's real behavior at the assay level.
+
+
+```{r test4}
+# === Load and prepare data ===
+df <- data4 %>%
+  mutate(Category = str_extract(Sample, "^T[ABCD]")) %>%
+  filter(Category %in% c("TA", "TB", "TC", "TD")) %>%
+  mutate(log_dilution = log10(Dilution_sample))
+
+# === Updated and safe function ===
+extract_intercepts_with_pval <- function(model, response_label) {
+  model_tidy <- tidy(model, conf.int = TRUE)
+  intercept_ta <- model_tidy %>% filter(term == "(Intercept)") %>% pull(estimate)
+
+  intercepts <- model_tidy %>%
+    filter(term == "(Intercept)" | str_detect(term, "Category")) %>%
+    mutate(
+      Category = case_when(
+        term == "(Intercept)" ~ "TA",
+        str_detect(term, "TB") ~ "TB",
+        str_detect(term, "TC") ~ "TC",
+        str_detect(term, "TD") ~ "TD"
+      ),
+      Estimate = if_else(Category == "TA", estimate, intercept_ta + estimate),
+      CI_low = if_else(Category == "TA", conf.low, conf.low + intercept_ta),
+      CI_high = if_else(Category == "TA", conf.high, conf.high + intercept_ta),
+      P_Value = if_else(Category == "TA", NA_real_, p.value),
+      Variable = response_label
+    ) %>%
+    dplyr::select(Variable, Category, Estimate, CI_low, CI_high, P_Value)
+
+  return(intercepts)
+}
+
+# === Fit models ===
+mod_final <- lm(Final_pg.mg_C ~ log_dilution + Category, data = df)
+mod_binding <- lm(Binding.Perc ~ log_dilution + Category, data = df)
+
+# === Extract intercepts ===
+intercepts_final <- extract_intercepts_with_pval(mod_final, "Final Cortisol (pg/mg)")
+intercepts_binding <- extract_intercepts_with_pval(mod_binding, "Binding Percentage")
+
+# === Combine and reshape for table ===
+intercepts_all <- bind_rows(intercepts_final, intercepts_binding)
+
+
+# === View final table ===
+print(intercepts_final)
+
+cat("TB (only first tube spiked) behaves almost identically to TA (non-spiked) → good parallelism, no signal distortion.
+
+TC (every tube spiked) lowers the intercept but not significantly.
+
+TD (1:1 spike + dilution) significantly suppresses signal, indicating likely dilution or matrix effects.")
+
+print(intercepts_binding)
+
+cat("TB again tracks closely with TA, confirming consistent assay response.
+
+TC and TD show increased binding, which is unusual — spiking may be blocking binding sites or altering matrix effects.
+
+The higher binding % may explain the lower final cortisol values, especially in TD")
+
+# === Plot: Intercepts with CI ===
+ggplot(intercepts_all, aes(x = Category, y = Estimate, color = Variable)) +
+  geom_point(position = position_dodge(width = 0.5), size = 4) +
+  geom_errorbar(aes(ymin = CI_low, ymax = CI_high), 
+                width = 0.2, position = position_dodge(width = 0.5)) +
+  labs(
+    title = "Intercept Estimates for TA–TD",
+    subtitle = "With 95% Confidence Intervals",
+    y = "Intercept Value",
+    x = "Category"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold"))
+
+```
+
+
+
+
+```{r test4 pairs}
+# Step 1: Create sample pairs
+# e.g., base = TA, spiked = TB with similar Sample ID patterns
+
+# Simulate pairing by shared SampleID 
+df <- data4 
+
+# Step 1: Extract TA and TB and sample ID
+df_pair <- df %>%
+  filter(!is.na(Ave_Conc_pg.ml))  %>%
+  filter(Category %in% c("A", "D")) %>%
+  mutate(SampleID = str_extract(Sample, "\\d+$"))
+
+# Step 2: Pivot to wide format
+df_wide <- df_pair %>%
+  dplyr::select(SampleID, Category, Ave_Conc_pg.ml, Spike_contribution) 
+df_wide <- df_wide %>%
+  pivot_wider(names_from = Category, values_from = c(Ave_Conc_pg.ml, Spike_contribution))
+
+
+# Step 4: Calculate recovery
+head(df_wide)
+temp <- df_wide %>%
+  mutate(Recovery_pct = ((Ave_Conc_pg.ml_D - Ave_Conc_pg.ml_A) / Spike_contribution_D) * 100)
+
+# Step 5: Plot
+ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
+  labs(
+    title = "Spike Recovery at ELISA Level (pg/mL)",
+    x = "Sample ID (TA/TD pair)",
+    y = "Recovery (%)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+reduces detection due to interference or over-saturation. If spike volume is large (e.g. 110 µL into 110 µL sample), it can dilute the original signal below the unspiked concentration
+
+State in your results that “Recovery for some high-spike samples was negative, indicating likely signal suppression from matrix effects or over-spiking.”
+
+Use parallelism to back up your conclusion:
+
+If slope is parallel but intercept drops, it's further evidence of baseline suppression
+
+Several spiked samples exhibited negative recovery percentages, indicating that measured cortisol concentrations were lower than their unspiked counterparts. This likely reflects signal suppression due to matrix effects or over-dilution from high spike volumes, particularly in the TD group, where spike-to-sample ratios were highest. These results highlight the importance of accounting for spike-related suppression in final quantification strategies.
+
+
+
+
+# Recovery Test4
+
+
+```{r recov}
+
+# Simulate pairing by shared SampleID (you may need to adjust this step)
+df <- data4 
+
+# Step 1: Extract TA and TC and sample ID
+df_pair <- df %>%
+  filter(!is.na(Ave_Conc_pg.ml))  %>%
+  filter(Category %in% c("A", "C")) %>%
+  mutate(SampleID = str_extract(Sample, "\\d+$"))
+
+# Step 2: Pivot to wide format
+df_wide <- df_pair %>%
+  dplyr::select(SampleID, Category, Ave_Conc_pg.ml, Spike_contribution) 
+df_wide <- df_wide %>%
+  pivot_wider(names_from = Category, values_from = c(Ave_Conc_pg.ml, Spike_contribution))
+
+print(df_wide)
+# Step 4: Calculate recovery
+temp <- df_wide %>%
+  mutate(Recovery_pct = ((Ave_Conc_pg.ml_C - Ave_Conc_pg.ml_A) / Spike_contribution_C) * 100)
+
+# Step 5: Plot
+ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
+  labs(
+    title = "Spike Recovery at ELISA Level (pg/mL)",
+    x = "Sample ID (TA/TC pair)",
+    y = "Recovery (%)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+```{r recov test4}
+
+
+# Simulate pairing by shared SampleID (may need to adjust this step)
+df <- data4 
+head(data4)
+
+# Step 1: Extract TA and TB and sample ID
+df_pair <- df %>%
+  filter(!is.na(Ave_Conc_pg.ml))  %>%
+  filter(Category %in% c("A", "B")) %>%
+  mutate(SampleID = str_extract(Sample, "\\d+$"))
+
+# Step 2: Pivot to wide format
+df_wide <- df_pair %>%
+  dplyr::select(SampleID, Category, Ave_Conc_pg.ml, Spike_contribution) 
+df_wide <- df_wide %>%
+  pivot_wider(names_from = Category, values_from = c(Ave_Conc_pg.ml, Spike_contribution))
+
+
+# Step 4: Calculate recovery
+temp <- df_wide %>%
+  mutate(Recovery_pct = ((Ave_Conc_pg.ml_B - Ave_Conc_pg.ml_A) / Spike_contribution_B) * 100)
+
+
+# Step 5: Plot
+ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
+  labs(
+    title = "Spike Recovery at ELISA Level (pg/mL)",
+    x = "Sample ID (TA/TB pair)",
+    y = "Recovery (%)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+
+
+
