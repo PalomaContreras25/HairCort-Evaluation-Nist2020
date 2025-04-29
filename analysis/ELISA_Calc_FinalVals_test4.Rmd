@@ -25,6 +25,18 @@ output: workflowr::wflow_html
 |**B) Spike-Corrected Method (Nist 2020)**|**-39.371** | -34.855 | -20.577 | -14.325 |  -6.825 | **40.400** |
 |**C) Spike-Corrected (Sam's Method)**| ** 11.80** | 22.14     |28.91|  27.13| 31.88 | **40.40**    |
 
+
+*Plate description*
+
+Category	  Description
+---------  ---------------------------------------------------------------
+TA        	Non-spiked serial dilution
+TB         	Spiked only in first dilution (TB1) then serially diluted
+TC        	Each dilution individually spiked with 25 µL of std1
+TD          First tube spiked 1:1 with std1 (110 µL), then serially diluted
+TP        	Precision replicates (different weights: 6, 9, 12 mg) spiked with 25 µL
+
+
 **Results:**  
 
 - Intra-assay CV: 14.48% 
@@ -308,8 +320,6 @@ data$Final_pg.mg_C <-
       data$Weight_mg) *                                    # / B *
      data$Extraction_ratio *                               # C / D *
       data$Buffer_ml                                       # E 
-
-head(data)
 ```
 
    
@@ -334,7 +344,7 @@ kable(tail(data[ , c("Sample", "Final_pg.mg_A", "Final_pg.mg_B", "Final_pg.mg_C"
 
 ```
 
-# Plots 
+# Plots: all samples vs final concentration
 
 ## (A) Standard Calculation
 
@@ -496,7 +506,7 @@ ggplot(dataplot, aes(y = Final_pg.mg_C,
 ```
 
 
-## (C) Contribution of spike 
+# Plot contribution of spike vs sample quality (C)
 ```{r echo = FALSE}
 dataplot <- filter(data, Category =="Standard" | Category == "B" | Category == "C" | Category == "D" | Category == "P", !is.na(Binding.Perc)) 
 
@@ -524,56 +534,19 @@ ggplot(dataplot, aes(y = Spike_contribution,
 ```
 
 
-# Evaluation using C 
+# Plot grouped by reconstitution volume
 
 ```{r message=FALSE, echo = FALSE}
 # All samples 
 data2 <- data
 
-#two datasets, separated by spike
-data2.sp <- data2[data2$Spike == "Yes", ]
-data2.nsp <- data2[data2$Spike == "No", ]
-
-#### fit models ####
-
-# model all
+# fit model (all samples)
 model.all <- lm(Final_pg.mg_C ~ Weight_mg, 
               data = data2)
 r_squared.all <- summary(model.all)$r.squared
-
-# model Spike
-model.sp <- lm(Final_pg.mg_C ~ Weight_mg, 
-              data = data2.sp)
-r_squared.sp <- summary(model.sp)$r.squared
-model.nsp <- lm(Final_pg.mg_C ~ Weight_mg, 
-              data = data2.nsp)
-r_squared.nsp <- summary(model.nsp)$r.squared
-
-# Calculate residuals
+#Calculate residuals
 residuals.all <- residuals(model.all)
-residuals.sp <- residuals(model.sp)
-residuals.nsp <- residuals(model.nsp)
 
-# Quantify residuals
-
-# Mean Absolute Error
-mae.all <- mean(abs(residuals.all))      
-# Standard Deviation of Residuals
-std_dev.all <- sd(residuals.all)
-
-# Mean Absolute Error
-mae.sp <- mean(abs(residuals.sp))      
-# Standard Deviation of Residuals
-std_dev.sp <- sd(residuals.sp)
-
-# Mean Absolute Error
-mae.nsp <- mean(abs(residuals.nsp))      
-# Standard Deviation of Residuals
-std_dev.nsp <- sd(residuals.nsp)
-
-```
-
-```{r plot, message=FALSE, echo = FALSE}
 # scatterplot
 
 ggplot(data2, aes(y = Final_pg.mg_C, 
@@ -605,10 +578,12 @@ ggplot(data2, aes(y = Final_pg.mg_C,
   # Add R^2 annotation
   annotate("text", x = 5, 
            y = max(data2$Final_pg.mg_C) * 0.84,
-           label = paste("R² =", round(r_squared.sp, 3)), 
+           label = paste("R² =", round(r_squared.all, 2)), 
            size = 5, color = "black")
+```
 
-
+# Plot grouped by category (C)
+```{r plot-by-categ, echo = FALSE}
 ggplot(data2, aes(y = Final_pg.mg_C, 
                   x = 1:length(Sample),
                   fill= Category)) +
@@ -632,26 +607,50 @@ ggplot(data2, aes(y = Final_pg.mg_C,
     plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
     axis.title = element_text(size = 14),  
     axis.text = element_text(size = 12) 
-  ) +
-  # Add R^2 annotation
-  annotate("text", x = max(data2$Weight_mg) * 0.7, 
-           y = max(data2$Final_pg.mg_C),
-           label = paste("R² =", round(r_squared.all, 2)), 
-           size = 5, color = "black")
+  ) 
 ```
 
-## Optimal dilution (using method C results)
 
-**Error using spiked samples only**
-```{r echo = FALSE}
-cat("Mean Absolute Error (MAE) ALL:", round(mae.sp, 3), "\n") 
-cat("Standard Deviation of Residuals ALL:", round(std_dev.sp, 3), "\n")
+# Error evaluations, grouped by data quality (using C)
+```{r models-good-quality, message=FALSE, echo = FALSE}
+
+#good quality data
+data2.hq <- data2[data2$Failed_samples == "OK", ]
+cat("Number of good quality datapoints:", nrow(data2.hq))
+
+cat("Models used with respect to weight: 
+
+      lm(Final.pg.mg_C ~ Weight_mg, 
+                  data = data2.hq)")
+#### fit models ####
+# model Spiked
+model.hq <- lm(Final_pg.mg_C ~ Weight_mg, 
+              data = data2.hq)
+r_squared.hq <- summary(model.hq)$r.squared
+
+# Calculate residuals
+residuals.hq <- residuals(model.hq)
+
+# Quantify residuals
+
+# Mean Absolute Error
+mae.all <- mean(abs(residuals.all))      
+# Standard Deviation of Residuals
+std_dev.all <- sd(residuals.all)
+
+# Mean Absolute Error
+mae.hq <- mean(abs(residuals.hq))      
+# Standard Deviation of Residuals
+std_dev.hq <- sd(residuals.hq)
+
 ```
-**Error using non-spiked samples only**
+
+**Error using good quality samples only**
 ```{r echo = FALSE}
-cat("Mean Absolute Error (MAE) ALL:", round(mae.nsp, 3), "\n") 
-cat("Standard Deviation of Residuals ALL:", round(std_dev.nsp, 3), "\n")
+cat("Mean Absolute Error (MAE) ALL:", round(mae.hq, 3), "\n") 
+cat("Standard Deviation of Residuals ALL:", round(std_dev.hq, 3), "\n")
 ```
+
 **Error using all samples**
 ```{r echo = FALSE}
 cat("Mean Absolute Error (MAE) ALL:", round(mae.all, 3), "\n") 
