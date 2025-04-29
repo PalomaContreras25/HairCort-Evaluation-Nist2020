@@ -670,21 +670,18 @@ p2 <- ggplot(sub_df, aes(x = log_dilution, y = Binding.Perc, color = Category)) 
   }
 
 ```
-Comparison	Final Values p	Binding % p	Interpretation
-TA vs TB	0.164	0.381	Not significantly different slopes. Likely parallel.
-
-TA vs TC	0.366	0.604	Parallel; spiking all tubes in TC doesn't distort slope much.
-
-TA vs TD	0.951	0.928	Extremely parallel — almost identical slopes.
-TB vs TC	0.479	0.845	No significant slope difference. Spike methods act similarly.
-
-TB vs TD	0.162	0.471	Slight trend in slope difference, but still not statistically significant.
-
-TC vs TD	0.367	0.674	Parallel. Spiking either all tubes (TC) or just first tube (TD) gives similar dilution response.
+|Comparison	|Final Values p|	Binding % p|	Interpretation|
+|--------|--------|--------|-------|
+|TA vs TB|	0.164	|0.381|	Not significantly different slopes. Likely parallel|
+|TA vs TC	|0.366|	0.604	|Parallel; spiking all tubes in TC doesn't distort slope much.|
+|TA vs TD|	0.951|	0.928	|Extremely parallel — almost identical slopes.|
+|TB vs TC|	0.479|	0.845	|No significant slope difference. Spike methods act similarly.|
+|TB vs TD|	0.162	|0.471	|Slight trend in slope difference, but still not statistically significant.|
+|TC vs TD|	0.367	|0.674	|Parallel. Spiking either all tubes (TC) or just first tube (TD) gives similar dilution response.|
 
 All p-values are > 0.05, meaning there is no strong evidence of non-parallelism.
 
-This suggests your serial dilutions are behaving consistently, even with different spiking strategies.
+This suggests serial dilutions are behaving consistently, even with different spiking strategies.
 
 The fact that binding percentage curves are also parallel confirms this is not an artifact of back-calculation — it's real behavior at the assay level.
 
@@ -808,21 +805,18 @@ ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
 
 ```
 
-reduces detection due to interference or over-saturation. If spike volume is large (e.g. 110 µL into 110 µL sample), it can dilute the original signal below the unspiked concentration
+- reduced detection due to interference or over-saturation. If spike volume is large (e.g. 110 µL into 110 µL sample), it can dilute the original signal below the unspiked concentration
 
-State in your results that “Recovery for some high-spike samples was negative, indicating likely signal suppression from matrix effects or over-spiking.”
+- “Recovery for some high-spike samples was negative, indicating likely signal suppression from matrix effects or over-spiking.”
 
-Use parallelism to back up your conclusion:
+Can use parallelism to back up conclusion:
 
-If slope is parallel but intercept drops, it's further evidence of baseline suppression
+- If slope is parallel but intercept drops, it's further evidence of baseline suppression
 
-Several spiked samples exhibited negative recovery percentages, indicating that measured cortisol concentrations were lower than their unspiked counterparts. This likely reflects signal suppression due to matrix effects or over-dilution from high spike volumes, particularly in the TD group, where spike-to-sample ratios were highest. These results highlight the importance of accounting for spike-related suppression in final quantification strategies.
-
-
+- Several spiked samples exhibited negative recovery percentages, indicating that measured cortisol concentrations were lower than their unspiked counterparts. This likely reflects signal suppression due to matrix effects or over-dilution from high spike volumes, particularly in the TD group, where spike-to-sample ratios were highest. These results highlight the importance of accounting for spike-related suppression in final quantification strategies.
 
 
 # Recovery Test4
-
 
 ```{r recov}
 
