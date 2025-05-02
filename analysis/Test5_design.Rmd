@@ -8,81 +8,18 @@ date: "2025-04-17"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# VALIDATION 1: Spike-Recovery Test
 
-🎯 **Purpose**:
-To assess how much known cortisol is recovered from a pulverized extract. This helps detect matrix interference (e.g., suppression or enhancement).
+TA: Unspiked control, Blank hair sample w/o standard: baseline.
+TB: Spiked control (Blank hair sample + standard): last cm, assuming little endogenous cort: how much is recovered?
+- add known amount of cort to hair sample (after pulverizing) 
+- let sit for 30-60 min, mixing gently.
+- let spiked hair dry completely. 
+- extract cort normally (add methanol)
+TC: Solvent-only control (cort in methanol, no hair)
 
-🔬 **Materials**:
+Serial dilution of sample
 
-- Pulverized, washed blank hair sample (very low or no cortisol)
-- Cortisol standard solution (e.g., 1000 pg/mL in assay buffer)
-- ELISA plate with standard curve
 
-🧪 **Procedure**:
-
-| Tube |	Contents |	Description | Explanation |
--------|---------|--------|-------|
-A	| Pulverized hair + methanol (extraction only) | Unspiked control | get a baseline value
-B	| Pulverized hair + methanol + known cortisol (e.g., 100 pg) |	Spiked sample | checks if you recover what you added
-C	| Cortisol in methanol (no hair) |	Solvent control | ensures no cortisol loss or pipetting error
-
-**REMEMBER**: Let the spiked tube sit for 30–60 min to simulate binding, then proceed with extraction and ELISA as usual.
-
-Reconstitute the dried extract and run both A and B in duplicate on the plate.
-
-🧮 **Calculation**:
-
-Recovery (%) = ((Measured pg − Background pg (A)) /  Spiked pg ) * 100
-
-Expected:
-
-80–120% recovery is generally considered acceptable.
-If <80% or >120%, matrix effects are likely.
-
-# 🧪 VALIDATION 2: Parallelism Test
-🎯 **Purpose**:
-
-To determine whether a serial dilution of your extract runs parallel to the standard curve, indicating minimal matrix effects (no inhibition or enhancement).
-
-🔬 **Materials:**
-
-- A high-concentration pulverized extract (from a real or pooled sample)
-- Your ELISA standard curve
-- Assay buffer for dilution
-
-🧪 **Plate Layout** :
-
-Well |	Dilution |	Contents|
-|----|----|----|
-S1 |	Neat extract|	100%
-S2	|1:2 dilution|	50%
-S3	|1:4 dilution	|25%
-S4	|1:8 dilution	|12.5%
-S5	|1:16 dilution	|6.25%
-...	...	
-
-Run all diluted samples in duplicate.
-
-📉 **Plotting & Interpreting**:
-
-Plot absorbance (y-axis) vs. log concentration (x-axis) for:
-
-- The standard curve
-- Your diluted extract
-- Check for parallelism between the sample and the standard curve.
-
-Expected: 
-
-If sample curve is parallel to the standard, no major matrix effect is present.
-If the sample curve bends or flattens relative to the standard, there's likely matrix interference.
-
-🧪 **Summary of Both Tests**
-
-|Test |	What It Tells You	| Outcome to Look For|
-|---|---|---|
-|Spike-Recovery|	Do matrix components suppress/enhance cortisol signal?|	Recovery 80–120%|
-|Parallelism|	Do serial dilutions track with the standard curve?|	Same shape/parallel curves|
 
 
 
