@@ -1,6 +1,6 @@
 Wells,Sample,Categ,weight_mg,buffer_nl,spike,spike_vol_ul,Dilution_spike,vol_in_well.tube_ul,Extraction_ratio
 A1,NSB,NSB,NA,NA,NA,NA,NA,NA,NA
-B1,NSB,NSB,NA,NA,NA,NA,NA,NA,NA
+B1,NSBerror,NSBerror,NA,NA,NA,NA,NA,NA,NA
 C1,st1,Std,NA,NA,NA,NA,NA,NA,NA
 D1,st1,Std,NA,NA,NA,NA,NA,NA,NA
 E1,st2,Std,NA,NA,NA,NA,NA,NA,NA

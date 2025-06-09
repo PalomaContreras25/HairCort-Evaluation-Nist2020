@@ -1,4 +1,4 @@
-Wells,Sample,Categ,weight_mg,buffer_nl,spike,vol_in_well.tube_uL,spike_vol_uL,Dilution,samp_comparable
+Wells,Sample,Categ,weight_mg,buffer_ul,spike,vol_in_well.tube_uL,spike_vol_uL,Dilution,samp_comparable
 E3,3,YesSpike,11,60,1,50,25,1,1
 A7,15,NoSpike,12,60,0,25,0,1,1
 H3,6,YesSpike,13.7,60,1,50,25,1,2
