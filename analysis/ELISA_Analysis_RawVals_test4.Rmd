@@ -56,24 +56,70 @@ data_std <- join(data1, std1, type = "full")
 a <- filter(data_std, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Binding.Perc)) 
 a$Sample_num <- 1:length(a$Sample)
 
-ggplot(a, aes(x = Sample_num, 
+ggplot(a, aes(x = log(Ave_Conc_pg.ml), 
                  y = Binding.Perc, color = Category)) +
   geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.3, alpha = 0.3) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, aes(group = a$Category)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.2, linetype = 2, alpha = 0.2, 
+              aes(group = Category)) +
   geom_point(size = 2) +
+  facet_wrap(vars(Category)) +
+  theme_minimal() + 
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 80, linetype = "dashed", 
-             color = "gray", linewidth = 1) +  
+             color = "gray", linewidth = 0.8) +  
   geom_hline(yintercept = 20, linetype = "dashed", 
-             color = "gray", linewidth = 1) +  # Add horizontal line 
-  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
-               formula = y ~ x, parse = TRUE, size = 2.5) +
- # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
-  labs(title = "All serial dilutions and standard: observed binding %",
-       subtitle = "Complete dataset",
-       x = "Sample", y = "Binding Percentage") +
-  scale_y_continuous(n.breaks = 10) + 
-  theme_minimal() 
+             color = "gray", linewidth = 0.8) +  
+ labs(
+  #title = "All serial dilutions and standard: observed binding %",
+#       subtitle = "Complete dataset",
+       x = "Log(Concentration_pg.ml)", y = "Binding %") +
+  scale_y_continuous(n.breaks = 10) 
+
+ 
+ggplot(a, aes(x = (Ave_Conc_pg.ml), 
+                 y = Binding.Perc, color = Category)) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.3, alpha = 0.3) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.2, linetype = 2, alpha = 0.2, 
+              aes(group = Category)) +
+  geom_point(size = 2) +
+  facet_wrap(vars(Category)) +
+  theme_minimal() + 
+  geom_text(aes(label = Sample), size = 2, vjust = -1, hjust = 0.5, color = "gray30", alpha = 0.5) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 0.8) +  
+ labs(
+  #title = "All serial dilutions and standard: observed binding %",
+#       subtitle = "Complete dataset",
+       x = "Concentration_pg.ml", y = "Binding %") +
+  scale_y_continuous(n.breaks = 10) 
+
+
+
+
+ggplot(a, aes(x = log(Ave_Conc_pg.ml), 
+                 y = Binding.Perc, color = Category)) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = FALSE, linewidth = 0.3) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, 
+              aes(group = Category)) +
+  geom_point(size = 2) +
+  theme_minimal() + 
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 0.8) +  
+ labs(
+  #title = "All serial dilutions and standard: observed binding %",
+#       subtitle = "Complete dataset",
+       x = "Log(Concentration_pg.ml)", y = "Binding %") +
+  scale_y_continuous(n.breaks = 10) 
+
+
+
+
+
+
 
 exp <- a %>%
   filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "TA2","TC3", "TD6", "TD7", "TB6", "TA1", "TB1", "TD1"))

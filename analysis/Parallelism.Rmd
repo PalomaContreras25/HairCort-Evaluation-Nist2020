@@ -1,0 +1,20 @@
+
+```{r}
+
+df <- read.csv("test4_parallelism.csv")
+head(df)
+
+# running stats on interaction between concentrations
+library(lme4)
+library(ggplot2)
+
+mod.par <- lm(df$bind ~ df$log.fake.conc * df$type)
+summary(mod.par)
+
+# plotting parallelism
+ggplot(df, aes(x = log.fake.conc, y = bind, color = type)) +
+  geom_line() +
+# adding axis labels
+  labs(y="% Binding", x = "log concentration Test4 (pg/ml)")
+
+```
