@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Paloma Contreras" />
+
+<meta name="date" content="2025-04-29" />
+
+<title>Calculation Final Values, Test4</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HairCort-Evaluation-Nist2020</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Calculation Final Values, Test4</h1>
+<h4 class="author">Paloma Contreras</h4>
+<h4 class="date">2025-04-29</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-04-29
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>HairCort-Evaluation-Nist2020/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241016code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241016)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241016code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241016)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree22327dfdc73ee75d0992cf2084be52c11957f55dtargetblank22327dfa">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/22327dfdc73ee75d0992cf2084be52c11957f55d" target="_blank">22327df</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree22327dfdc73ee75d0992cf2084be52c11957f55dtargetblank22327dfa"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/22327dfdc73ee75d0992cf2084be52c11957f55d" target="_blank">22327df</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rhistory
+    Ignored:    data/.DS_Store
+    Ignored:    data/Test3/.DS_Store
+    Ignored:    data/Test4/.DS_Store
+
+Unstaged changes:
+    Modified:   analysis/ELISA_Analysis_FinalVals_test4.Rmd
+    Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/ELISA_Calc_FinalVals_test4.Rmd</code>) and HTML
+(<code>docs/ELISA_Calc_FinalVals_test4.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/22327dfdc73ee75d0992cf2084be52c11957f55d/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">22327df</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-28
+</td>
+<td>
+elisa5 design
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/22327dfdc73ee75d0992cf2084be52c11957f55d/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">22327df</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-28
+</td>
+<td>
+elisa5 design
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/8108c43a477e3d0711afa0980ef4c4ffe8fe1c15/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">8108c43</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+<td>
+improved figures
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/8108c43a477e3d0711afa0980ef4c4ffe8fe1c15/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">8108c43</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+<td>
+improved figures
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0ed450f2d422ad72438387283ed9e2f699969b6e/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">0ed450f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+<td>
+updated input (myassays.com) including dilution
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/0ed450f2d422ad72438387283ed9e2f699969b6e/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">0ed450f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+<td>
+updated input (myassays.com) including dilution
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e98589f0dae11886730ada0164bbafe63a6f5bf6/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">e98589f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-24
+</td>
+<td>
+fixed formula for test 4
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/e98589f0dae11886730ada0164bbafe63a6f5bf6/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">e98589f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-24
+</td>
+<td>
+fixed formula for test 4
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dd200fce89c0749e59158ad696ff6f7f661ebe4f/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">dd200fc</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-23
+</td>
+<td>
+corrected figures
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/dd200fce89c0749e59158ad696ff6f7f661ebe4f/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">dd200fc</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-23
+</td>
+<td>
+corrected figures
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/7240d2e077315a9ed12a32a724dab7a50ad4a271/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">7240d2e</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-22
+</td>
+<td>
+organized files
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/7240d2e077315a9ed12a32a724dab7a50ad4a271/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">7240d2e</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-22
+</td>
+<td>
+organized files
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/82ad9289d2fb8bc31d61faa7388692d97861b9f8/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">82ad928</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-17
+</td>
+<td>
+upd
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/82ad9289d2fb8bc31d61faa7388692d97861b9f8/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">82ad928</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-17
+</td>
+<td>
+upd
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/16ce91c12594e99d1691896d5d0df7dc690fe51d/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">16ce91c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-10
+</td>
+<td>
+recalc_evaluations
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/16ce91c12594e99d1691896d5d0df7dc690fe51d/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">16ce91c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-10
+</td>
+<td>
+recalc_evaluations
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/bbb70a9fa145ec05bd59fb1aff4482c48d91a35b/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">bbb70a9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-09
+</td>
+<td>
+comparing methods
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/ccad031a28e70028dc8e419fc1ce6ccda9e010cc/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">ccad031</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-09
+</td>
+<td>
+new_calc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/ccad031a28e70028dc8e419fc1ce6ccda9e010cc/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">ccad031</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-09
+</td>
+<td>
+new_calc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/77c2ab5fbe6945870d239696722a0155d005cd3d/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">77c2ab5</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-08
+</td>
+<td>
+cleaning test3
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/ced6eede4f190eb8ce9dcb3ade4b06320a5b38c2/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">ced6eed</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+upd
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/ced6eede4f190eb8ce9dcb3ade4b06320a5b38c2/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">ced6eed</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+upd
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/ca6c8048b3409d271ba2d1edf0764d9c90c9f919/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">ca6c804</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new calc final vals
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/ca6c8048b3409d271ba2d1edf0764d9c90c9f919/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">ca6c804</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new calc final vals
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/analysis/ELISA_Calc_FinalVals_test4.Rmd" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new_calc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/528855bad8d818400bf42ae3059600f9b176f802/docs/ELISA_Calc_FinalVals_test4.html" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+<td>
+new_calc
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p><strong>Cortisol value calculations</strong> (includes bad quality
+samples, n = 41)</p>
+<table>
+<colgroup>
+<col width="30%" />
+<col width="7%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="8%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Min.</th>
+<th>1st Qu.</th>
+<th>Median</th>
+<th>Mean</th>
+<th>3rd Qu.</th>
+<th>Max.</th>
+<th>NA’s</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A) Standard Method (mult. by sample dilution)</strong></td>
+<td>17.13</td>
+<td>29.01</td>
+<td>32.27</td>
+<td>35.28</td>
+<td>39.47</td>
+<td>82.94</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td><strong>B) Spike-Corrected Method (Nist 2020)</strong></td>
+<td><strong>-35.83</strong></td>
+<td>10.61</td>
+<td>17.00</td>
+<td>19.97</td>
+<td>30.62</td>
+<td><strong>123.07</strong></td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td><strong>C) Spike-Corrected (Sam’s Method)</strong></td>
+<td><strong>11.8</strong></td>
+<td>19.45</td>
+<td>29.34</td>
+<td>29.54</td>
+<td>33.1</td>
+<td><strong>82.90</strong></td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cortisol value calculations</strong> (removed bad quality
+samples)</p>
+<table>
+<colgroup>
+<col width="31%" />
+<col width="10%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Min.</th>
+<th>1st Qu.</th>
+<th>Median</th>
+<th>Mean</th>
+<th>3rd Qu.</th>
+<th>Max.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A) Standard Method (mult. by sample dilution)</strong></td>
+<td>18.27</td>
+<td>29.27</td>
+<td>31.54</td>
+<td>34.13</td>
+<td>37.73</td>
+<td>69.17</td>
+</tr>
+<tr class="even">
+<td><strong>B) Spike-Corrected Method (Nist 2020)</strong></td>
+<td><strong>-39.371</strong></td>
+<td>-34.855</td>
+<td>-20.577</td>
+<td>-14.325</td>
+<td>-6.825</td>
+<td><strong>40.400</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>C) Spike-Corrected (Sam’s Method)</strong></td>
+<td>** 11.80**</td>
+<td>22.14</td>
+<td>28.91</td>
+<td>27.13</td>
+<td>31.88</td>
+<td><strong>40.40</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Plate description</em></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Category</th>
+<th align="center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">TA</td>
+<td align="center">Non-spiked serial dilution</td>
+</tr>
+<tr class="even">
+<td align="left">TB</td>
+<td align="center">Spiked only in first dilution (TB1) then serially
+diluted</td>
+</tr>
+<tr class="odd">
+<td align="left">TC</td>
+<td align="center">Each dilution individually spiked with 25 µL of
+std1</td>
+</tr>
+<tr class="even">
+<td align="left">TD</td>
+<td align="center">First tube spiked 1:1 with std1 (110 µL), then
+serially diluted</td>
+</tr>
+<tr class="odd">
+<td align="left">TP</td>
+<td align="center">Precision replicates (different weights: 6, 9, 12 mg)
+spiked with 25 µL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Results:</strong></p>
+<ul>
+<li><p>Intra-assay CV: 14.48%</p></li>
+<li><p>Intra-assay CV after removing low quality samples: 4.76%</p></li>
+<li><p>Inter-assay CV: <strong>21%</strong> (Bindings for 20mg sample
+diluted in 250 uL, no spike: 64.8% and 48% in test3 and test4,
+respectively)</p></li>
+</ul>
+<p><strong>Conclusions</strong>:</p>
+<p><strong>Concerns:</strong> Overall quality of the plate is not great,
+but serial dilusions show clear parallelism and standards have values
+within the expected</p>
+<div id="explanation-of-each-variable-used-in-calculations"
+class="section level2">
+<h2>Explanation of each variable used in calculations</h2>
+<ul>
+<li><p>Ave_Conc_pg/ml: average ELISA reading per sample in
+pg/mL</p></li>
+<li><p>Weight_mg: hair weight in mg</p></li>
+<li><p>Buffer_nl: assay buffer volume in nL → we convert to mL</p></li>
+<li><p>Spike: binary indicator (1 = spiked sample)</p></li>
+<li><p>SpikeVol_uL: volume of spike added in µL</p></li>
+<li><p>Dilution: dilution factor (already present)</p></li>
+<li><p>Vol_in_well.tube_uL: total volume in well/tube in µL (for spike
+correction)</p></li>
+<li><p>std: standard reading value</p></li>
+<li><p>extraction: methanol volume ratio = vol added / vol recovered
+(e.g. 1/0.75 ml)</p></li>
+</ul>
+</div>
+</div>
+<div id="cortisol-concentration-calculations" class="section level1">
+<h1>Cortisol concentration calculations</h1>
+<p>Parameters and unit transformations:</p>
+<pre class="r"><code># Volume of methanol used for cortisol extraction varies, so it is included in file
+# as Extraction_ratio (vol added / vol recovered) in mL
+
+# Reading of spike standard and conversion to ug/dl
+std &lt;- 3209.5                                   # test 4 backfit
+std_ul.dl &lt;- std / 10000                        # std in ul/dl
+
+# Creating variables in indicated units
+df$Buffer_ml &lt;- c(df$Buffer_nl/1000)            # dilution (buffer)
+df$Ave_Conc_ug.dl &lt;- c(df$Ave_Conc_pg.ml/10000) # Transform to μg/dl from assay output</code></pre>
+<p>Identify and flag bad quality samples</p>
+<pre><code>
+        ABOVE 80% binding                   HIGH CV HIGH CV;ABOVE 80% binding 
+                        4                         2                         7 
+HIGH CV;UNDER 20% binding                        OK         UNDER 20% binding 
+                        1                        60                         8 </code></pre>
+<pre><code>Summary CV for all samples:</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+   0.00    2.70    5.90   14.48   14.10   87.50      41 </code></pre>
+<pre><code>Summary CV for good quality samples only:</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+  0.000   2.570   3.600   4.762   7.100  14.100      41 </code></pre>
+<div id="a-standard-calculation" class="section level2">
+<h2>(A) Standard Calculation</h2>
+<p>Formula:</p>
+<p>((A/B) * (C/D) * E * 10,000) = F</p>
+<ul>
+<li>A = μg/dl from assay output;</li>
+<li>B = weight (in mg) of hair subjected to extraction;</li>
+<li>C = vol. (in ml) of methanol added to the powdered hair;</li>
+<li>D = vol. (in ml) of methanol recovered from the extract and
+subsequently dried down;</li>
+<li>E = vol. (in ml) of assay buffer used to reconstitute the dried
+extract;</li>
+<li>F = final value of hair CORT Concentration in pg/mg</li>
+</ul>
+<pre class="r"><code>##################################
+##### Calculate final values #####
+##################################
+
+data$Final_pg.mg_A &lt;- c(
+    ((data$Ave_Conc_ug.dl / data$Weight_mg) *              # A/B *
+      data$Extraction_ratio *                              # C/D  *     
+      data$Buffer_ml * 10000))                             # E * 10000 </code></pre>
+<pre><code>Summary of all samples (n = 37 ):</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  17.13   29.02   32.27   35.28   39.47   82.93 </code></pre>
+<pre><code>Summary for good quality samples only (n = 18 ):</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  18.27   29.27   31.54   34.13   37.73   69.17 </code></pre>
+</div>
+<div id="b-accounting-for-spike" class="section level2">
+<h2>(B) Accounting for Spike</h2>
+<p>We followed the procedure described in <strong>Nist et
+al. 2020</strong>:</p>
+<p>“Thus, after pipetting 25μL of standards and samples into the
+appropriate wells of the 96-well assay plate, we added 25μL of the
+0.333ug/dL standard to all samples, resulting in a 1:2 dilution of
+samples. The remainder of the manufacturer’s protocol was unchanged. We
+analyzed the assay plate in a Powerwave plate reader (BioTek, Winooski,
+VT) at 450nm and subtracted background values from all assay wells. In
+the calculations, we subtracted the 0.333ug/dL standard reading from the
+sample readings. Samples that resulted in a <strong>negative number were
+considered nondetectable</strong>. We converted cortisol levels from
+ug/dL, as measured by the assay, to pg/mg—based on the mass of hair
+collected and analyzed using the following formula:</p>
+<p>A/B * C/D * E * 10,000 * 2 = F</p>
+<p>where</p>
+<ul>
+<li>A = μg/dl from assay output;</li>
+<li>B = weight (in mg) of collected hair;</li>
+<li>C = vol. (in ml) of methanol added to the powdered hair;</li>
+<li>D = vol. (in ml) of methanol recovered from the extract and
+subsequently dried down;</li>
+<li>E = vol. (in ml) of assay buffer used to reconstitute the dried
+extract; 10,000 accounts for changes in metrics; 2 accounts for the
+dilution factor after addition of the spike; and</li>
+<li>F = final value of hair cortisol concentration in pg/mg”</li>
+<li><strong>SPd</strong> = sample dilution factor (if serially
+diluted)</li>
+</ul>
+<pre class="r"><code>##################################
+##### Calculate final values #####
+##################################
+
+# spike is already divided by 10000 (unit is ug/dL)
+data$Final_pg.mg_B &lt;- 
+  ifelse(
+    data$Spike == 1,                                         ## Only spiked samples
+      ((data$Ave_Conc_ug.dl - (std_ul.dl)) /                 # (A-spike) 
+        data$Weight_mg)                                      # / B
+        * data$Extraction_ratio *                            # C / D
+        data$Buffer_ml * 10000 * 2,   # E * 10000 * 2
+        data$Final_pg.mg_A  
+    )</code></pre>
+<pre><code>Summary all samples:</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ -35.83   10.61   17.00   19.97   30.62  123.07 </code></pre>
+<pre><code>Summary good quality samples only:</code></pre>
+<pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+-35.83333   0.08417  14.03600  10.92278  23.88333  40.39865 </code></pre>
+</div>
+<div id="c-sams-calculation" class="section level2">
+<h2>(C) Sam’s calculation</h2>
+<p>Simplifies unnecessary unit transformations and accounts for spike
+considering dilution of both sample and the spike</p>
+<ul>
+<li>Step 1: Calculate contribution of the spike</li>
+<li>Step 2: Substract spike from plate reading values and calculate
+final values accounting for dilution of the sample, weight, and
+reconstitution</li>
+</ul>
+<p><strong>Step 1</strong>: Calculate contribution of spike</p>
+<p>X * Y / Z / SPd = SP</p>
+<ul>
+<li>SP = final value of spike contribution in pg/mL</li>
+<li>X = volume of spike added (mL)</li>
+<li>Y = concentration of the spike added (pg/mL)</li>
+<li>SPd = if serially diluted, dilution factor for the spike (i.e: 1, 2,
+4, 8, etc.)</li>
+<li>Z = total volume (mL) in the well or tube, if spike is added before
+loading the plate (sample + spike)</li>
+</ul>
+<pre class="r"><code># Transforming units
+data$SpikeVol_ml &lt;- data$SpikeVol_ul/1000                 # X to mL
+data$Vol_in_well.tube_ml &lt;- data$Vol_in_well.tube_ul/1000 # Z to mL
+  
+# Calculate spike contribution to each sample
+      ##  ( Spike vol. x Spike Conc.)
+      ##   ------------------------  / dilution = Spike contribution (pg/ml)
+      ##        Total vol. 
+  
+# Calculate cort contribution of spike to each sample
+data$Spike_contribution &lt;- ((data$SpikeVol_ml * std  /     # X * Y
+                            data$Vol_in_well.tube_ml) /  # Z / 
+                              data$Dilution_spike)       # SP</code></pre>
+<pre><code>The reading for standard 1 in this plate is 3209.5</code></pre>
+<pre><code>The total contribution of the Spike to each sample is can be any of the following numbers (in pg/ml)</code></pre>
+<pre><code> [1]    0.000000  291.772727  160.475000   80.237500   40.118750   20.059375
+ [7]   10.029688    5.014844 1604.750000  802.375000  401.187500  200.593750
+[13]  100.296875   50.148438   25.074219 1604.750000</code></pre>
+<p><strong>Step 2 </strong>: Substract spike and calculate final
+values</p>
+<p>((A - <strong>SP</strong>)/B) * (C/D) * E = F</p>
+<ul>
+<li>A = pg/ml from assay output;</li>
+<li><em>SP</em> = spike contribution (in pg/ml)</li>
+<li>B = weight (in mg) of hair subjected to extraction;</li>
+<li>C = vol. (in ml) of methanol added to the powdered hair;</li>
+<li>D = vol. (in ml) of methanol recovered from the extract and
+subsequently dried down;</li>
+<li>E = vol. (in ml) of assay buffer used to reconstitute the dried
+extract;</li>
+<li>F = final value of hair CORT Concentration in pg/mg.</li>
+</ul>
+<pre class="r"><code>##################################
+##### Calculate final values #####
+##################################
+
+data$Final_pg.mg_C &lt;- 
+     (((data$Ave_Conc_pg.ml - data$Spike_contribution)) /  # (A - spike) 
+      data$Weight_mg) *                                    # / B *
+     data$Extraction_ratio *                               # C / D *
+      data$Buffer_ml                                       # E </code></pre>
+<pre><code>Summary for all samples:</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  11.80   19.45   29.34   29.54   33.10   82.90 </code></pre>
+<pre><code>Summary for good quality samples only:</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  11.80   22.14   28.91   27.13   31.88   40.40 </code></pre>
+<table>
+<colgroup>
+<col width="2%" />
+<col width="4%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="13%" />
+<col width="9%" />
+<col width="8%" />
+<col width="11%" />
+<col width="10%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Sample</th>
+<th align="right">Final_pg.mg_A</th>
+<th align="right">Final_pg.mg_B</th>
+<th align="right">Final_pg.mg_C</th>
+<th align="right">Spike_contribution</th>
+<th align="right">Binding.Perc</th>
+<th align="right">SpikeVol_ul</th>
+<th align="right">Dilution_sample</th>
+<th align="right">Dilution_spike</th>
+<th align="right">Extraction_ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">32</td>
+<td align="left">TP2A</td>
+<td align="right">33.71556</td>
+<td align="right">10.373333</td>
+<td align="right">19.45111</td>
+<td align="right">1604.75</td>
+<td align="right">17.3</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.333333</td>
+</tr>
+<tr class="even">
+<td align="left">33</td>
+<td align="left">TP2B</td>
+<td align="right">27.56444</td>
+<td align="right">-1.928889</td>
+<td align="right">13.30000</td>
+<td align="right">1604.75</td>
+<td align="right">21.1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.333333</td>
+</tr>
+<tr class="odd">
+<td align="left">34</td>
+<td align="left">TP2C</td>
+<td align="right">32.30222</td>
+<td align="right">7.546667</td>
+<td align="right">18.03778</td>
+<td align="right">1604.75</td>
+<td align="right">18.1</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.333333</td>
+</tr>
+<tr class="even">
+<td align="left">35</td>
+<td align="left">TP3A</td>
+<td align="right">69.17117</td>
+<td align="right">-20.686937</td>
+<td align="right">29.41385</td>
+<td align="right">1604.75</td>
+<td align="right">23.2</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.351351</td>
+</tr>
+<tr class="odd">
+<td align="left">36</td>
+<td align="left">TP3B</td>
+<td align="right">28.06667</td>
+<td align="right">13.340000</td>
+<td align="right">17.36833</td>
+<td align="right">1604.75</td>
+<td align="right">15.5</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.333333</td>
+</tr>
+<tr class="even">
+<td align="left">37</td>
+<td align="left">TP3C</td>
+<td align="right">31.07333</td>
+<td align="right">19.353333</td>
+<td align="right">20.37500</td>
+<td align="right">1604.75</td>
+<td align="right">13.9</td>
+<td align="right">25</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.333333</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="plots-all-samples-vs-final-concentration"
+class="section level1">
+<h1>Plots: all samples vs final concentration</h1>
+<div id="a-standard-calculation-1" class="section level2">
+<h2>(A) Standard Calculation</h2>
+<p>Final cortisol concentrations not accounting for spike. Tags are
+sample numbers.</p>
+<p>Expected results: a straight horizontal line showing that I obtained
+same cortisol concentration value in the Y axis, across different sample
+weights.</p>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/8108c43a477e3d0711afa0980ef4c4ffe8fe1c15/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" target="_blank">8108c43</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dd200fce89c0749e59158ad696ff6f7f661ebe4f/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" target="_blank">dd200fc</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-23
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/16ce91c12594e99d1691896d5d0df7dc690fe51d/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" target="_blank">16ce91c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-10
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/ccad031a28e70028dc8e419fc1ce6ccda9e010cc/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" target="_blank">ccad031</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-09
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/ced6eede4f190eb8ce9dcb3ade4b06320a5b38c2/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" target="_blank">ced6eed</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-6-1.png" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="b-accounting-for-spike-1" class="section level2">
+<h2>(B) Accounting for Spike</h2>
+<p>Final cortisol concentrations accounting for Spike as instructed in
+Nist et al. 2020.</p>
+<p>Expected results: lower values than in the previous plot for the
+spiked samples, but not as low as negative samples (for all of them).
+Spiked and non-spiked samples should be aligned (same concentration
+across different weights)</p>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/8108c43a477e3d0711afa0980ef4c4ffe8fe1c15/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-7-1.png" target="_blank">8108c43</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0ed450f2d422ad72438387283ed9e2f699969b6e/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-7-1.png" target="_blank">0ed450f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e98589f0dae11886730ada0164bbafe63a6f5bf6/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-7-1.png" target="_blank">e98589f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-24
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dd200fce89c0749e59158ad696ff6f7f661ebe4f/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-7-1.png" target="_blank">dd200fc</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-23
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-7-1.png" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="c-sams-calculation-1" class="section level2">
+<h2>(C) Sam’s calculation</h2>
+<p>Final cortisol concentration values using new method.</p>
+<p>Expected results: one unique horizontal line, regardless of the
+spiking status and dilution.</p>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/8108c43a477e3d0711afa0980ef4c4ffe8fe1c15/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-1.png" target="_blank">8108c43</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0ed450f2d422ad72438387283ed9e2f699969b6e/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-1.png" target="_blank">0ed450f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e98589f0dae11886730ada0164bbafe63a6f5bf6/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-1.png" target="_blank">e98589f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-24
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dd200fce89c0749e59158ad696ff6f7f661ebe4f/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-1.png" target="_blank">dd200fc</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-23
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-1.png" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-2">
+Past versions of unnamed-chunk-8-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/8108c43a477e3d0711afa0980ef4c4ffe8fe1c15/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-2.png" target="_blank">8108c43</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e98589f0dae11886730ada0164bbafe63a6f5bf6/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-2.png" target="_blank">e98589f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-24
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dd200fce89c0749e59158ad696ff6f7f661ebe4f/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-2.png" target="_blank">dd200fc</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-3">
+Past versions of unnamed-chunk-8-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dd200fce89c0749e59158ad696ff6f7f661ebe4f/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-8-3.png" target="_blank">dd200fc</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="plot-contribution-of-spike-vs-sample-quality-c"
+class="section level1">
+<h1>Plot contribution of spike vs sample quality (C)</h1>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/8108c43a477e3d0711afa0980ef4c4ffe8fe1c15/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" target="_blank">8108c43</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0ed450f2d422ad72438387283ed9e2f699969b6e/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" target="_blank">0ed450f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e98589f0dae11886730ada0164bbafe63a6f5bf6/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" target="_blank">e98589f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-24
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dd200fce89c0749e59158ad696ff6f7f661ebe4f/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" target="_blank">dd200fc</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-23
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/ca6c8048b3409d271ba2d1edf0764d9c90c9f919/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" target="_blank">ca6c804</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-9-1.png" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="plot-grouped-by-reconstitution-volume" class="section level1">
+<h1>Plot grouped by reconstitution volume</h1>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/e98589f0dae11886730ada0164bbafe63a6f5bf6/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-10-1.png" target="_blank">e98589f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-24
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/dd200fce89c0749e59158ad696ff6f7f661ebe4f/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-10-1.png" target="_blank">dd200fc</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-23
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/528855bad8d818400bf42ae3059600f9b176f802/docs/figure/ELISA_Calc_FinalVals_test4.Rmd/unnamed-chunk-10-1.png" target="_blank">528855b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="plot-grouped-by-category-c" class="section level1">
+<h1>Plot grouped by category (C)</h1>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/ELISA_Calc_FinalVals_test4.Rmd/plot-by-categ-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="error-evaluations-grouped-by-data-quality-using-c"
+class="section level1">
+<h1>Error evaluations, grouped by data quality (using C)</h1>
+<pre><code>Number of good quality datapoints: 18</code></pre>
+<pre><code>Models used with respect to weight: 
+
+      lm(Final.pg.mg_C ~ Weight_mg, 
+                  data = data2.hq)</code></pre>
+<p><strong>Error using good quality samples only</strong></p>
+<pre><code>Mean Absolute Error (MAE) ALL: 4.774 </code></pre>
+<pre><code>Standard Deviation of Residuals ALL: 6.21 </code></pre>
+<p><strong>Error using all samples</strong></p>
+<pre><code>Mean Absolute Error (MAE) ALL: 7.633 </code></pre>
+<pre><code>Standard Deviation of Residuals ALL: 11.358 </code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.0 (2025-04-11)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sequoia 15.4.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] dplyr_1.1.4     paletteer_1.6.0 broom_1.0.8     ggplot2_3.5.2  
+[5] knitr_1.50     
+
+loaded via a namespace (and not attached):
+ [1] sass_0.4.10       generics_0.1.3    tidyr_1.3.1       prismatic_1.1.2  
+ [5] lattice_0.22-6    stringi_1.8.7     digest_0.6.37     magrittr_2.0.3   
+ [9] evaluate_1.0.3    grid_4.5.0        fastmap_1.2.0     Matrix_1.7-3     
+[13] rprojroot_2.0.4   workflowr_1.7.1   jsonlite_2.0.0    whisker_0.4.1    
+[17] backports_1.5.0   rematch2_2.1.2    promises_1.3.2    mgcv_1.9-1       
+[21] purrr_1.0.4       scales_1.3.0      jquerylib_0.1.4   cli_3.6.4        
+[25] rlang_1.1.6       splines_4.5.0     munsell_0.5.1     withr_3.0.2      
+[29] cachem_1.1.0      yaml_2.3.10       tools_4.5.0       colorspace_2.1-1 
+[33] httpuv_1.6.16     vctrs_0.6.5       R6_2.6.1          lifecycle_1.0.4  
+[37] git2r_0.36.2      stringr_1.5.1     fs_1.6.6          pkgconfig_2.0.3  
+[41] pillar_1.10.2     bslib_0.9.0       later_1.4.2       gtable_0.3.6     
+[45] glue_1.8.0        Rcpp_1.0.14       xfun_0.52         tibble_3.2.1     
+[49] tidyselect_1.2.1  rstudioapi_0.17.1 farver_2.1.2      nlme_3.1-168     
+[53] htmltools_0.5.8.1 rmarkdown_2.29    labeling_0.4.3    compiler_4.5.0   </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,512 @@
+geom_point(size = 2, color = "salmon") +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+stat_poly_eq(aes(x = (Exp), label = paste(..rr.label.., sep = "~~~")),
+formula = y ~ x, parse = TRUE, size = 4) +
+geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+labs(title = "Experiment D: expected vs observed cortisol concentrations",
+subtitle = "Serial dilution using spiked sample (110uL), 20mg, 110uL, dilution 1:2",
+x = "Expected vals", y = "Observed vals") +
+theme_bw()
+```{r expE-bindingPerc}
+exp$Sample_num <- 1:length(exp$Sample)
+exp <- exp %>%
+mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+group_by(Group) %>%
+summarise(
+CV_BP = round((sd(Binding.Perc) / mean(Binding.Perc)) * 100, 1),
+mean_BP = mean(Binding.Perc, na.rm = TRUE),
+sd_BP = sd(Binding.Perc, na.rm = TRUE)
+)
+# overall stats
+all <- exp %>%
+summarise(
+Mean_BP = mean(Binding.Perc, na.rm = TRUE),
+SD_BP = sd(Binding.Perc, na.rm = TRUE),
+CV_BP = (SD_BP / Mean_BP) * 100
+)
+print(all)
+ggplot(exp, aes(x = Sample,
+y = Binding.Perc, color = factor(Weight_mg))) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +   geom_smooth(method = "lm", se = TRUE, linewidth = 0.8, alpha = 1, color = "lightblue") +
+geom_point(size = 3, alpha = 1) +
+labs(title = "Experiment E: observed binding % by sample",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+coord_cartesian(ylim = c(0, 80)) +
+theme_minimal() +
+annotate("text", x = 2, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+annotate("text", x = 5, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+annotate("text", x = 7.5, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+annotate("text", x = 2, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+annotate("text", x = 5, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+annotate("text", x = 7.5, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4)
+exp <- filter(data_std, Category == "P", !is.na(Binding.Perc))
+exp$Sample_num <- 1:length(exp$Sample)
+exp <- filter(data_std, Category == "TL", !is.na(Binding.Perc))
+exp$Sample_num <- 1:length(exp$Sample)
+exp <- exp %>%
+mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+group_by(Group) %>%
+summarise(
+CV_BP = round((sd(Binding.Perc) / mean(Binding.Perc)) * 100, 1),
+mean_BP = mean(Binding.Perc, na.rm = TRUE),
+sd_BP = sd(Binding.Perc, na.rm = TRUE)
+)
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = c(6,9,12), y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+coord_cartesian(xlim = c(4,14), ylim = c(0, 80)) +
+theme_minimal() +
+annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4)
+exp
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = Weight_mg, y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+coord_cartesian(xlim = c(4,14), ylim = c(0, 80)) +
+theme_minimal() +
+annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4)
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = exp$Weight_mg, y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+coord_cartesian(xlim = c(4,14), ylim = c(0, 80)) +
+theme_minimal() +
+annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4)
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = 20, y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+coord_cartesian(xlim = c(4,14), ylim = c(0, 80)) +
+theme_minimal() +
+annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4)
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = 20, y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+theme_minimal()
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = 1:length(exp), y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+theme_minimal()
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = 1:length(cv_values), y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+theme_minimal()
+exp
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = Sample_num, y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+theme_minimal()
+cv_values
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = 1, y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+theme_minimal()
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = 20, y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+theme_minimal()
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+theme_minimal()
+print(cv_values)
+#exp <- filter(data_std, Category == "P",  Sample != "TP3A", !is.na(Binding.Perc))
+exp$Sample_num <- 1:length(exp$Sample)
+exp <- exp %>%
+mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+group_by(Group) %>%
+summarise(
+CV_BP = round((sd(Binding.Perc) / mean(Binding.Perc)) * 100, 1),
+mean_BP = mean(Binding.Perc, na.rm = TRUE),
+sd_BP = sd(Binding.Perc, na.rm = TRUE)
+)
+ggplot(exp, aes(x = Weight_mg,
+y = Binding.Perc)) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = c(6,9,12), y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+#geom_hline(yintercept = 80, linetype = "dashed",
+#          color = "gray", linewidth = 1) +
+labs(title = "Experiment E: observed binding % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample, removed low quality samples",
+x = "Sample weight (mg)", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+coord_cartesian(xlim = c(4,14), ylim = c(0, 80)) +
+theme_minimal() +
+annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4)
+m
+#exp <- filter(data_std, Category == "P")
+exp$Sample_num <- 1:length(exp$Sample)
+exp <- exp %>%
+mutate(Group = substr(Sample, 1, 3))
+cv_values <- exp %>%
+group_by(Group) %>%
+summarise(
+CV_BP = round((sd(Conc_pg.ml) / mean(Conc_pg.ml)) * 100, 1),
+mean_BP = mean(Conc_pg.ml, na.rm = TRUE),
+sd_BP = sd(Conc_pg.ml, na.rm = TRUE)
+)
+# overall stats
+all <- exp %>%
+summarise(
+Mean_BP = mean(Conc_pg.ml, na.rm = TRUE),
+SD_BP = sd(Conc_pg.ml, na.rm = TRUE),
+CV_BP = (SD_BP / Mean_BP) * 100
+)
+ggplot(exp, aes(x = Weight_mg,
+y = Conc_pg.ml, color = Sample)) +
+geom_point(size = 3, color = "gray40", alpha = 1) +
+geom_pointrange(data = cv_values,
+aes(x = c(6,9,12), y = mean_BP,
+ymin = mean_BP - sd_BP, ymax = mean_BP + sd_BP),
+color = "orange", size = 0.5, alpha = 0.8) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
+labs(title = "Experiment E: concentration vals % by sample weight",
+subtitle = "Precision, 25uL spike, 25uL sample",
+x = "Sample weight (mg)", y = "Conc_pg.ml") +
+scale_y_continuous(n.breaks = 10) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
+coord_cartesian(xlim = c(4,14)) +
+theme_minimal() +
+annotate("text", x = 6, y = 600, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP1"], "%"), size = 4) +
+annotate("text", x = 9, y = 600, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP2"], "%"), size = 4) +
+annotate("text", x = 12, y = 600, label = paste0("CV: ", cv_values$CV_BP[cv_values$Group == "TP3"], "%"), size = 4) +
+annotate("text", x = 6, y = 400, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP1"],2)), size = 4) +
+annotate("text", x = 9, y = 400, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP2"],2)), size = 4) +
+annotate("text", x = 12, y = 400, label = paste0("mean: ", round(cv_values$mean_BP[cv_values$Group == "TP3"],2)), size = 4)
+# Scatter plot of Experiment A and B, observed binding %
+a <- filter(data_std, Category =! "Parallelism" | Category  =! "Parallelism-SP", !is.na(Binding.Perc))
+a<-data_std
+a$Sample_num <- 1:length(a$Sample)
+# Scatter plot of Experiment A and B, observed binding %
+a <- filter(data_std, Category != "Parallelism" | Category  != "Parallelism-SP", !is.na(Binding.Perc))
+a<-data_std
+a$Sample_num <- 1:length(a$Sample)
+ggplot(a, aes(x = Sample_num,
+y = Binding.Perc, color = Category)) +
+geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.3, alpha = 0.3) +
+geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, aes(group = a$Category)) +
+geom_point(size = 2) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+geom_hline(yintercept = 80, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +  # Add horizontal line
+# stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+#             formula = y ~ x, parse = TRUE, size = 2.5) +
+# geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+labs(title = "All serial dilutions and standard: observed binding %",
+subtitle = "Complete dataset",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+theme_minimal()
+# Scatter plot of Experiment A and B, observed binding %
+a <- filter(data_std, Category != "Parallelism" | Category  != "Parallelism-SP", !is.na(Binding.Perc))
+a$Sample_num <- 1:length(a$Sample)
+ggplot(a, aes(x = Sample_num,
+y = Binding.Perc, color = Category)) +
+geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.3, alpha = 0.3) +
+geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, aes(group = a$Category)) +
+geom_point(size = 2) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+geom_hline(yintercept = 80, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +  # Add horizontal line
+# stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+#             formula = y ~ x, parse = TRUE, size = 2.5) +
+# geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+labs(title = "All serial dilutions and standard: observed binding %",
+subtitle = "Complete dataset",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+theme_minimal()
+data_std
+a
+# Scatter plot of Experiment A and B, observed binding %
+a <- filter(data_std, Category == "PC" | Category  == "TL" | Category  == "Standard" | Category  == "Pool" | Category  == "BE", "BE-SP", !is.na(Binding.Perc))
+a$Sample_num <- 1:length(a$Sample)
+ggplot(a, aes(x = Sample_num,
+y = Binding.Perc, color = Category)) +
+geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.3, alpha = 0.3) +
+geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, aes(group = a$Category)) +
+geom_point(size = 2) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+geom_hline(yintercept = 80, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +  # Add horizontal line
+# stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+#             formula = y ~ x, parse = TRUE, size = 2.5) +
+# geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+labs(title = "All serial dilutions and standard: observed binding %",
+subtitle = "Complete dataset",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+theme_minimal()
+a
+# Scatter plot of Experiment A and B, observed binding %
+a <- filter(data_std, Category == "PC" | Category  == "TL" | Category  == "Standard" | Category  == "Pool" | Category  == "BE" | Category == "BE-SP", !is.na(Binding.Perc))
+a$Sample_num <- 1:length(a$Sample)
+ggplot(a, aes(x = Sample_num,
+y = Binding.Perc, color = Category)) +
+geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.3, alpha = 0.3) +
+geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, aes(group = Category)) +
+geom_point(size = 2) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+geom_hline(yintercept = 80, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +  # Add horizontal line
+# stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+#             formula = y ~ x, parse = TRUE, size = 2.5) +
+# geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+labs(title = "All serial dilutions and standard: observed binding %",
+subtitle = "Complete dataset",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+theme_minimal()
+ggplot(a, aes(x = Sample_num,
+y = Binding.Perc, color = Category)) +
+geom_point(size = 2) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+geom_hline(yintercept = 80, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +  # Add horizontal line
+# stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+#             formula = y ~ x, parse = TRUE, size = 2.5) +
+# geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+labs(title = "All serial dilutions and standard: observed binding %",
+subtitle = "Complete dataset",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+theme_minimal()
+ggplot(a, aes(x = Sample_num,
+y = Binding.Perc, color = Category)) +
+geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = TRUE, linewidth = 0.3, alpha = 0.3) +
+geom_point(size = 2) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+geom_hline(yintercept = 80, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +  # Add horizontal line
+# stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+#             formula = y ~ x, parse = TRUE, size = 2.5) +
+# geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+labs(title = "All serial dilutions and standard: observed binding %",
+subtitle = "Complete dataset",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+theme_minimal()
+ggplot(a, aes(x = Sample_num,
+y = Binding.Perc, color = Category)) +
+geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, aes(group = Category)) +
+geom_point(size = 2) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+geom_hline(yintercept = 80, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +  # Add horizontal line
+# stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
+#             formula = y ~ x, parse = TRUE, size = 2.5) +
+# geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+labs(title = "All serial dilutions and standard: observed binding %",
+subtitle = "Complete dataset",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+theme_minimal()
+ggplot(a, aes(x = Sample_num,
+y = Binding.Perc, color = Category, shape = Weight_mg)) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.3) +
+geom_point(size = 2) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+geom_hline(yintercept = 80, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +  # Add horizontal line
+#  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+#              formula = y ~ x, parse = TRUE, size = 4) +
+# geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+labs(title = "Observed binding % of Serial dilutions and Standard",
+subtitle = "20 mg, 220 uL",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+theme_minimal()
+ggplot(a, aes(x = Sample_num,
+y = Binding.Perc, color = Category, shape = factor(Weight_mg))) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.3) +
+geom_point(size = 2) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+geom_hline(yintercept = 80, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +  # Add horizontal line
+#  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+#              formula = y ~ x, parse = TRUE, size = 4) +
+# geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+labs(title = "Observed binding % of Serial dilutions and Standard",
+subtitle = "20 mg, 220 uL",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+theme_minimal()
+ggplot(a, aes(x = Sample_num,
+y = Binding.Perc, color = Category)) +
+geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.3) +
+geom_point(size = 2) +
+geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+geom_hline(yintercept = 80, linetype = "dashed",
+color = "gray", linewidth = 1) +
+geom_hline(yintercept = 20, linetype = "dashed",
+color = "gray", linewidth = 1) +  # Add horizontal line
+#  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+#              formula = y ~ x, parse = TRUE, size = 4) +
+# geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+labs(title = "Observed binding % of Serial dilutions and Standard",
+subtitle = "20 mg, 220 uL",
+x = "Sample", y = "Binding Percentage") +
+scale_y_continuous(n.breaks = 10) +
+theme_minimal()
+data2
