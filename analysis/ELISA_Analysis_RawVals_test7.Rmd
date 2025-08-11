@@ -1,5 +1,5 @@
 ---
-title: "Analysis - raw vals test5"
+title: "Analysis - raw vals test6"
 author: "Paloma"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
@@ -29,8 +29,8 @@ library(ggplot2)
 ```{r loading}
 # loading info
 # Loading data
-data <- read.csv("./data/Test5/Data_QC_flagged.csv")
-std <- read.csv("./data/Test5/Standard_data_test5.csv")
+data <- read.csv("./data/Test6/Data_QC_flagged.csv")
+std <- read.csv("./data/Test6/Standard_data_test6.csv")
 cort_valsA<- read.csv("./data/Test5/Data_cort_values_methodA.csv")
 cort_valsB<- read.csv("./data/Test5/Data_cort_values_methodB.csv")
 

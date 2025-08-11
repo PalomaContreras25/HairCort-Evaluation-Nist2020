@@ -1,15 +1,14 @@
 ---
-title: "QC_ELISA 5"
-output: html_document
-date: "2025-04-02"
-editor_options: 
-  chunk_output_type: console
+title: "QC_ELISA 7"
+author: "Paloma"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
 ---
 
 Here I show how files are loaded, merged, and cleaned, including the exclusion of unnecessary columns and handling of missing values.
 
 
-- Intra-Assay CV:  ** 21.87 % **
+- Intra-Assay CV:  **  % **
 
 - Intra-Assay CV after removing low quality data: ** -% m**
 
@@ -18,7 +17,7 @@ Here I show how files are loaded, merged, and cleaned, including the exclusion o
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
 # Install libraries
 
-data_path = "./data/Test5"
+data_path = "./data/Test7"
 library(knitr)
 library(dplyr)
 ```
@@ -42,7 +41,7 @@ Load, inspect and merge 3 files:
 ```{r loading files, echo = FALSE}
 # LAYOUT 
 
-layout <- read.csv(file.path(data_path,"layout_wells_test5_051325.csv"), 
+layout <- read.csv(file.path(data_path,"layout_wells_test7_081025.csv"), 
                    stringsAsFactors = TRUE, 
                    na.strings = c("", " "))
 #dim(layout)
@@ -50,7 +49,7 @@ layout <- read.csv(file.path(data_path,"layout_wells_test5_051325.csv"),
 
 # RESULTS  
 
-results <- read.csv(file.path(data_path,"myassays_table_test5_051325.csv"), 
+results <- read.csv(file.path(data_path,"myassays_table_test7_081025.csv"), 
                     stringsAsFactors = TRUE, 
                     na.strings = c("", " ", "-"))
 
@@ -79,7 +78,7 @@ colnames(m) <- c("Wells", "Sample", "Category",
 m[, 4:12] <- lapply(m[, 4:12], 
                     function(x) as.numeric(as.character(x)))
 m <- m[order(m$Sample),]
-kable(m[c(10, 11, 12, 13, 15, 23, 26, 27), ]) 
+kable(m[c(9, 10, 11, 12, 13, 15, 23, 26), ]) 
 
 ```
 
@@ -112,7 +111,8 @@ m2 <- m1 %>%
 out_curve <- m2[!is.na(m2$Binding.Perc_categ), ] 
 
 cat(paste("Total samples outside the curve:", nrow(out_curve), "(some are blanks or NSB)", sep=" "))
-#kable(out_curve)
+print(out_curve[2])
+#kable(out_curve[,c("Sample", "Category", "Weight_mg", "Buffer_nl", "Dilution_sample", "Raw.OD", "Binding.Perc", "Conc_pg.ml", "Ave_Conc_pg.ml", "CV.Perc", "SD", "CV_categ", "Binding.Perc_categ")])
 
 ```
 
