@@ -1,5 +1,5 @@
 ---
-title: "Analysis - raw vals test7"
+title: "Analysis - raw vals test8"
 author: "Paloma"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
@@ -28,12 +28,12 @@ library(dplyr)
 ```{r loading}
 
 # Loading data
-data_path <- "./data/Test7"
+data_path <- "./data/Test8"
 cat("Input:")
 print(file.path(data_path, "Data_QC_flagged.csv"))  # Check the full path
 print(file.path(data_path, "Data_cort_values.csv"))  # 
 #qc <- read.csv(file.path(data_path, "Data_QC_flagged.csv"))
-std <- read.csv(file.path(data_path, "Standard_data_test7.csv"))
+std <- read.csv(file.path(data_path, "Standard_data_test8.csv"))
 data <- read.csv(file.path(data_path, "Data_cort_values.csv"))
 
 # remove NSB

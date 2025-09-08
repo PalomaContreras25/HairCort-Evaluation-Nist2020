@@ -1,4 +1,4 @@
-Sample,Dilution,Wells,Raw,%,Conc.,"Conc.
+Sample,Dilution,Wells,Raw.OD,%,Conc.,"Conc.
 (Average)",%CV,SD,SEM
 P10,1,E3,0.245,16.7,2166,2708,28.3,766,542
 P10,1,F3,0.174,,3250,,,,

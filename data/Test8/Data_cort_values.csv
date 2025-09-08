@@ -1,0 +1,33 @@
+"Wells","Sample","Category","Binding.Perc","Ave_Conc_pg.ml","Weight_mg","Buffer_ml","Dilution_sample","Extraction_ratio","Failed_samples","Final_pg.mg"
+"A3","B0","B0",100,16.24,0,0.05,1,0,"High CV & Out of curve",NA
+"C3","BE","BE",93.7,63.15,0,0.22,1,1.4,"High CV & Out of curve",Inf
+"A1","NSB","NSB",0,NA,NA,NA,1,NA,"Out of curve",NA
+"A6","P-No-Spike","Paloma-TrueVal",80.9,181.4,10,0.22,1,1.4,"Out of curve",5.58712
+"C5","P1:16-SP","P-SPIKED",28.3,1482,10,0.22,1,1.4,"OK",45.6456
+"E6","P1:2","P-low-binding",79.9,190.8,10,0.22,1,1.4,"OK",5.87664
+"E4","P1:2-SP","P-SPIKED",28.3,1468,10,0.22,1,1.4,"OK",45.2144
+"E5","P1:32-SP","P-SPIKED",28.3,1468,10,0.22,1,1.4,"OK",45.2144
+"A7","P1:4","P-mid-binding",91.6,82.09,10,0.22,1,1.4,"High CV & Out of curve",2.528372
+"G4","P1:4-SP","P-SPIKED",30,1348,10,0.22,1,1.4,"OK",41.5184
+"E7","P1:8","P-high-binding",89,111.9,10,0.22,1,1.4,"High CV & Out of curve",3.44652
+"A5","P1:8-SP","P-SPIKED",27,1566,10,0.22,1,1.4,"OK",48.2328
+"C4","P1:8-SP","P-SPIKED",27.5,1528,10,0.22,1,1.4,"OK",47.0624
+"E8","P100","HairCount",56.8,485.8,17,0.22,1,1.4,"OK",8.80155294117647
+"C8","P200","HairCount",38.2,952.9,38,0.22,1,1.4,"OK",7.72350526315789
+"A8","P400","HairCount",28.6,1444,76,0.22,1,1.4,"OK",5.852
+"G8","P50","HairCount",71.7,277.5,11,0.22,1,1.4,"OK",7.77
+"C12","Pool ","Pool ",60.9,432.4,20,0.22,1,1.4,"High CV",6.65896
+"A4","SPIKE","SPIKE-TrueVal",28.1,1481,0,NA,1,NA,"OK",NA
+"A10","T1:1","Tina",-0.228,NA,20,0.22,1,1.4,"Out of curve",NA
+"G11","T1:128","Tina",14.5,3960,20,0.22,1,1.4,"Out of curve",60.984
+"A11","T1:16","Tina",1.37,NA,20,0.22,1,1.4,"Out of curve",NA
+"C10","T1:2","Tina",-0.399,NA,20,0.22,1,1.4,"Out of curve",NA
+"A12","T1:256","Tina",26.5,1603,20,0.22,1,1.4,"OK",24.6862
+"C11","T1:32","Tina",6.38,10760,20,0.22,1,1.4,"Out of curve",165.704
+"E10","T1:4","Tina",0,NA,20,0.22,1,1.4,"Out of curve",NA
+"E11","T1:64","Tina",7.58,132300,20,0.22,1,1.4,"High CV & Out of curve",2037.42
+"G10","T1:8","Tina",0.57,NA,20,0.22,1,1.4,"Out of curve",NA
+"C9","T100","HairCount",40.7,865.7,12,0.22,1,1.4,"OK",22.2196333333333
+"A9","T200","HairCount",25.5,1698,23,0.22,1,1.4,"OK",22.7384347826087
+"G9","T25","HairCount",90.3,93.1,2,0.22,1,1.4,"Out of curve",14.3374
+"E9","T50","HairCount",70.1,296.9,4,0.22,1,1.4,"OK",22.8613

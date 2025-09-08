@@ -1,5 +1,5 @@
 ---
-title: "Analysis of final values - test7"
+title: "Analysis of final values - test8"
 author: "Paloma"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
@@ -38,8 +38,8 @@ library(broom)
 
 ```{r loading}
 # Loading data
-std <- read.csv("./data/Test6/standard_data_test6.csv")
-cort_vals<- read.csv("./data/Test6/Data_cort_values_method_ALL.csv")
+std <- read.csv("./data/Test8/standard_data_test8.csv")
+cort_vals<- read.csv("./data/Test8/Data_cort_values_method_ALL.csv")
 ```
 
 # Overall Results

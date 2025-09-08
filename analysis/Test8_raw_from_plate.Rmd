@@ -1,0 +1,269 @@
+---
+title: "Analysis - raw vals test8"
+author: "Paloma"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(plyr)
+library(knitr)
+library(forcats)
+library(drc)
+
+```
+
+
+```{r loading, echo = FALSE, messages=FALSE}
+# Loading data
+data_path <- "./data/Test8"
+cat("Input:")
+print(file.path(data_path, "raw.plate.csv")) 
+print(file.path(data_path, "layout_wells_test8_090225.csv"))  
+data <- read.csv(file.path(data_path, "raw.plate.csv"))
+layout <- read.csv(file.path(data_path,"layout_wells_test8_090225.csv"), 
+                   stringsAsFactors = TRUE, 
+                   na.strings = c("", " "))
+
+m <- merge(layout, data, by = c("Wells"))
+
+#m$Sample<-gsub("Standard", "stA", m$Sample)
+new_colnames <- c(Category = "Categ",
+                  Conc_pg.ml = "X.Concentration.",
+                  OD = "read.450",
+                  Binding = "Normalized.Data") 
+m <- dplyr::rename(m, all_of(new_colnames))
+m$Conc_pg.ml[m$Conc_pg.ml == ">3777.500"] <- 3777.5
+m$Conc_pg.ml <- as.numeric(m$Conc_pg.ml)
+
+
+levels(m$Category)[c(1,2,4,10)] <-"Ref_value"
+m$Category <- factor(m$Category, levels = c("Std", "Ref_value", "Std-B", "P10", "P20", "T20"))
+
+m$Conc_pg.ml[m$Conc_pg.ml == ">3777.500"] <- 3777.5
+
+m$Conc_pg.ml <- log(m$Conc_pg.ml)
+m_ave <- m %>% 
+group_by(Sample, Category) %>%
+    dplyr::summarise(ave_conc = mean(Conc_pg.ml, na.rm = TRUE),
+                     ave_binding = mean(Binding, na.rm = TRUE))
+
+
+
+```
+
+```{r plot1.log.conc, warning = FALSE, echo = FALSE}
+
+ggplot(m, aes(x = Conc_pg.ml, 
+                 y = Binding, 
+                colour = Category)) +
+  geom_smooth( method = drm,
+               method.args = list(
+               fct = LL.3()),
+               se = FALSE,
+               linewidth = 0.2, 
+               alpha = 0.1) +
+  geom_text(aes(label = Sample), 
+                 size = 2.5, 
+                 vjust = -0.4, hjust = -0.35, 
+                 color = "gray30", alpha = 0.8) +  
+    theme_minimal() +
+  geom_point( size = 3, alpha = 0.8) + 
+  geom_point(shape = 1, size = 3, colour = "black", alpha = 0.8) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +   
+  labs(title = "Fig1. ",
+             subtitle = "Raw vals",
+             x = "Log Concentration (pg/mg)", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) 
+
+```
+
+```{r plot2, echo = FALSE}
+ggplot(m, aes(x = Sample, 
+                 y = Binding, 
+                color = Category)) +
+  geom_text(aes(label = Sample), 
+                 size = 2.5, 
+                 vjust = -1.5, hjust = 0.5, 
+                 color = "gray30", alpha = 0.8) +  
+  theme_minimal() +
+  
+  geom_point(size = 3, alpha = 0.7) +
+  geom_point(shape = 1, size = 3, colour = "black", alpha = 0.8) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +   
+  labs(title = "Fig2.",
+             subtitle = "Raw vals",
+             x = "Sample ID", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) 
+
+a <- filter(m, Category == "HairCount" | Category == "Std" | Category == "Ref_value", !is.na(Category))
+
+ggplot(a, aes(x = Sample, 
+                 y = Binding, 
+                color = Category)) +
+  geom_text(aes(label = Sample), 
+                 size = 2.5, 
+                 vjust = -1.5, hjust = 0.5, 
+                 color = "gray30", alpha = 0.8) +  
+  theme_minimal() +
+  
+  geom_point(size = 3, alpha = 0.7) +
+  geom_point(shape = 1, size = 3, colour = "black", alpha = 0.8) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +   
+  labs(title = "Fig2.",
+             subtitle = "Raw vals",
+             x = "Sample ID", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) 
+
+
+```
+
+```{r plot3.all, warning = FALSE, echo = FALSE, messages = FALSE}
+
+ggplot(m, aes(x = Conc_pg.ml, 
+                 y = Binding, 
+                color = Category,
+                shape = Category)) +
+  geom_text(aes(label = Sample), 
+                 size = 3, 
+                 vjust = -0.4, hjust = -0.35, 
+                 color = "gray40") +  
+    theme_minimal() +
+  geom_point(size = 2) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +   
+  labs(title = "Plot3. Plate 7, all samples",
+             subtitle = "Raw values, both duplicates",
+             x = "Log Concentration (pg/mg)", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) 
+
+```
+
+```{r plot4.all.ave, warning = FALSE, echo = FALSE}
+
+
+ggplot(m_ave, aes(x = ave_conc, 
+                 y = ave_binding, 
+                color = Category,
+                shape = Category)) +
+  geom_jitter(size = 2.5) +
+  geom_text(aes(label = Sample), 
+                 size = 2.5, 
+                 vjust = -0.2, hjust = -0.35, 
+                 color = "gray60"
+       ) +  
+    theme_minimal() +
+  geom_smooth(data = m_ave_std, 
+               method = drm,
+               method.args = list(
+               fct = LL.3()),
+               se = FALSE,
+               linewidth = 0.2, 
+               alpha = 0.1) +
+
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +   
+  labs(title = "Plot4. Plate 7, all samples",
+             subtitle = "Raw values, mean between duplicates",
+             x = "Log Concentration (pg/mg)", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) 
+
+```
+  
+```{r plot5.stds, warning = FALSE, echo = FALSE}
+a <- filter(m, Category == "Std" | Category == "Std-B" | Category == "Ref_value", !is.na(Category))
+
+a_ave_std <- subset(a, Category == "Std")
+a_ave_stdB <- subset(a, Category == "Std-B")
+
+ggplot(a, aes(x = Conc_pg.ml, 
+                 y = Binding, 
+                color = Category,
+                shape = Category)) +
+  geom_text(aes(label = Sample), 
+                 size = 3, 
+                 vjust = -0.4, hjust = -0.35, 
+                 color = "gray40") +  
+    theme_minimal() +
+  geom_point(size = 2) +
+  geom_smooth(data = a_ave_std, 
+               method = drm,
+               method.args = list(
+               fct = LL.3()),
+               se = FALSE,
+               linewidth = 0.2, 
+               alpha = 0.1) +
+    geom_smooth(data = a_ave_stdB, 
+               method = drm,
+               method.args = list(
+               fct = LL.3()),
+               se = FALSE,
+               linewidth = 0.2, 
+               alpha = 0.1) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +   
+  labs(title = "Plot5. Only Standards and reference values",
+             subtitle = "Raw",
+             x = "Log Concentration (pg/mg)", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) 
+
+```
+
+```{r plot6.paloma2, warning = FALSE, echo = FALSE}
+a <- filter(m, Category == "Std" | Category == "P10" | Category == "P20", !is.na(Category))
+a_ave_std <- subset(a, Category == "Std")
+a_ave_stdB <- subset(a, Category == "Std-B")
+ggplot(a, aes(x = Conc_pg.ml, 
+                 y = Binding, 
+                color = Category,
+                shape = Category)) +
+  geom_smooth(#data = a_ave_std, 
+               method = drm,
+               method.args = list(
+               fct = LL.3()),
+               se = FALSE,
+               linewidth = 0.2, 
+               alpha = 0.05) +
+  geom_text(aes(label = Sample), 
+                 size = 3, 
+                 vjust = -0.4, hjust = -0.35, 
+                 color = "gray40") +  
+    theme_minimal() +
+  geom_point(size = 2) +
+
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +   
+  labs(title = "Plot6. Only Standard curve and Paloma samples",
+             subtitle = "Raw",
+             x = "Log Concentration (pg/mg)", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) 
+
+```
