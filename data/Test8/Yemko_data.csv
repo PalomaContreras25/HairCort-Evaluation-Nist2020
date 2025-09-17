@@ -1,0 +1,21 @@
+﻿Sample,weight,Person,Num_strands,Type
+P5,2,Paloma,5,Observed
+P10,3,Paloma,10,Observed
+P20,5,Paloma,20,Observed
+P25,6,Paloma,25,Observed
+P50,10,Paloma,50,Observed
+T5,1,Tina,5,Expected
+T10 ,2,Tina,10,Expected
+T20,4,Tina,20,Expected
+T25 ,5,Tina,25,Expected
+T50,10,Tina,50,Expected
+P5,1.2,Paloma,5,Expected
+P10,2.4,Paloma,10,Expected
+P20,4.8,Paloma,20,Expected
+P25,6,Paloma,25,Expected
+P50,12,Paloma,50,Expected
+T5,1,Tina,5,Observed
+T10 ,2,Tina,10,Observed
+T20,4,Tina,20,Observed
+T25 ,5,Tina,25,Observed
+T50,8,Tina,50,Observed
