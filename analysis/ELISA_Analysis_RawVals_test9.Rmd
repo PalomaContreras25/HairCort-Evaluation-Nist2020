@@ -1,5 +1,5 @@
 ---
-title: "Analysis - raw vals test8"
+title: "Analysis - raw vals test9"
 author: "Paloma"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
@@ -28,24 +28,20 @@ library(dplyr)
 ```{r loading}
 
 # Loading data
-data_path <- "./data/Test8"
+data_path <- "./data/Test9"
 cat("Input:")
-print(file.path(data_path, "Data_QC_flagged.csv"))  # Check the full path
-print(file.path(data_path, "Data_cort_values.csv"))  # 
+print(file.path(data_path, "Data_QC_flagged.csv"))  
+print(file.path(data_path, "Data_cort_values.csv"))  
 #qc <- read.csv(file.path(data_path, "Data_QC_flagged.csv"))
-std <- read.csv(file.path(data_path, "Standard_data_test8.csv"))
-data <- read.csv(file.path(data_path, "Data_cort_values.csv"))
-
-# remove NSB
-#data <- data[!(data$Sample == "NSB"),]
+std <- read.csv(file.path(data_path, "Standard_data_test251008.csv"))
 
 #Inclusion of standard readings in plot
 
 std$Spike <- NA
 std$Buffer_nl <- NA
-std$Category <- "Std-A"
+std$Category <- "Std"
 std$Weight_mg <- NA
-std$Sample<-gsub("Standard", "stA", std$Sample)
+std$Sample<-gsub("Standard", "std", std$Sample)
 std <- dplyr::rename(std, Conc_pg.ml = Backfit)
 
 data_std <- join(data, std,  type = "full") 
@@ -126,7 +122,7 @@ ggplot(data_std, aes(x = Ave_Conc_pg.ml,
 
 ```{r expA.binding.perc}
 # Scatter plot of Experiment A, observed binding % by category
-a <- filter(data_std, Category == "Std-A" | Category == "Std-B" | Category == "P10" | Category == "P20"| Category == "T20", !is.na(Binding.Perc))
+a <- filter(data_std, Category == "Std" | Category == "P10" | Category == "P20"| Category == "T20", !is.na(Binding.Perc))
 a$Sample_num <- 1:length(a$Sample)
 
 

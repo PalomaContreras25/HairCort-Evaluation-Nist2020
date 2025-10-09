@@ -1,0 +1,337 @@
+---
+title: "Analysis - raw vals test9"
+author: "Paloma"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(plyr)
+library(knitr)
+library(forcats)
+library(drc)
+library(gridExtra)
+```
+
+# Loading data
+
+```{r loading, echo = FALSE, messages=FALSE, warning = FALSE}
+# Loading data
+data_path <- "./data/Test9"
+cat("Input:")
+print(file.path(data_path, "raw.plate.csv")) 
+print(file.path(data_path, "layout_wells_test9_251008.csv"))  
+data <- read.csv(file.path(data_path, "raw.plate.csv"))
+layout <- read.csv(file.path(data_path,"layout_wells_test9_251008.csv"), 
+                   stringsAsFactors = TRUE, 
+                   na.strings = c(" ", " "))
+
+m <- merge(layout, data, by = c("Wells"))
+
+new_colnames <- c(Category = "Categ",
+                  Conc_pg.ml = "X.Concentration.",
+                  OD = "read.450",
+                  Binding = "Normalized.Data") 
+
+m <- dplyr::rename(m, all_of(new_colnames))
+m$Conc_pg.ml[m$Conc_pg.ml == ">3777.500"] <- 3777.5
+m$Conc_pg.ml <- as.numeric(m$Conc_pg.ml)
+
+
+levels(m$Category)[c(1,2,8)] <-"Ref_values"
+m$Category <- factor(m$Category, levels = c("Spike",  
+                      "PC-SP",  "P10-noSP", "PC20_SP", "P20_noSP", 
+                    #  "P-low-binding", "P-mid-binding", "P-high-binding", 
+                    "PC-precision", 
+                      "Std", "Ref_values"))
+
+m$Conc_pg.ml[m$Conc_pg.ml == ">3777.500"] <- 3777.5
+
+m$Conc_pg.ml.log <- log(m$Conc_pg.ml)
+m$Order <- as.numeric(m$Order)
+m$weight_mg <- as.numeric(m$weight_mg)
+
+```
+
+# All samples 
+### Log Concentration vs Binding %
+
+```{r plot1.log.conc, warning = FALSE, echo = FALSE}
+
+ggplot(m, aes(x = Conc_pg.ml.log , 
+                 y = Binding, 
+                colour = Category)) +
+  geom_text(aes(label = Sample), 
+                 size = 2.5, 
+                 vjust = -0.4, hjust = -0.35, 
+                 color = "gray30", alpha = 0.8) +  
+    theme_minimal() +
+  geom_point( size = 3, alpha = 0.8) + 
+  geom_point(shape = 1, size = 3, colour = "black", alpha = 0.8) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +   
+  labs(title = "Fig1. Plate9 ",
+             subtitle = "Raw vals",
+             x = "Log Concentration (pg/mg)", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) 
+
+
+
+```
+
+### Sample vs Binding %
+
+```{r plot2, echo = FALSE}
+
+ggplot(m, aes(x = Category, 
+                 y = Binding, 
+                color = Category)) +
+  geom_text(aes(label = Sample), 
+                 size = 2.5, 
+                 vjust = .0, hjust = -0.5, 
+                 color = "gray30", alpha = 0.8) +  
+  theme_minimal(base_size = 11) +
+    geom_point(size = 3, alpha = 0.7) +
+  geom_point(shape = 1, size = 3, colour = "black", alpha = 0.8) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +   
+  labs(title = "Fig2. Plate9",
+             subtitle = "Raw vals",
+             x = "Sample ID", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) +
+  theme(axis.text.x=element_text(angle=60, hjust=1))
+
+```
+
+## c) Binding vs Weight
+```{r plot5.weight, fig.width=9, fig.height=5, warning = FALSE, echo = FALSE, message = FALSE}
+
+p1 <- ggplot(a, aes(x = weight_mg, 
+                y = Binding, 
+                color = Person,
+                alpha = Person)) +
+  geom_text(aes(label = Sample_lab), 
+                size = 3, 
+                vjust = -0.5, hjust = -0.25, 
+                color = "gray40") +  
+  theme_minimal(base_size = 14) +
+  geom_point(size = 3) +
+  xlim(0, 80) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.7) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.7) +   
+  geom_smooth(aes(color = Person), se = FALSE,
+              size = 0.1, alpha = 0.2) + 
+  geom_smooth(data = subset(a, Person == "Tina"), 
+              aes(color = Person), alpha = 1, 
+              se = FALSE, size = 0.4) +
+  geom_smooth(data = subset(a, Person == "Paloma"), 
+              aes(color = Person), alpha = 1, 
+              se = FALSE, size = 0.4) +
+  labs(title = "Plate 9 ",
+             subtitle = "Binding Percentage",
+             x = "Weight (mg)", 
+             y = "B%") +
+  scale_y_continuous(n.breaks = 10)  +
+  scale_color_manual(values = c("salmon", "gray50","gray50","turquoise3")) +
+  scale_alpha_manual(values = c("Tina" = 2, "StandardT" = 0.1, "Paloma" = 2, "StandardP" = 0.1)) +
+  theme(legend.position = "none") 
+
+
+p2 <- 
+ggplot(a, aes(  x = weight_mg, 
+                y = Conc_pg.ml, 
+                color = Person,
+                alpha = Person)) +
+  geom_text(aes(label = Sample_lab), 
+                size = 3, 
+                vjust = -0.5, hjust = -0.25, 
+                color = "gray40") +  
+  theme_minimal(base_size = 14) +
+  geom_point(size = 3) +
+  geom_smooth(aes(color = Person), se = FALSE,
+              size = 0.1, alpha = 0.2) + 
+  geom_smooth(data = subset(a, Person == "Tina"), aes(color = Person), alpha = 1, se = FALSE, size = 0.4) +
+  geom_smooth(data = subset(a, Person == "Paloma"), aes(color = Person), alpha = 1, se = FALSE, size = 0.4) +
+  labs(title = "",
+             subtitle = "Cortisol Concentration",
+             x = "Weight (mg)", 
+             y = "pg/mL") +
+  scale_y_continuous(n.breaks = 10)  +
+  scale_color_manual(values = c("salmon", "gray50","gray50","turquoise3")) +
+  scale_alpha_manual(values = c("Tina" = 2, "StandardT" = 0.1, "Paloma" = 2, "StandardP" = 0.1)) +
+  theme(legend.title = element_text(size=0), legend.position = c(0.85,.25), legend.background = element_rect(fill="beige", 
+                                  linewidth=0.5, linetype="solid")) +
+  xlim(0, 80) +
+  ylim(0, 2000) 
+
+
+grid.arrange(p1, p2, ncol=2)
+
+
+#tab <- m[,c("Sample", "Wells",  "weight_mg", "Binding")]
+#tab[order(tab$weight_mg),]
+
+```
+
+
+
+
+# 2) Spike
+
+```{r, warning = FALSE, echo = FALSE, message = FALSE}
+b <- filter(m, Category == "SPIKE-TrueVal" | 
+               Category == "Paloma-TrueVal" | 
+              Category == "P-SPIKED" | Category == "Std"
+            , !is.na(Category))
+
+b <- b[order(b$Order),]
+b$Category <- factor(b$Category, levels=c('Paloma-TrueVal', 'P-SPIKED', 'SPIKE-TrueVal'))
+
+ggplot(b, aes(x = fct_reorder(Sample, Order), 
+                 y = Binding, 
+                color = Category)) +
+    theme_minimal(base_size = 12) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_point(size = 3.4) +
+  # xlim(0, 450) +
+  labs(title = "Plate 9",
+             subtitle = "Raw values",
+             x = "Sample", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) +
+  theme(axis.text.x=element_text(angle=60, hjust=1), 
+        legend.position = "left") +
+  scale_color_manual(values = c( "salmon","orange", "gold1", "gray"),
+                    labels = c("Paloma 10mg", 
+                                  "Paloma + Spike", 
+                                  "Spike", "Standard")) 
+
+```
+
+**Paloma 10mg hair + STD 1 spike **
+
+-	P1:2-SP (110ul Paloma 1:1 + 110ul buffer, vortex 1 min), add to well: 25ul 1:2 + 25ul STD 1
+- P1:4-SP (110ul Paloma 1:2 + 110ul buffer, vortex 1 min), add to well: 25ul 1:4 + 25ul STD 1
+-	P1:8-SP (110ul Paloma 1:4 + 110ul buffer, vortex 1 min), add to well: 25ul 1:8 + 25ul STD 1
+-	P1:16-SP (110ul Paloma 1:8 + 110ul buffer, vortex 1 min), add to well: 25ul 1:16 + 25ul STD 1
+
+
+**True value of Paloma 10mg (1:2) **
+
+- P-No-Spike: 25ul Paloma 1:1 + 25ul buffer (6 replicates)
+
+**True value of spike (standard1) (1:2) **
+
+-	25ul Std1 1:1 + 25ul buffer (6 replicates)
+
+
+Should calculate recovery: ((Conc. of spiked sample - conc. of unspiked sample) / Conc. of added spike) * 100
+
+
+# 3) Precision (intra-assay CV)
+
+## a) Whole plate
+
+```{r}
+
+cv_table <- sapply(split(suppressWarnings(as.numeric(m$Conc_pg.ml)), as.character(m$Sample)),
+                   function(x){ x <- x[is.finite(x)]; 100 * stats::sd(x) / mean(x) })
+cv <- data.frame(Sample = names(cv_table), cv_percent = as.numeric(cv_table))
+
+
+cv <- cv[order(cv$cv_percent),]
+
+  ggplot(cv, aes(x = fct_reorder(Sample, order(cv_percent)), y = cv_percent)) +
+  geom_point() + 
+  scale_y_continuous(n.breaks = 10) +
+  theme(axis.text.x=element_text(angle=60, hjust=1)) +
+      labs(title = "Plate 9",
+             subtitle = "Coefficient of variation",
+             x = "Sample ID", 
+             y = "CV %") 
+    
+
+```
+
+## b) Low, mid, high binding replicates
+```{r}
+c <- filter(m, Category == "P-low-binding" | 
+               Category == "P-mid-binding" | 
+              Category == "P-high-binding" | 
+              Category == "Std", !is.na(Category))
+
+ggplot(c, aes(x = fct_reorder(Sample, Order), 
+                 y = Binding, 
+                color = Category)) +
+    theme_minimal(base_size = 12) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_point(size = 3.4) +
+  # xlim(0, 450) +
+  labs(title = "Plate 9",
+             subtitle = "4 replicates, 10mg Paloma",
+             x = "Sample", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) +
+  theme(axis.text.x=element_text(angle=60, hjust=1)) +
+  scale_color_manual(values = c( "salmon","orange", "gold1", "gray"),
+                    labels = c("1:2 (440uL buffer) ", 
+                               "1:4 (880uL buffer)", 
+                               "1:8 (1760uL buffer) ", "Standard")) 
+
+```
+
+Extracted 10 mg hair in 220 ul MeOH. Dry down and reconstitute in 440, 880 and 1760 to make 1:2, 1:4, 1:8 dilutions. 
+
+
+
+Failed design!! 
+
+
+
+# 4) Tina's serial dilution
+
+```{r echo = FALSE}
+d <- filter(m, Category == "Tina" | 
+              Category == "Std", !is.na(Category))
+
+ggplot(d, aes(x = fct_reorder(Sample, Order), 
+                 y = Binding, 
+                color = Category)) +
+    theme_minimal(base_size = 12) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "orange", linewidth = 0.8) +  
+  geom_point(size = 3.4) +
+  # xlim(0, 450) +
+  labs(title = "Plate 9",
+             subtitle = "Tina, 20 mg, serial dilution",
+             x = "Sample", 
+             y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10) +
+  theme(axis.text.x=element_text(angle=60, hjust=1)) +
+  scale_color_manual(values = c( "salmon","orange", "gold1", "gray"),
+                    labels = c("Tina ", 
+                              "Standard")) 
+
+```
+
+
+
+

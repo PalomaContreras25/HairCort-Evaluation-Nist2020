@@ -1,0 +1,315 @@
+---
+title: "Calculation Final Values, Test9"
+author: "Paloma Contreras"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+
+---
+
+# Summary
+
+**I. Cortisol values (pg/mg)** 
+
+
+|                        | Min. | 1st Qu. | Median | Mean | 3rd Qu. | Max. | NA's |
+|------------------------|------|---------|---------|---------|---------|-------|------|
+|**Good quality samples (n= )**| 
+|**All samples (n= )**|  
+
+
+**II. Plate description**
+
+Category	  Description
+---------  ---------------------------------------------------------------
+
+Pool        Paloma, 20mg,  250 uL
+
+
+**III. Results:**  
+
+- Mean Intra-assay CV: 
+
+- Mean Intra-assay CV after removing low quality samples: 
+
+- Inter-assay CV: **-- ** 
+
+(Bindings for 20mg sample diluted in 250 uL, no spike: 64.8% and 48% in test3 and test4, respectively)
+
+
+**IV. Conclusions**: 
+
+
+
+**V. Concerns:**
+Tina continues to fall under the curve even after a dilution 32
+
+# Loading and inspecting data
+
+```{r Loading files, echo = FALSE, message=FALSE}
+library(ggplot2)
+library(broom)
+library(paletteer)
+library(dplyr)
+library(knitr)
+library(here)
+
+#path:
+data_path <- "./data/Test9"
+cat("Input:")
+print(file.path(data_path, "Data_QC_flagged.csv"))  # Check the full path
+df <- read.csv(file.path(data_path, "Data_QC_flagged.csv"))
+df$Buffer_ml <- df$Buffer_nl / 1000
+
+cat("Identify and flag bad quality samples")
+
+# remove outliers
+# label samples by quality
+
+df$Failed_samples[is.na(df$Failed_samples)] <- "OK"
+table(df$Failed_samples)
+df$Failed_samples[df$Failed_samples == "ABOVE 80% binding"] <- "Out of curve"
+df$Failed_samples[df$Failed_samples == "HIGH CV;ABOVE 80% binding"] <- "High CV & Out of curve"
+df$Failed_samples[df$Failed_samples == "HIGH CV;UNDER 20% binding"] <- "High CV & Out of curve"
+df$Failed_samples[df$Failed_samples == "HIGH CV"] <- "High CV"
+df$Failed_samples[df$Failed_samples == "UNDER 20% binding"] <- "Out of curve"
+
+df$Failed_samples <- factor(
+  df$Failed_samples,
+  levels = c(
+    "OK",
+    "Out of curve",
+    "High CV",
+    "High CV & Out of curve"
+  )
+)
+
+cat("Summary CV for all samples:")
+summary(df$CV.Perc)
+
+cat("Summary CV for good quality samples only:")
+temp <- df %>% 
+  filter(Failed_samples == 
+           "OK")
+summary(temp$CV.Perc)
+
+
+# remove unnecessary information 
+data <- df %>%
+    dplyr::select(Wells, Sample, Category, Binding.Perc, 
+                  Ave_Conc_pg.ml, Weight_mg, 
+                  Buffer_ml, Dilution_sample, 
+                 Extraction_ratio,  
+                  Failed_samples) 
+
+
+data <- data[!is.na(data$Binding.Perc), ] # remove duplicates
+
+```
+
+# Final value calculation
+
+Calculate final values accounting for dilution of the sample (from myassays.com), weight, and reconstitution
+
+((A)/B) * (C/D) * E  = F
+
+- A = pg/ml from assay output;
+- B = weight (in mg) of hair subjected to extraction;
+- C = vol. (in ml) of methanol added to the powdered hair;
+- D = vol. (in ml) of methanol recovered from the extract and subsequently dried down;
+- E = vol. (in ml) of assay buffer used to reconstitute the dried extract;
+- F = final value of hair CORT Concentration in pg/mg.
+
+
+```{r}
+##################################
+##### Calculate final values #####
+##################################
+
+data$Final_pg.mg <- 
+     (data$Ave_Conc_pg.ml / data$Weight_mg) *      # A / B *
+     data$Extraction_ratio *                       # C / D *
+     data$Buffer_ml                                # E 
+```
+
+## Explanation of each variable used in calculations
+
+- Ave_Conc_pg/ml: average ELISA reading per sample in pg/mL
+
+- Weight_mg: hair weight in mg (here we used 10 and 20 mg)
+
+- Buffer_ml: assay buffer volume in mL (here we used 220 uL)
+
+- Extraction_ratio: methanol volume ratio = vol added / vol recovered (here we used 1.4/1 ml)
+
+Dilution: dilution factor is already included in values obtained from myassays.com
+
+# Results 
+Cortisol concentration values are shown in pg/mg
+
+```{r echo = FALSE}
+write.csv(data, file.path(data_path, "Data_cort_values.csv"), row.names = F)
+
+# summary for all samples
+data <- data %>%
+  filter(!Sample %in% c("B0", "BE", "NSB")) 
+cat("Summary for all samples:")
+summary(data$Final_pg.mg)
+
+cat("Summary for good quality samples only:")
+temp <- data %>% 
+  filter(Failed_samples == 
+           "OK")
+summary(temp$Final_pg.mg)
+
+```
+
+## Plot: results grouped by category
+```{r plot-by-categ, echo = FALSE, warning = FALSE, message = FALSE}
+ggplot(data, aes(y = Final_pg.mg, 
+                  x = 1:length(Sample),
+                  color = Category,
+                  fill= Category)) +
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.2) + 
+  geom_hline(yintercept = 0, 
+             color = "lightblue3",
+             linetype = "dashed") +
+    geom_point(size = 2.5) +  
+  ylim(0, max(data$Final_pg.mg)) +
+   geom_text(label = c(data$Sample), nudge_y = 100, nudge_x = 0, size = 2) +
+  theme_minimal() +  
+  labs(
+    title = "Final Cort Concentration by Category
+    (All samples)",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample number"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) 
+```
+
+## Plot: results grouped by category without outliers
+```{r plot-by-categ-2, echo = FALSE, warning = FALSE, message = FALSE}
+
+ggplot(data, aes(y = Final_pg.mg, 
+                  x = 1:length(Sample),
+                  color = Category,
+                  fill= Category)) +
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.2) + 
+  geom_hline(yintercept = 0, 
+             color = "lightblue3",
+             linetype = "dashed") +
+    geom_point(size = 2.5) +  
+       ylim(0,135) +
+  geom_text(label = c(data$Sample), nudge_y = 3, nudge_x = 0, size = 2.2) +
+  theme_minimal() +  
+  labs(
+    title = "Final Cort Concentration by Category
+    (All samples)",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample number"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) 
+```
+
+## Plot: results grouped by data quality
+```{r echo = FALSE, warning=FALSE }
+# scatterplot 
+
+data$Buffer <- data$Buffer_ml
+
+data$Buffer <- replace(data$Buffer, data$Buffer == 0.22, '220 uL')
+data$Buffer <- replace(data$Buffer, data$Buffer == 0.25, '250 uL')
+
+ggplot(data, aes(y = Final_pg.mg, 
+                 x = 1:length(Sample), 
+                 color = Failed_samples)) +
+  geom_point(size = 2.5,  alpha = 0.85) +  
+  geom_text(aes(label = Sample), size = 2.3, vjust = -1, hjust = 0.6) +
+  theme_minimal() +  
+ #    ylim(-26,30) +
+  #   xlim(0,52) +
+  geom_hline(yintercept = 0, 
+             linetype = "dashed", color = "red") +
+  labs(
+    title = "Final cort values",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample" ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 17, face = "bold"),
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 10)  
+  )
+```
+
+
+## Error evaluations, grouped by data quality 
+```{r models-good-quality, message=FALSE, echo = FALSE}
+
+cat("Models used with respect to weight: 
+      lm(Final.pg.mg ~ Weight_mg, 
+                  data = data)")
+
+#### fit models ####
+# model Spiked
+model.all <- lm(Final_pg.mg ~ Weight_mg, 
+              data = data)
+r_squared.all <- summary(model.all)$r.squared
+
+# Calculate residuals
+residuals.all <- residuals(model.all)
+
+#good quality data
+data.hq <- data[data$Failed_samples == "OK", ]
+
+
+#### fit models ####
+# model Spiked
+model.hq <- lm(Final_pg.mg ~ Weight_mg, 
+              data = data.hq)
+r_squared.hq <- summary(model.hq)$r.squared
+
+# Calculate residuals
+residuals.hq <- residuals(model.hq)
+
+
+
+# Mean Absolute Error
+mae.all <- mean(abs(residuals.all))      
+# Standard Deviation of Residuals
+std_dev.all <- sd(residuals.all)
+
+# Mean Absolute Error
+mae.hq <- mean(abs(residuals.hq))      
+# Standard Deviation of Residuals
+std_dev.hq <- sd(residuals.hq)
+
+```
+
+**Error using good quality samples only**
+```{r echo = FALSE}
+cat("Number of good quality datapoints:", nrow(data.hq))
+cat("Mean Absolute Error (MAE) ALL:", round(mae.hq, 3), "\n") 
+cat("Standard Deviation of Residuals ALL:", round(std_dev.hq, 3), "\n")
+```
+
+**Error using all samples**
+```{r echo = FALSE}
+cat("Total number of datapoints:", nrow(data))
+cat("Mean Absolute Error (MAE) ALL:", round(mae.all, 3), "\n") 
+cat("Standard Deviation of Residuals ALL:", round(std_dev.all, 3), "\n")
+```
+

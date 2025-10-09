@@ -1,0 +1,15 @@
+﻿Sample,Conc.,Wells,Category,Binding.Perc,SEM,Backfit,Recovery.Perc
+Standard1,3200,C1,Std,19.1,1.6,2855,89.23
+Standard1,3200,D1,Std,15.9,,3798,118.7
+Standard2,1600,E1,Std,29.1,0.466,1538,96.14
+Standard2,1600,F1,Std,28.1,,1614,100.9
+Standard3,800,G1,Std,43.4,1.13,822.3,102.8
+Standard3,800,H1,Std,45.7,,753.1,94.14
+Standard4,400,A2,Std,61.1,0.399,417.8,104.4
+Standard4,400,B2,Std,60.3,,431.1,107.8
+Standard5,200,C2,Std,81.8,2.46,155,77.5
+Standard5,200,D2,Std,76.8,,207.2,103.6
+Standard6,100,E2,Std,89,2.53,85.44,85.44
+Standard6,100,F2,Std,83.9,,133.7,133.7
+Standard7,50,G2,Std,93.6,0.665,42.28,84.56
+Standard7,50,H2,Std,92.3,,54.64,109.3

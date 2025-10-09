@@ -1,8 +1,10 @@
 ---
-title: "QC_ELISA 8"
+title: "QC_ELISA 9"
 author: "Paloma"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
+editor_options: 
+  chunk_output_type: console
 ---
 
 Here I show how files are loaded, merged, and cleaned, including the exclusion of unnecessary columns and handling of missing values.
@@ -17,7 +19,7 @@ Here I show how files are loaded, merged, and cleaned, including the exclusion o
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
 # Install libraries
 
-data_path = "./data/Test8"
+data_path = "./data/Test9"
 library(knitr)
 library(dplyr)
 library(tidyverse)
@@ -42,7 +44,7 @@ Load, inspect and merge 3 files:
 ```{r loading files, echo = FALSE}
 # LAYOUT 
 
-layout <- read.csv(file.path(data_path,"layout_wells_test8_090225.csv"), 
+layout <- read.csv(file.path(data_path, "layout_wells_test9_251008.csv"), 
                    stringsAsFactors = TRUE, 
                    na.strings = c("", " "))
 #dim(layout)
@@ -50,14 +52,14 @@ layout <- read.csv(file.path(data_path,"layout_wells_test8_090225.csv"),
 
 # RESULTS  
 
-results <- read.csv(file.path(data_path,"myassays_table_test8_090225.csv"), 
+results <- read.csv(file.path(data_path,"myassays_table_test9_251008.csv"), 
                     stringsAsFactors = TRUE, 
                     na.strings = c("", " ", "-"))
 
 results <- results[2:length(results)]
 
-#dim(results)
-#kable(head(results)) 
+dim(results)
+kable(head(results)) 
 
 ```
 
@@ -71,7 +73,7 @@ m <- merge(layout, results, by = "Wells")
 colnames(m) <- c("Wells", "Sample", "Category", 
                 "Weight_mg", "Buffer_nl", "Spike", 
                 "SpikeVol_ul", "Dilution_spike", "Vol_in_well.tube_ul", 
-                "Extraction_ratio", "Dilution_sample", "Raw.OD",  
+                "Extraction_ratio", "Sub_categ", "Order", "Num_strands", "Person",   "Dilution_sample", "Raw.OD",  
                  "Binding.Perc", "Conc_pg.ml",
                  "Ave_Conc_pg.ml", "CV.Perc", 
                  "SD", "SEM") 
@@ -94,7 +96,7 @@ cv_high <- m1 %>%
   filter(CV.Perc > CV_threshold) %>% 
   arrange(desc(CV.Perc))
 
-#kable(cv_high)
+kable(cv_high)
 cat("High CV in a total of", nrow(cv_high), "duplicates. These are:")
 print(cv_high[2])
 

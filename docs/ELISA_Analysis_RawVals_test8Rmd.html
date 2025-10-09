@@ -9,10 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Paloma" />
 
-<meta name="date" content="2025-04-02" />
+<meta name="date" content="2025-09-25" />
 
-<title>QC_ELISA 3</title>
+<title>Analysis - raw vals test8</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -350,8 +351,9 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">QC_ELISA 3</h1>
-<h4 class="date">2025-04-02</h4>
+<h1 class="title toc-ignore">Analysis - raw vals test8</h1>
+<h4 class="author">Paloma</h4>
+<h4 class="date">2025-09-25</h4>
 
 </div>
 
@@ -359,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -370,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -384,9 +386,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -410,18 +412,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -550,10 +555,14 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.Rhistory
+    Ignored:    analysis/figure/
     Ignored:    data/.DS_Store
     Ignored:    data/Test3/.DS_Store
     Ignored:    data/Test4/.DS_Store
     Ignored:    data/Test7/.DS_Store
+
+Unstaged changes:
+    Modified:   analysis/ELISA_Analysis_RawVals_test8Rmd.Rmd
 
 </code></pre>
 <p>
@@ -570,11 +579,12 @@ have uncommitted changes.
 <div id="versions" class="tab-pane fade">
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/ELISA_QC_test3.Rmd</code>) and
-HTML (<code>docs/ELISA_QC_test3.html</code>) files. If you’ve configured
-a remote Git repository (see <code>?wflow_git_remote</code>), click on
-the hyperlinks in the table below to view the files as they were in that
-past version.
+made to the R Markdown
+(<code>analysis/ELISA_Analysis_RawVals_test8Rmd.Rmd</code>) and HTML
+(<code>docs/ELISA_Analysis_RawVals_test8Rmd.html</code>) files. If
+you’ve configured a remote Git repository (see
+<code>?wflow_git_remote</code>), click on the hyperlinks in the table
+below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -600,223 +610,19 @@ Message
 <tbody>
 <tr>
 <td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/22327dfdc73ee75d0992cf2084be52c11957f55d/docs/ELISA_QC_test3.html" target="_blank">22327df</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-28
-</td>
-<td>
-elisa5 design
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/cb56a96b7480c1b2b491459c817bca6788f5b6de/docs/ELISA_QC_test3.html" target="_blank">cb56a96</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-25
-</td>
-<td>
-more figures
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/8108c43a477e3d0711afa0980ef4c4ffe8fe1c15/docs/ELISA_QC_test3.html" target="_blank">8108c43</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-25
-</td>
-<td>
-improved figures
-</td>
-</tr>
-<tr>
-<td>
 Rmd
 </td>
 <td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/0ed450f2d422ad72438387283ed9e2f699969b6e/analysis/ELISA_QC_test3.Rmd" target="_blank">0ed450f</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/5e9f2f75036b896fed638e8d682a029926429a87/analysis/ELISA_Analysis_RawVals_test8Rmd.Rmd" target="_blank">5e9f2f7</a>
 </td>
 <td>
 Paloma
 </td>
 <td>
-2025-04-25
+2025-09-08
 </td>
 <td>
-updated input (myassays.com) including dilution
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/0ed450f2d422ad72438387283ed9e2f699969b6e/docs/ELISA_QC_test3.html" target="_blank">0ed450f</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-25
-</td>
-<td>
-updated input (myassays.com) including dilution
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/dd200fce89c0749e59158ad696ff6f7f661ebe4f/docs/ELISA_QC_test3.html" target="_blank">dd200fc</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-23
-</td>
-<td>
-corrected figures
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/7240d2e077315a9ed12a32a724dab7a50ad4a271/analysis/ELISA_QC_test3.Rmd" target="_blank">7240d2e</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-22
-</td>
-<td>
-organized files
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/7240d2e077315a9ed12a32a724dab7a50ad4a271/docs/ELISA_QC_test3.html" target="_blank">7240d2e</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-22
-</td>
-<td>
-organized files
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/bbb70a9fa145ec05bd59fb1aff4482c48d91a35b/docs/ELISA_QC_test3.html" target="_blank">bbb70a9</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-09
-</td>
-<td>
-comparing methods
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/ccad031a28e70028dc8e419fc1ce6ccda9e010cc/analysis/ELISA_QC_test3.Rmd" target="_blank">ccad031</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-09
-</td>
-<td>
-new_calc
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/ccad031a28e70028dc8e419fc1ce6ccda9e010cc/docs/ELISA_QC_test3.html" target="_blank">ccad031</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-09
-</td>
-<td>
-new_calc
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/77c2ab5fbe6945870d239696722a0155d005cd3d/analysis/ELISA_QC_test3.Rmd" target="_blank">77c2ab5</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-08
-</td>
-<td>
-cleaning test3
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/77c2ab5fbe6945870d239696722a0155d005cd3d/docs/ELISA_QC_test3.html" target="_blank">77c2ab5</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-04-08
-</td>
-<td>
-cleaning test3
+plate num. 8
 </td>
 </tr>
 </tbody>
@@ -826,223 +632,24 @@ cleaning test3
 </div>
 </div>
 </div>
-<p>Here I show how files are loaded, merged, and cleaned, including the
-exclusion of unnecessary columns and handling of missing values.</p>
-<p><strong>Summary</strong></p>
-<ul>
-<li><p>Intra-Assay CV: <strong>11.35 %</strong></p></li>
-<li><p>Intra-Assay CV after removing low quality data: <strong>5.799
-%</strong></p></li>
-<li><p>Good quality data points: <strong>30</strong></p></li>
-</ul>
-<pre class="r"><code># DATA SET 
-current_test &lt;- &quot;Test3&quot;
-data_path &lt;- file.path(&quot;./data&quot;, current_test)</code></pre>
-<div id="set-parameters" class="section level1">
-<h1>Set parameters</h1>
-<pre class="r"><code># flag samples with high CV (15%) or binding above 80% and under 20%
-CV_threshold &lt;- 15.0
-uppBinLim &lt;- 80.0
-lowBinLim &lt;- 20.0</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<pre class="r"><code>knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)</code></pre>
+<pre><code>Input:</code></pre>
+<pre><code>[1] &quot;./data/Test8/Data_QC_flagged.csv&quot;</code></pre>
+<pre><code>[1] &quot;./data/Test8/Data_cort_values.csv&quot;</code></pre>
 </div>
-<div id="data-cleaning-and-qc" class="section level1">
-<h1>Data Cleaning and QC</h1>
-<p>Load, inspect and merge 3 files:</p>
-<ul>
-<li>layout: 7 columns (Wells, Sample, weight_mg, buffer_nl, spike,
-volume of the spike, dilution factor), 96 rows</li>
-<li>results: from myassays.com (not including standards)</li>
-<li>info: (Wells, Sample, Categ, TotalVol_well_uL)</li>
-</ul>
-<p>Merged data set:</p>
-<table style="width:100%;">
-<colgroup>
-<col width="4%" />
-<col width="3%" />
-<col width="4%" />
-<col width="7%" />
-<col width="6%" />
-<col width="8%" />
-<col width="4%" />
-<col width="4%" />
-<col width="4%" />
-<col width="5%" />
-<col width="5%" />
-<col width="5%" />
-<col width="3%" />
-<col width="9%" />
-<col width="6%" />
-<col width="5%" />
-<col width="10%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Sample</th>
-<th align="left">Wells</th>
-<th align="right">Raw.OD</th>
-<th align="right">Binding.Perc</th>
-<th align="left">Conc_pg.ml</th>
-<th align="right">Ave_Conc_pg.ml</th>
-<th align="right">CV.Perc</th>
-<th align="right">SD</th>
-<th align="right">SEM</th>
-<th align="left">Category</th>
-<th align="right">Weight_mg</th>
-<th align="right">Buffer_nl</th>
-<th align="right">Spike</th>
-<th align="right">TotalVol_well_ul</th>
-<th align="right">SpikeVol_ul</th>
-<th align="right">Dilution</th>
-<th align="right">Sample_comparable</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="left">C3</td>
-<td align="right">0.959</td>
-<td align="right">77.3</td>
-<td align="left">461.9</td>
-<td align="right">396.6</td>
-<td align="right">23.30</td>
-<td align="right">92.4</td>
-<td align="right">65.3</td>
-<td align="left">NoSpike</td>
-<td align="right">13.1</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">13</td>
-</tr>
-<tr class="even">
-<td align="left">10</td>
-<td align="left">D5</td>
-<td align="right">0.743</td>
-<td align="right">37.6</td>
-<td align="left">940.7</td>
-<td align="right">3064.0</td>
-<td align="right">98.00</td>
-<td align="right">3000.0</td>
-<td align="right">2120.0</td>
-<td align="left">YesSpike</td>
-<td align="right">17.7</td>
-<td align="right">60</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">3</td>
-</tr>
-<tr class="odd">
-<td align="left">11</td>
-<td align="left">E5</td>
-<td align="right">0.939</td>
-<td align="right">71.6</td>
-<td align="left">496.8</td>
-<td align="right">513.2</td>
-<td align="right">4.50</td>
-<td align="right">23.1</td>
-<td align="right">16.3</td>
-<td align="left">NoSpike</td>
-<td align="right">17.5</td>
-<td align="right">250</td>
-<td align="right">0</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">14</td>
-</tr>
-<tr class="even">
-<td align="left">12</td>
-<td align="left">F5</td>
-<td align="right">0.422</td>
-<td align="right">30.0</td>
-<td align="left">2690</td>
-<td align="right">2728.0</td>
-<td align="right">1.92</td>
-<td align="right">52.5</td>
-<td align="right">37.1</td>
-<td align="left">YesSpike</td>
-<td align="right">24.1</td>
-<td align="right">250</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">17</td>
-</tr>
-<tr class="odd">
-<td align="left">13</td>
-<td align="left">G5</td>
-<td align="right">0.451</td>
-<td align="right">32.1</td>
-<td align="left">2412</td>
-<td align="right">2477.0</td>
-<td align="right">3.68</td>
-<td align="right">91.1</td>
-<td align="right">64.4</td>
-<td align="left">YesSpike</td>
-<td align="right">16.8</td>
-<td align="right">250</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">14</td>
-</tr>
-<tr class="even">
-<td align="left">14</td>
-<td align="left">H5</td>
-<td align="right">0.437</td>
-<td align="right">31.8</td>
-<td align="left">2541</td>
-<td align="right">2504.0</td>
-<td align="right">2.11</td>
-<td align="right">52.9</td>
-<td align="right">37.4</td>
-<td align="left">YesSpike</td>
-<td align="right">13.8</td>
-<td align="right">250</td>
-<td align="right">1</td>
-<td align="right">50</td>
-<td align="right">25</td>
-<td align="right">1</td>
-<td align="right">13</td>
-</tr>
-</tbody>
-</table>
-<div id="duplicates-with-high-cv" class="section level3">
-<h3>Duplicates with high CV</h3>
-<p>Flag samples with high coefficient of variation (duplicate
-measurements that are too different from each other)</p>
-<pre><code>High CV in a total of 7 duplicates. These are:</code></pre>
-<pre><code>  Wells
-1    D5
-2    C9
-3   D11
-4    C3
-5    F7
-6    F3
-7    D3</code></pre>
+<div id="summary-of-results" class="section level1">
+<h1>Summary of results</h1>
+<div id="binding-percentage-by-groups" class="section level2">
+<h2>Binding Percentage by groups</h2>
+<p><img src="figure/ELISA_Analysis_RawVals_test8Rmd.Rmd/groups.binding.perc-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ELISA_Analysis_RawVals_test8Rmd.Rmd/groups.binding.perc.cort-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ELISA_Analysis_RawVals_test8Rmd.Rmd/groups.binding.perc.cort.zoom.in-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="samples-outside-the-curve" class="section level3">
-<h3>Samples outside the curve</h3>
-<p>Samples that have a binding percentage over 80 or 20 do not provide
-accurate results</p>
-<pre><code>Total samples outside the curve: 3</code></pre>
-</div>
-<div id="total-samples-failed" class="section level3">
-<h3>Total samples failed</h3>
-<pre><code>Number of failed samples is 9</code></pre>
-<pre><code>Number of good quality data points is 30</code></pre>
-<p>Location</p>
-<pre><code>Data set with low quality samples flagged saved in: Data_QC_flagged.csv</code></pre>
-<pre><code>Good quality data is stored in Data_QC_filtered.csv file</code></pre>
-<p>Overall quality of the assay</p>
-<pre><code>Intra-Assay CV including all samples is 11.35518 %</code></pre>
-<pre><code>Intra-Assay CV including only good quality data is 5.799733 %</code></pre>
+<div id="binding-by-sample" class="section level2">
+<h2>Binding by sample</h2>
+<p><img src="figure/ELISA_Analysis_RawVals_test8Rmd.Rmd/expA.binding.perc-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1051,7 +658,6 @@ Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.5.1 (2025-06-13)
 Platform: aarch64-apple-darwin20
 Running under: macOS Sequoia 15.7
@@ -1067,22 +673,39 @@ time zone: America/Detroit
 tzcode source: internal
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
 
 other attached packages:
-[1] dplyr_1.1.4 knitr_1.50 
+ [1] dplyr_1.1.4        ggpmisc_0.6.1      ggpp_0.5.8-1       plyr_1.8.9        
+ [5] bbmle_1.0.25.1     arm_1.14-4         lme4_1.1-37        Matrix_1.7-3      
+ [9] MASS_7.3-65        coefplot_1.2.8     ggplot2_3.5.2      RColorBrewer_1.1-3
+[13] knitr_1.50        
 
 loaded via a namespace (and not attached):
- [1] vctrs_0.6.5       cli_3.6.4         rlang_1.1.6       xfun_0.52        
- [5] stringi_1.8.7     generics_0.1.3    promises_1.3.2    jsonlite_2.0.0   
- [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.36.2     
-[13] htmltools_0.5.8.1 httpuv_1.6.16     sass_0.4.10       rmarkdown_2.29   
-[17] evaluate_1.0.3    jquerylib_0.1.4   tibble_3.2.1      fastmap_1.2.0    
-[21] yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1     stringr_1.5.1    
-[25] compiler_4.5.1    fs_1.6.6          Rcpp_1.0.14       pkgconfig_2.0.3  
-[29] rstudioapi_0.17.1 later_1.4.2       digest_0.6.37     R6_2.6.1         
-[33] tidyselect_1.2.1  pillar_1.10.2     magrittr_2.0.3    bslib_0.9.0      
-[37] tools_4.5.1       cachem_1.1.0     </code></pre>
+ [1] gtable_0.3.6        xfun_0.52           bslib_0.9.0        
+ [4] lattice_0.22-7      numDeriv_2016.8-1.1 vctrs_0.6.5        
+ [7] tools_4.5.1         Rdpack_2.6.4        generics_0.1.3     
+[10] tibble_3.2.1        pkgconfig_2.0.3     lifecycle_1.0.4    
+[13] farver_2.1.2        compiler_4.5.1      stringr_1.5.1      
+[16] git2r_0.36.2        MatrixModels_0.5-4  munsell_0.5.1      
+[19] SparseM_1.84-2      httpuv_1.6.16       quantreg_6.1       
+[22] htmltools_0.5.8.1   sass_0.4.10         yaml_2.3.10        
+[25] later_1.4.2         pillar_1.10.2       nloptr_2.2.1       
+[28] jquerylib_0.1.4     whisker_0.4.1       cachem_1.1.0       
+[31] reformulas_0.4.0    boot_1.3-31         abind_1.4-8        
+[34] useful_1.2.6.1      nlme_3.1-168        tidyselect_1.2.1   
+[37] bdsmatrix_1.3-7     digest_0.6.37       mvtnorm_1.3-3      
+[40] stringi_1.8.7       reshape2_1.4.4      labeling_0.4.3     
+[43] splines_4.5.1       rprojroot_2.0.4     fastmap_1.2.0      
+[46] grid_4.5.1          colorspace_2.1-1    cli_3.6.4          
+[49] magrittr_2.0.3      survival_3.8-3      withr_3.0.2        
+[52] scales_1.3.0        promises_1.3.2      rmarkdown_2.29     
+[55] workflowr_1.7.1     coda_0.19-4.1       evaluate_1.0.3     
+[58] rbibutils_2.3       mgcv_1.9-3          rlang_1.1.6        
+[61] Rcpp_1.0.14         glue_1.8.0          polynom_1.4-1      
+[64] rstudioapi_0.17.1   minqa_1.2.8         jsonlite_2.0.0     
+[67] R6_2.6.1            fs_1.6.6           </code></pre>
 </div>
 </div>
 </div>

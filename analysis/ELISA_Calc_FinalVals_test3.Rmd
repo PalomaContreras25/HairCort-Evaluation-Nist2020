@@ -410,6 +410,35 @@ ggplot(dSpiked, aes(y = Final_conc_pg.mg,
     axis.text = element_text(size = 12)  
   )
 
+
+# scatterplot binding
+ggplot(dSpiked, aes(y = Binding.Perc, 
+                 x = Weight_mg, 
+                 fill = Buffer,
+                 shape = Spike, 
+                 color = Buffer)) +
+    geom_smooth(method = "lm", 
+              se = TRUE,
+              alpha = 0.2,
+              linewidth = 0.4,
+              color = "gray60"
+                ) +
+    geom_point(size = 3.5,  
+               alpha = 0.85) + 
+   theme_minimal() +  
+   # ylim(-26,30) +
+  #xlim(0,52) +
+  labs(
+    title = "(C) Sam's method ",
+    y = "Binding Percent",
+    x = "Weight (mg)"
+    ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 17, face = "bold"),
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12)  
+  )
 ```
 
 # Evaluation using method C
