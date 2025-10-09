@@ -3,7 +3,8 @@ title: "Analysis - raw vals test9"
 author: "Paloma"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
-
+editor_options: 
+  chunk_output_type: console
 ---
 # Introduction
 
@@ -30,22 +31,23 @@ library(dplyr)
 # Loading data
 data_path <- "./data/Test9"
 cat("Input:")
-print(file.path(data_path, "Data_QC_flagged.csv"))  
-print(file.path(data_path, "Data_cort_values.csv"))  
-#qc <- read.csv(file.path(data_path, "Data_QC_flagged.csv"))
+print(file.path(data_path, "Data_QC_flagged.csv"))  # Check the full path
+print(file.path(data_path, "Data_cort_values.csv"))  # 
 std <- read.csv(file.path(data_path, "Standard_data_test251008.csv"))
+data <- read.csv(file.path(data_path, "Data_QC_flagged.csv"))
 
 #Inclusion of standard readings in plot
 
 std$Spike <- NA
 std$Buffer_nl <- NA
-std$Category <- "Std"
+std$Order <- 25
 std$Weight_mg <- NA
 std$Sample<-gsub("Standard", "std", std$Sample)
 std <- dplyr::rename(std, Conc_pg.ml = Backfit)
 
-data_std <- join(data, std,  type = "full") 
-#data_std_qc <- join(data_std, qc, type = "full")
+data_std <- join(std, data, by = "Wells", type = "full")
+
+data_std <- data_std[order(data_std$Order), ]
 
 ```
 
@@ -55,7 +57,8 @@ data_std <- join(data, std,  type = "full")
 ```{r groups.binding.perc, fig.width=7, fig.height=6}
 # Scatter plot  observed binding % 
 
-ggplot(data_std, aes(x = Category, 
+
+ggplot(data_std, aes(x = 1:nrow(data_std), 
                  y = Binding.Perc, color = Category)) +
   geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, aes(group = Category)) +
   geom_point(size = 2) +
@@ -69,8 +72,9 @@ ggplot(data_std, aes(x = Category,
  # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
   labs(title = "Observed binding %",
        subtitle = "",
-       x = "Group", y = "% Binding") +
+       x = "", y = "% Binding") +
   scale_y_continuous(n.breaks = 10) + 
+#  xlim(0,25) +
   theme_minimal() 
 
 ```
@@ -80,10 +84,10 @@ ggplot(data_std, aes(x = Category,
 ```{r groups.binding.perc.cort, fig.width=7, fig.height=6}
 # Scatter plot observed binding % and cort vals
 
-ggplot(data_std, aes(x = Ave_Conc_pg.ml, 
+ggplot(data_std, aes(x = log(Ave_Conc_pg.ml), 
                  y = Binding.Perc, color = Category)) +
   geom_smooth(method = "lm", se = FALSE, linewidth = 0.2, linetype = 2, alpha = 0.2, aes(group = Category)) +
-  geom_point(size = 2) +
+  geom_jitter(size = 2) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 80, linetype = "dashed", 
              color = "gray", linewidth = 1) +  
@@ -91,9 +95,9 @@ ggplot(data_std, aes(x = Ave_Conc_pg.ml,
              color = "gray", linewidth = 1) +   
   labs(title = "Observed binding % and cortisol values",
        subtitle = "cort vals not controlling for differences in weight or reconstitution volume",
-       x = "Concentration (pg/mg)", y = "Binding Percentage") +
+       x = "Log Concentration (pg/mg)", y = "Binding Percentage") +
   scale_y_continuous(n.breaks = 10) + 
-  theme_minimal() 
+  theme_minimal()
 
 ```
 
@@ -103,7 +107,7 @@ ggplot(data_std, aes(x = Ave_Conc_pg.ml,
 ggplot(data_std, aes(x = Ave_Conc_pg.ml, 
                  y = Binding.Perc, color = Category)) +
   geom_point(size = 2) +
-  xlim(0,8500) +
+ # xlim(0,8500) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_smooth( method = "gam", formula = y ~ s(log(x)), se = FALSE, linewidth = 0.5, alpha = 0.1) +
   geom_hline(yintercept = 80, linetype = "dashed", 
@@ -122,13 +126,14 @@ ggplot(data_std, aes(x = Ave_Conc_pg.ml,
 
 ```{r expA.binding.perc}
 # Scatter plot of Experiment A, observed binding % by category
-a <- filter(data_std, Category == "Std" | Category == "P10" | Category == "P20"| Category == "T20", !is.na(Binding.Perc))
+a <- filter(data_std, Category == "Spike" | Category == "Std" | Category == "P10-noSP" | Category == "PC-SP", !is.na(Binding.Perc))
 a$Sample_num <- 1:length(a$Sample)
 
 
 ggplot(a, aes(x = Sample_num, 
                  y = Binding.Perc, color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.2) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.1) +
+    geom_errorbar(aes(ymin = Binding.Perc - SD, ymax = Binding.Perc + SD, color = Category, alpha = 0.05)) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 80, linetype = "dashed", 
@@ -141,7 +146,7 @@ ggplot(a, aes(x = Sample_num,
   labs(title = "Observed binding %",
        subtitle = "",
        x = "Sample", y = "Binding Percentage") +
-  scale_y_continuous(n.breaks = 10) + 
+  scale_y_continuous(n.breaks = 10, limits = c(0,100)) + 
   theme_minimal() 
 
 ```
