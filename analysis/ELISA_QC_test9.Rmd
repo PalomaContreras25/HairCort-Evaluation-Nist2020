@@ -52,9 +52,14 @@ layout <- read.csv(file.path(data_path, "layout_wells_test9_251008.csv"),
 
 # RESULTS  
 
-results <- read.csv(file.path(data_path,"myassays_table_test9_251008.csv"), 
+results <- read.csv(file.path(data_path,"myassays_table_test9_251008.indiv.calc.csv"), 
                     stringsAsFactors = TRUE, 
                     na.strings = c("", " ", "-"))
+
+#results <- read.csv(file.path(data_path,"myassays_table_test9_251008.csv"), 
+#                    stringsAsFactors = TRUE, 
+ #                   na.strings = c("", " ", "-"))
+
 
 results <- results[2:length(results)]
 
@@ -130,13 +135,13 @@ data.flagged <- m2 %>%
 
 
 kable(tail(data.flagged))
-write.csv(data.flagged, file.path(data_path, "Data_QC_flagged.csv"), 
+write.csv(data.flagged, file.path(data_path, "Data_QC_flagged2.csv"), 
           row.names = FALSE) 
 
 
 # table with samples that failed
 failed_samples <- data.flagged[!is.na(data.flagged$Failed_samples),]
-write.csv(failed_samples, file.path(data_path, "failed_samples.csv"), 
+write.csv(failed_samples, file.path(data_path, "failed_samples2.csv"), 
           row.names = FALSE) 
 
 # dataset with failed samples removed
@@ -144,7 +149,7 @@ data.no_failed <- m2 %>%
  filter(CV.Perc < CV_threshold) %>%
  filter(Binding.Perc > lowBinLim & Binding.Perc < uppBinLim ) 
  
-write.csv(data.no_failed, file.path(data_path, "Data_QC_filtered.csv"), row.names = FALSE) 
+write.csv(data.no_failed, file.path(data_path, "Data_QC_filtered2.csv"), row.names = FALSE) 
 
 cat("Number of failed samples is", nrow(failed_samples))
 cat("Number of good quality data points is", nrow(data.no_failed))

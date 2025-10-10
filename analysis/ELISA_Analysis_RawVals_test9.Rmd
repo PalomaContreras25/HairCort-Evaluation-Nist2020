@@ -24,6 +24,8 @@ library(plyr)
 library(ggpmisc)
 library(ggplot2)
 library(dplyr)
+library(forcats)
+
 ```
 
 ```{r loading}
@@ -35,7 +37,7 @@ print(file.path(data_path, "Data_QC_flagged.csv"))  # Check the full path
 print(file.path(data_path, "Data_cort_values.csv"))  # 
 std <- read.csv(file.path(data_path, "Standard_data_test251008.csv"))
 data <- read.csv(file.path(data_path, "Data_QC_flagged.csv"))
-
+data2 <- read.csv(file.path(data_path, "Data_QC_flagged2.csv"))
 #Inclusion of standard readings in plot
 
 std$Spike <- NA
@@ -46,7 +48,6 @@ std$Sample<-gsub("Standard", "std", std$Sample)
 std <- dplyr::rename(std, Conc_pg.ml = Backfit)
 
 data_std <- join(std, data, by = "Wells", type = "full")
-
 data_std <- data_std[order(data_std$Order), ]
 
 ```
@@ -78,8 +79,6 @@ ggplot(data_std, aes(x = 1:nrow(data_std),
   theme_minimal() 
 
 ```
-
-
 
 ```{r groups.binding.perc.cort, fig.width=7, fig.height=6}
 # Scatter plot observed binding % and cort vals
@@ -126,11 +125,11 @@ ggplot(data_std, aes(x = Ave_Conc_pg.ml,
 
 ```{r expA.binding.perc}
 # Scatter plot of Experiment A, observed binding % by category
-a <- filter(data_std, Category == "Spike" | Category == "Std" | Category == "P10-noSP" | Category == "PC-SP", !is.na(Binding.Perc))
+a <- filter(data_std, Category == "Spike" | Category == "Std" | Category == "P10" | Category == "P10-SP", !is.na(Binding.Perc))
 a$Sample_num <- 1:length(a$Sample)
+a <- a[order(a$Order), ]
 
-
-ggplot(a, aes(x = Sample_num, 
+ggplot(a, aes(x = fct_reorder(Sample, Order), 
                  y = Binding.Perc, color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.1) +
     geom_errorbar(aes(ymin = Binding.Perc - SD, ymax = Binding.Perc + SD, color = Category, alpha = 0.05)) +
@@ -144,12 +143,101 @@ ggplot(a, aes(x = Sample_num,
  #              formula = y ~ x, parse = TRUE, size = 4) +
  # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
   labs(title = "Observed binding %",
-       subtitle = "",
+       subtitle = "+- SD",
        x = "Sample", y = "Binding Percentage") +
   scale_y_continuous(n.breaks = 10, limits = c(0,100)) + 
-  theme_minimal() 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 
 
+## individual calculations (not averaging by duplicate/triplicate)
+
+```{r p10}
+data2_std <- join(std, data2, by = "Wells", type = "full")
+data2_std <- data2_std[order(data2_std$Order), ]
+
+
+a <- filter(data2_std, Category == "Spike" | Category == "Std" | Category == "P10" | Category == "P10-SP", !is.na(Binding.Perc))
+a$Sample_num <- 1:length(a$Sample)
+a <- a[order(a$Order), ]
+
+ggplot(a, aes(x = fct_reorder(Sample, Order), 
+                 y = Binding.Perc, color = Category)) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  # Add horizontal line 
+#  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+ #              formula = y ~ x, parse = TRUE, size = 4) +
+ # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+  labs(title = "Observed binding %, Paloma 10mg",
+       subtitle = "individual vals. not averaging replicates",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10, limits = c(0,100)) + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
+```{r p20}
+data2_std <- join(std, data2, by = "Wells", type = "full")
+data2_std <- data2_std[order(data2_std$Order), ]
+
+
+a <- filter(data2_std, Category == "Spike" | Category == "Std" | Category == "P20" | Category == "P20-SP", !is.na(Binding.Perc))
+a$Sample_num <- 1:length(a$Sample)
+a <- a[order(a$Order), ]
+
+ggplot(a, aes(x = fct_reorder(Sample, Order), 
+                 y = Binding.Perc, color = Category)) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  # Add horizontal line 
+#  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+ #              formula = y ~ x, parse = TRUE, size = 4) +
+ # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+  labs(title = "Observed binding %, Paloma 20mg",
+       subtitle = "individual vals. not averaging replicates",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10, limits = c(0,100)) + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
+```{r precision}
+
+a <- filter(data2_std, Category == "PC-precision" | Category == "Std", !is.na(Binding.Perc))
+a$Sample_num <- 1:length(a$Sample)
+a <- a[order(a$Order), ]
+
+ggplot(a, aes(x = fct_reorder(Sample, Order), 
+                 y = Binding.Perc, color = Category)) +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 1) +  # Add horizontal line 
+#  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~~~")),
+ #              formula = y ~ x, parse = TRUE, size = 4) +
+ # geom_abline(slope = 14.72, intercept = -3.6, linetype = "dashed", color = "lightblue") + # ideal line
+  labs(title = "Observed binding %, Paloma 20mg, Precision",
+       subtitle = "individual vals. not averaging replicates",
+       x = "Sample", y = "Binding Percentage") +
+  scale_y_continuous(n.breaks = 10, limits = c(0,100)) + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
 
