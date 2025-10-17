@@ -1,0 +1,94 @@
+---
+title: "Analysis of final values - test9"
+author: "Paloma"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+editor_options: 
+  chunk_output_type: console
+---
+# Introduction
+
+Here I plan to include measurements and visualizations of the accuracy, precision, and linearity of ELISA #6. I will do this using two different ways of calculating final values: the standard method not accounting for spike, and an alternative method accounting for it. The way the spike is included in the formula is defined in file ELISA_Calc_FinalVals_test6.html.
+
+*Plate description*
+
+Category	  Description
+---------  ---------------------------------------------------------------
+T        	Non-spiked 
+
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+```{r libraries, echo = FALSE, warning = FALSE, message=FALSE}
+# Install libraries
+
+library(knitr)
+library(RColorBrewer)
+library(stats)
+library(coefplot)
+library(arm)
+library(bbmle)
+library(plyr)
+library(ggpmisc)
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(broom)
+```
+
+```{r loading}
+# Loading data
+std <- read.csv("./data/Test9/Standard_data_test251008.csv")
+cort_vals<- read.csv("./data/Test9/Data_cort_values.csv")
+data <- cort_vals
+```
+
+```{r Final_pg.mg, fig.width=8, fig.height=6}
+# Scatter plot of Experiment A and B, observed binding % 
+a <- data
+a <- filter(data, Person == "Paloma", spike == 0, !is.na(Final_pg.mg)) 
+a$Sample_num <- 1:length(a$Sample)
+cat(paste("Data has", nrow(a), "data points", sep= " "))
+
+remove <- c("H7", "B10", "C10", "E10", "A9")
+a <- a %>%
+  filter(!Wells %in% remove)
+
+a <- a %>%
+  group_by(Sample) %>%
+  mutate(Ave_Conc_pg.ml = (mean(Conc_pg.ml, na.rm = TRUE))) %>%
+  mutate(Ave_Final_pg.mg = (mean(Final_pg.mg, na.rm = TRUE))) %>%
+  mutate(CV.Perc = (sd(Final_pg.mg, na.rm = TRUE) / mean(Final_pg.mg, na.rm = TRUE)) * 100) %>%
+  mutate(z = (Final_pg.mg - mean(Final_pg.mg, na.rm = TRUE)) / sd(Final_pg.mg, na.rm = TRUE)) %>%
+  ungroup()
+
+
+b <- a[order(abs(a$z)),]
+cat("samples with highest error:")
+print(tail(b))
+
+a$Sample_num <- 1:nrow(a)
+a$CV.Perc <- round(a$CV.Perc, 2)
+
+ggplot(a, aes(x = Sample, 
+                 y = Final_pg.mg, color = Sample, group = Category)) +
+  geom_point(size = 2) +
+  geom_text(aes(label = CV.Perc, size = 1.5, vjust = 0, hjust = -0.5, color = "gray30")) +
+  labs(title = "Final vals",
+       subtitle = "Hair count vs mass",
+       x = "Sample", y = "Cortisol concentration (pg/mg)") +
+  scale_y_continuous(n.breaks = 10) + 
+  theme_minimal() 
+
+ggplot(a, aes(x = Sample, y = Final_pg.mg, group = Sample)) + 
+  geom_boxplot() +
+  geom_point() + 
+  geom_text(aes(label = Sample), size = 2.5, vjust = 0, hjust = -0.3, color = "gray30") 
+
+```
+
+
+
+

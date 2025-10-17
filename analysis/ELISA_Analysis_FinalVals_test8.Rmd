@@ -3,6 +3,8 @@ title: "Analysis of final values - test8"
 author: "Paloma"
 date: "`r Sys.Date()`"
 output: workflowr::wflow_html
+editor_options: 
+  chunk_output_type: console
 ---
 # Introduction
 
@@ -39,32 +41,29 @@ library(broom)
 ```{r loading}
 # Loading data
 std <- read.csv("./data/Test8/standard_data_test8.csv")
-cort_vals<- read.csv("./data/Test8/Data_cort_values_method_ALL.csv")
+data <- read.csv("./data/Test8/Data_cort_values.csv")
 ```
 
 # Overall Results
-## A) Standard method
 
-```{r loading valsA}
-# remove NSB
-data <- cort_vals
-```
-
-```{r expABC.Final_pg.mg_A, fig.width=8, fig.height=6}
+```{r exp.Final_pg.mg_hair_count1, fig.width=8, fig.height=6}
 # Scatter plot of Experiment A and B, observed binding % 
-a <- filter(data, Category == "A" | Category =="Standard" | Category == "B" | Category == "C" | Category == "D", !is.na(Final_pg.mg_A)) 
+
+a <- filter(data, Category == "HairCount", !is.na(Final_pg.mg)) 
+
 a$Sample_num <- 1:length(a$Sample)
-a$Failed_samples[is.na(a$Failed_samples)] <- "OK"
 cat(paste("Data has", nrow(a), "data points", sep= " "))
 
+remove <- c("F11", "E11", "C11", "D11", "A8", "B8" )
+
+a <- a %>%
+  filter(!Wells %in% remove)
 
 ## PLOT WITHOUT POOR QUALITY SAMPLES ### 
-exp <- a %>%
-  filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2"))
 
-ggplot(exp, aes(x = Sample_num, 
-                 y = Final_pg.mg_A, color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.2, aes(group = exp$Category)) +
+ggplot(a, aes(x = weight_mg, 
+                 y = Final_pg.mg, color = Person)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.2, aes(group = a$Person)) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 0, linetype = "dashed", 
@@ -72,78 +71,49 @@ ggplot(exp, aes(x = Sample_num,
  stat_poly_eq(aes(x = Sample_num, 
                   label = paste(..rr.label.., sep = "~")),
                   formula = y ~ x, parse = TRUE, size = 2) +
-  labs(title = "Final vals (A) not accounting for spike",
-       subtitle = "removed high CV samples",
-       x = "Sample", y = "Cortisol concentration pg/mg, Method A") +
+  labs(title = "Final vals",
+       subtitle = "Hair count vs mass",
+       x = "Mass (mg)", y = "Cortisol concentration pg/mg") +
   scale_y_continuous(n.breaks = 10) + 
   theme_minimal() 
 
 ```
 
-## B) Accounting for spike (Nist et al. 2020)
 
-```{r expABC.Final_pg.mg_B, fig.width=8, fig.height=6, }
+```{r exp.Final_pg.mg_hair_count2, fig.width=8, fig.height=6}
+# Scatter plot of Experiment A and B, observed binding % 
+a <- data
+a <- filter(data, Person == "Tina", Category == "HairCount", !is.na(Final_pg.mg)) 
+
+a$Sample_num <- 1:length(a$Sample)
+cat(paste("Data has", nrow(a), "data points", sep= " "))
+
+remove <- c("F11", "E11", "C11", "D11", "H9", "G9")
+
+a <- a %>%
+  filter(!Wells %in% remove)
 
 ## PLOT WITHOUT POOR QUALITY SAMPLES ### 
 
-ggplot(exp, aes(x = Sample_num, 
-                 y = Final_pg.mg_B, color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.2) +
+ggplot(a, aes(x = weight_mg, 
+                 y = Final_pg.mg)) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.2, aes(group = a$Person)) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 0, linetype = "dashed", 
-                  color = "red", linewidth = 0.5) + 
-  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
-               formula = y ~ x, parse = TRUE, size = 2) +
-  labs(title = "Final vals (B) accounting for spike",
-       subtitle = "removed high CV samples",
-       x = "Sample", y = "Cortisol concentration pg/mg, Method B") +
-  scale_y_continuous(n.breaks = 10)  +
-  theme_minimal()
-
-```
-
-## C) Sam's Method
-```{r expABC.Final_pg.mg_C}
-
-## PLOT WITHOUT POOR QUALITY SAMPLES ### 
-
-ggplot(exp, aes(x = Sample_num, 
-                 y = Final_pg.mg_C, color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.2) +
-  geom_point(size = 2) +
-  geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
-  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
-               formula = y ~ x, parse = TRUE, size = 2) +
-  coord_cartesian(ylim = c(0, 55)) + 
-  geom_hline(yintercept = 0, linetype = "dashed", 
-                  color = "red", linewidth = 0.5) + 
-  labs(title = "Final values, method C",
-       subtitle = "Removed low quality samples",
-       x = "Sample", y = "Cortisol concentration pg/mg, Method C") +
+                  color = "red", linewidth = 0.3) + 
+ stat_poly_eq(aes(x = Sample_num, 
+                  label = paste(..rr.label.., sep = "~")),
+                  formula = y ~ x, parse = TRUE, size = 4) +
+  labs(title = "Final vals",
+       subtitle = "Hair count vs mass",
+       x = "Mass (mg)", y = "Cortisol concentration pg/mg") +
   scale_y_continuous(n.breaks = 10) + 
   theme_minimal() 
 
-```
-
-```{r ABC.Final_pg.mg_C-all, echo = FALSE}
-## PLOT ALL SAMPLES ### 
-
-ggplot(a, aes(x = Sample_num, 
-                 y = Final_pg.mg_C, color = Category)) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.4, alpha = 0.2) +
-  geom_point(size = 2) +
-  stat_poly_eq(aes(x = Sample_num, label = paste(..rr.label.., sep = "~")),
-               formula = y ~ x, parse = TRUE, size = 2) +
-  geom_text(aes(label = Sample), size = 2.5, vjust = -1, hjust = 0.5, color = "gray30") +
-  geom_hline(yintercept = 0, linetype = "dashed", 
-                  color = "red", linewidth = 0.5) + 
-  coord_cartesian(ylim = c(0, 55)) + 
-  labs(title = "Final values, method C",
-       subtitle = "Included all samples",
-       x = "Sample", y = "Cortisol concentration pg/mg, Method C") +
-  scale_y_continuous(n.breaks = 10) + 
-  theme_minimal() 
+ggplot(a, aes(x = Person, y=Final_pg.mg)) +
+  geom_boxplot() +
+  geom_point()
 
 ```
 
@@ -153,21 +123,19 @@ ggplot(a, aes(x = Sample_num,
 ```{r 4-results-boxplot, echo = FALSE}
 # Save result
 cat("Results:")
-tail(data[,c("Sample", "Final_pg.mg_A", "Final_pg.mg_B", "Final_pg.mg_C")])
+tail(data[,c("Sample", "Final_pg.mg", "Ave_Final_pg.mg")])
 data4<-data
 
 # View summary
 cat("Summary of final values for each calculation method")
 cat("Method A:")
-summary(data$Final_pg.mg_A)
+summary(data$Final_pg.mg)
 cat("Method B:")
-summary(data$Final_pg.mg_B)
-cat("Method C:")
-summary(data$Final_pg.mg_C)
+summary(data$Ave_Final_pg.mg)
 
 # Reshape from wide to long format
 data_long <- data %>%
-  dplyr::select(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C) %>%
+  dplyr::select(Final_pg.mg, Ave_Final_pg.mg) %>%
   pivot_longer(
     cols = everything(),
     names_to = "Method",
@@ -175,7 +143,7 @@ data_long <- data %>%
   )
 
 # clean group names for x-axis labels
-data_long$Group <- gsub("Final_pg.mg_", "", data_long$Method)
+data_long$Group <- gsub("_Final_pg.mg", "", data_long$Method)
 
 # Plot boxplots
 ggplot(data_long, aes(x = Group, y = pg_mg, fill = Method)) +
@@ -190,705 +158,4 @@ ggplot(data_long, aes(x = Group, y = pg_mg, fill = Method)) +
   theme(legend.position = "none")
 
 ```
-
-## Changes in each data point
-
-### ABC calculation methods
-```{r 4-results-scatterplot, echo = FALSE}
-
-# Reshape data for plotting
-data_long <- data %>%
-  pivot_longer(
-    cols = c(Final_pg.mg_A, Final_pg.mg_B, Final_pg.mg_C),
-    names_to = "Method",
-    values_to = "Final_pg.mg"
-  )
-
-ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
-  geom_line(aes(group = Sample), color = "gray75", linewidth = 0.5) +
-  geom_point(size = 2.8, alpha = 0.7, position = position_dodge(width=0.5)) +
-  scale_color_manual(
-    values = c("Final_pg.mg_A" = "steelblue",
-               "Final_pg.mg_B" = "orange",
-               "Final_pg.mg_C" = "darkgreen"),
-    labels = c("Method A (Traditional)",
-               "Method B (Nist et al.)",
-               "Method C (Sam's)")
-  ) +
-  labs(
-    title = "Hair Cortisol by Sample and Calculation Method",
-    x = "Sample ID",
-    y = "Final Cortisol (pg/mg)",
-    color = "Method"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 90, hjust = 1),
-    legend.position = "top"
-  )
-
-
-```
-
-### A and C calculation methods
-```{r 4-results-A and C, echo =FALSE}
-
-# Reshape to long format
-data_long <- data %>%
-  pivot_longer(
-    cols = c(Final_pg.mg_A, Final_pg.mg_C),
-    names_to = "Method",
-    values_to = "Final_pg.mg"
-  )
-
-# Plot with lines connecting A and C values for each sample
-ggplot(data_long, aes(x = Sample, y = Final_pg.mg, color = Method, group = Method)) +
-  geom_line(aes(group = Sample), linewidth = 0.6, color = "gray70") +  # light line connecting methods
-  geom_point(size = 2.8, alpha = 0.8, position = position_dodge(width = 0.5)) +
-  scale_color_manual(
-    values = c("Final_pg.mg_A" = "steelblue", "Final_pg.mg_C" = "darkgreen"),
-    labels = c("Method A", "Method C")
-  ) +
-  labs(
-    title = "Comparing final values obtained using 2 methods, by Sample",
-    x = "Sample ID",
-    y = "Final Cortisol Concentration (pg/mg)",
-    color = "Calculation Method"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
-    legend.position = "top"
-  )
-
-```
-### A and C, good quality only
-
-```{r}
-# Filter to include only good quality samples
-data_ok <- data %>%
-    filter(!is.na(Binding.Perc)) %>%
-  filter(Failed_samples == "OK")
-
-# Reshape data for plotting
-data_long_ok <- data_ok %>%
-  pivot_longer(
-    cols = c(Final_pg.mg_A, Final_pg.mg_C),
-    names_to = "Method",
-    values_to = "Final_pg.mg"
-  )
-
-head(data_long_ok)
-# Plot for OK samples only
-ggplot(data_long_ok, aes(x = Sample, y = Final_pg.mg, color = Method)) +
-  geom_line(aes(group = Sample), color = "gray75", size = 0.5) +
-  geom_point(size = 3, alpha = 0.8, position = position_dodge(width = 0.5)) +
-  scale_color_manual(
-    values = c("Final_pg.mg_A" = "steelblue",
-               "Final_pg.mg_B" = "orange",
-               "Final_pg.mg_C" = "darkgreen"),
-    labels = c("Method A (Basic)",
-               "Method B (Subtraction + x2)",
-               "Method D (Spike contribution)")
-  ) +
-  labs(
-    title = "Hair Cortisol (Good Samples Only) — Test4",
-    x = "Sample ID",
-    y = "Final Cortisol (pg/mg)",
-    color = "Method"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 90, hjust = 1),
-    legend.position = "top"
-  )
-```
-
-# Precision
-
-## Method A (Standard)
-```{r expE-concvals-final-vals-A}
-
-# Scatter plot of Experiment a, observed binding % 
-a <- filter(data, Category == "P", !is.na(Final_pg.mg_A)) 
-a$Sample_num <- 1:length(a$Sample)
-
-exp <- a %>%
-  mutate(Group = substr(Sample, 1, 3))
-
-cv_values <- exp %>% 
-  group_by(Group) %>%
-  dplyr::summarise(
-    cv_cort = round((sd(Final_pg.mg_A) / mean(Final_pg.mg_A)) * 100, 1), 
-    mean_cort = round( mean( Final_pg.mg_A, na.rm = TRUE), 1),
-    sd_cort = round(sd( Final_pg.mg_A, na.rm = TRUE), 1)
-  )
-cat("Variation in final cortisol values using A (good quality data only):")
-print(cv_values)
-
-
-ggplot(exp, aes(x = Weight_mg, 
-                 y =  Final_pg.mg_A)) +
-  geom_pointrange(data = cv_values,
-                  aes(x = c(6,9,12), y = mean_cort,
-                     ymin = mean_cort - sd_cort, 
-                     ymax = mean_cort + sd_cort),
-                color = "orange", size = 0.5, alpha = 0.6) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
-  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
-   labs(title = "Experiment E: Final conc vals (methodA) by sample weight",
-       subtitle = "Precision, 25uL spike, 25uL sample",
-       x = "Sample weight (mg)", y = " Final_pg.mg_A") +
-  scale_y_continuous(n.breaks = 10) +
-  coord_cartesian(xlim = c(4,14)) +
-  theme_minimal() +
-  annotate("text", x = 5.5, y = 65, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP1"], "%"), size = 4) +
-  annotate("text", x = 8.5, y = 65, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP2"], "%"), size = 4) +
-  annotate("text", x = 11.5, y = 65, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP3"], "%"), size = 4) +
-  annotate("text", x = 5.5, y = 60, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP1"],2)), size = 4) +
-  annotate("text", x = 8.5, y = 60, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP2"],2)), size = 4) +
-  annotate("text", x = 11.5, y = 60, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP3"],2)), size = 4) 
-
-```
-
-## Method B (Nist et al)
-```{r expE-concvals-final-vals-B}
-
-# Scatter plot of Experiment a, observed binding % 
-cv_values <- exp %>% 
-  group_by(Group) %>%
-  dplyr::summarise(
-    CV_cort = round((sd( Final_pg.mg_B) / mean(Final_pg.mg_B)) * 100, 1), 
-    mean_cort = mean( Final_pg.mg_B, na.rm = TRUE),
-    sd_cort = sd( Final_pg.mg_B, na.rm = TRUE)
-  )
-    
-print(cv_values)
-
-ggplot(exp, aes(x = Weight_mg, 
-                 y =  Final_pg.mg_B)) +
-geom_point(size = 3, color = "gray40", alpha = 1) +
-  geom_pointrange(data = cv_values,
-                  aes(x = c(6,9,12), y = mean_cort,
-                      ymin = mean_cort - sd_cort, ymax = mean_cort + sd_cort),
-                  color = "orange", size = 0.5, alpha = 0.6) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.05, color = "lightblue") +
-  geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = -0.5, color = "gray30") +
-  geom_hline(yintercept = 0, linetype = "dashed", 
-                  color = "red", linewidth = 0.8) +  
-   labs(title = "Experiment E: Final conc vals (methodB) by sample weight",
-       subtitle = "Precision, 25uL spike, 25uL sample",
-       x = "Sample weight (mg)", y = " Final_pg.mg_B") +
-  scale_y_continuous(n.breaks = 10) +
-  coord_cartesian(xlim = c(4,14)) +
-  theme_minimal() +
-  annotate("text", x = 6, y = 35, label = paste0("CV: ", cv_values$CV_cort[cv_values$Group == "TP1"], "%"), size = 4) +
-  annotate("text", x = 9, y = 35, label = paste0("CV: ", cv_values$CV_cort[cv_values$Group == "TP2"], "%"), size = 4) +
-  annotate("text", x = 12, y = 35, label = paste0("CV: ", cv_values$CV_cort[cv_values$Group == "TP3"], "%"), size = 4) +
-  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP1"],2)), size = 4) +
-  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP2"],2)), size = 4) +
-  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP3"],2)), size = 4) 
-
-```
-
-
-## Method C (Sam's)
-```{r expE-concvals-final-vals-c}
-
-# Scatter plot of Experiment C, observed binding % 
-cv_values <- exp %>% 
-  group_by(Group) %>%
-  dplyr::summarise(
-    mean_cort = round( mean( Final_pg.mg_C, na.rm = TRUE), 1),
-    sd_cort = round(sd( Final_pg.mg_C, na.rm = TRUE), 1),
-    cv_cort = round((sd( Final_pg.mg_C ) / mean( Final_pg.mg_C)) * 100, 1), 
-  )
-
-print(cv_values)
-ggplot(exp, aes(x = Weight_mg, 
-                 y =  Final_pg.mg_C)) +
-geom_pointrange(data = cv_values,
-                 aes(x = c(6,9,12), 
-                     y = mean_cort,
-                     ymin = mean_cort - sd_cort, 
-                     ymax = mean_cort + sd_cort),
-                 color = "orange", 
-                 size = 0.5, alpha = 0.7) +
-  geom_point(size = 3, 
-           alpha = 1, 
-           aes(fill = factor(Failed_samples),
-               color = factor(Failed_samples))) +
-  geom_smooth(method = "lm", se = TRUE, 
-              linewidth = 0.8, 
-              alpha = 0.15, 
-              color = "orange") +
-  geom_text(aes(label = Sample), 
-            size = 3, vjust = -1, 
-            hjust = -0.5, 
-            color = "gray30") +
-   labs(title = "Experiment E: Final conc vals (methodC) by sample weight",
-       subtitle = "Precision, 25uL spike, 25uL sample",
-       x = "Sample weight (mg)", y = " Final_pg.mg_C") +
-  scale_y_continuous(n.breaks = 10) +
-  coord_cartesian(xlim = c(4,14)) +
-  theme_minimal() +
-  annotate("text", x = 6, y = 38, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP1"], "%"), size = 4) +
-  annotate("text", x = 9, y = 38, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP2"], "%"), size = 4) +
-  annotate("text", x = 12, y = 38, label = paste0("CV: ", cv_values$cv_cort[cv_values$Group == "TP3"], "%"), size = 4) +
-  annotate("text", x = 6, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP1"],2)), size = 4) +
-  annotate("text", x = 9, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP2"],2)), size = 4) +
-  annotate("text", x = 12, y = 40, label = paste0("mean: ", round(cv_values$mean_cort[cv_values$Group == "TP3"],2)), size = 4) 
-
-```
-
-
-# Accuracy (using mean for A + spike contribution)
-
-Accuracy, or recovery %, is the ratio between observed and expected concentration, multiplied by 100. 
-Expected values are defined using the dilution factor, starting with the concentration value of the neat sample. 
-
-- 80–120% is generally acceptable for biological assays.
-
-- 70–130% may be acceptable at very low concentrations.
-
-**Problem**: How should I define expected vals for final cortisol values? Can this be done only using binding percentage?
-
-# Parallelism
-
-```{r}
-# Load the dataset
-df <- data4
-
-# Clean data 
-df <- df %>% filter(!is.na(Final_pg.mg_C), !Sample %in% c("NSB", "Blank", "B0"))
-df$Category <- as.factor(df$Category)
-
-# 1. === PARALLELISM TEST ===
-# Plot concentration vs. dilution to check for proportional decrease
-
-ggplot(df, aes(x = log10(as.numeric(Dilution_sample)), y = Final_pg.mg_C , color = Category)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = TRUE, alpha = 0.05) +
-  labs(title = "Parallelism Test, final cortisol value", 
-       x = "Log10(Dilution_sample)", 
-       y = "Final Cortisol (pg/mg)") + 
-  theme_minimal()
-
-# Optional: Run ANOVA for parallelism by slope comparison
-parallel_model <- lm(Final_pg.mg_C  ~ log10(Dilution_sample) * Category, data = df)
-summary(parallel_model)
-```
-
-## Slope
-|	Term |	Estimate |		p-value |		Interpretation |	
-|-----|--------|	--------- |	----------- |	
- |	(Intercept)	 |	35.08	 |	1.7e-05	 |	Baseline value for TA at no dilution |	
- |	CategoryC |		–19.89 |		0.0473 *	 |	TC starts significantly lower than TA |	
- |	CategoryD |		–18.70 |		0.0612 .	 |	TD also starts lower, marginally significant |	
- |	CategoryP	 |	–15.34 |		0.0517 . |		TP slightly lower, borderline significant |	
- |	Interaction (log10 × CategoryB)	 |	+17.33	 |	0.0598 .	 |	TB's slope is steeper than TA (marginal) |	
-
-TC and TD show parallel dilution curves relative to TA, suggesting you can safely apply Method D.
-
-TB may have a steeper slope, suggesting spiking only the first tube might amplify dilution effect slightly.
-
-## Binding
-```{r plot parallelism_binding}
-ggplot(df, aes(x = log10(as.numeric(Dilution_sample)), 
-               y = Binding.Perc, color = Category)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "Parallelism Test (Binding)", x = "Log10(Dilution_sample)", y = "Binding %")
-
-# Optional: Run ANOVA for parallelism by slope comparison
-parallel_model <- lm(Binding.Perc  ~ log10(Dilution_sample) * Category, data = df)
-summary(parallel_model)
-
-```
-
-|Term |		Estimate|	p-value	|Interpretation|
-|------|-----------|---------|------------|
-|(Intercept)|	11.70|	0.0081 **	| Baseline binding % for Category A (TA) at no dilution|
-|log10(Dilution_sample)|	49.88	|1.6e-13 ***|	Strong increase in binding % with increasing dilution|
-|CategoryB|	4.71	|0.424	|TB baseline slightly higher than TA, not significant|
-|CategoryC|	10.10	|0.093 .|	TC baseline marginally higher than TA|
-|CategoryD|	6.19	|0.295	|TD not significantly different from TA at baseline|
-|CategoryP|	7.94	|0.093 .|	TP marginally higher binding at baseline|
-
-log10(Dilution_sample):CategoryB	–4.66	0.391	TB slope not significantly different from TA
-log10(Dilution_sample):CategoryC	–3.19	0.556	TC slope ≈ TA
-log10(Dilution_sample):CategoryD	–0.36	0.947	TD slope ≈ TA 
-
- Strong Main Effect of Dilution
-Binding % increases significantly with higher dilution (p < 0.001).
-
-This is expected: lower concentration = higher % binding in competitive ELISA.
-
-2. No Significant Interaction Terms
-The interaction terms (slope differences) are not significant (all p > 0.39).
-
-This means the binding curves across all categories are parallel.
-
-3. Intercept Differences (Baseline Shift)
-Some categories (notably TC and TP) start with higher binding %, but this is only marginally significant (p ≈ 0.09).
-
-This suggests potential small matrix effects, but not enough to invalidate comparison.
-
-```{r}
-# Log buffer as dilution proxy
-df$log_dilution <- log10(df$Dilution_sample)
-
-# Parallelism test for TA vs TC
-df_sub <- df %>% filter(Category %in% c("A", "C"))
-
-model_parallel <- lm(Final_pg.mg_C ~ log_dilution * Category, data = df_sub)
-summary(model_parallel)
-
-```
-
-|Term|	Estimate|	p-value	| Interpretation |
-|----|---------|--------|---------------|
-|(Intercept)	|35.08	|0.0003	|Cortisol for TA at dilution = 1 (log10 = 0)|
-|log_dilution	|1.58	|0.794	|Slope of dilution for TA — not significant|
-|CategoryC|	–19.89	|0.052 .|	TC starts ~20 pg/mg lower than TA — borderline significant|
-|Interaction (log_dilution:CategoryC)|	9.44|	0.282	|TC slope vs TA — not significant → ✅ parallel |slopes|
-
-🔍 Parallelism holds: no significant difference in slope between TA and TC (p = 0.282)
-
-⚠️ Intercept difference between TA and TC is borderline significant (p = 0.052)
-
-TC starts lower than TA, suggesting a shift in baseline cortisol, but dilution behavior is similar
-
-
-```{r}
-
-# Filter dataset to include only TA (A) and TC (C)
-df_sub <- df %>%
-  filter(Category %in% c("A", "C")) %>%
-  filter(!Sample %in% c("TA6","TA7","TB7","TC7", "TC6","TC5", "A2")) %>%
-  mutate(
-    Category = factor(Category, levels = c("A", "C")),
-    log_dilution = log10(Dilution_sample)
-  )
-
-
-# Plot
-ggplot(df_sub, aes(x = log_dilution, y = Final_pg.mg_C, color = Category)) +
-    geom_smooth(method = "lm", se = TRUE, linewidth = 1.2, alpha = 0.3) +
-  geom_point(size = 3, alpha = 0.8) +
-
-  labs(
-    title = "Parallelism Test: TA vs TC",
-    subtitle = "Final Cortisol (pg/mg) vs Log10(Dilution) with 95% CI",
-    x = "Log10(Dilution Sample)",
-    y = "Final Cortisol (pg/mg)",
-    color = "Category"
-  ) +
-  scale_color_manual(
-    values = c("A" = "steelblue", "C" = "darkgreen"),
-    labels = c("TA (Non-Spiked)", "TC (All Dilutions Spiked)")
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(face = "bold"),
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    legend.position = "top"
-  )
-
-
-```
-If slope ≈ 0 and variance is low → good precision.
-
-```{r}
-
-# Load your data
-
-# Extract meaningful category label
-df$Category <- str_extract(df$Sample, "^T[ABCD]")
-
-# Keep only A–D dilution categories
-df <- df %>% filter(Category %in% c("TA", "TB", "TC", "TD"))
-
-# Create log dilution
-df$log_dilution <- log10(df$Dilution_sample)
-
-# All pairwise category combinations
-pairs <- combn(unique(df$Category), 2, simplify = FALSE)
-
-# Loop and test each pair for both variables
-for (pair in pairs) {
-  sub_df <- df %>% filter(Category %in% pair)
-  pair_label <- paste(pair, collapse = "_vs_")
-  
-  ### 1. Final Values Model
-  model_final <- lm(Final_pg.mg_C ~ log_dilution * Category, data = sub_df)
-  p_final <- tidy(model_final) %>% 
-    filter(str_detect(term, "log_dilution:Category")) %>%
-    pull(p.value)
-  
-  ### 2. Binding % Model
-  model_binding <- lm(Binding.Perc ~ log_dilution * Category, data = sub_df)
-  p_bind <- tidy(model_binding) %>% 
-    filter(str_detect(term, "log_dilution:Category")) %>%
-    pull(p.value)
-  
-  ### Plot for Final Values
-p1 <- ggplot(sub_df, aes(x = log_dilution, y = Final_pg.mg_C, color = Category)) +
-   geom_smooth(method = "lm", se = TRUE, alpha = 0.3) +  
-  geom_point(size = 2) +
-   
-    labs(
-      title = paste("Final Values –", pair_label),
-      subtitle = paste("Interaction p =", round(p_final, 4)),
-      x = "log10(Dilution)", y = "Final Cortisol (pg/mg)"
-    ) +
-    theme_minimal() +
-    theme(plot.title = element_text(face = "bold"))
-  print(p1)
-  
-  ### Plot for Binding %
-p2 <- ggplot(sub_df, aes(x = log_dilution, y = Binding.Perc, color = Category)) +
-   geom_smooth(method = "lm", se = TRUE, alpha = 0.3) + 
-   geom_point(size = 2) +
-
-    labs(
-      title = paste("Binding % –", pair_label),
-      subtitle = paste("Interaction p =", round(p_bind, 4)),
-      x = "log10(Dilution)", y = "Binding (%)"
-    ) +
-    theme_minimal() +
-    theme(plot.title = element_text(face = "bold"))
-  print(p2)
-  
-  ### Print results to console
-  cat("\n=== ", pair_label, " ===\n")
-  cat("Interaction p (Final values):", round(p_final, 4), "\n")
-  cat("Interaction p (Binding %):   ", round(p_bind, 4), "\n")
-  }
-
-```
-|Comparison	|Final Values p|	Binding % p|	Interpretation|
-|--------|--------|--------|-------|
-|TA vs TB|	0.164	|0.381|	Not significantly different slopes. Likely parallel|
-|TA vs TC	|0.366|	0.604	|Parallel; spiking all tubes in TC doesn't distort slope much.|
-|TA vs TD|	0.951|	0.928	|Extremely parallel — almost identical slopes.|
-|TB vs TC|	0.479|	0.845	|No significant slope difference. Spike methods act similarly.|
-|TB vs TD|	0.162	|0.471	|Slight trend in slope difference, but still not statistically significant.|
-|TC vs TD|	0.367	|0.674	|Parallel. Spiking either all tubes (TC) or just first tube (TD) gives similar dilution response.|
-
-All p-values are > 0.05, meaning there is no strong evidence of non-parallelism.
-
-This suggests serial dilutions are behaving consistently, even with different spiking strategies.
-
-The fact that binding percentage curves are also parallel confirms this is not an artifact of back-calculation — it's real behavior at the assay level.
-
-
-```{r test4}
-# === Load and prepare data ===
-df <- data4 %>%
-  mutate(Category = str_extract(Sample, "^T[ABCD]")) %>%
-  filter(Category %in% c("TA", "TB", "TC", "TD")) %>%
-  mutate(log_dilution = log10(Dilution_sample))
-
-# === Updated and safe function ===
-extract_intercepts_with_pval <- function(model, response_label) {
-  model_tidy <- tidy(model, conf.int = TRUE)
-  intercept_ta <- model_tidy %>% filter(term == "(Intercept)") %>% pull(estimate)
-
-  intercepts <- model_tidy %>%
-    filter(term == "(Intercept)" | str_detect(term, "Category")) %>%
-    mutate(
-      Category = case_when(
-        term == "(Intercept)" ~ "TA",
-        str_detect(term, "TB") ~ "TB",
-        str_detect(term, "TC") ~ "TC",
-        str_detect(term, "TD") ~ "TD"
-      ),
-      Estimate = if_else(Category == "TA", estimate, intercept_ta + estimate),
-      CI_low = if_else(Category == "TA", conf.low, conf.low + intercept_ta),
-      CI_high = if_else(Category == "TA", conf.high, conf.high + intercept_ta),
-      P_Value = if_else(Category == "TA", NA_real_, p.value),
-      Variable = response_label
-    ) %>%
-    dplyr::select(Variable, Category, Estimate, CI_low, CI_high, P_Value)
-
-  return(intercepts)
-}
-
-# === Fit models ===
-mod_final <- lm(Final_pg.mg_C ~ log_dilution + Category, data = df)
-mod_binding <- lm(Binding.Perc ~ log_dilution + Category, data = df)
-
-# === Extract intercepts ===
-intercepts_final <- extract_intercepts_with_pval(mod_final, "Final Cortisol (pg/mg)")
-intercepts_binding <- extract_intercepts_with_pval(mod_binding, "Binding Percentage")
-
-# === Combine and reshape for table ===
-intercepts_all <- bind_rows(intercepts_final, intercepts_binding)
-
-
-# === View final table ===
-print(intercepts_final)
-
-cat("TB (only first tube spiked) behaves almost identically to TA (non-spiked) → good parallelism, no signal distortion.
-
-TC (every tube spiked) lowers the intercept but not significantly.
-
-TD (1:1 spike + dilution) significantly suppresses signal, indicating likely dilution or matrix effects.")
-
-print(intercepts_binding)
-
-cat("TB again tracks closely with TA, confirming consistent assay response.
-
-TC and TD show increased binding, which is unusual — spiking may be blocking binding sites or altering matrix effects.
-
-The higher binding % may explain the lower final cortisol values, especially in TD")
-
-# === Plot: Intercepts with CI ===
-ggplot(intercepts_all, aes(x = Category, y = Estimate, color = Variable)) +
-  geom_point(position = position_dodge(width = 0.5), size = 4) +
-  geom_errorbar(aes(ymin = CI_low, ymax = CI_high), 
-                width = 0.2, position = position_dodge(width = 0.5)) +
-  labs(
-    title = "Intercept Estimates for TA–TD",
-    subtitle = "With 95% Confidence Intervals",
-    y = "Intercept Value",
-    x = "Category"
-  ) +
-  theme_minimal() +
-  theme(plot.title = element_text(face = "bold"))
-
-```
-
-
-
-
-```{r test4 pairs}
-# Step 1: Create sample pairs
-# e.g., base = TA, spiked = TB with similar Sample ID patterns
-
-# pairing by shared SampleID 
-df <- data4 
-
-# Step 1: Extract TA and TB and sample ID
-df_pair <- df %>%
-  filter(!is.na(Ave_Conc_pg.ml))  %>%
-  filter(Category %in% c("A", "D")) %>%
-  mutate(SampleID = str_extract(Sample, "\\d+$"))
-
-# Step 2: Pivot to wide format
-df_wide <- df_pair %>%
-  dplyr::select(SampleID, Category, Ave_Conc_pg.ml, Spike_contribution) 
-df_wide <- df_wide %>%
-  pivot_wider(names_from = Category, values_from = c(Ave_Conc_pg.ml, Spike_contribution))
-
-
-# Step 4: Calculate recovery
-head(df_wide)
-temp <- df_wide %>%
-  mutate(Recovery_pct = ((Ave_Conc_pg.ml_D - Ave_Conc_pg.ml_A) / Spike_contribution_D) * 100)
-
-# Step 5: Plot
-ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
-  labs(
-    title = "Spike Recovery at ELISA Level (pg/mL)",
-    x = "Sample ID (TA/TD pair)",
-    y = "Recovery (%)"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-```
-
-- reduced detection due to interference or over-saturation. If spike volume is large (e.g. 110 µL into 110 µL sample), it can dilute the original signal below the unspiked concentration
-
-- “Recovery for some high-spike samples was negative, indicating likely signal suppression from matrix effects or over-spiking.”
-
-Can use parallelism to back up conclusion:
-
-- If slope is parallel but intercept drops, it's further evidence of baseline suppression
-
-- Several spiked samples exhibited negative recovery percentages, indicating that measured cortisol concentrations were lower than their unspiked counterparts. This likely reflects signal suppression due to matrix effects or over-dilution from high spike volumes, particularly in the TD group, where spike-to-sample ratios were highest. These results highlight the importance of accounting for spike-related suppression in final quantification strategies.
-
-
-# Recovery Test4
-
-```{r recov}
-
-# Simulate pairing by shared SampleID (you may need to adjust this step)
-df <- data4 
-
-# Step 1: Extract TA and TC and sample ID
-df_pair <- df %>%
-  filter(!is.na(Ave_Conc_pg.ml))  %>%
-  filter(Category %in% c("A", "C")) %>%
-  mutate(SampleID = str_extract(Sample, "\\d+$"))
-
-# Step 2: Pivot to wide format
-df_wide <- df_pair %>%
-  dplyr::select(SampleID, Category, Ave_Conc_pg.ml, Spike_contribution) 
-df_wide <- df_wide %>%
-  pivot_wider(names_from = Category, values_from = c(Ave_Conc_pg.ml, Spike_contribution))
-
-print(df_wide)
-# Step 4: Calculate recovery
-temp <- df_wide %>%
-  mutate(Recovery_pct = ((Ave_Conc_pg.ml_C - Ave_Conc_pg.ml_A) / Spike_contribution_C) * 100)
-
-# Step 5: Plot
-ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
-  labs(
-    title = "Spike Recovery at ELISA Level (pg/mL)",
-    x = "Sample ID (TA/TC pair)",
-    y = "Recovery (%)"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-```
-
-```{r recov test4}
-
-
-# Simulate pairing by shared SampleID (may need to adjust this step)
-df <- data4 
-head(data4)
-
-# Step 1: Extract TA and TB and sample ID
-df_pair <- df %>%
-  filter(!is.na(Ave_Conc_pg.ml))  %>%
-  filter(Category %in% c("A", "B")) %>%
-  mutate(SampleID = str_extract(Sample, "\\d+$"))
-
-# Step 2: Pivot to wide format
-df_wide <- df_pair %>%
-  dplyr::select(SampleID, Category, Ave_Conc_pg.ml, Spike_contribution) 
-df_wide <- df_wide %>%
-  pivot_wider(names_from = Category, values_from = c(Ave_Conc_pg.ml, Spike_contribution))
-
-
-# Step 4: Calculate recovery
-temp <- df_wide %>%
-  mutate(Recovery_pct = ((Ave_Conc_pg.ml_B - Ave_Conc_pg.ml_A) / Spike_contribution_B) * 100)
-
-
-# Step 5: Plot
-ggplot(temp, aes(x = SampleID, y = Recovery_pct)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  geom_hline(yintercept = c(80, 120), linetype = "dashed", color = "darkred") +
-  labs(
-    title = "Spike Recovery at ELISA Level (pg/mL)",
-    x = "Sample ID (TA/TB pair)",
-    y = "Recovery (%)"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-```
-
-
-
-
 

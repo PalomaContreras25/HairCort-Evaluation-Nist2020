@@ -9,11 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Paloma" />
+<meta name="author" content="Paloma Contreras" />
 
 <meta name="date" content="2025-10-17" />
 
-<title>QC_ELISA 8</title>
+<title>Calculation Final Values, Test9</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -351,8 +351,8 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">QC_ELISA 8</h1>
-<h4 class="author">Paloma</h4>
+<h1 class="title toc-ignore">Calculation Final Values, Test9</h1>
+<h4 class="author">Paloma Contreras</h4>
 <h4 class="date">2025-10-17</h4>
 
 </div>
@@ -421,10 +421,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -562,16 +562,25 @@ Ignored files:
     Ignored:    data/Test9/.DS_Store
 
 Untracked files:
+    Untracked:  analysis/ELISA_Analysis_FinalVals_test9.Rmd
     Untracked:  analysis/ELISA_Calc_FinalVals_test8_V2.Rmd
+    Untracked:  analysis/ELISA_Calc_FinalVals_test9_V2.Rmd
     Untracked:  data/Test8/myassays_table_test8_090225_ave.csv
+    Untracked:  data/Test9/Data_cort_values.csv
+    Untracked:  data/Test9/myassays_table_test9_251008_ave.csv
 
 Unstaged changes:
     Modified:   analysis/ELISA_Analysis_FinalVals_test8.Rmd
     Modified:   analysis/ELISA_QC_test8.Rmd
+    Modified:   analysis/ELISA_QC_test9.Rmd
     Modified:   data/Test8/Data_QC_flagged.csv
     Modified:   data/Test8/Data_cort_values.csv
     Modified:   data/Test8/layout_wells_test8_090225.csv
     Modified:   data/Test8/myassays_table_test8_090225.csv
+    Modified:   data/Test9/Data_QC_flagged.csv
+    Modified:   data/Test9/layout_wells_test9_251008.csv
+    Modified:   data/Test9/myassays_table_test9_251008.csv
+    Deleted:    data/Test9/myassays_table_test9_251008.indiv.calc.csv
 
 </code></pre>
 <p>
@@ -587,506 +596,176 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/ELISA_QC_test8.Rmd</code>) and
-HTML (<code>docs/ELISA_QC_test8.html</code>) files. If you’ve configured
-a remote Git repository (see <code>?wflow_git_remote</code>), click on
-the hyperlinks in the table below to view the files as they were in that
-past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/1c90a344f0ddbc4466ded7e4b67d36b379869947/analysis/ELISA_QC_test8.Rmd" target="_blank">1c90a34</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-10-09
-</td>
-<td>
-elisa9
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/5e9f2f75036b896fed638e8d682a029926429a87/analysis/ELISA_QC_test8.Rmd" target="_blank">5e9f2f7</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-09-08
-</td>
-<td>
-plate num. 8
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/5e9f2f75036b896fed638e8d682a029926429a87/docs/ELISA_QC_test8.html" target="_blank">5e9f2f7</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-09-08
-</td>
-<td>
-plate num. 8
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<p>Here I show how files are loaded, merged, and cleaned, including the
-exclusion of unnecessary columns and handling of missing values.</p>
-<div id="set-parameters" class="section level1">
-<h1>Set parameters</h1>
-<pre class="r"><code># flag samples with high CV (15%) or binding above 80% and under 20%
-CV_threshold &lt;- 15.0
-uppBinLim &lt;- 80.0
-lowBinLim &lt;- 20.0</code></pre>
-</div>
-<div id="data-cleaning-and-qc" class="section level1">
-<h1>Data Cleaning and QC</h1>
-<p>Load, inspect and merge 3 files:</p>
-<ul>
-<li>layout: 7 columns (Wells, Sample, weight_mg, buffer_nl, spike,
-volume of the spike, dilution factor), – rows</li>
-<li>results: from myassays.com (not including standards), – rows</li>
-</ul>
-<pre><code>[1] 110  15</code></pre>
-<table style="width:100%;">
-<colgroup>
-<col width="3%" />
-<col width="4%" />
-<col width="5%" />
-<col width="6%" />
-<col width="6%" />
-<col width="3%" />
-<col width="8%" />
-<col width="9%" />
-<col width="12%" />
-<col width="10%" />
-<col width="6%" />
-<col width="3%" />
-<col width="7%" />
-<col width="6%" />
-<col width="5%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Wells</th>
-<th align="left">Sample</th>
-<th align="left">Category</th>
-<th align="right">weight_mg</th>
-<th align="left">buffer_ml</th>
-<th align="left">spike</th>
-<th align="left">spike_vol_ul</th>
-<th align="left">Dilution_spike</th>
-<th align="left">vol_in_well.tube_ul</th>
-<th align="left">Extraction_ratio</th>
-<th align="left">Sub_categ</th>
-<th align="right">Order</th>
-<th align="right">Num_strands</th>
-<th align="left">Person</th>
-<th align="right">Dilution</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">A1</td>
-<td align="left">NSB</td>
-<td align="left">NSB</td>
-<td align="right">0</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Std</td>
-<td align="right">100</td>
-<td align="right">0</td>
-<td align="left">NSB</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">B1</td>
-<td align="left">st1</td>
-<td align="left">Std</td>
-<td align="right">46</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Std</td>
-<td align="right">90</td>
-<td align="right">400</td>
-<td align="left">StandardT</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">C1</td>
-<td align="left">st1</td>
-<td align="left">Std</td>
-<td align="right">46</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Std</td>
-<td align="right">91</td>
-<td align="right">400</td>
-<td align="left">StandardT</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">D1</td>
-<td align="left">st2</td>
-<td align="left">Std</td>
-<td align="right">23</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Std</td>
-<td align="right">91</td>
-<td align="right">200</td>
-<td align="left">StandardT</td>
-<td align="right">1</td>
-</tr>
-</tbody>
-</table>
-<pre><code>[1] 82  8</code></pre>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p><strong>I. Cortisol values (pg/mg)</strong></p>
 <table>
-<thead>
-<tr class="header">
-<th align="left">Wells</th>
-<th align="right">Raw</th>
-<th align="right">X.</th>
-<th align="left">Conc.</th>
-<th align="right">Conc…Average.</th>
-<th align="right">X.CV</th>
-<th align="right">SD</th>
-<th align="right">SEM</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">C3</td>
-<td align="right">0.884</td>
-<td align="right">94.6</td>
-<td align="left">54.75</td>
-<td align="right">54.75</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">D3</td>
-<td align="right">0.863</td>
-<td align="right">92.2</td>
-<td align="left">76.31</td>
-<td align="right">76.31</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left">E3</td>
-<td align="right">0.303</td>
-<td align="right">28.4</td>
-<td align="left">1456</td>
-<td align="right">1456.00</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">F3</td>
-<td align="right">0.316</td>
-<td align="right">29.9</td>
-<td align="left">1356</td>
-<td align="right">1356.00</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-</tr>
-</tbody>
-</table>
-<p>Merge data set and improve formatting:</p>
-<table style="width:100%;">
 <colgroup>
-<col width="1%" />
-<col width="2%" />
-<col width="4%" />
-<col width="6%" />
-<col width="3%" />
-<col width="4%" />
-<col width="4%" />
-<col width="2%" />
-<col width="5%" />
-<col width="6%" />
+<col width="30%" />
+<col width="7%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
 <col width="8%" />
 <col width="7%" />
-<col width="4%" />
-<col width="2%" />
-<col width="5%" />
-<col width="3%" />
-<col width="2%" />
-<col width="5%" />
-<col width="4%" />
-<col width="6%" />
-<col width="3%" />
-<col width="1%" />
-<col width="1%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"></th>
-<th align="left">Wells</th>
-<th align="left">Sample</th>
-<th align="left">Category</th>
-<th align="left">Person</th>
-<th align="right">weight_mg</th>
-<th align="right">buffer_ml</th>
-<th align="right">spike</th>
-<th align="right">spike_vol_ul</th>
-<th align="right">Dilution_spike</th>
-<th align="right">vol_in_well.tube_ul</th>
-<th align="right">Extraction_ratio</th>
-<th align="right">Sub_categ</th>
-<th align="right">Order</th>
-<th align="right">Num_strands</th>
-<th align="right">Dilution</th>
-<th align="right">OD</th>
-<th align="right">Binding.Perc</th>
-<th align="right">Conc_pg.ml</th>
-<th align="right">Ave_Conc_pg.ml</th>
-<th align="right">CV.Perc</th>
-<th align="right">SD</th>
-<th align="right">SEM</th>
+<th></th>
+<th>Min.</th>
+<th>1st Qu.</th>
+<th>Median</th>
+<th>Mean</th>
+<th>3rd Qu.</th>
+<th>Max.</th>
+<th>NA’s</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">9</td>
-<td align="left">A6</td>
-<td align="left">P-No-Spike</td>
-<td align="left">Paloma-TrueVal</td>
-<td align="left">Paloma</td>
-<td align="right">10</td>
-<td align="right">0.22</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1.4</td>
-<td align="right">NA</td>
-<td align="right">30</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">0.753</td>
-<td align="right">79.7</td>
-<td align="right">192.4</td>
-<td align="right">192.4</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
+<td><strong>Good quality samples (n= )</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
-<td align="left">19</td>
-<td align="left">B6</td>
-<td align="left">P-No-Spike</td>
-<td align="left">Paloma-TrueVal</td>
-<td align="left">Paloma</td>
-<td align="right">10</td>
-<td align="right">0.22</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1.4</td>
-<td align="right">NA</td>
-<td align="right">30</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">0.748</td>
-<td align="right">79.1</td>
-<td align="right">198.1</td>
-<td align="right">198.1</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left">29</td>
-<td align="left">C6</td>
-<td align="left">P-No-Spike</td>
-<td align="left">Paloma-TrueVal</td>
-<td align="left">Paloma</td>
-<td align="right">10</td>
-<td align="right">0.22</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1.4</td>
-<td align="right">NA</td>
-<td align="right">30</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">0.756</td>
-<td align="right">80.0</td>
-<td align="right">189.0</td>
-<td align="right">189.0</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">79</td>
-<td align="left">H6</td>
-<td align="left">P1:2</td>
-<td align="left">P-low-binding</td>
-<td align="left">Paloma</td>
-<td align="right">10</td>
-<td align="right">0.44</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1.4</td>
-<td align="right">NA</td>
-<td align="right">21</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">0.755</td>
-<td align="right">79.9</td>
-<td align="right">190.1</td>
-<td align="right">190.1</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left">47</td>
-<td align="left">E4</td>
-<td align="left">P1:2-SP</td>
-<td align="left">P-SPIKED</td>
-<td align="left">Paloma</td>
-<td align="right">10</td>
-<td align="right">0.22</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1.4</td>
-<td align="right">NA</td>
-<td align="right">50</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">0.300</td>
-<td align="right">28.1</td>
-<td align="right">1481.0</td>
-<td align="right">1481.0</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">0</td>
+<td><strong>All samples (n= )</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p>Will not calculate CV. Will do it using final values (accounting for
-differences in weight, dilution, etc).</p>
-<div id="samples-outside-the-curve" class="section level3">
-<h3>Samples outside the curve</h3>
-<p>Samples that have a binding percentage over 80 or 20 do not provide
-accurate results, and we consider them to be outside the curve.</p>
-<pre><code>Total samples outside the curve: 34 (some are blanks or NSB)</code></pre>
-<pre><code>       Sample
-6          B0
-26         BE
-36         BE
-65         BE
-75         BE
-1         NSB
-39 P-No-Spike
-68 P-No-Spike
-69       P1:2
-10       P1:4
-20       P1:4
-30       P1:4
-40       P1:4
-50       P1:8
-60       P1:8
-70       P1:8
-2        T1:1
-13       T1:1
-64     T1:128
-74     T1:128
-3       T1:16
-14      T1:16
-23       T1:2
-33       T1:2
-24      T1:32
-34      T1:32
-43       T1:4
-53       T1:4
-44      T1:64
-54      T1:64
-63       T1:8
-73       T1:8
-72        T25
-82        T25</code></pre>
+<p><strong>II. Plate description</strong></p>
+<p>Category Description ——— —————————————————————</p>
+<p>Pool Paloma, 20mg, 250 uL</p>
+<p><strong>III. Results:</strong></p>
+<ul>
+<li><p>Mean Intra-assay CV:</p></li>
+<li><p>Mean Intra-assay CV after removing low quality samples:</p></li>
+<li><p>Inter-assay CV: <strong>– </strong></p></li>
+</ul>
+<p>(Bindings for 20mg sample diluted in 250 uL, no spike: 64.8% and 48%
+in test3 and test4, respectively)</p>
+<p><strong>IV. Conclusions</strong>:</p>
+<p><strong>V. Concerns:</strong> Tina continues to fall under the curve
+even after a dilution 32</p>
 </div>
-<div id="total-samples-failed" class="section level3">
-<h3>Total samples failed</h3>
-<p>Location</p>
-<pre><code>Data set with low quality samples flagged: Data_QC_flagged.csv</code></pre>
-<p>Overall quality of the assay</p>
+<div id="loading-and-inspecting-data" class="section level1">
+<h1>Loading and inspecting data</h1>
+<pre><code>Input:</code></pre>
+<pre><code>[1] &quot;./data/Test9/Data_QC_flagged.csv&quot;</code></pre>
+</div>
+<div id="final-value-calculation" class="section level1">
+<h1>Final value calculation</h1>
+<p>Calculate final values accounting for dilution of the sample (from
+myassays.com), weight, and reconstitution</p>
+<p>((A)/B) * (C/D) * E = F</p>
+<ul>
+<li>A = pg/ml from assay output;</li>
+<li>B = weight (in mg) of hair subjected to extraction;</li>
+<li>C = vol. (in ml) of methanol added to the powdered hair;</li>
+<li>D = vol. (in ml) of methanol recovered from the extract and
+subsequently dried down;</li>
+<li>E = vol. (in ml) of assay buffer used to reconstitute the dried
+extract;</li>
+<li>F = final value of hair CORT Concentration in pg/mg.</li>
+</ul>
+<pre class="r"><code>##################################
+##### Calculate final values not controlling for spike #####
+##################################
+
+data$Final_pg.mg &lt;- 
+     (data$Ave_Conc_pg.ml * data$Dilution / data$weight_mg) *      # A / B *
+     data$Extraction_ratio *                       # C / D *
+     data$buffer_ml                                # E 
+                            
+###### Calculate CV ##### 
+data &lt;- data %&gt;%
+  group_by(Sample) %&gt;%
+  mutate(Ave_Conc_pg.ml = (mean(Conc_pg.ml, na.rm = TRUE))) %&gt;%
+  mutate(Ave_Final_pg.mg = (mean(Final_pg.mg, na.rm = TRUE))) %&gt;%
+  mutate(CV.Perc = (sd(Final_pg.mg, na.rm = TRUE) / mean(Final_pg.mg, na.rm = TRUE)) * 100) %&gt;%
+  mutate(z = (Final_pg.mg - mean(Final_pg.mg, na.rm = TRUE)) / sd(Final_pg.mg, na.rm = TRUE)) %&gt;%
+  ungroup()
+
+write.csv(data, file.path(data_path, &quot;Data_cort_values.csv&quot;), row.names = F)</code></pre>
+<div id="explanation-of-each-variable-used-in-calculations"
+class="section level2">
+<h2>Explanation of each variable used in calculations</h2>
+<ul>
+<li><p>Ave_Conc_pg/ml: average ELISA reading per sample in
+pg/mL</p></li>
+<li><p>Weight_mg: hair weight in mg (here we used 10 and 20 mg)</p></li>
+<li><p>Buffer_ml: assay buffer volume in mL (here we used 220
+uL)</p></li>
+<li><p>Extraction_ratio: methanol volume ratio = vol added / vol
+recovered (here we used 1.4/1 ml)</p></li>
+</ul>
+<p>Dilution: dilution factor is already included in values obtained from
+myassays.com</p>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<p>Cortisol concentration values are shown in pg/mg</p>
+<pre><code>Summary for all samples:</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  6.936  18.387  22.487  49.450  39.680 258.720 </code></pre>
+</div>
+<div id="remove-some-values-use-well-id" class="section level1">
+<h1>Remove some values (use well ID)</h1>
+<pre class="r"><code># Find outliers
+
+ggplot(data, aes(x = Sample, y = Conc_pg.ml)) +
+  geom_point() +
+  geom_boxplot()</code></pre>
+<p><img src="figure/ELISA_Calc_FinalVals_test9_V2.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># remove outliers and recalculate CV
+remove &lt;- c(&quot;D4&quot;, &quot;D5&quot;, &quot;E6&quot;, &quot;C6&quot;)
+data_clean &lt;- data %&gt;%
+  filter(!Wells %in% remove)
+
+
+data_clean &lt;- data_clean %&gt;%
+  group_by(Sample) %&gt;%
+  mutate(Ave_Conc_pg.ml = (mean(Conc_pg.ml, na.rm = TRUE))) %&gt;%
+  mutate(CV.Perc = (sd(Conc_pg.ml, na.rm = TRUE) / mean(Conc_pg.ml, na.rm = TRUE)) * 100) %&gt;%
+  mutate(z = (Conc_pg.ml - mean(Conc_pg.ml, na.rm = TRUE)) / sd(Conc_pg.ml, na.rm = TRUE)) %&gt;%
+  ungroup()
+
+ggplot(data_clean, aes(x = Sample, y = Conc_pg.ml)) +
+  geom_point() +
+  geom_boxplot()</code></pre>
+<p><img src="figure/ELISA_Calc_FinalVals_test9_V2.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="plot-results-grouped-by-category" class="section level2">
+<h2>Plot: results grouped by category</h2>
+<p><img src="figure/ELISA_Calc_FinalVals_test9_V2.Rmd/plot-by-categ-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="plot-results-grouped-by-category-without-outliers"
+class="section level2">
+<h2>Plot: results grouped by category without outliers</h2>
+<p><img src="figure/ELISA_Calc_FinalVals_test9_V2.Rmd/plot-by-categ-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="plot-results-grouped-by-data-quality" class="section level2">
+<h2>Plot: results grouped by data quality</h2>
+<p><img src="figure/ELISA_Calc_FinalVals_test9_V2.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1114,24 +793,24 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] lubridate_1.9.4 forcats_1.0.0   stringr_1.5.1   purrr_1.0.4    
- [5] readr_2.1.5     tidyr_1.3.1     tibble_3.2.1    tidyverse_2.0.0
- [9] dplyr_1.1.4     knitr_1.50      here_1.0.1      paletteer_1.6.0
-[13] broom_1.0.8     ggplot2_3.5.2  
+[1] dplyr_1.1.4     here_1.0.1      knitr_1.50      paletteer_1.6.0
+[5] broom_1.0.8     ggplot2_3.5.2  
 
 loaded via a namespace (and not attached):
- [1] sass_0.4.10       generics_0.1.3    stringi_1.8.7     hms_1.1.3        
- [5] digest_0.6.37     magrittr_2.0.3    timechange_0.3.0  evaluate_1.0.3   
- [9] grid_4.5.1        fastmap_1.2.0     rprojroot_2.0.4   workflowr_1.7.1  
-[13] jsonlite_2.0.0    whisker_0.4.1     backports_1.5.0   rematch2_2.1.2   
-[17] promises_1.3.2    scales_1.3.0      jquerylib_0.1.4   cli_3.6.4        
-[21] rlang_1.1.6       munsell_0.5.1     withr_3.0.2       cachem_1.1.0     
-[25] yaml_2.3.10       tools_4.5.1       tzdb_0.5.0        colorspace_2.1-1 
-[29] httpuv_1.6.16     vctrs_0.6.5       R6_2.6.1          lifecycle_1.0.4  
-[33] git2r_0.36.2      fs_1.6.6          pkgconfig_2.0.3   pillar_1.10.2    
-[37] bslib_0.9.0       later_1.4.2       gtable_0.3.6      glue_1.8.0       
-[41] Rcpp_1.0.14       xfun_0.52         tidyselect_1.2.1  rstudioapi_0.17.1
-[45] htmltools_0.5.8.1 rmarkdown_2.29    compiler_4.5.1   </code></pre>
+ [1] sass_0.4.10       generics_0.1.3    tidyr_1.3.1       lattice_0.22-7   
+ [5] stringi_1.8.7     digest_0.6.37     magrittr_2.0.3    evaluate_1.0.3   
+ [9] grid_4.5.1        fastmap_1.2.0     Matrix_1.7-3      rprojroot_2.0.4  
+[13] workflowr_1.7.1   jsonlite_2.0.0    backports_1.5.0   rematch2_2.1.2   
+[17] promises_1.3.2    mgcv_1.9-3        purrr_1.0.4       scales_1.3.0     
+[21] jquerylib_0.1.4   cli_3.6.4         rlang_1.1.6       munsell_0.5.1    
+[25] splines_4.5.1     withr_3.0.2       cachem_1.1.0      yaml_2.3.10      
+[29] tools_4.5.1       colorspace_2.1-1  httpuv_1.6.16     vctrs_0.6.5      
+[33] R6_2.6.1          lifecycle_1.0.4   git2r_0.36.2      stringr_1.5.1    
+[37] fs_1.6.6          pkgconfig_2.0.3   pillar_1.10.2     bslib_0.9.0      
+[41] later_1.4.2       gtable_0.3.6      glue_1.8.0        Rcpp_1.0.14      
+[45] xfun_0.52         tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1
+[49] farver_2.1.2      htmltools_0.5.8.1 nlme_3.1-168      rmarkdown_2.29   
+[53] labeling_0.4.3    compiler_4.5.1   </code></pre>
 </div>
 </div>
 </div>

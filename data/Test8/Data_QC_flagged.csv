@@ -1,83 +1,83 @@
-"Wells","Sample","Category","Weight_mg","Buffer_nl","Spike","SpikeVol_ul","Dilution_spike","Vol_in_well.tube_ul","Extraction_ratio","Dilution_sample","Raw.OD","Binding.Perc","Conc_pg.ml","Ave_Conc_pg.ml","CV.Perc","SD","SEM","CV_categ","Binding.Perc_categ","Failed_samples"
-"A3","B0","B0",0,50,0,0,0,0,0,1,0.908,100,"28.93",16.24,68.9,11.2,6.46,"HIGH CV","ABOVE 80% binding","HIGH CV;ABOVE 80% binding"
-"B3","B0","B0",0,50,0,0,0,0,0,1,0.922,NA,"11.98",NA,NA,NA,NA,NA,NA,NA
-"E12","B0","B0",0,50,0,0,0,0,1.4,1,0.925,NA,"7.799",NA,NA,NA,NA,NA,NA,NA
-"F12","B0","B0",0,50,0,0,0,0,1.4,1,0.97,NA,"> Curve",NA,NA,NA,NA,NA,NA,NA
-"C3","BE","BE",0,220,0,0,0,0,1.4,1,0.884,93.7,"54.75",63.15,27,17.1,8.53,"HIGH CV","ABOVE 80% binding","HIGH CV;ABOVE 80% binding"
-"D3","BE","BE",0,220,0,0,0,0,1.4,1,0.863,NA,"76.31",NA,NA,NA,NA,NA,NA,NA
-"G12","BE","BE",0,220,0,0,0,0,1.4,1,0.895,NA,"43.17",NA,NA,NA,NA,NA,NA,NA
-"H12","BE","BE",0,220,0,0,0,0,1.4,1,0.861,NA,"78.35",NA,NA,NA,NA,NA,NA,NA
-"A1","NSB","NSB",NA,NA,NA,NA,NA,NA,NA,1,0.058,0,"< Curve",NA,NA,NA,NA,NA,"UNDER 20% binding","UNDER 20% binding"
-"A2","NSB","NSB",NA,NA,NA,NA,NA,NA,NA,1,0.049,NA,"< Curve",NA,NA,NA,NA,NA,NA,NA
-"A6","P-No-Spike","Paloma-TrueVal",10,220,0,0,0,0,1.4,1,0.753,80.9,"192.4",181.4,14.4,26.2,10.7,NA,"ABOVE 80% binding","ABOVE 80% binding"
-"B6","P-No-Spike","Paloma-TrueVal",10,220,0,0,0,0,1.4,1,0.748,NA,"198.1",NA,NA,NA,NA,NA,NA,NA
-"C6","P-No-Spike","Paloma-TrueVal",10,220,0,0,0,0,1.4,1,0.756,NA,"189",NA,NA,NA,NA,NA,NA,NA
-"D6","P-No-Spike","Paloma-TrueVal",10,220,0,0,0,0,1.4,1,0.775,NA,"167.9",NA,NA,NA,NA,NA,NA,NA
-"G5","P-No-Spike","Paloma-TrueVal",10,220,0,0,0,0,1.4,1,0.806,NA,"134.8",NA,NA,NA,NA,NA,NA,NA
-"H5","P-No-Spike","Paloma-TrueVal",10,220,0,0,0,0,1.4,1,0.741,NA,"206.1",NA,NA,NA,NA,NA,NA,NA
-"C5","P1:16-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.32,28.3,"1327",1482,14.8,219,155,NA,NA,NA
-"D5","P1:16-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.283,NA,"1636",NA,NA,NA,NA,NA,NA,NA
-"E6","P1:2","P-low-binding",10,220,0,0,0,0,1.4,1,0.744,79.9,"202.6",190.8,7.01,13.4,6.68,NA,NA,NA
-"F6","P1:2","P-low-binding",10,220,0,0,0,0,1.4,1,0.748,NA,"198.1",NA,NA,NA,NA,NA,NA,NA
-"G6","P1:2","P-low-binding",10,220,0,0,0,0,1.4,1,0.771,NA,"172.3",NA,NA,NA,NA,NA,NA,NA
-"H6","P1:2","P-low-binding",10,220,0,0,0,0,1.4,1,0.755,NA,"190.1",NA,NA,NA,NA,NA,NA,NA
-"E4","P1:2-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.3,28.3,"1481",1468,1.2,17.6,12.4,NA,NA,NA
-"F4","P1:2-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.303,NA,"1456",NA,NA,NA,NA,NA,NA,NA
-"E5","P1:32-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.302,28.3,"1464",1468,0.399,5.86,4.15,NA,NA,NA
-"F5","P1:32-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.301,NA,"1472",NA,NA,NA,NA,NA,NA,NA
-"A7","P1:4","P-mid-binding",10,220,0,0,0,0,1.4,1,0.859,91.6,"80.38",82.09,34.2,28.1,14,"HIGH CV","ABOVE 80% binding","HIGH CV;ABOVE 80% binding"
-"B7","P1:4","P-mid-binding",10,220,0,0,0,0,1.4,1,0.824,NA,"116.1",NA,NA,NA,NA,NA,NA,NA
-"C7","P1:4","P-mid-binding",10,220,0,0,0,0,1.4,1,0.891,NA,"47.42",NA,NA,NA,NA,NA,NA,NA
-"D7","P1:4","P-mid-binding",10,220,0,0,0,0,1.4,1,0.855,NA,"84.45",NA,NA,NA,NA,NA,NA,NA
-"G4","P1:4-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.318,30,"1341",1348,0.756,10.2,7.21,NA,NA,NA
-"H4","P1:4-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.316,NA,"1356",NA,NA,NA,NA,NA,NA,NA
-"E7","P1:8","P-high-binding",10,220,0,0,0,0,1.4,1,0.906,89,"31.18",111.9,127,142,71,"HIGH CV","ABOVE 80% binding","HIGH CV;ABOVE 80% binding"
-"F7","P1:8","P-high-binding",10,220,0,0,0,0,1.4,1,0.881,NA,"57.86",NA,NA,NA,NA,NA,NA,NA
-"G7","P1:8","P-high-binding",10,220,0,0,0,0,1.4,1,0.903,NA,"34.51",NA,NA,NA,NA,NA,NA,NA
-"H7","P1:8","P-high-binding",10,220,0,0,0,0,1.4,1,0.649,NA,"324.1",NA,NA,NA,NA,NA,NA,NA
-"A5","P1:8-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.297,27,"1506",1566,5.42,84.9,60,NA,NA,NA
-"B5","P1:8-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.284,NA,"1626",NA,NA,NA,NA,NA,NA,NA
-"C4","P1:8-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.294,27.5,"1533",1528,0.41,6.27,4.43,NA,NA,NA
-"D4","P1:8-SP","P-SPIKED",10,220,0,0,0,0,1.4,1,0.295,NA,"1524",NA,NA,NA,NA,NA,NA,NA
-"E8","P100","HairCount",17,220,0,0,0,0,1.4,1,0.553,56.8,"483.9",485.8,0.568,2.76,1.95,NA,NA,NA
-"F8","P100","HairCount",17,220,0,0,0,0,1.4,1,0.551,NA,"487.8",NA,NA,NA,NA,NA,NA,NA
-"C8","P200","HairCount",38,220,0,0,0,0,1.4,1,0.389,38.2,"950.8",952.9,0.316,3.01,2.13,NA,NA,NA
-"D8","P200","HairCount",38,220,0,0,0,0,1.4,1,0.388,NA,"955",NA,NA,NA,NA,NA,NA,NA
-"A8","P400","HairCount",76,220,0,0,0,0,1.4,1,0.308,28.6,"1416",1444,2.76,39.9,28.2,NA,NA,NA
-"B8","P400","HairCount",76,220,0,0,0,0,1.4,1,0.301,NA,"1472",NA,NA,NA,NA,NA,NA,NA
-"G8","P50","HairCount",11,220,0,0,0,0,1.4,1,0.683,71.7,"277.5",277.5,NA,NA,0,NA,NA,NA
-"H8","P50","HairCount",11,220,0,0,0,0,1.4,1,0.683,NA,"277.5",NA,NA,NA,NA,NA,NA,NA
-"C12","Pool ","Pool ",20,220,0,0,0,0,1.4,1,0.54,60.9,"509.8",432.4,31,134,77.4,"HIGH CV",NA,"HIGH CV"
-"D12","Pool ","Pool ",20,220,0,0,0,0,1.4,1,0.54,NA,"509.8",NA,NA,NA,NA,NA,NA,NA
-"A4","SPIKE","SPIKE-TrueVal",0,NA,NA,NA,NA,NA,NA,1,0.295,28.1,"1524",1481,5.41,80,32.7,NA,NA,NA
-"B4","SPIKE","SPIKE-TrueVal",0,NA,NA,NA,NA,NA,NA,1,0.294,NA,"1533",NA,NA,NA,NA,NA,NA,NA
-"E3","SPIKE","SPIKE-TrueVal",0,NA,NA,NA,NA,NA,NA,1,0.303,NA,"1456",NA,NA,NA,NA,NA,NA,NA
-"F3","SPIKE","SPIKE-TrueVal",0,NA,NA,NA,NA,NA,NA,1,0.316,NA,"1356",NA,NA,NA,NA,NA,NA,NA
-"G3","SPIKE","SPIKE-TrueVal",0,NA,NA,NA,NA,NA,NA,1,0.289,NA,"1578",NA,NA,NA,NA,NA,NA,NA
-"H3","SPIKE","SPIKE-TrueVal",0,NA,NA,NA,NA,NA,NA,1,0.305,NA,"1440",NA,NA,NA,NA,NA,NA,NA
-"A10","T1:1","Tina",20,220,0,0,0,0,1.4,1,0.049,-0.228,"< Curve",NA,NA,NA,NA,NA,"UNDER 20% binding","UNDER 20% binding"
-"B10","T1:1","Tina",20,220,0,0,0,0,1.4,1,0.054,NA,"< Curve",NA,NA,NA,NA,NA,NA,NA
-"G11","T1:128","Tina",20,220,0,0,0,0,1.4,1,0.183,14.5,"3827",3960,4.75,188,133,NA,"UNDER 20% binding","UNDER 20% binding"
-"H11","T1:128","Tina",20,220,0,0,0,0,1.4,1,0.178,NA,"4093",NA,NA,NA,NA,NA,NA,NA
-"A11","T1:16","Tina",20,220,0,0,0,0,1.4,1,0.068,1.37,"< Curve",NA,NA,NA,NA,NA,"UNDER 20% binding","UNDER 20% binding"
-"B11","T1:16","Tina",20,220,0,0,0,0,1.4,1,0.063,NA,"< Curve",NA,NA,NA,NA,NA,NA,NA
-"C10","T1:2","Tina",20,220,0,0,0,0,1.4,1,0.051,-0.399,"< Curve",NA,NA,NA,NA,NA,"UNDER 20% binding","UNDER 20% binding"
-"D10","T1:2","Tina",20,220,0,0,0,0,1.4,1,0.049,NA,"< Curve",NA,NA,NA,NA,NA,NA,NA
-"A12","T1:256","Tina",20,220,0,0,0,0,1.4,1,0.281,26.5,"1656",1603,4.66,74.8,52.9,NA,NA,NA
-"B12","T1:256","Tina",20,220,0,0,0,0,1.4,1,0.292,NA,"1551",NA,NA,NA,NA,NA,NA,NA
-"C11","T1:32","Tina",20,220,0,0,0,0,1.4,1,0.084,6.38,"< Curve",10760,NA,NA,0,NA,"UNDER 20% binding","UNDER 20% binding"
-"D11","T1:32","Tina",20,220,0,0,0,0,1.4,1,0.135,NA,"10760",NA,NA,NA,NA,NA,NA,NA
-"E10","T1:4","Tina",20,220,0,0,0,0,1.4,1,0.055,0,"< Curve",NA,NA,NA,NA,NA,"UNDER 20% binding","UNDER 20% binding"
-"F10","T1:4","Tina",20,220,0,0,0,0,1.4,1,0.052,NA,"< Curve",NA,NA,NA,NA,NA,NA,NA
-"E11","T1:64","Tina",20,220,0,0,0,0,1.4,1,0.125,7.58,"18770",132300,121,161000,113000,"HIGH CV","UNDER 20% binding","HIGH CV;UNDER 20% binding"
-"F11","T1:64","Tina",20,220,0,0,0,0,1.4,1,0.115,NA,"245800",NA,NA,NA,NA,NA,NA,NA
-"G10","T1:8","Tina",20,220,0,0,0,0,1.4,1,0.055,0.57,"< Curve",NA,NA,NA,NA,NA,"UNDER 20% binding","UNDER 20% binding"
-"H10","T1:8","Tina",20,220,0,0,0,0,1.4,1,0.062,NA,"< Curve",NA,NA,NA,NA,NA,NA,NA
-"C9","T100","HairCount",12,220,0,0,0,0,1.4,1,0.418,40.7,"837.7",865.7,4.58,39.6,28,NA,NA,NA
-"D9","T100","HairCount",12,220,0,0,0,0,1.4,1,0.403,NA,"893.8",NA,NA,NA,NA,NA,NA,NA
-"A9","T200","HairCount",23,220,0,0,0,0,1.4,1,0.276,25.5,"1709",1698,0.885,15,10.6,NA,NA,NA
-"B9","T200","HairCount",23,220,0,0,0,0,1.4,1,0.278,NA,"1687",NA,NA,NA,NA,NA,NA,NA
-"G9","T25","HairCount",2,220,0,0,0,0,1.4,1,0.85,90.3,"89.54",93.1,5.41,5.04,3.56,NA,"ABOVE 80% binding","ABOVE 80% binding"
-"H9","T25","HairCount",2,220,0,0,0,0,1.4,1,0.843,NA,"96.66",NA,NA,NA,NA,NA,NA,NA
-"E9","T50","HairCount",4,220,0,0,0,0,1.4,1,0.673,70.1,"290.8",296.9,2.92,8.67,6.13,NA,NA,NA
-"F9","T50","HairCount",4,220,0,0,0,0,1.4,1,0.664,NA,"303.1",NA,NA,NA,NA,NA,NA,NA
+"Wells","Sample","Category","Person","weight_mg","buffer_ml","spike","spike_vol_ul","Dilution_spike","vol_in_well.tube_ul","Extraction_ratio","Sub_categ","Order","Num_strands","Dilution","OD","Binding.Perc","Conc_pg.ml","Ave_Conc_pg.ml","CV.Perc","SD","SEM","Binding.Perc_categ"
+"A3","B0","B0","Blank",0,0.05,0,0,0,0,0,NA,98,0,1,0.908,100,28.93,16.24,68.9,11.2,6.46,"ABOVE 80% binding"
+"B3","B0","B0","Blank",0,0.05,0,0,0,0,0,NA,98,0,1,0.922,NA,11.98,NA,NA,NA,NA,NA
+"E12","B0","B0","NA",0,0.05,0,0,0,0,1.4,NA,98,0,1,0.925,NA,7.799,NA,NA,NA,NA,NA
+"F12","B0","B0","NA",0,0.05,0,0,0,0,1.4,NA,98,0,1,0.97,NA,NA,NA,NA,NA,NA,NA
+"C3","BE","BE","Blank",0,0.22,0,0,0,0,1.4,NA,99,0,1,0.884,94.6,54.75,54.75,NA,NA,0,"ABOVE 80% binding"
+"D3","BE","BE","Blank",0,0.22,0,0,0,0,1.4,NA,99,0,1,0.863,92.2,76.31,76.31,NA,NA,0,"ABOVE 80% binding"
+"G12","BE","BE","NA",0,0.22,0,0,0,0,1.4,NA,99,0,1,0.895,95.9,43.17,43.17,NA,NA,0,"ABOVE 80% binding"
+"H12","BE","BE","NA",0,0.22,0,0,0,0,1.4,NA,99,0,1,0.861,92,78.35,78.35,NA,NA,0,"ABOVE 80% binding"
+"A1","NSB","NSB","NSB",0,NA,NA,NA,NA,NA,NA,NA,100,0,1,0.058,0,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"A2","NSB","NSB","StandardT",0,NA,NA,NA,NA,NA,NA,NA,94,0,1,0.049,NA,NA,NA,NA,NA,NA,NA
+"A6","P-No-Spike","Paloma-TrueVal","Paloma",10,0.22,0,0,0,0,1.4,NA,30,0,1,0.753,79.7,192.4,192.4,NA,NA,0,NA
+"B6","P-No-Spike","Paloma-TrueVal","Paloma",10,0.22,0,0,0,0,1.4,NA,30,0,1,0.748,79.1,198.1,198.1,NA,NA,0,NA
+"C6","P-No-Spike","Paloma-TrueVal","Paloma",10,0.22,0,0,0,0,1.4,NA,30,0,1,0.756,80,189,189,NA,NA,0,NA
+"D6","P-No-Spike","Paloma-TrueVal","Paloma",10,0.22,0,0,0,0,1.4,NA,30,0,1,0.775,82.2,167.9,167.9,NA,NA,0,"ABOVE 80% binding"
+"G5","P-No-Spike","Paloma-TrueVal","Paloma",10,0.22,0,0,0,0,1.4,NA,30,0,1,0.806,85.7,134.8,134.8,NA,NA,0,"ABOVE 80% binding"
+"H5","P-No-Spike","Paloma-TrueVal","Paloma",10,0.22,0,0,0,0,1.4,NA,30,0,1,0.741,78.3,206.1,206.1,NA,NA,0,NA
+"C5","P1:16-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,53,0,16,0.32,30.4,1327,1327,NA,NA,0,NA
+"D5","P1:16-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,53,0,16,0.283,26.1,1636,1636,NA,NA,0,NA
+"E6","P1:2","P-low-binding","Paloma",10,0.44,0,0,0,0,1.4,NA,21,0,2,0.744,78.7,202.6,202.6,NA,NA,0,NA
+"F6","P1:2","P-low-binding","Paloma",10,0.44,0,0,0,0,1.4,NA,21,0,2,0.748,79.1,198.1,198.1,NA,NA,0,NA
+"G6","P1:2","P-low-binding","Paloma",10,0.44,0,0,0,0,1.4,NA,21,0,2,0.771,81.7,172.3,172.3,NA,NA,0,"ABOVE 80% binding"
+"H6","P1:2","P-low-binding","Paloma",10,0.44,0,0,0,0,1.4,NA,21,0,2,0.755,79.9,190.1,190.1,NA,NA,0,NA
+"E4","P1:2-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,50,0,2,0.3,28.1,1481,1481,NA,NA,0,NA
+"F4","P1:2-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,50,0,2,0.303,28.4,1456,1456,NA,NA,0,NA
+"E5","P1:32-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,54,0,32,0.302,28.3,1464,1464,NA,NA,0,NA
+"F5","P1:32-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,54,0,32,0.301,28.2,1472,1472,NA,NA,0,NA
+"A7","P1:4","P-mid-binding","Paloma",10,0.22,0,0,0,0,1.4,NA,22,0,4,0.859,91.8,80.38,80.38,NA,NA,0,"ABOVE 80% binding"
+"B7","P1:4","P-mid-binding","Paloma",10,0.22,0,0,0,0,1.4,NA,22,0,4,0.824,87.8,116.1,116.1,NA,NA,0,"ABOVE 80% binding"
+"C7","P1:4","P-mid-binding","Paloma",10,0.22,0,0,0,0,1.4,NA,22,0,4,0.891,95.4,47.42,47.42,NA,NA,0,"ABOVE 80% binding"
+"D7","P1:4","P-mid-binding","Paloma",10,0.22,0,0,0,0,1.4,NA,22,0,4,0.855,91.3,84.45,84.45,NA,NA,0,"ABOVE 80% binding"
+"G4","P1:4-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,51,0,4,0.318,30.1,1341,1341,NA,NA,0,NA
+"H4","P1:4-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,51,0,4,0.316,29.9,1356,1356,NA,NA,0,NA
+"E7","P1:8","P-high-binding","Paloma",10,0.22,0,0,0,0,1.4,NA,23,0,8,0.906,97.1,31.18,31.18,NA,NA,0,"ABOVE 80% binding"
+"F7","P1:8","P-high-binding","Paloma",10,0.22,0,0,0,0,1.4,NA,23,0,8,0.881,94.3,57.86,57.86,NA,NA,0,"ABOVE 80% binding"
+"G7","P1:8","P-high-binding","Paloma",10,0.22,0,0,0,0,1.4,NA,23,0,8,0.903,96.8,34.51,34.51,NA,NA,0,"ABOVE 80% binding"
+"H7","P1:8","P-high-binding","Paloma",10,0.22,0,0,0,0,1.4,NA,23,0,8,0.649,67.8,324.1,324.1,NA,NA,0,NA
+"A5","P1:8-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,52,0,8,0.297,27.7,1506,1506,NA,NA,0,NA
+"B5","P1:8-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,52,0,8,0.284,26.3,1626,1626,NA,NA,0,NA
+"C4","P1:8-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,52,0,8,0.294,27.4,1533,1533,NA,NA,0,NA
+"D4","P1:8-SP","P-SPIKED","Paloma",10,0.22,0,0,0,0,1.4,NA,52,0,8,0.295,27.5,1524,1524,NA,NA,0,NA
+"E8","P100","HairCount","Paloma",17,0.22,0,0,0,0,1.4,NA,3,100,1,0.553,56.9,483.9,483.9,NA,NA,0,NA
+"F8","P100","HairCount","Paloma",17,0.22,0,0,0,0,1.4,NA,3,100,1,0.551,56.7,487.8,487.8,NA,NA,0,NA
+"C8","P200","HairCount","Paloma",38,0.22,0,0,0,0,1.4,NA,2,200,1,0.389,38.2,950.8,950.8,NA,NA,0,NA
+"D8","P200","HairCount","Paloma",38,0.22,0,0,0,0,1.4,NA,2,200,1,0.388,38.1,955,955,NA,NA,0,NA
+"A8","P400","HairCount","Paloma",76,0.22,0,0,0,0,1.4,NA,1,400,1,0.308,29,1416,1416,NA,NA,0,NA
+"B8","P400","HairCount","Paloma",76,0.22,0,0,0,0,1.4,NA,1,400,1,0.301,28.2,1472,1472,NA,NA,0,NA
+"G8","P50","HairCount","Paloma",11,0.22,0,0,0,0,1.4,NA,4,50,1,0.683,71.7,277.5,277.5,NA,NA,0,NA
+"H8","P50","HairCount","Paloma",11,0.22,0,0,0,0,1.4,NA,4,50,1,0.683,71.7,277.5,277.5,NA,NA,0,NA
+"C12","Pool ","Pool ","Paloma",20,0.22,0,0,0,0,1.4,NA,99,0,1,0.54,55.4,509.8,509.8,NA,NA,0,NA
+"D12","Pool ","Pool ","Paloma",20,0.22,0,0,0,0,1.4,NA,99,0,1,0.54,55.4,509.8,509.8,NA,NA,0,NA
+"A4","SPIKE","SPIKE-TrueVal","Spike",0,NA,NA,NA,NA,NA,NA,NA,60,0,1,0.295,27.5,1524,1524,NA,NA,0,NA
+"B4","SPIKE","SPIKE-TrueVal","Spike",0,NA,NA,NA,NA,NA,NA,NA,60,0,1,0.294,27.4,1533,1533,NA,NA,0,NA
+"E3","SPIKE","SPIKE-TrueVal","Spike",0,NA,NA,NA,NA,NA,NA,NA,60,0,1,0.303,28.4,1456,1456,NA,NA,0,NA
+"F3","SPIKE","SPIKE-TrueVal","Spike",0,NA,NA,NA,NA,NA,NA,NA,60,0,1,0.316,29.9,1356,1356,NA,NA,0,NA
+"G3","SPIKE","SPIKE-TrueVal","Spike",0,NA,NA,NA,NA,NA,NA,NA,60,0,1,0.289,26.8,1578,1578,NA,NA,0,NA
+"H3","SPIKE","SPIKE-TrueVal","Spike",0,NA,NA,NA,NA,NA,NA,NA,60,0,1,0.305,28.7,1440,1440,NA,NA,0,NA
+"A10","T1:1","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,10,0,1,0.049,-0.513,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"B10","T1:1","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,10,0,1,0.054,0.057,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"G11","T1:128","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,17,0,128,0.183,14.8,3827,3827,NA,NA,0,"UNDER 20% binding"
+"H11","T1:128","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,17,0,128,0.178,14.2,4093,4093,NA,NA,0,"UNDER 20% binding"
+"A11","T1:16","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,14,0,16,0.068,1.65,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"B11","T1:16","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,14,0,16,0.063,1.08,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"C10","T1:2","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,11,0,2,0.051,-0.285,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"D10","T1:2","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,11,0,2,0.049,-0.513,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"A12","T1:256","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,18,0,256,0.281,25.9,1656,1656,NA,NA,0,NA
+"B12","T1:256","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,18,0,256,0.292,27.2,1551,1551,NA,NA,0,NA
+"C11","T1:32","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,15,0,32,0.084,3.47,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"D11","T1:32","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,15,0,32,0.135,9.29,10760,10760,NA,NA,0,"UNDER 20% binding"
+"E10","T1:4","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,12,0,4,0.055,0.171,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"F10","T1:4","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,12,0,4,0.052,-0.171,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"E11","T1:64","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,16,0,64,0.125,8.15,18770,18770,NA,NA,0,"UNDER 20% binding"
+"F11","T1:64","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,16,0,64,0.115,7.01,245800,245800,NA,NA,0,"UNDER 20% binding"
+"G10","T1:8","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,13,0,8,0.055,0.171,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"H10","T1:8","Tina","Tina",20,0.22,0,0,0,0,1.4,NA,13,0,8,0.062,0.968,NA,NA,NA,NA,NA,"UNDER 20% binding"
+"C9","T100","HairCount","Tina",12,0.22,0,0,0,0,1.4,NA,3,100,1,0.418,41.5,837.7,837.7,NA,NA,0,NA
+"D9","T100","HairCount","Tina",12,0.22,0,0,0,0,1.4,NA,3,100,1,0.403,39.8,893.8,893.8,NA,NA,0,NA
+"A9","T200","HairCount","Tina",23,0.22,0,0,0,0,1.4,NA,2,200,1,0.276,25.3,1709,1709,NA,NA,0,NA
+"B9","T200","HairCount","Tina",23,0.22,0,0,0,0,1.4,NA,2,200,1,0.278,25.6,1687,1687,NA,NA,0,NA
+"G9","T25","HairCount","Tina",2,0.22,0,0,0,0,1.4,NA,5,25,1,0.85,90.7,89.54,89.54,NA,NA,0,"ABOVE 80% binding"
+"H9","T25","HairCount","Tina",2,0.22,0,0,0,0,1.4,NA,5,25,1,0.843,89.9,96.66,96.66,NA,NA,0,"ABOVE 80% binding"
+"E9","T50","HairCount","Tina",4,0.22,0,0,0,0,1.4,NA,4,50,1,0.673,70.6,290.8,290.8,NA,NA,0,NA
+"F9","T50","HairCount","Tina",4,0.22,0,0,0,0,1.4,NA,4,50,1,0.664,69.6,303.1,303.1,NA,NA,0,NA

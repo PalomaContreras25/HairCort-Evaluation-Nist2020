@@ -1,0 +1,251 @@
+---
+title: "Calculation Final Values, Test8"
+author: "Paloma Contreras"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+editor_options: 
+  chunk_output_type: console
+---
+
+# Summary
+
+**I. Cortisol values (pg/mg)** 
+
+
+|                        | Min. | 1st Qu. | Median | Mean | 3rd Qu. | Max. | NA's |
+|------------------------|------|---------|---------|---------|---------|-------|------|
+|**Good quality samples (n= )**| 
+|**All samples (n= )**|  
+
+
+**II. Plate description**
+
+Category	  Description
+---------  ---------------------------------------------------------------
+
+Pool        Paloma, 20mg,  250 uL
+
+
+**III. Results:**  
+
+- Mean Intra-assay CV: 
+
+- Mean Intra-assay CV after removing low quality samples: 
+
+- Inter-assay CV: **-- ** 
+
+(Bindings for 20mg sample diluted in 250 uL, no spike: 64.8% and 48% in test3 and test4, respectively)
+
+
+**IV. Conclusions**: 
+
+
+
+**V. Concerns:**
+Tina continues to fall under the curve even after a dilution 32
+
+# Loading and inspecting data
+
+```{r Loading files, echo = FALSE, message=FALSE}
+library(ggplot2)
+library(broom)
+library(paletteer)
+library(knitr)
+library(here)
+library(dplyr)
+options(scipen = 999)
+
+#path:
+data_path <- "./data/Test8"
+cat("Input:")
+print(file.path(data_path, "Data_QC_flagged.csv"))  # Check the full path
+data <- read.csv(file.path(data_path, "Data_QC_flagged.csv"))
+
+```
+
+# Final value calculation
+
+Calculate final values using output from myassays.com (not controlling for dilution), weight, and reconstitution volume.
+
+((A * dilution)/B) * (C/D) * E  = F
+
+- A = pg/ml from assay output;
+- B = weight (in mg) of hair subjected to extraction;
+- C = vol. (in ml) of methanol added to the powdered hair;
+- D = vol. (in ml) of methanol recovered from the extract and subsequently dried down;
+- E = vol. (in ml) of assay buffer used to reconstitute the dried extract;
+- F = final value of hair CORT Concentration in pg/mg.
+
+
+```{r}
+##################################
+##### Calculate final values not controlling for spike #####
+##################################
+
+data$Final_pg.mg <- 
+     (data$Ave_Conc_pg.ml * data$Dilution / data$weight_mg) *      # A / B *
+     data$Extraction_ratio *                       # C / D *
+     data$buffer_ml                                # E 
+
+
+###### Calculate CV ##### 
+data <- data %>%
+  group_by(Sample) %>%
+  mutate(Ave_Conc_pg.ml = (mean(Conc_pg.ml, na.rm = TRUE))) %>%
+  mutate(Ave_Final_pg.mg = (mean(Final_pg.mg, na.rm = TRUE))) %>%
+  mutate(CV.Perc = (sd(Conc_pg.ml, na.rm = TRUE) / mean(Conc_pg.ml, na.rm = TRUE)) * 100) %>%
+  mutate(z = (Conc_pg.ml - mean(Conc_pg.ml, na.rm = TRUE)) / sd(Conc_pg.ml, na.rm = TRUE)) %>%
+  ungroup()
+
+write.csv(data, file.path(data_path, "Data_cort_values.csv"), row.names = F)
+
+```
+
+## Explanation of each variable used in calculations
+
+- Ave_Conc_pg/ml: average ELISA reading per sample in pg/mL
+
+- Weight_mg: hair weight in mg (here we used 10 and 20 mg)
+
+- Buffer_ml: assay buffer volume in mL (here we used 220 uL)
+
+- Extraction_ratio: methanol volume ratio = vol added / vol recovered (here we used 1.4/1 ml)
+
+- Dilution: dilution factor is not included in values obtained from myassays.com
+
+- Averages and CVs: each value is treated as a single replicate, for now.
+
+# Results 
+Cortisol concentration values are shown in pg/mg
+
+```{r echo = FALSE}
+
+# summary for all samples
+data <- data %>%
+  filter(!Sample %in% c("B0", "BE", "NSB")) 
+cat("Summary for all samples:")
+summary(data$Final_pg.mg)
+
+```
+
+## Remove some values (use well ID)
+```{r}
+# Find outliers
+
+ggplot(data, aes(x = Sample, y = Conc_pg.ml)) +
+  geom_point() +
+  geom_boxplot()
+
+# remove outliers and recalculate CV
+remove <- c("F11", "E11", "C11", "D11" )
+data_clean <- data %>%
+  filter(!Wells %in% remove)
+
+
+data_clean <- data_clean %>%
+  group_by(Sample) %>%
+  mutate(Ave_Conc_pg.ml = (mean(Conc_pg.ml, na.rm = TRUE))) %>%
+  mutate(CV.Perc = (sd(Conc_pg.ml, na.rm = TRUE) / mean(Conc_pg.ml, na.rm = TRUE)) * 100) %>%
+  mutate(z = (Conc_pg.ml - mean(Conc_pg.ml, na.rm = TRUE)) / sd(Conc_pg.ml, na.rm = TRUE)) %>%
+  ungroup()
+
+ggplot(data_clean, aes(x = Sample, y = Conc_pg.ml)) +
+  geom_point() +
+  geom_boxplot()
+```
+
+
+## Plot: results grouped by category
+```{r plot-by-categ, echo = FALSE, warning = FALSE, message = FALSE}
+data <- data_clean
+
+ggplot(data, aes(y = Final_pg.mg, 
+                  x = 1:length(Sample),
+                  color = Category,
+                  fill= Category)) +
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.2) + 
+  geom_hline(yintercept = 0, 
+             color = "lightblue3",
+             linetype = "dashed") +
+    geom_point(size = 2.5) +  
+  ylim(0, max(data$Final_pg.mg)) +
+   geom_text(label = c(data$Sample), nudge_y = 100, nudge_x = 0, size = 2) +
+  theme_minimal() +  
+  labs(
+    title = "Final Cort Concentration by Category
+    (All samples)",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample number"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) 
+```
+
+## Plot: results grouped by category without outliers
+```{r plot-by-categ-2, echo = FALSE, warning = FALSE, message = FALSE}
+
+ggplot(data, aes(y = Final_pg.mg, 
+                  x = 1:length(Sample),
+                  color = Category,
+                  fill= Category)) +
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.2) + 
+  geom_hline(yintercept = 0, 
+             color = "lightblue3",
+             linetype = "dashed") +
+    geom_point(size = 2.5) +  
+       ylim(0,135) +
+  geom_text(label = c(data$Sample), nudge_y = 3, nudge_x = 0, size = 2.2) +
+  theme_minimal() +  
+  labs(
+    title = "Final Cort Concentration by Category
+    (All samples)",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample number"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) 
+```
+
+## Plot: results grouped by data quality
+```{r echo = FALSE, warning=FALSE }
+# scatterplot 
+
+data$Buffer <- data$buffer_ml
+
+data$Buffer <- replace(data$Buffer, data$Buffer == 0.22, '220 uL')
+data$Buffer <- replace(data$Buffer, data$buffer == 0.25, '250 uL')
+
+ggplot(data, aes(y = Final_pg.mg, 
+                 x = 1:length(Sample), 
+                 color = Category)) +
+  geom_point(size = 2.5,  alpha = 0.85) +  
+  geom_text(aes(label = Sample), size = 2.3, vjust = -1, hjust = 0.6) +
+  theme_minimal() +  
+ #    ylim(-26,30) +
+  #   xlim(0,52) +
+  geom_hline(yintercept = 0, 
+             linetype = "dashed", color = "red") +
+  labs(
+    title = "Final cort values",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample" ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 17, face = "bold"),
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 10)  
+  )
+```
+
