@@ -159,3 +159,29 @@ ggplot(data_long, aes(x = Group, y = pg_mg, fill = Method)) +
 
 ```
 
+
+
+
+```{r}
+
+a <- filter(data, Person == "Paloma", Category == "HairCount", 
+ spike == 0,   !is.na(Final_pg.mg)) 
+
+a <- a %>%
+  group_by(Sample) %>%
+  mutate(Ave_Conc_pg.ml = (mean(Conc_pg.ml, na.rm = TRUE))) %>%
+  mutate(Ave_Final_pg.mg = (mean(Final_pg.mg, na.rm = TRUE))) %>%
+  mutate(CV.Perc = (sd(Final_pg.mg, na.rm = TRUE) / mean(Final_pg.mg, na.rm = TRUE)) * 100) %>%
+  mutate(z = (Final_pg.mg - mean(Final_pg.mg, na.rm = TRUE)) / sd(Final_pg.mg, na.rm = TRUE)) %>%
+  ungroup()
+
+a[,c("Sample", "Wells", "Binding.Perc", "CV.Perc", "Dilution", "Final_pg.mg", "Ave_Final_pg.mg", "z", "weight_mg", "buffer_ml")]
+data$Sample
+data$weight_mg
+```
+
+
+
+
+
+
