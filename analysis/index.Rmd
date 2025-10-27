@@ -24,8 +24,9 @@ The results suggest that the method proposed by Nist et al. 2020 does not produc
 Among the non-spiked samples, and using a double extraction, we found that a dilution of 250 uL, and using between 20 to 35 mg of hair provides the most consistent results. 
 
 This is how data is obtained: 
-```
-Plate reader produces optical density (OD) values
+
+
+    Plate reader produces optical density (OD) values
              |
              |---> Myassays.com uses ODs and map of plate layout to:
                   1) Subtract readings for the NSB (non-specific binding) well (0% binding) from all values
