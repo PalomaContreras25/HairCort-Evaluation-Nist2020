@@ -302,7 +302,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-04-22
+<strong>Last updated:</strong> 2025-10-27
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -353,15 +353,15 @@ HTML.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree82ad9289d2fb8bc31d61faa7388692d97861b9f8targetblank82ad928a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree6069c3b01d73af4413f7e96d6ab4d977647f08cctargetblank6069c3ba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/82ad9289d2fb8bc31d61faa7388692d97861b9f8" target="_blank">82ad928</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/6069c3b01d73af4413f7e96d6ab4d977647f08cc" target="_blank">6069c3b</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree82ad9289d2fb8bc31d61faa7388692d97861b9f8targetblank82ad928a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree6069c3b01d73af4413f7e96d6ab4d977647f08cctargetblank6069c3ba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -371,7 +371,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/82ad9289d2fb8bc31d61faa7388692d97861b9f8" target="_blank">82ad928</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/6069c3b01d73af4413f7e96d6ab4d977647f08cc" target="_blank">6069c3b</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -394,15 +394,12 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    data/Test3/.DS_Store
     Ignored:    data/Test4/.DS_Store
+    Ignored:    data/Test7/.DS_Store
+    Ignored:    data/Test9/.DS_Store
+    Ignored:    figure/.DS_Store
 
 Unstaged changes:
-    Modified:   analysis/ELISA_Calc_FinalVals_test4.Rmd
-    Modified:   analysis/ELISA_QC_test3.Rmd
-    Modified:   analysis/ELISA_QC_test4.Rmd
-    Modified:   analysis/Test5_design.Rmd
-    Modified:   analysis/about.Rmd
     Modified:   analysis/index.Rmd
-    Modified:   data/Test3/Data_QC_flagged.csv
 
 </code></pre>
 <p>
@@ -446,6 +443,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/blob/7240d2e077315a9ed12a32a724dab7a50ad4a271/analysis/index.Rmd" target="_blank">7240d2e</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-22
+</td>
+<td>
+organized files
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/7240d2e077315a9ed12a32a724dab7a50ad4a271/docs/index.html" target="_blank">7240d2e</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-22
+</td>
+<td>
+organized files
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1090,30 +1121,35 @@ testing forthcoming).</p>
 <p>Among the non-spiked samples, and using a double extraction, we found
 that a dilution of 250 uL, and using between 20 to 35 mg of hair
 provides the most consistent results.</p>
-<p>This is how data is obtained:</p>
-<pre><code>   Plate reader
-    |
-    |____ optical density (absorbance) 
-           |
-           |____ Myassays.com (data quality, 
-                 |              binding percentages, 
-                 |              conc. values (without accounting 
-                 |              for weight/dilution/spike)) 
-                 |              
-                 |____ Data cleaning (ELISA_QC_test#)
-                 |     |
-                 |     |____ Analysis raw values
-                 |
-                 |
-                 |____ Calculation of final cortisol values (pg/mg)
-                       |
-                       |____ Analysis of final cortisol values</code></pre>
-<p>Find more details in the pages below:</p>
-<ul>
-<li><a
+<p>This is how data is obtained: ``` Plate reader produces optical
+density (OD) values | |—&gt; Myassays.com uses ODs and map of plate
+layout to: 1) Subtract readings for the NSB (non-specific binding) well
+(0% binding) from all values 2) Normalize values dividing by reading for
+zero standard (blank, or B0) 3) Fit a 4-Parameter Logistic curve (for a
+sigmoidal shape) to the standard readings 4) Extrapolate cortisol
+concentration values from the curve * Obtained values for each replicate
+separately by treating them as a single sample when providing the plate
+layout * These values do not control for differences in dilution, sample
+weight, spike, etc. * Values obtained are in the same unit as the
+standards provided (pg/ml) | |—&gt; In R I calculate final values using
+the formula:</p>
+<pre><code>                          o A / B x C / D x E 
+                                      ▪ A = output myassays.com (pg/ml)
+                                      ▪ B = sample mass (mg)
+                                      ▪ C = methanol added for extraction (mL)
+                                      ▪ D = methanol recovered (mL)
+                                      ▪ E = reconstitution volume (mL)</code></pre>
+<p>File with complete dataset has the following columns for each single
+data point: - Plate number - Well (character) - Sample (character) -
+Category (character) - Weight_mg (numeric) - Buffer_ml (numeric) -
+Buffer_ml_well (numeric) - Buffer_ml_tube (numeric) - Dilution_sample
+(numeric) - Spike (numeric: 0 or 1) - Spike_ml_well (numeric) -
+Spike_ml_tube (numeric) - Dilution_spike (1 if std1, not diluted before
+adding to well; 4 if std 4 not diluted before adding to well) -
+Extraction_ratio (numeric) - Comments (character)</p>
+<p>Find more details in the pages below: - <a
 href="https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/about.html">Background
-information and experimental design</a></li>
-</ul>
+information and experimental design</a></p>
 <table>
 <colgroup>
 <col width="17%" />
