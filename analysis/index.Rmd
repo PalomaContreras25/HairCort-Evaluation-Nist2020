@@ -73,8 +73,10 @@ Find more details in the pages below:
 
 |           | Test 3  |  Test 4 |  Test 5  | Comments              |
 |-----------|---------|---------|----------|-----------------------|
-|Data cleaning | [Test3](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_QC_test3.html) | [Test4](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_QC_test4.html)|  ---  | ---  |
-|Analysis of raw results| [Test3](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_Analysis_RawVals_test3.html)|[Test4](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_Analysis_RawVals_test4.html)| --- | Exploration of binding percentages, with the goal of identifying optimal variable values for data generation, so they fall within the ranges measured accurately by the ELISA |
-|Calculation of cortisol values| [Test3](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_Calc_FinalVals_test3.html)  | [Test4](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_Calc_FinalVals_test4.html)  | ---  |Transformation of raw values obtained from ELISA to cortisol concentration in pg/mL |
-| Models to identify variables affecting binding percentages | [Test3](http://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/ELISA_models.html)| --- | --- | --- |
+|Data cleaning | 
+|Analysis of raw results| 
+| Exploration of binding percentages, with the goal of identifying optimal variable values for data generation, so they fall within the ranges measured accurately by the ELISA |
+|Calculation of cortisol values|
+|Transformation of raw values obtained from ELISA to cortisol concentration in pg/mL |
+| Models to identify variables affecting binding percentages |
 
