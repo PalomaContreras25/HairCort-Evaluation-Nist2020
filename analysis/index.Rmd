@@ -25,28 +25,49 @@ Among the non-spiked samples, and using a double extraction, we found that a dil
 
 This is how data is obtained: 
 ```
-   Plate reader
-    |
-    |____ optical density (absorbance) 
-           |
-           |____ Myassays.com (data quality, 
-                 |              binding percentages, 
-                 |              conc. values (without accounting 
-                 |              for weight/dilution/spike)) 
-                 |              
-                 |____ Data cleaning (ELISA_QC_test#)
-                 |     |
-                 |     |____ Analysis raw values
-                 |
-                 |
-                 |____ Calculation of final cortisol values (pg/mg)
-                       |
-                       |____ Analysis of final cortisol values
-```
+Plate reader produces optical density (OD) values
+             |
+             |---> Myassays.com uses ODs and map of plate layout to:
+                  1) Subtract readings for the NSB (non-specific binding) well (0% binding) from all values
+                  2) Normalize values dividing by reading for zero standard (blank, or B0)
+                  3) Fit a 4-Parameter Logistic curve (for a sigmoidal shape) to the standard readings
+                  4) Extrapolate cortisol concentration values from the curve
+                        * Obtained values for each replicate separately by treating them 
+                        as a single sample when providing the plate layout
+                        * These values do not control for differences in dilution, 
+                        sample weight, spike, etc. 
+                        * Values obtained are in the same unit as the standards provided (pg/ml)
+                              |
+                              |---> In R I calculate final values using the formula:
+                              
+                              o	A / B x C / D x E 
+                                          ▪	A = output myassays.com (pg/ml)
+                                          ▪	B = sample mass (mg)
+                                          ▪	C = methanol added for extraction (mL)
+                                          ▪	D = methanol recovered (mL)
+                                          ▪	E = reconstitution volume (mL)
+
+                              
+File with complete dataset has the following columns for each single data point:
+-	Plate number
+-	Well (character)
+-	Sample (character)
+-	Category (character)
+-	Weight_mg (numeric)
+-	Buffer_ml (numeric)
+-	Buffer_ml_well (numeric)
+-	Buffer_ml_tube (numeric)
+-	Dilution_sample (numeric)
+-	Spike (numeric: 0 or 1)
+-	Spike_ml_well (numeric)
+-	Spike_ml_tube (numeric)
+-	Dilution_spike (1 if std1, not diluted before adding to well; 4 if std 4 not diluted before adding to well)
+-	Extraction_ratio (numeric)
+-	Comments (character)
+
+                        
 
 Find more details in the pages below:
-
-
 - [Background information and experimental design](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/about.html)
 
 
