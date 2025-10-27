@@ -132,7 +132,7 @@ a <- a[order(a$Order), ]
 ggplot(a, aes(x = fct_reorder(Sample, Order), 
                  y = Binding.Perc, color = Category)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.5, alpha = 0.1) +
-    geom_errorbar(aes(ymin = Binding.Perc - SD, ymax = Binding.Perc + SD, color = Category, alpha = 0.05)) +
+    geom_errorbar(aes(ymin = Binding.Perc , ymax = Binding.Perc , color = Category, alpha = 0.05)) +
   geom_point(size = 2) +
   geom_text(aes(label = Sample), size = 3, vjust = -1, hjust = 0.5, color = "gray30") +
   geom_hline(yintercept = 80, linetype = "dashed", 
