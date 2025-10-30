@@ -1,0 +1,151 @@
+---
+title: "ELISA cleaning and combining documents"
+author: "Paloma"
+output: workflowr::wflow_html
+params:
+  plate: "Test9"        # one of: Test3 ... Test10
+  data_root: "./data"   # parent dir that holds Test3, Test4, ...
+editor_options:
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+plate     <- params$plate
+data_root <- params$data_root
+plate_dir <- file.path(data_root, plate)
+plate_short <- paste0("T", sub("^Test", "", plate))  # "Test9" -> "T9"
+# Path helper: p("file.csv") -> "./data/Test9/file.csv"
+p <- function(...) file.path(plate_dir, ...)
+
+# Keep figures per-plate (optional but tidy)
+fig_dir <- file.path(plate_dir, "figs")
+dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
+knitr::opts_chunk$set(fig.path = paste0(fig_dir, "/"))
+```
+# Set up
+See Rmarkdown file to see the code used to clean and merge data frames. 
+
+```{r libraries, include = FALSE, message=FALSE}
+# Libraries 
+library(knitr)
+library(tidyverse)
+library(dplyr)
+library(janitor)
+library(readr)
+library(stringr)
+
+```
+```{r load files, echo = FALSE}
+# Loading files
+
+results  <- read.csv(p(paste0("ResultsMyAssaysIndiv_", plate_short, ".csv")),
+                     stringsAsFactors = TRUE,
+                     na.strings = c("", " ", "NA"))
+
+standard <- read.csv(p(paste0("ResultsMyAssaysIndiv_", plate_short, "_st.csv")),
+                     stringsAsFactors = TRUE,
+                     na.strings = c("", " ", "NA"))
+
+info <- read.csv(p("SampleInfo.csv"),
+                 stringsAsFactors = TRUE,
+                 na.strings = c("", " ", "NA"))
+
+output_path <- p(paste0("Merged_ELISA_results_", plate, ".csv"))
+
+```
+```{r cleaning results and standard file, echo = FALSE}
+
+# Clean Results file
+
+results_clean <- results %>%
+        dplyr::rename(                 # rename columns
+          Well = Wells,
+          OD = Raw,
+          Binding_perc = X.,
+          Conc_pg_ml = Conc., 
+          Ave_conc_pg_ml = Conc...Average.,
+          CV_perc = X.CV
+        ) %>%
+       mutate(across(everything(),     # replace unreadable or non-numeric values
+                    ~na_if(trimws(.), "-"))) %>% 
+       mutate(Conc_pg_ml = na_if(Conc_pg_ml, "< Curve"),
+             Conc_pg_ml = na_if(Conc_pg_ml, "> Curve")) %>%
+       mutate(across(c(Conc_pg_ml, Ave_conc_pg_ml, CV_perc, SEM),
+                ~ as.numeric(as.character(.))))
+
+  # fill down empty cells for replicates (merged cells in original file)
+results_filled <- results_clean %>%
+       mutate(.row_id = row_number()) %>% 
+  
+      fill(                  # Fill selected info forward until new sample appears
+        Sample, Binding_perc,
+        .direction = "down"
+      ) %>%
+      group_by(across(any_of(c("Plate_num", "Sample")))) %>%  # Create replicate index for each sample
+      mutate(replicate = row_number()) %>%
+      ungroup() %>%
+      select(-.row_id, -replicate, -Sample)
+
+
+# Clean Standard file
+
+standard_clean <- standard %>%
+  dplyr::rename(
+   Sample = Calibrator,
+   Well = Wells,
+   Conc_pg_ml= Conc.,
+   CV_perc = Raw,
+   Ave_conc_pg_ml = Backfit, 
+   Std_recovery = Recovery..
+    ) %>%
+   mutate(across(everything(),     # replace unreadable or non-numeric values
+                    ~na_if(trimws(.), "-"))) %>% 
+   mutate(across(c(Ave_conc_pg_ml, Conc_pg_ml, CV_perc, SEM),
+                ~ as.numeric(as.character(.))))
+
+  # fill down empty cells for replicates (merged cells in original file)
+standard_filled <- standard_clean %>%
+       mutate(.row_id = row_number()) %>% 
+      fill(                  # Fill selected info forward until new sample appears
+        Sample, Conc_pg_ml, SEM,
+        .direction = "down"
+      ) %>%
+      group_by(across(any_of(c("plate_num", "Sample")))) %>%  # Create replicate index for each sample
+      mutate(replicate = row_number()) %>%
+      ungroup() %>%
+      select(-.row_id, -replicate, -Sample)
+
+
+## Simplify object names
+res <- results_filled
+st <- standard_filled
+
+```
+```{r merge files, echo = FALSE}
+
+# Merge results and standard file 
+
+res_st <- full_join(res, st, by = intersect(names(res), names(st)))
+
+# Merge sample information and results/standards
+res_st_info <-  full_join(info, res_st, by = intersect(names(res_st), names(info)))
+
+
+# ---- Write to disk & show a peek ----
+write_csv(res_st_info , output_path)
+print(glue::glue("Wrote {nrow(res_st_info)} rows to {output_path}"))
+
+cat("Here a quick look at the merged file:")
+
+res_st_info %>% head(5)
+cat("This is a list of all the samples included:")
+print(unique(res_st_info$Sample))
+```
+
+
+
+
+
+

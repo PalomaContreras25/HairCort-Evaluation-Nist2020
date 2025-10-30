@@ -26,22 +26,29 @@ Among the non-spiked samples, and using a double extraction, we found that a dil
 This is how data is obtained: 
 
 
-    Plate reader produces optical density (OD) values
+    |-- Plate reader produces optical density (OD) values
+             |
              |
              |---> Myassays.com uses ODs and map of plate layout to:
-                  1) Subtract readings for the NSB (non-specific binding) well (0% binding) from all values
-                  2) Normalize values dividing by reading for zero standard (blank, or B0)
-                  3) Fit a 4-Parameter Logistic curve (for a sigmoidal shape) to the standard readings
+                  1) Subtract readings for the NSB (non-specific binding) well 
+                  (0% binding) from all values
+                  2) Normalize values dividing by reading for zero standard 
+                  (blank, or B0)
+                  3) Fit a 4-Parameter Logistic curve (for a sigmoidal shape) 
+                  to the standard readings
                   4) Extrapolate cortisol concentration values from the curve
-                        * Obtained values for each replicate separately by treating them 
-                        as a single sample when providing the plate layout
-                        * These values do not control for differences in dilution, 
-                        sample weight, spike, etc. 
-                        * Values obtained are in the same unit as the standards provided (pg/ml)
+                        * Obtained values for each replicate separately by 
+                        treating them as a single sample when providing 
+                        the plate layout
+                        * These values do not control for differences 
+                        in dilution, sample weight, spike, etc. 
+                        * Values obtained are in the same unit as the
+                        standards provided (pg/ml)
                               |
-                              |---> In R I calculate final values using the formula:
+                              |
+                              |------> In R I calculate final values using the formula:
                               
-                              o	A / B x C / D x E 
+                              A / B x C / D x E 
                                           ▪	A = output myassays.com (pg/ml)
                                           ▪	B = sample mass (mg)
                                           ▪	C = methanol added for extraction (mL)
@@ -50,34 +57,53 @@ This is how data is obtained:
 
                               
 File with complete dataset has the following columns for each single data point:
--	Plate number
+
+-	Plate_num
 -	Well (character)
 -	Sample (character)
 -	Category (character)
+- Subcategory (character)
+- Person
+- Order
+- Num_strands
 -	Weight_mg (numeric)
--	Buffer_ml (numeric)
--	Buffer_ml_well (numeric)
--	Buffer_ml_tube (numeric)
--	Dilution_sample (numeric)
--	Spike (numeric: 0 or 1)
--	Spike_ml_well (numeric)
--	Spike_ml_tube (numeric)
--	Dilution_spike (1 if std1, not diluted before adding to well; 4 if std 4 not diluted before adding to well)
--	Extraction_ratio (numeric)
+-	Reconst_buffer_ml (numeric) - reconstitution volume
+- Sample_well_ml (numeric)
+-	Buffer_well_ml (numeric) - if added to well
+-	Buffer_tube_ml (numeric) - if added to tube
+-	Dilution_factor_sample (numeric) - if diluted
+-	Spike (numeric) - 0 for no, or 1 for yes
+-	Spike_well_ml (numeric) - vol of spike if added to well
+-	Spike_tube_ml (numeric) - vol of spike if added to tube
+-	Dilution_factor_spike (1 if std1, 4 if std 4; not diluted before adding to well)
+-	Extraction_ratio (numeric) - methanol added / methanol recovered
+- OD
+- Binding_perc
+- Conc_pg_ml
+- Ave_conc_pg_ml
+- Final_pg_ml
+- CV_perc
+- Quality
 -	Comments (character)
+
+
 
                         
 
 Find more details in the pages below:
+
 - [Background information and experimental design](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/docs/about.html)
 
 
-|           | Test 3  |  Test 4 |  Test 5  | Comments              |
-|-----------|---------|---------|----------|-----------------------|
-|Data cleaning | 
-|Analysis of raw results| 
-| Exploration of binding percentages, with the goal of identifying optimal variable values for data generation, so they fall within the ranges measured accurately by the ELISA |
-|Calculation of cortisol values|
-|Transformation of raw values obtained from ELISA to cortisol concentration in pg/mL |
-| Models to identify variables affecting binding percentages |
+**Plate overall description**
+
+| Test # |  Date    | Observations    | 
+|----|-------|-------------------------------------------|
+|   9    | 10-08-25 | Used multichannel, slower dispensing but worked well overall   |
+|   8    | 09-02-25 | Plate washer overflowed, washed twice  |
+|   7    | 08-10-25 | Had issues with repeater: addition of conjugate and antibody was not homogeneous (particularly the antibody) |
+|   6    | 05-30-25 | Did not use results. Plate broke, individual wells got disorganized, not sure if put it back in the right order    |
+|   5    | 05-13-25 | Mistake: added TMB before washing plate. Washed the plate and added TMB again. Overall, it seems like values are smaller than in previous plates. Also, Tina's samples were much more pulverized than mine    |
+|   4    | 02-19-25 |                 |
+|   3    | 09-15-24 |                 |
 
