@@ -1,111 +1,111 @@
-Plate_num,Well,Sample,Category,Subcategory,Person,Order,Num_strands,Weight_mg,Reconst_buffer_ml,Sample_well_ml,Buffer_well_ml,Buffer_tube_ml,Dilution_factor_sample,Spike,Spike_well_ml,Spike_tube_ml,Dilution_factor_spike,Extraction_ratio,Comments,OD,Binding_perc,Conc_pg_ml,Ave_conc_pg_ml,CV_perc,SD,SEM,Std_recovery
-8,A1,NSB,NSB,Std,Std,100,0,0,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.058,0,NA,NA,NA,NA,NA,NA
-8,B1,st1,Std,Std,Std,90,400,46,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,3200,3594,15.3,NA,0.684,112.3
-8,C1,st1,Std,Std,Std,91,400,46,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,3200,3136,16.7,NA,0.684,97.99
-8,D1,st2,Std,Std,Std,91,200,23,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,1600,1533,27.4,NA,0.114,95.78
-8,E1,st2,Std,Std,Std,92,200,23,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,1600,1515,27.6,NA,0.114,94.68
-8,F1,st3,Std,Std,Std,92,100,11.5,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,800,766.7,43.9,NA,1.59,95.84
-8,G1,st3,Std,Std,Std,93,100,11.5,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,800,863.3,40.7,NA,1.59,107.9
-8,H1,st4,Std,Std,Std,93,50,5.75,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,400,367.5,64.5,NA,2.79,91.87
-8,A2,NSB,NSB,Std,Std,94,0,0,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.049,0,NA,NA,NA,NA,NA,NA
-8,B2,st4,Std,Std,Std,94,50,5.75,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,400,450,59,NA,2.79,112.5
-8,C2,st5,Std,Std,Std,95,25,2.875,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,200,177.8,81.2,NA,1.54,88.9
-8,D2,st5,Std,Std,Std,95,25,2.875,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,200,208.4,78.1,NA,1.54,104.2
-8,E2,st6,Std,Std,Std,96,12.5,1.4375,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,100,89.54,90.7,NA,1.25,89.54
-8,F2,st6,Std,Std,Std,96,12.5,1.4375,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,100,112,88.2,NA,1.25,112
-8,G2,st7,Std,Std,Std,97,6.25,0.71875,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,50,55.79,94.5,NA,0.456,111.6
-8,H2,st7,Std,Std,Std,97,6.25,0.71875,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,50,47.42,95.4,NA,0.456,94.83
-8,A3,B0,B0,Ref_values,Ref_values,98,0,0,0.22,0.05,0.05,0,1,0,0,0,0,0,"Plate washer overflowed, washed twice",0.908,100,28.93,16.24,68.9,11.2,6.46,NA
-8,B3,B0,B0,Ref_values,Ref_values,98,0,0,0.22,0.05,0.05,0,1,0,0,0,0,0,"Plate washer overflowed, washed twice",0.922,100,11.98,NA,NA,NA,NA,NA
-8,C3,BE,BE,Ref_values,Ref_values,99,0,0,0.22,0.05,0.05,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.884,94.6,54.75,54.75,NA,NA,0,NA
-8,D3,BE,BE,Ref_values,Ref_values,99,0,0,0.22,0.05,0.05,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.863,92.2,76.31,76.31,NA,NA,0,NA
-8,E3,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.303,28.4,1456,1456,NA,NA,0,NA
-8,F3,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.316,29.9,1356,1356,NA,NA,0,NA
-8,G3,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.289,26.8,1578,1578,NA,NA,0,NA
-8,H3,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.305,28.7,1440,1440,NA,NA,0,NA
-8,A4,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.295,27.5,1524,1524,NA,NA,0,NA
-8,B4,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.294,27.4,1533,1533,NA,NA,0,NA
-8,C4,P1:8-SP,P-SPIKED,P-SPIKED,P-SPIKED,52,0,10,0.22,0.025,0,0,8,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.294,27.4,1533,1533,NA,NA,0,NA
-8,D4,P1:8-SP,P-SPIKED,P-SPIKED,P-SPIKED,52,0,10,0.22,0.025,0,0,8,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.295,27.5,1524,1524,NA,NA,0,NA
-8,E4,P1:2-SP,P-SPIKED,P-SPIKED,P-SPIKED,50,0,10,0.22,0.025,0,0,2,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.3,28.1,1481,1481,NA,NA,0,NA
-8,F4,P1:2-SP,P-SPIKED,P-SPIKED,P-SPIKED,50,0,10,0.22,0.025,0,0,2,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.303,28.4,1456,1456,NA,NA,0,NA
-8,G4,P1:4-SP,P-SPIKED,P-SPIKED,P-SPIKED,51,0,10,0.22,0.025,0,0,4,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.318,30.1,1341,1341,NA,NA,0,NA
-8,H4,P1:4-SP,P-SPIKED,P-SPIKED,P-SPIKED,51,0,10,0.22,0.025,0,0,4,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.316,29.9,1356,1356,NA,NA,0,NA
-8,A5,P1:8-SP,P-SPIKED,P-SPIKED,P-SPIKED,52,0,10,0.22,0.025,0,0,8,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.297,27.7,1506,1506,NA,NA,0,NA
-8,B5,P1:8-SP,P-SPIKED,P-SPIKED,P-SPIKED,52,0,10,0.22,0.025,0,0,8,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.284,26.3,1626,1626,NA,NA,0,NA
-8,C5,P1:16-SP,P-SPIKED,P-SPIKED,P-SPIKED,53,0,10,0.22,0.025,0,0,16,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.32,30.4,1327,1327,NA,NA,0,NA
-8,D5,P1:16-SP,P-SPIKED,P-SPIKED,P-SPIKED,53,0,10,0.22,0.025,0,0,16,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.283,26.1,1636,1636,NA,NA,0,NA
-8,E5,P1:32-SP,P-SPIKED,P-SPIKED,P-SPIKED,54,0,10,0.22,0.025,0,0,32,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.302,28.3,1464,1464,NA,NA,0,NA
-8,F5,P1:32-SP,P-SPIKED,P-SPIKED,P-SPIKED,54,0,10,0.22,0.025,0,0,32,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.301,28.2,1472,1472,NA,NA,0,NA
-8,G5,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.806,85.7,134.8,134.8,NA,NA,0,NA
-8,H5,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.741,78.3,206.1,206.1,NA,NA,0,NA
-8,A6,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.753,79.7,192.4,192.4,NA,NA,0,NA
-8,B6,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.748,79.1,198.1,198.1,NA,NA,0,NA
-8,C6,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.756,80,189,189,NA,NA,0,NA
-8,D6,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.775,82.2,167.9,167.9,NA,NA,0,NA
-8,E6,P1:2,P-low-binding,P-low-binding,P-low-binding,21,0,10,0.44,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.744,78.7,202.6,202.6,NA,NA,0,NA
-8,F6,P1:2,P-low-binding,P-low-binding,P-low-binding,21,0,10,0.44,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.748,79.1,198.1,198.1,NA,NA,0,NA
-8,G6,P1:2,P-low-binding,P-low-binding,P-low-binding,21,0,10,0.44,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.771,81.7,172.3,172.3,NA,NA,0,NA
-8,H6,P1:2,P-low-binding,P-low-binding,P-low-binding,21,0,10,0.44,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.755,79.9,190.1,190.1,NA,NA,0,NA
-8,A7,P1:4,P-mid-binding,P-mid-binding,P-mid-binding,22,0,10,0.44,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.859,91.8,80.38,80.38,NA,NA,0,NA
-8,B7,P1:4,P-mid-binding,P-mid-binding,P-mid-binding,22,0,10,0.44,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.824,87.8,116.1,116.1,NA,NA,0,NA
-8,C7,P1:4,P-mid-binding,P-mid-binding,P-mid-binding,22,0,10,0.44,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.891,95.4,47.42,47.42,NA,NA,0,NA
-8,D7,P1:4,P-mid-binding,P-mid-binding,P-mid-binding,22,0,10,0.44,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.855,91.3,84.45,84.45,NA,NA,0,NA
-8,E7,P1:8,P-high-binding,P-high-binding,P-high-binding,23,0,10,0.44,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.906,97.1,31.18,31.18,NA,NA,0,NA
-8,F7,P1:8,P-high-binding,P-high-binding,P-high-binding,23,0,10,0.44,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.881,94.3,57.86,57.86,NA,NA,0,NA
-8,G7,P1:8,P-high-binding,P-high-binding,P-high-binding,23,0,10,0.44,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.903,96.8,34.51,34.51,NA,NA,0,NA
-8,H7,P1:8,P-high-binding,P-high-binding,P-high-binding,23,0,10,0.44,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.649,67.8,324.1,324.1,NA,NA,0,NA
-8,A8,P400,HairCount,HairCount-Paloma,HairCount-Paloma,1,400,76,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.308,29,1416,1416,NA,NA,0,NA
-8,B8,P400,HairCount,HairCount-Paloma,HairCount-Paloma,1,400,76,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.301,28.2,1472,1472,NA,NA,0,NA
-8,C8,P200,HairCount,HairCount-Paloma,HairCount-Paloma,2,200,38,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.389,38.2,950.8,950.8,NA,NA,0,NA
-8,D8,P200,HairCount,HairCount-Paloma,HairCount-Paloma,2,200,38,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.388,38.1,955,955,NA,NA,0,NA
-8,E8,P100,HairCount,HairCount-Paloma,HairCount-Paloma,3,100,17,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.553,56.9,483.9,483.9,NA,NA,0,NA
-8,F8,P100,HairCount,HairCount-Paloma,HairCount-Paloma,3,100,17,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.551,56.7,487.8,487.8,NA,NA,0,NA
-NA,G8,P50,HairCount,HairCount-Paloma,HairCount-Paloma,4,50,11,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.683,71.7,277.5,277.5,NA,NA,0,NA
-NA,H8,P50,HairCount,HairCount-Paloma,HairCount-Paloma,4,50,11,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.683,71.7,277.5,277.5,NA,NA,0,NA
-NA,A9,T200,HairCount,HairCount-Tina,HairCount-Tina,2,200,23,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.276,25.3,1709,1709,NA,NA,0,NA
-NA,B9,T200,HairCount,HairCount-Tina,HairCount-Tina,2,200,23,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.278,25.6,1687,1687,NA,NA,0,NA
-NA,C9,T100,HairCount,HairCount-Tina,HairCount-Tina,3,100,12,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.418,41.5,837.7,837.7,NA,NA,0,NA
-NA,D9,T100,HairCount,HairCount-Tina,HairCount-Tina,3,100,12,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.403,39.8,893.8,893.8,NA,NA,0,NA
-NA,E9,T50,HairCount,HairCount-Tina,HairCount-Tina,4,50,4,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.673,70.6,290.8,290.8,NA,NA,0,NA
-NA,F9,T50,HairCount,HairCount-Tina,HairCount-Tina,4,50,4,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.664,69.6,303.1,303.1,NA,NA,0,NA
-NA,G9,T25,HairCount,HairCount-Tina,HairCount-Tina,5,25,2,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.85,90.7,89.54,89.54,NA,NA,0,NA
-NA,H9,T25,HairCount,HairCount-Tina,HairCount-Tina,5,25,2,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.843,89.9,96.66,96.66,NA,NA,0,NA
-NA,A10,T1:1,Tina,Tina,Tina,10,0,20,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.049,-0.513,NA,NA,NA,NA,NA,NA
-NA,B10,T1:1,Tina,Tina,Tina,10,0,20,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.054,0.057,NA,NA,NA,NA,NA,NA
-NA,C10,T1:2,Tina,Tina,Tina,11,0,20,0.22,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.051,-0.285,NA,NA,NA,NA,NA,NA
-NA,D10,T1:2,Tina,Tina,Tina,11,0,20,0.22,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.049,-0.513,NA,NA,NA,NA,NA,NA
-NA,E10,T1:4,Tina,Tina,Tina,12,0,20,0.22,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.055,0.171,NA,NA,NA,NA,NA,NA
-NA,F10,T1:4,Tina,Tina,Tina,12,0,20,0.22,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.052,-0.171,NA,NA,NA,NA,NA,NA
-NA,G10,T1:8,Tina,Tina,Tina,13,0,20,0.22,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.055,0.171,NA,NA,NA,NA,NA,NA
-NA,H10,T1:8,Tina,Tina,Tina,13,0,20,0.22,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.062,0.968,NA,NA,NA,NA,NA,NA
-NA,A11,T1:16,Tina,Tina,Tina,14,0,20,0.22,0.05,0,0,16,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.068,1.65,NA,NA,NA,NA,NA,NA
-NA,B11,T1:16,Tina,Tina,Tina,14,0,20,0.22,0.05,0,0,16,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.063,1.08,NA,NA,NA,NA,NA,NA
-NA,C11,T1:32,Tina,Tina,Tina,15,0,20,0.22,0.05,0,0,32,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.084,3.47,NA,NA,NA,NA,NA,NA
-NA,D11,T1:32,Tina,Tina,Tina,15,0,20,0.22,0.05,0,0,32,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.135,9.29,10760,10760,NA,NA,0,NA
-NA,E11,T1:64,Tina,Tina,Tina,16,0,20,0.22,0.05,0,0,64,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.125,8.15,18770,18770,NA,NA,0,NA
-NA,F11,T1:64,Tina,Tina,Tina,16,0,20,0.22,0.05,0,0,64,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.115,7.01,245800,245800,NA,NA,0,NA
-NA,G11,T1:128,Tina,Tina,Tina,17,0,20,0.22,0.05,0,0,128,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.183,14.8,3827,3827,NA,NA,0,NA
-NA,H11,T1:128,Tina,Tina,Tina,17,0,20,0.22,0.05,0,0,128,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.178,14.2,4093,4093,NA,NA,0,NA
-NA,A12,T1:256,Tina,Tina,Tina,18,0,20,0.22,0.05,0,0,256,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.281,25.9,1656,1656,NA,NA,0,NA
-NA,B12,T1:256,Tina,Tina,Tina,18,0,20,0.22,0.05,0,0,256,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.292,27.2,1551,1551,NA,NA,0,NA
-NA,C12,Pool ,Pool ,Ref_values,Ref_values,99,0,20,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.54,55.4,509.8,509.8,NA,NA,0,NA
-NA,D12,Pool ,Pool ,Ref_values,Ref_values,99,0,20,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.54,55.4,509.8,509.8,NA,NA,0,NA
-NA,E12,B0,B0,Ref_values,Ref_values,98,0,0,0.05,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.925,100,7.799,NA,NA,NA,NA,NA
-NA,F12,B0,B0,Ref_values,Ref_values,98,0,0,0.05,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.97,100,NA,NA,NA,NA,NA,NA
-NA,G12,BE,BE,Ref_values,Ref_values,99,0,0,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.895,95.9,43.17,43.17,NA,NA,0,NA
-NA,H12,BE,BE,Ref_values,Ref_values,99,0,0,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.861,92,78.35,78.35,NA,NA,0,NA
-NA,D1,st2,Std,StdP,StdP,91,400,76,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,1600,1533,27.4,NA,0.114,95.78
-NA,E1,st2,Std,StdP,StdP,92,400,76,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,1600,1515,27.6,NA,0.114,94.68
-NA,F1,st3,Std,StdP,StdP,92,200,38,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,800,766.7,43.9,NA,1.59,95.84
-NA,G1,st3,Std,StdP,StdP,93,200,38,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,800,863.3,40.7,NA,1.59,107.9
-NA,H1,st4,Std,StdP,StdP,93,100,19,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,400,367.5,64.5,NA,2.79,91.87
-NA,B2,st4,Std,StdP,StdP,94,100,19,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,400,450,59,NA,2.79,112.5
-NA,C2,st5,Std,StdP,StdP,95,50,9.5,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,200,177.8,81.2,NA,1.54,88.9
-NA,D2,st5,Std,StdP,StdP,95,50,9.5,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,200,208.4,78.1,NA,1.54,104.2
-NA,E2,st6,Std,StdP,StdP,96,25,4.75,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,100,89.54,90.7,NA,1.25,89.54
-NA,F2,st6,Std,StdP,StdP,96,25,4.75,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,100,112,88.2,NA,1.25,112
-NA,G2,st7,Std,StdP,StdP,97,12.5,2.375,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,50,55.79,94.5,NA,0.456,111.6
-NA,H2,st7,Std,StdP,StdP,97,12.5,2.375,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,50,47.42,95.4,NA,0.456,94.83
-NA,B1,st1,Std,StdP,StdP,90,800,152,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,3200,3594,15.3,NA,0.684,112.3
-NA,C1,st1,Std,StdP,StdP,91,800,152,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,3200,3136,16.7,NA,0.684,97.99
+Plate_num,Well,Sample,Category,Subcategory,Person,Order,Num_strands,Weight_mg,Reconst_buffer_ml,Sample_well_ml,Buffer_well_ml,Buffer_tube_ml,Dilution_factor_sample,Spike,Spike_well_ml,Spike_tube_ml,Dilution_factor_spike,Extraction_ratio,Comments,OD,Binding_perc,Conc_pg_ml,Ave_conc_pg_ml,CV_perc,SD,SEM,Std_recovery,Final_pg_mg,Ave_Conc_pg.ml,Ave_Final_pg_mg,z,SpikeVol_ml,TotalVol_ml,Spike_contribution,Final_pg_mg_sp,Binding_perc_categ,CV_categ
+8,A1,NSB,Ref_values,Ref_values,Std,100,0,0,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.058,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,NA,UNDER 20% binding,NA
+8,B1,st1,Std,Std,Std,90,400,46,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,3200,3594,NA,NA,0.684,112.3,NA,3200,NA,NA,NA,NA,0,NA,NA,NA
+8,C1,st1,Std,Std,Std,91,400,46,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,3200,3136,NA,NA,0.684,97.99,NA,3200,NA,NA,NA,NA,0,NA,NA,NA
+8,D1,st2,Std,Std,Std,91,200,23,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,1600,1533,NA,NA,0.114,95.78,NA,1600,NA,NA,NA,NA,0,NA,NA,NA
+8,E1,st2,Std,Std,Std,92,200,23,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,1600,1515,NA,NA,0.114,94.68,NA,1600,NA,NA,NA,NA,0,NA,NA,NA
+8,F1,st3,Std,Std,Std,92,100,11.5,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,800,766.7,NA,NA,1.59,95.84,NA,800,NA,NA,NA,NA,0,NA,NA,NA
+8,G1,st3,Std,Std,Std,93,100,11.5,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,800,863.3,NA,NA,1.59,107.9,NA,800,NA,NA,NA,NA,0,NA,NA,NA
+8,H1,st4,Std,Std,Std,93,50,5.75,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,400,367.5,NA,NA,2.79,91.87,NA,400,NA,NA,NA,NA,0,NA,NA,NA
+8,A2,NSB,Ref_values,Ref_values,Std,94,0,0,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.049,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,NA,UNDER 20% binding,NA
+8,B2,st4,Std,Std,Std,94,50,5.75,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,400,450,NA,NA,2.79,112.5,NA,400,NA,NA,NA,NA,0,NA,NA,NA
+8,C2,st5,Std,Std,Std,95,25,2.875,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,200,177.8,NA,NA,1.54,88.9,NA,200,NA,NA,NA,NA,0,NA,NA,NA
+8,D2,st5,Std,Std,Std,95,25,2.875,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,200,208.4,NA,NA,1.54,104.2,NA,200,NA,NA,NA,NA,0,NA,NA,NA
+8,E2,st6,Std,Std,Std,96,12.5,1.4375,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,100,89.54,NA,NA,1.25,89.54,NA,100,NA,NA,NA,NA,0,NA,NA,NA
+8,F2,st6,Std,Std,Std,96,12.5,1.4375,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,100,112,NA,NA,1.25,112,NA,100,NA,NA,NA,NA,0,NA,NA,NA
+8,G2,st7,Std,Std,Std,97,6.25,0.71875,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,50,55.79,NA,NA,0.456,111.6,NA,50,NA,NA,NA,NA,0,NA,NA,NA
+8,H2,st7,Std,Std,Std,97,6.25,0.71875,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,50,47.42,NA,NA,0.456,94.83,NA,50,NA,NA,NA,NA,0,NA,NA,NA
+8,A3,B0,Ref_values,Ref_values,Ref_values,98,0,0,0.22,0.05,0.05,0,1,0,0,0,0,0,"Plate washer overflowed, washed twice",0.908,100,28.93,16.24,NA,11.2,6.46,NA,NA,16.236333333333334,Inf,NA,0,0.1,0,NA,UNDER 20% binding,NA
+8,B3,B0,Ref_values,Ref_values,Ref_values,98,0,0,0.22,0.05,0.05,0,1,0,0,0,0,0,"Plate washer overflowed, washed twice",0.922,100,11.98,NA,NA,NA,NA,NA,NA,16.236333333333334,Inf,NA,0,0.1,0,NA,UNDER 20% binding,NA
+8,C3,BE,Ref_values,Ref_values,Ref_values,99,0,0,0.22,0.05,0.05,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.884,94.6,54.75,54.75,NA,NA,0,NA,Inf,63.144999999999996,Inf,NA,0,0.1,0,Inf,ABOVE 80% binding,NA
+8,D3,BE,Ref_values,Ref_values,Ref_values,99,0,0,0.22,0.05,0.05,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.863,92.2,76.31,76.31,NA,NA,0,NA,Inf,63.144999999999996,Inf,NA,0,0.1,0,Inf,ABOVE 80% binding,NA
+8,E3,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.303,28.4,1456,1456,NA,NA,0,NA,NA,1481.1666666666667,NA,NA,NA,NA,0,NA,NA,NA
+8,F3,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.316,29.9,1356,1356,NA,NA,0,NA,NA,1481.1666666666667,NA,NA,NA,NA,0,NA,NA,NA
+8,G3,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.289,26.8,1578,1578,NA,NA,0,NA,NA,1481.1666666666667,NA,NA,NA,NA,0,NA,NA,NA
+8,H3,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.305,28.7,1440,1440,NA,NA,0,NA,NA,1481.1666666666667,NA,NA,NA,NA,0,NA,NA,NA
+8,A4,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.295,27.5,1524,1524,NA,NA,0,NA,NA,1481.1666666666667,NA,NA,NA,NA,0,NA,NA,NA
+8,B4,SPIKE,SPIKE-TrueVal,SPIKE,SPIKE,60,0,0,NA,0.025,0.025,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",0.294,27.4,1533,1533,NA,NA,0,NA,NA,1481.1666666666667,NA,NA,NA,NA,0,NA,NA,NA
+8,C4,P1:8-SP,P-SPIKED,P-SPIKED,P-SPIKED,52,0,10,0.22,0.025,0,0,8,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.294,27.4,1533,1533,3.4698071096797456,NA,0,NA,377.7312,1547.25,381.2424,-0.2654294092078764,0.025,0.05,Inf,-Inf,NA,NA
+8,D4,P1:8-SP,P-SPIKED,P-SPIKED,P-SPIKED,52,0,10,0.22,0.025,0,0,8,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.295,27.5,1524,1524,3.4698071096797456,NA,0,NA,375.5136,1547.25,381.2424,-0.43306903607601044,0.025,0.05,Inf,-Inf,NA,NA
+8,E4,P1:2-SP,P-SPIKED,P-SPIKED,P-SPIKED,50,0,10,0.22,0.025,0,0,2,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.3,28.1,1481,1481,1.2037909111109133,NA,0,NA,91.22959999999999,1468.5,90.4596,0.707106781186541,0.025,0.05,Inf,-Inf,NA,NA
+8,F4,P1:2-SP,P-SPIKED,P-SPIKED,P-SPIKED,50,0,10,0.22,0.025,0,0,2,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.303,28.4,1456,1456,1.2037909111109133,NA,0,NA,89.68959999999998,1468.5,90.4596,-0.707106781186554,0.025,0.05,Inf,-Inf,NA,NA
+8,G4,P1:4-SP,P-SPIKED,P-SPIKED,P-SPIKED,51,0,10,0.22,0.025,0,0,4,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.318,30.1,1341,1341,0.7865481437002688,NA,0,NA,165.2112,1348.5,166.1352,-0.7071067811865585,0.025,0.05,Inf,-Inf,NA,NA
+8,H4,P1:4-SP,P-SPIKED,P-SPIKED,P-SPIKED,51,0,10,0.22,0.025,0,0,4,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.316,29.9,1356,1356,0.7865481437002688,NA,0,NA,167.05919999999998,1348.5,166.1352,0.7071067811865367,0.025,0.05,Inf,-Inf,NA,NA
+8,A5,P1:8-SP,P-SPIKED,P-SPIKED,P-SPIKED,52,0,10,0.22,0.025,0,0,8,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.297,27.7,1506,1506,3.4698071096797456,NA,0,NA,371.07839999999993,1547.25,381.2424,-0.7683482898122829,0.025,0.05,Inf,-Inf,NA,NA
+8,B5,P1:8-SP,P-SPIKED,P-SPIKED,P-SPIKED,52,0,10,0.22,0.025,0,0,8,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.284,26.3,1626,1626,3.4698071096797456,NA,0,NA,400.64639999999997,1547.25,381.2424,1.4668467350961698,0.025,0.05,Inf,-Inf,NA,NA
+8,C5,P1:16-SP,P-SPIKED,P-SPIKED,P-SPIKED,53,0,10,0.22,0.025,0,0,16,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.32,30.4,1327,1327,14.748295334906725,NA,0,NA,653.9455999999999,1481.5,730.0831999999998,-0.707106781186547,0.025,0.05,Inf,-Inf,NA,NA
+8,D5,P1:16-SP,P-SPIKED,P-SPIKED,P-SPIKED,53,0,10,0.22,0.025,0,0,16,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.283,26.1,1636,1636,14.748295334906725,NA,0,NA,806.2207999999998,1481.5,730.0831999999998,0.707106781186548,0.025,0.05,Inf,-Inf,NA,NA
+8,E5,P1:32-SP,P-SPIKED,P-SPIKED,P-SPIKED,54,0,10,0.22,0.025,0,0,32,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.302,28.3,1464,1464,0.38534429492454,NA,0,NA,1442.9184,1468,1446.8608,-0.7071067811865476,0.025,0.05,Inf,-Inf,NA,NA
+8,F5,P1:32-SP,P-SPIKED,P-SPIKED,P-SPIKED,54,0,10,0.22,0.025,0,0,32,1,0.025,0,0,1.4,"Plate washer overflowed, washed twice",0.301,28.2,1472,1472,0.38534429492454,NA,0,NA,1450.8031999999998,1468,1446.8608,0.7071067811865476,0.025,0.05,Inf,-Inf,NA,NA
+8,G5,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.806,85.7,134.8,134.8,14.422115147551068,NA,0,NA,16.60736,181.38333333333333,22.346426666666666,-1.7807552129440478,0,0.05,0,16.60736,ABOVE 80% binding,NA
+8,H5,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.741,78.3,206.1,206.1,14.422115147551068,NA,0,NA,25.391519999999996,181.38333333333333,22.346426666666666,0.9448515137016174,0,0.05,0,25.391519999999996,NA,NA
+8,A6,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.753,79.7,192.4,192.4,14.422115147551068,NA,0,NA,23.70368,181.38333333333333,22.346426666666666,0.42113745823113236,0,0.05,0,23.70368,NA,NA
+8,B6,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.748,79.1,198.1,198.1,14.422115147551068,NA,0,NA,24.40592,181.38333333333333,22.346426666666666,0.6390330871495096,0,0.05,0,24.40592,NA,NA
+8,C6,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.756,80,189,189,14.422115147551068,NA,0,NA,23.284799999999997,181.38333333333333,22.346426666666666,0.2911646269464858,0,0.05,0,23.284799999999997,NA,NA
+8,D6,P-No-Spike,Paloma-TrueVal,Paloma-TrueVal,Paloma-TrueVal,30,0,10,0.44,0.025,0.025,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.775,82.2,167.9,167.9,14.422115147551068,NA,0,NA,20.68528,181.38333333333333,22.346426666666666,-0.5154314730846995,0,0.05,0,20.68528,ABOVE 80% binding,NA
+8,E6,P1:2,P-low-binding,P-low-binding,P-low-binding,21,0,10,0.44,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.744,78.7,202.6,202.6,7.001697568548206,NA,0,NA,24.960319999999996,190.775,23.503479999999996,0.8852712070669604,0,0.05,0,24.960319999999996,NA,NA
+8,F6,P1:2,P-low-binding,P-low-binding,P-low-binding,21,0,10,0.44,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.748,79.1,198.1,198.1,7.001697568548206,NA,0,NA,24.40592,190.775,23.503479999999996,0.5483815299590276,0,0.05,0,24.40592,NA,NA
+8,G6,P1:2,P-low-binding,P-low-binding,P-low-binding,21,0,10,0.44,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.771,81.7,172.3,172.3,7.001697568548206,NA,0,NA,21.22736,190.775,23.503479999999996,-1.3831192854597938,0,0.05,0,21.22736,ABOVE 80% binding,NA
+8,H6,P1:2,P-low-binding,P-low-binding,P-low-binding,21,0,10,0.44,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.755,79.9,190.1,190.1,7.001697568548206,NA,0,NA,23.420319999999997,190.775,23.503479999999996,-0.0505334515661898,0,0.05,0,23.420319999999997,NA,NA
+8,A7,P1:4,P-mid-binding,P-mid-binding,P-mid-binding,22,0,10,0.44,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.859,91.8,80.38,80.38,34.21986013684556,NA,0,NA,19.805632,82.0875,20.22636,-0.06078626413619315,0,0.05,0,19.805632,ABOVE 80% binding,HIGH CV
+8,B7,P1:4,P-mid-binding,P-mid-binding,P-mid-binding,22,0,10,0.44,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.824,87.8,116.1,116.1,34.21986013684556,NA,0,NA,28.607039999999998,82.0875,20.22636,1.2108303419808297,0,0.05,0,28.607039999999998,ABOVE 80% binding,HIGH CV
+8,C7,P1:4,P-mid-binding,P-mid-binding,P-mid-binding,22,0,10,0.44,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.891,95.4,47.42,47.42,34.21986013684556,NA,0,NA,11.684288,82.0875,20.22636,-1.2341480597021808,0,0.05,0,11.684288,ABOVE 80% binding,HIGH CV
+8,D7,P1:4,P-mid-binding,P-mid-binding,P-mid-binding,22,0,10,0.44,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.855,91.3,84.45,84.45,34.21986013684556,NA,0,NA,20.80848,82.0875,20.22636,0.08410398185754384,0,0.05,0,20.80848,ABOVE 80% binding,HIGH CV
+8,E7,P1:8,P-high-binding,P-high-binding,P-high-binding,23,0,10,0.44,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.906,97.1,31.18,31.18,126.84507937287945,NA,0,NA,15.365504,111.91250000000001,55.15048,-0.5687169592653287,0,0.05,0,15.365504,ABOVE 80% binding,HIGH CV
+8,F7,P1:8,P-high-binding,P-high-binding,P-high-binding,23,0,10,0.44,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.881,94.3,57.86,57.86,126.84507937287945,NA,0,NA,28.513407999999995,111.91250000000001,55.15048,-0.380770735957504,0,0.05,0,28.513407999999995,ABOVE 80% binding,HIGH CV
+8,G7,P1:8,P-high-binding,P-high-binding,P-high-binding,23,0,10,0.44,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.903,96.8,34.51,34.51,126.84507937287945,NA,0,NA,17.006528,111.91250000000001,55.15048,-0.545258903657568,0,0.05,0,17.006528,ABOVE 80% binding,HIGH CV
+8,H7,P1:8,P-high-binding,P-high-binding,P-high-binding,23,0,10,0.44,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.649,67.8,324.1,324.1,126.84507937287945,NA,0,NA,159.71648000000002,111.91250000000001,55.15048,1.494746598880401,0,0.05,0,159.71648000000002,NA,HIGH CV
+8,A8,P400,HairCount,HairCount-Paloma,HairCount-Paloma,1,400,76,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.308,29,1416,1416,2.742242364712364,NA,0,NA,5.738526315789474,1444,5.852,-0.7071067811865503,0,0.05,0,5.738526315789474,NA,NA
+8,B8,P400,HairCount,HairCount-Paloma,HairCount-Paloma,1,400,76,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.301,28.2,1472,1472,2.742242364712364,NA,0,NA,5.965473684210526,1444,5.852,0.7071067811865448,0,0.05,0,5.965473684210526,NA,NA
+8,C8,P200,HairCount,HairCount-Paloma,HairCount-Paloma,2,200,38,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.389,38.2,950.8,950.8,0.311664233496018,NA,0,NA,7.706484210526315,952.9,7.723505263157895,-0.707106781186566,0,0.05,0,7.706484210526315,NA,NA
+8,D8,P200,HairCount,HairCount-Paloma,HairCount-Paloma,2,200,38,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.388,38.1,955,955,0.311664233496018,NA,0,NA,7.740526315789474,952.9,7.723505263157895,0.7071067811865291,0,0.05,0,7.740526315789474,NA,NA
+8,E8,P100,HairCount,HairCount-Paloma,HairCount-Paloma,3,100,17,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.553,56.9,483.9,483.9,0.5676065548271135,NA,0,NA,8.767129411764707,485.85,8.802458823529413,-0.7071067811865653,0,0.05,0,8.767129411764707,NA,NA
+8,F8,P100,HairCount,HairCount-Paloma,HairCount-Paloma,3,100,17,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.551,56.7,487.8,487.8,0.5676065548271135,NA,0,NA,8.837788235294118,485.85,8.802458823529413,0.7071067811865298,0,0.05,0,8.837788235294118,NA,NA
+NA,G8,P50,HairCount,HairCount-Paloma,HairCount-Paloma,4,50,11,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.683,71.7,277.5,277.5,0,NA,0,NA,7.769999999999999,277.5,7.769999999999999,NA,0,0.05,0,7.769999999999999,NA,NA
+NA,H8,P50,HairCount,HairCount-Paloma,HairCount-Paloma,4,50,11,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.683,71.7,277.5,277.5,0,NA,0,NA,7.769999999999999,277.5,7.769999999999999,NA,0,0.05,0,7.769999999999999,NA,NA
+NA,A9,T200,HairCount,HairCount-Tina,HairCount-Tina,2,200,23,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.276,25.3,1709,1709,0.9161571958836262,NA,0,NA,22.88573913043478,1698,22.738434782608692,0.7071067811865475,0,0.05,0,22.88573913043478,NA,NA
+NA,B9,T200,HairCount,HairCount-Tina,HairCount-Tina,2,200,23,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.278,25.6,1687,1687,0.9161571958836262,NA,0,NA,22.591130434782606,1698,22.738434782608692,-0.7071067811865475,0,0.05,0,22.591130434782606,NA,NA
+NA,C9,T100,HairCount,HairCount-Tina,HairCount-Tina,3,100,12,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.418,41.5,837.7,837.7,4.58200293670982,NA,0,NA,21.500966666666667,865.75,22.220916666666668,-0.7071067811865492,0,0.05,0,21.500966666666667,NA,NA
+NA,D9,T100,HairCount,HairCount-Tina,HairCount-Tina,3,100,12,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.403,39.8,893.8,893.8,4.58200293670982,NA,0,NA,22.940866666666665,865.75,22.220916666666668,0.7071067811865457,0,0.05,0,22.940866666666665,NA,NA
+NA,E9,T50,HairCount,HairCount-Tina,HairCount-Tina,4,50,4,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.673,70.6,290.8,290.8,2.9289151064470644,NA,0,NA,22.3916,296.95000000000005,22.86515,-0.7071067811865449,0,0.05,0,22.3916,NA,NA
+NA,F9,T50,HairCount,HairCount-Tina,HairCount-Tina,4,50,4,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.664,69.6,303.1,303.1,2.9289151064470644,NA,0,NA,23.338700000000003,296.95000000000005,22.86515,0.7071067811865502,0,0.05,0,23.338700000000003,NA,NA
+NA,G9,T25,HairCount,HairCount-Tina,HairCount-Tina,5,25,2,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.85,90.7,89.54,89.54,5.407733922715593,NA,0,NA,13.789159999999999,93.1,14.337399999999999,-0.7071067811865476,0,0.05,0,13.789159999999999,ABOVE 80% binding,NA
+NA,H9,T25,HairCount,HairCount-Tina,HairCount-Tina,5,25,2,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.843,89.9,96.66,96.66,5.407733922715593,NA,0,NA,14.885639999999999,93.1,14.337399999999999,0.7071067811865476,0,0.05,0,14.885639999999999,ABOVE 80% binding,NA
+NA,A10,T1:1,Tina,Tina,Tina,10,0,20,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.049,-0.513,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,B10,T1:1,Tina,Tina,Tina,10,0,20,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.054,0.057,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,C10,T1:2,Tina,Tina,Tina,11,0,20,0.22,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.051,-0.285,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,D10,T1:2,Tina,Tina,Tina,11,0,20,0.22,0.05,0,0,2,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.049,-0.513,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,E10,T1:4,Tina,Tina,Tina,12,0,20,0.22,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.055,0.171,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,F10,T1:4,Tina,Tina,Tina,12,0,20,0.22,0.05,0,0,4,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.052,-0.171,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,G10,T1:8,Tina,Tina,Tina,13,0,20,0.22,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.055,0.171,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,H10,T1:8,Tina,Tina,Tina,13,0,20,0.22,0.05,0,0,8,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.062,0.968,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,A11,T1:16,Tina,Tina,Tina,14,0,20,0.22,0.05,0,0,16,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.068,1.65,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,B11,T1:16,Tina,Tina,Tina,14,0,20,0.22,0.05,0,0,16,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.063,1.08,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,C11,T1:32,Tina,Tina,Tina,15,0,20,0.22,0.05,0,0,32,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.084,3.47,NA,NA,NA,NA,NA,NA,NA,10760,5302.527999999999,NA,0,0.05,0,NA,NA,NA
+NA,D11,T1:32,Tina,Tina,Tina,15,0,20,0.22,0.05,0,0,32,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.135,9.29,10760,10760,NA,NA,0,NA,5302.527999999999,10760,5302.527999999999,NA,0,0.05,0,5302.527999999999,ABOVE 80% binding,NA
+NA,E11,T1:64,Tina,Tina,Tina,16,0,20,0.22,0.05,0,0,64,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.125,8.15,18770,18770,121.35499303230289,NA,0,NA,18499.712,132285,130380.096,-0.7071067811865476,0,0.05,0,18499.712,NA,HIGH CV
+NA,F11,T1:64,Tina,Tina,Tina,16,0,20,0.22,0.05,0,0,64,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.115,7.01,245800,245800,121.35499303230289,NA,0,NA,242260.48,132285,130380.096,0.7071067811865476,0,0.05,0,242260.48,NA,HIGH CV
+NA,G11,T1:128,Tina,Tina,Tina,17,0,20,0.22,0.05,0,0,128,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.183,14.8,3827,3827,4.749757671606602,NA,0,NA,7543.7824,3960,7805.951999999999,-0.7071067811865462,0,0.05,0,7543.7824,UNDER 20% binding,NA
+NA,H11,T1:128,Tina,Tina,Tina,17,0,20,0.22,0.05,0,0,128,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.178,14.2,4093,4093,4.749757671606602,NA,0,NA,8068.1215999999995,3960,7805.951999999999,0.7071067811865487,0,0.05,0,8068.1215999999995,UNDER 20% binding,NA
+NA,A12,T1:256,Tina,Tina,Tina,18,0,20,0.22,0.05,0,0,256,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.281,25.9,1656,1656,4.630259558751951,NA,0,NA,6528.6143999999995,1603.5,6321.6384,0.7071067811865459,0,0.05,0,6528.6143999999995,NA,NA
+NA,B12,T1:256,Tina,Tina,Tina,18,0,20,0.22,0.05,0,0,256,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.292,27.2,1551,1551,4.630259558751951,NA,0,NA,6114.662399999999,1603.5,6321.6384,-0.707106781186549,0,0.05,0,6114.662399999999,NA,NA
+NA,C12,Pool ,Pool ,Ref_values,Ref_values,99,0,20,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.54,55.4,509.8,509.8,0,NA,0,NA,7.85092,509.8,7.85092,NA,0,0.05,0,7.85092,NA,NA
+NA,D12,Pool ,Pool ,Ref_values,Ref_values,99,0,20,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.54,55.4,509.8,509.8,0,NA,0,NA,7.85092,509.8,7.85092,NA,0,0.05,0,7.85092,NA,NA
+NA,E12,B0,Ref_values,Ref_values,Ref_values,98,0,0,0.05,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.925,100,7.799,NA,NA,NA,NA,NA,Inf,16.236333333333334,Inf,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,F12,B0,Ref_values,Ref_values,Ref_values,98,0,0,0.05,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.97,100,NA,NA,NA,NA,NA,NA,NA,16.236333333333334,Inf,NA,0,0.05,0,NA,UNDER 20% binding,NA
+NA,G12,BE,Ref_values,Ref_values,Ref_values,99,0,0,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.895,95.9,43.17,43.17,NA,NA,0,NA,Inf,63.144999999999996,Inf,NA,0,0.05,0,Inf,ABOVE 80% binding,NA
+NA,H12,BE,Ref_values,Ref_values,Ref_values,99,0,0,0.22,0.05,0,0,1,0,0,0,0,1.4,"Plate washer overflowed, washed twice",0.861,92,78.35,78.35,NA,NA,0,NA,Inf,63.144999999999996,Inf,NA,0,0.05,0,Inf,ABOVE 80% binding,NA
+NA,D1,st2,Std,StdP,StdP,91,400,76,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,1600,1533,NA,NA,0.114,95.78,NA,1600,NA,NA,NA,NA,0,NA,NA,NA
+NA,E1,st2,Std,StdP,StdP,92,400,76,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,1600,1515,NA,NA,0.114,94.68,NA,1600,NA,NA,NA,NA,0,NA,NA,NA
+NA,F1,st3,Std,StdP,StdP,92,200,38,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,800,766.7,NA,NA,1.59,95.84,NA,800,NA,NA,NA,NA,0,NA,NA,NA
+NA,G1,st3,Std,StdP,StdP,93,200,38,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,800,863.3,NA,NA,1.59,107.9,NA,800,NA,NA,NA,NA,0,NA,NA,NA
+NA,H1,st4,Std,StdP,StdP,93,100,19,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,400,367.5,NA,NA,2.79,91.87,NA,400,NA,NA,NA,NA,0,NA,NA,NA
+NA,B2,st4,Std,StdP,StdP,94,100,19,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,400,450,NA,NA,2.79,112.5,NA,400,NA,NA,NA,NA,0,NA,NA,NA
+NA,C2,st5,Std,StdP,StdP,95,50,9.5,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,200,177.8,NA,NA,1.54,88.9,NA,200,NA,NA,NA,NA,0,NA,NA,NA
+NA,D2,st5,Std,StdP,StdP,95,50,9.5,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,200,208.4,NA,NA,1.54,104.2,NA,200,NA,NA,NA,NA,0,NA,NA,NA
+NA,E2,st6,Std,StdP,StdP,96,25,4.75,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,100,89.54,NA,NA,1.25,89.54,NA,100,NA,NA,NA,NA,0,NA,NA,NA
+NA,F2,st6,Std,StdP,StdP,96,25,4.75,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,100,112,NA,NA,1.25,112,NA,100,NA,NA,NA,NA,0,NA,NA,NA
+NA,G2,st7,Std,StdP,StdP,97,12.5,2.375,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,50,55.79,NA,NA,0.456,111.6,NA,50,NA,NA,NA,NA,0,NA,NA,NA
+NA,H2,st7,Std,StdP,StdP,97,12.5,2.375,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,50,47.42,NA,NA,0.456,94.83,NA,50,NA,NA,NA,NA,0,NA,NA,NA
+NA,B1,st1,Std,StdP,StdP,90,800,152,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,3200,3594,NA,NA,0.684,112.3,NA,3200,NA,NA,NA,NA,0,NA,NA,NA
+NA,C1,st1,Std,StdP,StdP,91,800,152,NA,0.05,0,0,1,NA,NA,NA,NA,NA,"Plate washer overflowed, washed twice",NA,NA,3200,3136,NA,NA,0.684,97.99,NA,3200,NA,NA,NA,NA,0,NA,NA,NA

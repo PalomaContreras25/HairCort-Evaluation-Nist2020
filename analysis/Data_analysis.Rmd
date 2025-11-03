@@ -1,19 +1,20 @@
 ---
-title: "ELISA cleaning and combining documents"
+title: "ELISA data analysis"
 author: "Paloma"
 output: workflowr::wflow_html
 params:
   plate: "Test9"        # one of: Test3 ... Test10
   data_root: "./data"   # parent dir that holds Test3, Test4, ...
+  spike_std: "st4" 
 editor_options:
   chunk_output_type: console
 ---
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 plate     <- params$plate
 data_root <- params$data_root
+spike_std <- params$spike_std
 plate_dir <- file.path(data_root, plate)
 plate_short <- paste0("T", sub("^Test", "", plate))  # "Test9" -> "T9"
 # Path helper: p("file.csv") -> "./data/Test9/file.csv"
@@ -24,9 +25,6 @@ fig_dir <- file.path(plate_dir, "figs")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 knitr::opts_chunk$set(fig.path = paste0(fig_dir, "/"))
 ```
-# Set up
-See Rmarkdown file to see the code used to clean and merge data frames. 
-
 ```{r libraries, include = FALSE, message=FALSE}
 # Libraries 
 library(knitr)
@@ -35,11 +33,70 @@ library(dplyr)
 library(janitor)
 library(readr)
 library(stringr)
-
 ```
-```{r load files, echo = FALSE}
-# Loading files
 
+# Overview
+
+This file documents all the transformations done to obtain final cortisol values for the ELISA plate called: 
+
+```{r platenum, echo = FALSE}
+cat(plate)
+```
+
+This is how final values were obtained: 
+
+    |-- Plate reader produces optical density (OD) values
+          |
+          |
+          |---> Myassays.com uses ODs and map of plate layout to:
+               1) Subtract readings for the NSB (non-specific binding) well 
+                  (0% binding) from all values
+               2) Normalize values dividing by reading for zero standard 
+                  (blank, or B0)
+               3) Fit a 4-Parameter Logistic curve (for a sigmoidal shape) 
+                  to the standard readings
+               4) Extrapolate cortisol concentration values from the curve
+                      * Obtained values for each replicate separately by 
+                      treating them as a single sample when providing 
+                      the plate layout
+                      * These values do not control for differences 
+                      in dilution, sample weight, spike, etc. 
+                      * Values obtained are in the same unit as the
+                      standards provided (pg/ml)
+                           |
+                           |
+                           |----> In R, I calculate final values using the formula:
+                                
+                                A * F / B * C / D * E 
+                                            ▪ A = output myassays.com (pg/ml)
+                                            ▪ B = sample mass (mg)
+                                            ▪ C = methanol added for extraction (mL)
+                                            ▪ D = methanol recovered (mL)
+                                            ▪ E = reconstitution volume (mL)
+                                            ▪ F = Sample dilution factor
+
+See Rmarkdown file to see the code used to clean and merge data frames. 
+
+## Input files
+
+- **Results**:
+```{r echo=FALSE}
+cat(paste("ResultsMyAssaysIndiv_", plate_short, ".csv", sep=""))
+```
+
+- **Results for Standards**:
+
+```{r echo=FALSE}
+cat(paste("ResultsMyAssaysIndiv_", plate_short, "_st.csv", sep=""))
+```
+
+- **Sample information**:
+```{r echo=FALSE}
+cat("SampleInfo.csv")
+```
+
+```{r loading files, echo = FALSE}
+# Loading files
 results  <- read.csv(p(paste0("ResultsMyAssaysIndiv_", plate_short, ".csv")),
                      stringsAsFactors = TRUE,
                      na.strings = c("", " ", "NA"))
@@ -53,8 +110,10 @@ info <- read.csv(p("SampleInfo.csv"),
                  na.strings = c("", " ", "NA"))
 
 output_path <- p(paste0("Merged_ELISA_results_", plate, ".csv"))
-
 ```
+
+# Calculating final values
+
 ```{r cleaning results and standard file, echo = FALSE}
 
 # Clean Results file
@@ -123,28 +182,321 @@ res <- results_filled
 st <- standard_filled
 
 ```
-```{r merge files, echo = FALSE}
 
+```{r merge files, echo = FALSE}
 # Merge results and standard file 
 
 res_st <- full_join(res, st, by = intersect(names(res), names(st)))
 
 # Merge sample information and results/standards
-res_st_info <-  full_join(info, res_st, by = intersect(names(res_st), names(info)))
+data <-  full_join(info, res_st, by = intersect(names(res_st), names(info)))
+```
+
+## Formula (normal)
+```{r Calculate final values}
+############################################################
+##### Calculate final values not controlling for spike #####
+############################################################
+
+data$Final_pg_mg <- 
+     (data$Conc_pg_ml * data$Dilution_factor_sample 
+      / data$Weight_mg) *            # A / B *
+     data$Extraction_ratio *         # C / D *
+     data$Reconst_buffer_ml          # E 
+                
+```
+
+```{r calculate CV, echo = FALSE}
+###### Calculate CV ##### 
+data <- data %>%
+  group_by(Sample) %>%
+  mutate(Ave_Conc_pg.ml = (mean(Conc_pg_ml, na.rm = TRUE))) %>%
+  mutate(Ave_Final_pg_mg = (mean(Final_pg_mg, na.rm = TRUE))) %>%
+  mutate(CV_perc = (sd(Final_pg_mg, na.rm = TRUE) / mean(Final_pg_mg, na.rm = TRUE)) * 100) %>%
+  mutate(z = (Final_pg_mg - mean(Final_pg_mg, na.rm = TRUE)) / sd(Final_pg_mg, na.rm = TRUE)) %>%
+  ungroup()
+
+```
+
+## Formula (accounting for spike)
+
+Simplifies unnecessary unit transformations and accounts for spike considering dilution of both sample and the spike
+
+- Step 1: Calculate contribution of the spike
+- Step 2: Substract spike from plate reading values and calculate final values accounting for dilution of the sample, weight, and reconstitution
+
+**Step 1**: Calculate contribution of spike
+
+X * Y / Z / SPd = SP
+
+- SP = final value of spike contribution in pg/mL
+- X = volume of spike added (mL)
+- Y = concentration of the spike added (pg/mL)
+- SPd = if serially diluted, dilution factor for the spike (i.e: 1, 2, 4, 8, etc.)
+- Z = total volume (mL) in the well or tube, if spike is added before loading the plate (sample + spike)
+
+```{r C calc}
+# Transforming units
+data$SpikeVol_ml <- data$Spike_well_ml + data$Spike_tube_ml # X to mL
+data$TotalVol_ml  <- data$Spike_well_ml + data$Sample_well_ml + data$Buffer_well_ml # Z in mL
+std <- data[data$Sample == spike_std, c("Ave_conc_pg_ml")]
+std <- mean(std$Ave_conc_pg_ml)
+  
+# Calculate spike contribution to each sample
+      ##  ( Spike vol. x Spike Conc.)
+      ##   ------------------------  / dilution = Spike contribution (pg/ml)
+      ##        Total vol. 
+  
+# Calculate cort contribution of spike to each sample
+data$Spike_contribution <- ((data$SpikeVol_ml * std  /     # X * Y
+                            data$TotalVol_ml ) /           # Z / 
+                              data$Dilution_factor_spike)  # SP
+
+# Null contributions equal zero
+data <- data %>%
+mutate(Spike_contribution = ifelse(is.na(Spike_contribution) | is.nan(Spike_contribution), 0, Spike_contribution))
+
+```
+
+```{r echo = FALSE}
+cat("The reading for the standard used as spike in this plate is", std, "(pg/ml)")
+cat("The contribution of the spike, considering how much is added to the well, is", unique(data$Spike_contribution))
+
+```
+**Step 2 **: Substract spike and calculate final values
+
+((A - **SP**)/B) * (C/D) * E  = F
+
+- A = pg/ml from assay output;
+- *SP* = spike contribution (in pg/ml) 
+- B = weight (in mg) of hair subjected to extraction;
+- C = vol. (in ml) of methanol added to the powdered hair;
+- D = vol. (in ml) of methanol recovered from the extract and subsequently dried down;
+- E = vol. (in ml) of assay buffer used to reconstitute the dried extract;
+- F = final value of hair CORT Concentration in pg/mg.
 
 
-# ---- Write to disk & show a peek ----
-write_csv(res_st_info , output_path)
-print(glue::glue("Wrote {nrow(res_st_info)} rows to {output_path}"))
+```{r calc-spike}
+##################################
+##### Calculate final values #####
+##################################
 
-cat("Here a quick look at the merged file:")
+data$Final_pg_mg_sp <- 
+     (
+       (data$Ave_conc_pg_ml - data$Spike_contribution) * #  (A - spike)
+         data$Dilution_factor_sample) /  #  * dilution factor /
+     data$Weight_mg *                # B *
+     data$Extraction_ratio *         # C / D *
+     data$Reconst_buffer_ml          # E 
 
-res_st_info %>% head(5)
-cat("This is a list of all the samples included:")
-print(unique(res_st_info$Sample))
+plot(data$Final_pg_mg_sp, data$Final_pg_mg)
+plot(hist(data$Final_pg_mg_sp))
+```
+
+   
+
+
+## Explanation of each variable used in calculations
+
+- Ave_Conc_pg/ml: average ELISA reading per sample in pg/mL
+
+- Weight_mg: hair weight in mg (here we used 10 and 20 mg)
+
+- Buffer_ml: assay buffer volume in mL (here we used 220 uL)
+
+- Extraction_ratio: methanol volume ratio = vol added / vol recovered (here we used 1.4/1 ml)
+
+- Dilution factor for samples: Indicates if samples were diluted after reconstitution
+
+Final cortisol concentration values are shown in pg/mg
+
+
+# Quality
+
+Flag samples with high coefficient of variation (replicate measurements that are too different from each other) or that fall outside the standard curve (binding percentage is above 80%, or under 20%)
+```{r qc parameters}
+# flag samples with high CV (15%) or binding above 80% and under 20%
+CV_threshold <- 15.0
+uppBinLim <- 80.0
+lowBinLim <- 20.0
+```
+
+```{r flag issues, echo= FALSE}
+# flag samples with binding percentage over 80 or under 20
+data_qual <- data %>%
+  mutate(Binding_perc_categ = ifelse(Binding_perc > uppBinLim, "ABOVE 80% binding", 
+                                     ifelse(Binding_perc < lowBinLim, "UNDER 20% binding", 
+                                            NA))) %>% 
+  mutate(CV_categ = ifelse(data$CV_perc > CV_threshold,  
+                           "HIGH CV", NA))
+
+out_curve <- data_qual[!is.na(data_qual$Binding_perc_categ), ] 
+
+cat(paste("Total samples outside the curve:", nrow(out_curve), "(some are blanks or NSB)", sep=" "))
+print(out_curve[2:4])
+
+cv_high <- data_qual %>% 
+ filter(CV_perc > CV_threshold) %>% 
+ arrange(desc(CV_perc))
+
+cat("High CV in a total of", nrow(cv_high), "replicates. These are:")
+print(cv_high[2:4])
+
+```
+
+```{r echo = FALSE}
+# Visualize low quality samples
+data_qual %>%
+  filter(!Category == "Std", Category != "NSB", Category != "B0") %>%
+ggplot(aes(x = Sample, y = Final_pg_mg), group = Binding_perc_categ) +
+  geom_point() +
+#  geom_boxplot() +
+  labs(title = "Replicates per sample") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+cat("Samples with concerningly high CV values")
+
+cat("Summary final cortisol values for all samples")
+summary(data_qual$Final_pg_mg)
+
+# remove outliers and recalculate CV
+# remove <- c("D4", "D5", "E6", "C6")
+# data_clean <- data_qual %>%
+   # filter(!Wells %in% remove)
+
+
+data_clean <- data_qual %>%
+  group_by(Sample) %>%
+  mutate(Ave_Conc_pg_ml = (mean(Conc_pg_ml, na.rm = TRUE))) %>%
+  mutate(CV.Perc = (sd(Conc_pg_ml, na.rm = TRUE) / 
+                      mean(Conc_pg_ml, na.rm = TRUE)) * 100) %>%
+  mutate(z = (Conc_pg_ml - mean(Conc_pg_ml, na.rm = TRUE)) /
+           sd(Conc_pg_ml, na.rm = TRUE)) %>%
+  ungroup()
+
+ggplot(data_clean, aes(x = Sample, y = Conc_pg_ml)) +
+  geom_point() +
+  geom_boxplot()
 ```
 
 
+## Plot: results grouped by category
+```{r plot-by-categ, echo = FALSE, warning = FALSE, message = FALSE}
+
+ggplot(data_clean, aes(y = Final_pg_mg, 
+                  x = Sample,
+                  color = Category,
+                  fill= Category)) +
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.2) + 
+  geom_point(size = 2.5) +  
+  ylim(0, max(data_clean$Final_pg_mg)) +
+   geom_text(label = c(data_clean$Sample), nudge_y = 10, nudge_x = 0, size = 2) +
+  theme_minimal() +  
+  labs(
+    title = "Final Cort Concentration by Category
+    (All samples)",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample number"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) 
+```
+
+## Plot: results grouped by category without outliers
+```{r plot-by-categ-2, echo = FALSE, warning = FALSE, message = FALSE}
+
+ggplot(data_clean, aes(y = Final_pg_mg, 
+                  x = 1:length(Sample),
+                  color = Category,
+                  fill= Category)) +
+  geom_smooth(method = "lm", 
+              color = "gold3", 
+              se = TRUE,
+              alpha = 0.2) + 
+     geom_point(size = 2.5) +  
+     #  ylim(0,135) +
+  geom_text(label = c(data_clean$Sample), nudge_y = 3, nudge_x = 0, size = 2.2) +
+  theme_minimal() +  
+  labs(
+    title = "Final Cort Concentration by Category
+    (All samples)",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample number"  
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 12) 
+  ) 
+```
+
+## Plot: results grouped by data quality
+```{r echo = FALSE, warning=FALSE }
+
+# scatterplot 
+ggplot(data_clean, aes(y = Ave_Final_pg_mg, 
+                 x = order(Sample)
+                 )) +
+  geom_point(size = 2.5,  alpha = 0.85) +  
+  geom_text(aes(label = Sample), size = 2.3, vjust = -1, hjust = 0.6) +
+  theme_minimal() +  
+ #    ylim(-26,30) +
+  #   xlim(0,52) +
+  geom_hline(yintercept = 0, 
+             linetype = "dashed", color = "red") +
+  labs(
+    title = "Final cort values",
+    y = "Final Concentration (pg/mg)",
+    x = "Sample" ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 17, face = "bold"),
+    axis.title = element_text(size = 14),  
+    axis.text = element_text(size = 10)  
+  )
+```
+
+
+```{r saving final file, echo=FALSE}
+
+write_csv(data_qual , output_path)
+print(glue::glue("Wrote {nrow(data_qual)} rows to {output_path}, with a total of {length(unique(data_qual$Sample))} data points, including reference values such as blanks and standards"))
+
+cat("The final file has the following columns:")
+print(colnames(data_qual))
+
+cat("This is a list of all the samples included:")
+print(unique(data_qual$Sample))
+```
+
+# Pending
+```{r}
+## Standard curve quality (%RE)
+
+## Blank OD
+
+## NSB
+
+## Max OD
+
+## Flaggs
+
+
+## Plate CV
+
+## Plave CV removing ref values
+
+
+## Plate CV removing bad quality samples
+
+## Plate map image
+```
 
 
 

@@ -13,7 +13,7 @@ This document provides an overview of the ELISA protocol employed to measure cor
 The goal of this protocol is to accurately quantify hair cortisol concentrations and validate the effectiveness of Nist et al. 2020 method for measuring physiological stress. The following analyses document each step from sample preparation to data processing and statistical modeling.
 
 ## Strategy 
-All samples in this essay were obtained from the same person, and were extracted using the same protocol. The parameters that we want to optimize vary for different samples:
+All samples in this essay were obtained using roughly the same protocol. The parameters that we want to optimize vary for different samples:
 
 - The buffer volume for the reconstitution
 - The weight of each sample
