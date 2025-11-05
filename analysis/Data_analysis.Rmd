@@ -29,10 +29,10 @@ knitr::opts_chunk$set(fig.path = paste0(fig_dir, "/"))
 # Libraries 
 library(knitr)
 library(tidyverse)
-library(dplyr)
 library(janitor)
 library(readr)
 library(stringr)
+library(dplyr)
 ```
 
 # Overview
@@ -49,13 +49,17 @@ This is how final values were obtained:
           |
           |
           |---> Myassays.com uses ODs and map of plate layout to:
-               1) Subtract readings for the NSB (non-specific binding) well 
-                  (0% binding) from all values
-               2) Normalize values dividing by reading for zero standard 
-                  (blank, or B0)
+          
+               1) Subtract readings for the NSB (non-specific binding, 0% binding) well 
+                  from all values
+                  
+               2) Normalize all values, dividing them by the reading for the zero standard 
+                  (blank, or B0, 100% binding)
+                  
                3) Fit a 4-Parameter Logistic curve (for a sigmoidal shape) 
                   to the standard readings
-               4) Extrapolate cortisol concentration values from the curve
+                  
+               4) Extrapolate cortisol concentration values from the standard curve
                       * Obtained values for each replicate separately by 
                       treating them as a single sample when providing 
                       the plate layout
@@ -63,38 +67,30 @@ This is how final values were obtained:
                       in dilution, sample weight, spike, etc. 
                       * Values obtained are in the same unit as the
                       standards provided (pg/ml)
+                      * Flagged samples were labeled as such in SampleInfo.csv file
                            |
                            |
-                           |----> In R, I calculate final values using the formula:
-                                
-                                A * F / B * C / D * E 
-                                            ▪ A = output myassays.com (pg/ml)
-                                            ▪ B = sample mass (mg)
-                                            ▪ C = methanol added for extraction (mL)
-                                            ▪ D = methanol recovered (mL)
-                                            ▪ E = reconstitution volume (mL)
-                                            ▪ F = Sample dilution factor
+                           |----> In R, I calculate final values using two formulas:
+                                  A) Traditional used across studies
+                                  B) Alternative, accounts for Spike (when necessary)
 
-See Rmarkdown file to see the code used to clean and merge data frames. 
+Check Rmarkdown file to see the code used to clean and merge data frames. 
 
 ## Input files
+All located in ./HairCort-Evaluation-Nist2020/data/TestX
 
 - **Results**:
 ```{r echo=FALSE}
 cat(paste("ResultsMyAssaysIndiv_", plate_short, ".csv", sep=""))
 ```
-
 - **Results for Standards**:
-
 ```{r echo=FALSE}
 cat(paste("ResultsMyAssaysIndiv_", plate_short, "_st.csv", sep=""))
 ```
-
 - **Sample information**:
 ```{r echo=FALSE}
 cat("SampleInfo.csv")
 ```
-
 ```{r loading files, echo = FALSE}
 # Loading files
 results  <- read.csv(p(paste0("ResultsMyAssaysIndiv_", plate_short, ".csv")),
@@ -111,9 +107,6 @@ info <- read.csv(p("SampleInfo.csv"),
 
 output_path <- p(paste0("Merged_ELISA_results_", plate, ".csv"))
 ```
-
-# Calculating final values
-
 ```{r cleaning results and standard file, echo = FALSE}
 
 # Clean Results file
@@ -131,7 +124,7 @@ results_clean <- results %>%
                     ~na_if(trimws(.), "-"))) %>% 
        mutate(Conc_pg_ml = na_if(Conc_pg_ml, "< Curve"),
              Conc_pg_ml = na_if(Conc_pg_ml, "> Curve")) %>%
-       mutate(across(c(Conc_pg_ml, Ave_conc_pg_ml, CV_perc, SEM),
+       mutate(across(c(Binding_perc, Conc_pg_ml, Ave_conc_pg_ml, CV_perc, SEM),
                 ~ as.numeric(as.character(.))))
 
   # fill down empty cells for replicates (merged cells in original file)
@@ -155,13 +148,13 @@ standard_clean <- standard %>%
    Sample = Calibrator,
    Well = Wells,
    Conc_pg_ml= Conc.,
-   CV_perc = Raw,
+   Binding_perc = Raw,
    Ave_conc_pg_ml = Backfit, 
    Std_recovery = Recovery..
     ) %>%
    mutate(across(everything(),     # replace unreadable or non-numeric values
                     ~na_if(trimws(.), "-"))) %>% 
-   mutate(across(c(Ave_conc_pg_ml, Conc_pg_ml, CV_perc, SEM),
+   mutate(across(c(Ave_conc_pg_ml, Conc_pg_ml, Binding_perc, SEM),
                 ~ as.numeric(as.character(.))))
 
   # fill down empty cells for replicates (merged cells in original file)
@@ -180,9 +173,7 @@ standard_filled <- standard_clean %>%
 ## Simplify object names
 res <- results_filled
 st <- standard_filled
-
 ```
-
 ```{r merge files, echo = FALSE}
 # Merge results and standard file 
 
@@ -190,12 +181,188 @@ res_st <- full_join(res, st, by = intersect(names(res), names(st)))
 
 # Merge sample information and results/standards
 data <-  full_join(info, res_st, by = intersect(names(res_st), names(info)))
+
+
+data <- data %>%
+  filter(Category != "Flagged") %>% # removed flagged samples
+  mutate(across(c(Binding_perc, Conc_pg_ml, Ave_conc_pg_ml, SEM),
+                ~ as.numeric(as.character(.))))
+#extract values for the spike used in this plate
+ std <- data[data$Sample == spike_std, c("Ave_conc_pg_ml")] 
 ```
 
-## Formula (normal)
+# Results
+## Binding Percentages and non-normalized cort values
+```{r keep logical order, echo = FALSE}
+data <- data[order(data$Order), ]
+data$Sample <- factor(data$Sample, levels = unique(data$Sample))
+```
+```{r all.groups.binding.perc.cort, fig.width=8, fig.height=6, warning = FALSE, echo = FALSE}
+# Scatter plot observed binding % and cort vals
+
+ggplot(data, aes(x = log10(Ave_conc_pg_ml), 
+                 y = Binding_perc, 
+                 color = Category)) +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), 
+            size = 2,  color = "gray30",
+            vjust = -0.1, hjust = -0.2) +
+  geom_hline(yintercept = 80, linetype = "dashed", 
+             color = "gray", linewidth = 0.8) +
+  geom_hline(yintercept = 20, linetype = "dashed", 
+             color = "gray", linewidth = 0.8) +
+  labs(title = "Binding % and log10 cortisol values",
+       subtitle = "Non-corrected values (for weight, dilution), all samples",
+       x = "Log10 Concentration (pg/mL)", y = "Binding Percentage") +
+  theme_minimal() +
+  scale_y_continuous(n.breaks = 10) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+```
+## Binding Percentages by Sample 
+```{r all.groups.binding.perc.sample, fig.width=8, fig.height=6, echo = FALSE}
+ggplot(data, aes(x = Sample, 
+                 y = Binding_perc, 
+                 color = Category)) +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+  geom_point(size = 2) +
+  geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, hjust = -0.2, color = "gray40") +
+  geom_hline(yintercept = 80, linetype = "dashed", color = "gray", linewidth = 0.8) +
+  geom_hline(yintercept = 20, linetype = "dashed", color = "gray", linewidth = 0.8) +
+  labs(title = "Binding % by Sample",
+       subtitle = "Non-corrected values (for weight, dilution), all samples",
+       x = "Sample ID", y = "Binding Percentage") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_y_continuous(n.breaks = 10)
+
+```
+## Binding Percentages by Sample, filtered out flagged samples 
+```{r goodqual.groups.binding.perc.sample, fig.width=8, fig.height=6, echo = FALSE}
+
+filtered <- data %>% 
+  filter(Subcategory != "LowQual")
+
+ggplot(filtered , aes(x = Sample, 
+                 y = Binding_perc, 
+                 color = Category)) +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+  geom_point(size = 2) +
+  geom_text(aes(label = Well), 
+            size = 2.5, vjust = 0, hjust = -0.2, color = "gray40") +
+  geom_hline(yintercept = 80, linetype = "dashed", color = "gray", linewidth = 0.8) +
+  geom_hline(yintercept = 20, linetype = "dashed", color = "gray", linewidth = 0.8) +
+  labs(title = "Binding % by Sample",
+       subtitle = "Non-corrected values (for weight, dilution), good quality samples only ",
+       x = "Sample ID", y = "Binding Percentage") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_y_continuous(n.breaks = 10)
+
+```
+## Binding Percentages by Sample, averaged for replicates
+```{r goodqual.ave.binding.perc.sample, fig.width=8, fig.height=6, echo = FALSE}
+filtered <- filtered %>%
+  group_by(Sample, Category) %>%
+ summarise(
+   Ave_conc_pg_ml = mean(Conc_pg_ml, na.rm = TRUE),
+   Ave_binding_perc = mean(Binding_perc, na.rm = TRUE),
+## ADD SEM (Standard error of the mean)
+   Sd_binding = sd(Binding_perc, na.rm = TRUE),
+   N = n(),
+   Sem_binding = Sd_binding / sqrt(N)
+  )
+
+
+ggplot(filtered, aes(x = Sample, 
+                 y = Ave_binding_perc, 
+                 color = Category)) +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = Ave_binding_perc - Sem_binding,
+                    ymax = Ave_binding_perc + Sem_binding),
+                width = 0.2, linewidth = 0.5) +
+  geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, hjust = -0.2, color = "gray40") +
+  geom_hline(yintercept = 80, linetype = "dashed", color = "gray", linewidth = 0.8) +
+  geom_hline(yintercept = 20, linetype = "dashed", color = "gray", linewidth = 0.8) +
+  labs(title = "Averaged Binding % by Sample",
+       subtitle = "Non-corrected values (for weight, dilution), good quality samples only. Bars show SEM",
+       x = "Sample ID", y = "Binding Percentage") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_y_continuous(n.breaks = 10)
+
+```
+
+
+## Binding Percentages vs Hair Count (if information exists)
+
+```{r bind.perc.hair.count, fig.width=8, fig.height=6, echo = FALSE, echo = FALSE}
+
+
+if ("Num_strands" %in% names(data) && any(data$Num_strands != 0, na.rm = TRUE)) {
+
+  data %>% 
+  ggplot( aes(x = Num_strands, 
+                 y = Binding_perc, 
+                 color = Category)) +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+  geom_jitter(size = 2, height = 0, width = 0.1) +
+#  geom_text(aes(label = Sample), 
+ #           size = 2.5, vjust = 0, hjust = -0.2, color = "gray40") +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.3, alpha = 0.09, 
+              aes(group = Category)) +
+  geom_hline(yintercept = 80, linetype = "dashed", color = "gray", linewidth = 0.8) +
+  geom_hline(yintercept = 20, linetype = "dashed", color = "gray", linewidth = 0.8) +
+  labs(title = "Binding % by Sample",
+       subtitle = "Non-corrected values (for weight, dilution)",
+       x = "Hair Count", y = "Binding Percentage") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_y_continuous(n.breaks = 10) +
+  scale_x_continuous(n.breaks = 10)
+} else {
+    message(paste("Skipping plot, data set is missing information on 
+    the number of hair strands"))
+  }
+
+```
+
+
+
+# Calculating final, normalized values
+## Formula A (traditional)
+  
+        A * F / B * C / D * E = Cortisol concentration in pg/mg
+  
+        ▪ A = output myassays.com (pg/ml)
+        ▪ B = sample mass (mg)
+        ▪ C = methanol added for extraction (mL)
+        ▪ D = methanol recovered (mL)
+        ▪ E = reconstitution volume (mL)
+        ▪ F = Sample dilution factor (2 if 1:2, 4 if 1:4)
+        
 ```{r Calculate final values}
 ############################################################
-##### Calculate final values not controlling for spike #####
+##### Calculate final values not accounting for spike #####
 ############################################################
 
 data$Final_pg_mg <- 
@@ -203,27 +370,24 @@ data$Final_pg_mg <-
       / data$Weight_mg) *            # A / B *
      data$Extraction_ratio *         # C / D *
      data$Reconst_buffer_ml          # E 
-                
 ```
-
-```{r calculate CV, echo = FALSE}
-###### Calculate CV ##### 
+```{r calculate average final vals and CV, echo = FALSE}
+###### Calculate average final vals and CV ##### 
 data <- data %>%
-  group_by(Sample) %>%
-  mutate(Ave_Conc_pg.ml = (mean(Conc_pg_ml, na.rm = TRUE))) %>%
+  group_by(Sample, Category) %>%
+  filter(Subcategory != "Flagged") %>% 
+  mutate(Ave_conc_pg_ml = (mean(Conc_pg_ml, na.rm = TRUE))) %>%
   mutate(Ave_Final_pg_mg = (mean(Final_pg_mg, na.rm = TRUE))) %>%
   mutate(CV_perc = (sd(Final_pg_mg, na.rm = TRUE) / mean(Final_pg_mg, na.rm = TRUE)) * 100) %>%
   mutate(z = (Final_pg_mg - mean(Final_pg_mg, na.rm = TRUE)) / sd(Final_pg_mg, na.rm = TRUE)) %>%
   ungroup()
-
 ```
-
-## Formula (accounting for spike)
+## Formula B (accounting for spike)
 
 Simplifies unnecessary unit transformations and accounts for spike considering dilution of both sample and the spike
 
 - Step 1: Calculate contribution of the spike
-- Step 2: Substract spike from plate reading values and calculate final values accounting for dilution of the sample, weight, and reconstitution
+- Step 2: Subtract spike from plate reading values and calculate final values accounting for dilution of the sample, weight, and reconstitution
 
 **Step 1**: Calculate contribution of spike
 
@@ -235,12 +399,21 @@ X * Y / Z / SPd = SP
 - SPd = if serially diluted, dilution factor for the spike (i.e: 1, 2, 4, 8, etc.)
 - Z = total volume (mL) in the well or tube, if spike is added before loading the plate (sample + spike)
 
-```{r C calc}
-# Transforming units
-data$SpikeVol_ml <- data$Spike_well_ml + data$Spike_tube_ml # X to mL
-data$TotalVol_ml  <- data$Spike_well_ml + data$Sample_well_ml + data$Buffer_well_ml # Z in mL
-std <- data[data$Sample == spike_std, c("Ave_conc_pg_ml")]
-std <- mean(std$Ave_conc_pg_ml)
+```{r calc contrib spike}
+# Calculating contribution of the spike
+
+# consider spike volume added, either in the tube or the well
+data$SpikeVol_ml <- data$Spike_well_ml + data$Spike_tube_ml 
+
+# consider total volume of liquid added to the well, adding up spike, buffer and sample volumes
+data$TotalVol_ml  <- data$Spike_well_ml + data$Sample_well_ml + data$Buffer_well_ml 
+
+# reading for the standard used to spike samples
+# I already run the following line, to save the std readings before overwritting the Ave_conc_pg_ml object
+# std <- data[data$Sample == spike_std, c("Ave_conc_pg_ml")] 
+
+# average both readings
+std <- mean(std) 
   
 # Calculate spike contribution to each sample
       ##  ( Spike vol. x Spike Conc.)
@@ -248,20 +421,18 @@ std <- mean(std$Ave_conc_pg_ml)
       ##        Total vol. 
   
 # Calculate cort contribution of spike to each sample
-data$Spike_contribution <- ((data$SpikeVol_ml * std  /     # X * Y
+data$Spike_contribution <- ((data$SpikeVol_ml * std  /     # X * Y /
                             data$TotalVol_ml ) /           # Z / 
-                              data$Dilution_factor_spike)  # SP
+                              data$Dilution_factor_spike)  # SPd
 
 # Null contributions equal zero
 data <- data %>%
 mutate(Spike_contribution = ifelse(is.na(Spike_contribution) | is.nan(Spike_contribution), 0, Spike_contribution))
 
 ```
-
 ```{r echo = FALSE}
-cat("The reading for the standard used as spike in this plate is", std, "(pg/ml)")
-cat("The contribution of the spike, considering how much is added to the well, is", unique(data$Spike_contribution))
-
+cat("The reading for the standard used as spike (which is", spike_std, ") in this plate is", std, "(pg/ml)")
+cat("The contribution of the spike, considering how much is added to the well, is", unique(data$Spike_contribution), "pg/ml")
 ```
 **Step 2 **: Substract spike and calculate final values
 
@@ -275,7 +446,6 @@ cat("The contribution of the spike, considering how much is added to the well, i
 - E = vol. (in ml) of assay buffer used to reconstitute the dried extract;
 - F = final value of hair CORT Concentration in pg/mg.
 
-
 ```{r calc-spike}
 ##################################
 ##### Calculate final values #####
@@ -283,12 +453,15 @@ cat("The contribution of the spike, considering how much is added to the well, i
 
 data$Final_pg_mg_sp <- 
      (
-       (data$Ave_conc_pg_ml - data$Spike_contribution) * #  (A - spike)
+       (data$Conc_pg_ml - data$Spike_contribution) * #  (A - spike)
          data$Dilution_factor_sample) /  #  * dilution factor /
-     data$Weight_mg *                # B *
-     data$Extraction_ratio *         # C / D *
-     data$Reconst_buffer_ml          # E 
+     data$Weight_mg *                    # B *
+     data$Extraction_ratio *             # C / D *
+     data$Reconst_buffer_ml              # E 
 
+```
+
+```{r echo = FALSE}
 plot(data$Final_pg_mg_sp, data$Final_pg_mg)
 plot(hist(data$Final_pg_mg_sp))
 ```
@@ -296,23 +469,44 @@ plot(hist(data$Final_pg_mg_sp))
    
 
 
-## Explanation of each variable used in calculations
 
-- Ave_Conc_pg/ml: average ELISA reading per sample in pg/mL
+### Results Formula B
+```{r goodqual.ave.cort.vals, fig.width=8, fig.height=6, echo = FALSE}
 
-- Weight_mg: hair weight in mg (here we used 10 and 20 mg)
+filtered <- data %>% 
+  filter(Subcategory != "LowQual", Person != "Ref_values", Person != "Spike") %>%
+  group_by(Sample, Category) %>%
+ summarise(
+   Ave_Final_pg_mg_sp = mean(Final_pg_mg_sp, na.rm = TRUE),
+## ADD SEM (Standard error of the mean)
+   Sd_Final_pg_mg_sp = sd(Final_pg_mg_sp, na.rm = TRUE),
+   N = n(),
+   Sem_Final_pg_mg_sp = Sd_Final_pg_mg_sp / sqrt(N)
+  )
 
-- Buffer_ml: assay buffer volume in mL (here we used 220 uL)
 
-- Extraction_ratio: methanol volume ratio = vol added / vol recovered (here we used 1.4/1 ml)
+ggplot(filtered, aes(x = Sample, 
+                 y = Ave_Final_pg_mg_sp, 
+                 color = Category)) +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = 0,
+           alpha = 0.2, fill = "gray70") +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = Ave_Final_pg_mg_sp - Sem_Final_pg_mg_sp,
+                    ymax = Ave_Final_pg_mg_sp + Sem_Final_pg_mg_sp),
+                width = 0.2, linewidth = 0.5) +
+  geom_text(aes(label = Sample), 
+            size = 3, vjust = 0, hjust = -0.2, color = "gray40") +
+  labs(title = "Averaged Cort values, Formula B, by Sample",
+       subtitle = "Corrected values (for weight, dilution), good quality samples only. Bars show SEM",
+       x = "Sample ID", y = "Cort vals (pg/mg) accounting for Spike") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_y_continuous(n.breaks = 10)
 
-- Dilution factor for samples: Indicates if samples were diluted after reconstitution
-
-Final cortisol concentration values are shown in pg/mg
+```
 
 
 # Quality
-
 Flag samples with high coefficient of variation (replicate measurements that are too different from each other) or that fall outside the standard curve (binding percentage is above 80%, or under 20%)
 ```{r qc parameters}
 # flag samples with high CV (15%) or binding above 80% and under 20%
@@ -367,7 +561,7 @@ summary(data_qual$Final_pg_mg)
 
 data_clean <- data_qual %>%
   group_by(Sample) %>%
-  mutate(Ave_Conc_pg_ml = (mean(Conc_pg_ml, na.rm = TRUE))) %>%
+  mutate(Ave_conc_pg_ml = (mean(Conc_pg_ml, na.rm = TRUE))) %>%
   mutate(CV.Perc = (sd(Conc_pg_ml, na.rm = TRUE) / 
                       mean(Conc_pg_ml, na.rm = TRUE)) * 100) %>%
   mutate(z = (Conc_pg_ml - mean(Conc_pg_ml, na.rm = TRUE)) /

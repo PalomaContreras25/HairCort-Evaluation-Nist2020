@@ -4,7 +4,7 @@ use_here <- requireNamespace("here", quietly = TRUE)
 h <- if (use_here) here::here else function(...) file.path(...)
 
 # List of plates to render
-plates <- paste0("Test", 7:10)
+plates <- paste0("Test", 10)
 
 # Define which spike standard is used for each plate
 spike_lookup <- data.frame(
