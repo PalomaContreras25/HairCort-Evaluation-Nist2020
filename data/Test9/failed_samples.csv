@@ -1,6 +1,0 @@
-"Wells","Sample","Category","Weight_mg","Buffer_nl","Spike","SpikeVol_ul","Dilution_spike","Vol_in_well.tube_ul","Extraction_ratio","Sub_categ","Order","Num_strands","Person","Dilution_sample","Raw.OD","Binding.Perc","Conc_pg.ml","Ave_Conc_pg.ml","CV.Perc","SD","SEM","CV_categ","Binding.Perc_categ","Failed_samples"
-"C4","P10-SP1:8","P10-SP",10,220,1,25,1,50,1.4,NA,5,NA,"Paloma",1,0.65,66.1,171.4,381.1,77.8,297,210,"HIGH CV",NA,"HIGH CV"
-"C10","P20-1:8","PC-precision",20,220,0,0,0,50,1.4,NA,23,NA,"Paloma",1,0.686,80.8,123.3,166,21.8,36.2,18.1,"HIGH CV","ABOVE 80% binding","HIGH CV;ABOVE 80% binding"
-"C5","P20-SP1:2","P20-SP",20,220,1,25,1,50,1.4,NA,15,NA,"Paloma",1,0.449,64.3,561.8,393.5,60.5,238,168,"HIGH CV",NA,"HIGH CV"
-"C6","P20-SP1:32","P20-SP",20,220,1,25,1,50,1.4,NA,19,NA,"Paloma",1,0.658,77,160.4,207.7,32.2,66.9,47.3,"HIGH CV",NA,"HIGH CV"
-"A7","Spike1:2","Spike",0,220,1,25,1,50,1.4,NA,0,NA,"Spike",1,0.56,72,312.9,269,32.3,86.8,35.4,"HIGH CV",NA,"HIGH CV"

@@ -1,5 +1,0 @@
-"Wells","Sample","Category","Weight_mg","Buffer_nl","Spike","SpikeVol_ul","Dilution_spike","Vol_in_well.tube_ul","Extraction_ratio","Sub_categ","Order","Num_strands","Person","Dilution_sample","Raw.OD","Binding.Perc","Conc_pg.ml","Ave_Conc_pg.ml","CV.Perc","SD","SEM","CV_categ","Binding.Perc_categ","Failed_samples"
-"C4","P10-SP1:8","P10-SP",10,220,1,25,1,50,1.4,NA,5,NA,"Paloma",NA,0.65,80.2,171.4,171.4,NA,NA,NA,NA,"ABOVE 80% binding","ABOVE 80% binding"
-"C10","P20-1:8","PC-precision",20,220,0,0,0,50,1.4,NA,23,NA,"Paloma",NA,0.686,85,123.3,123.3,NA,NA,NA,NA,"ABOVE 80% binding","ABOVE 80% binding"
-"F10","P20-1:8","PC-precision",20,220,0,0,0,50,1.4,NA,23,NA,"Paloma",NA,0.664,82,152.3,152.3,NA,NA,NA,NA,"ABOVE 80% binding","ABOVE 80% binding"
-"C6","P20-SP1:32","P20-SP",20,220,1,25,1,50,1.4,NA,19,NA,"Paloma",NA,0.658,81.2,160.4,160.4,NA,NA,NA,NA,"ABOVE 80% binding","ABOVE 80% binding"

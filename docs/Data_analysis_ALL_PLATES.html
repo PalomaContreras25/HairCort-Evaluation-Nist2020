@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Paloma" />
+
+
+<title>ELISA data analysis</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link href="site_libs/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-5.3.1/bootstrap.bundle.min.js"></script>
+<link href="site_libs/Exo_2-0.4.10/font.css" rel="stylesheet" />
+<link href="site_libs/Raleway-0.4.10/font.css" rel="stylesheet" />
+<script src="site_libs/bs3compat-0.9.0/transition.js"></script>
+<script src="site_libs/bs3compat-0.9.0/tabs.js"></script>
+<script src="site_libs/bs3compat-0.9.0/bs3compat.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="site_libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HairCort-Evaluation-Nist2020</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">ELISA data analysis</h1>
+<h4 class="author">Paloma</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-11-07
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>HairCort-Evaluation-Nist2020/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241016code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241016)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241016code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241016)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treedf368cb4900802ce01232340c1a3bfbda52a8cf8targetblankdf368cba">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/df368cb4900802ce01232340c1a3bfbda52a8cf8" target="_blank">df368cb</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treedf368cb4900802ce01232340c1a3bfbda52a8cf8targetblankdf368cba"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/df368cb4900802ce01232340c1a3bfbda52a8cf8" target="_blank">df368cb</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/data/
+    Ignored:    data/.DS_Store
+    Ignored:    data/Test10/.DS_Store
+    Ignored:    data/Test7/.DS_Store
+    Ignored:    data/Test8/.DS_Store
+    Ignored:    data/Test9/.DS_Store
+    Ignored:    figure/.DS_Store
+    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/Data_analysis_ALL_PLATES.Rmd
+    Untracked:  analysis/Data_analysis_render_all.R
+    Untracked:  analysis/Old/
+    Untracked:  analysis/inter-assay-eval.Rmd
+    Untracked:  data/Test3_old/
+    Untracked:  data/Test4_old/
+    Untracked:  data/Test5_old/
+    Untracked:  data/Test6_old/
+
+Unstaged changes:
+    Deleted:    analysis/Data_analysis.Rmd
+    Deleted:    analysis/ELISA_Analysis_FinalVals_test3.Rmd
+    Deleted:    analysis/ELISA_Analysis_FinalVals_test4.Rmd
+    Deleted:    analysis/ELISA_Analysis_FinalVals_test5.Rmd
+    Deleted:    analysis/ELISA_Analysis_FinalVals_test6.Rmd
+    Deleted:    analysis/ELISA_Analysis_FinalVals_test7.Rmd
+    Deleted:    analysis/ELISA_Analysis_FinalVals_test8.Rmd
+    Deleted:    analysis/ELISA_Analysis_FinalVals_test9.Rmd
+    Deleted:    analysis/ELISA_Analysis_RawVals_Models_test3.Rmd
+    Deleted:    analysis/ELISA_Analysis_RawVals_test3.Rmd
+    Deleted:    analysis/ELISA_Analysis_RawVals_test4.Rmd
+    Deleted:    analysis/ELISA_Analysis_RawVals_test5.Rmd
+    Deleted:    analysis/ELISA_Analysis_RawVals_test6.Rmd
+    Deleted:    analysis/ELISA_Analysis_RawVals_test7.Rmd
+    Deleted:    analysis/ELISA_Analysis_RawVals_test8Rmd.Rmd
+    Deleted:    analysis/ELISA_Analysis_RawVals_test9.Rmd
+    Deleted:    analysis/ELISA_Calc_FinalVals_test3.Rmd
+    Deleted:    analysis/ELISA_Calc_FinalVals_test4.Rmd
+    Deleted:    analysis/ELISA_Calc_FinalVals_test5.Rmd
+    Deleted:    analysis/ELISA_Calc_FinalVals_test6.Rmd
+    Deleted:    analysis/ELISA_Calc_FinalVals_test7.Rmd
+    Deleted:    analysis/ELISA_Calc_FinalVals_test8.Rmd
+    Deleted:    analysis/ELISA_Calc_FinalVals_test8_V2.Rmd
+    Deleted:    analysis/ELISA_Calc_FinalVals_test9.Rmd
+    Deleted:    analysis/ELISA_Calc_FinalVals_test9_V2.Rmd
+    Deleted:    analysis/ELISA_QC_test3.Rmd
+    Deleted:    analysis/ELISA_QC_test4.Rmd
+    Deleted:    analysis/ELISA_QC_test5.Rmd
+    Deleted:    analysis/ELISA_QC_test6.Rmd
+    Deleted:    analysis/ELISA_QC_test7.Rmd
+    Deleted:    analysis/ELISA_QC_test8.Rmd
+    Deleted:    analysis/ELISA_QC_test9.Rmd
+    Deleted:    analysis/ELISA_Simulation_test4.Rmd
+    Deleted:    analysis/Test5_design.Rmd
+    Deleted:    analysis/Test7_raw_from_plate.Rmd
+    Deleted:    analysis/Test8_raw_from_plate.Rmd
+    Deleted:    analysis/Test9_raw_from_plate.Rmd
+    Deleted:    analysis/render_all.R
+    Deleted:    data/Standard_data_testNUM.csv
+    Modified:   data/Test10/Merged_ELISA_results_Test10.csv
+    Deleted:    data/Test10/Standard_data_testNUM.csv
+    Deleted:    data/Test10/layout_wells_test10_DATE.csv
+    Deleted:    data/Test10/myassays_table_test10_DATE.csv
+    Deleted:    data/Test10/raw.plate.csv
+    Deleted:    data/Test3/Data_Cortisol_Processed.csv
+    Deleted:    data/Test3/Data_QC_filtered.csv
+    Deleted:    data/Test3/Data_QC_flagged.csv
+    Deleted:    data/Test3/Data_cort_values_ABC.csv
+    Deleted:    data/Test3/Data_cort_values_methodA.csv
+    Deleted:    data/Test3/Data_cort_values_methodB.csv
+    Deleted:    data/Test3/Data_cort_values_methodC.csv
+    Deleted:    data/Test3/Standard_data_test3.csv
+    Deleted:    data/Test3/failed_samples.csv
+    Deleted:    data/Test3/layout_wells_test3_091524.csv
+    Deleted:    data/Test3/myassays_table_test3_091524.csv
+    Deleted:    data/Test3/precision_accuracy_summary.csv
+    Deleted:    data/Test3/sample_info_test3_091524.csv
+    Deleted:    data/Test4/Data_QC_filtered (1).csv
+    Deleted:    data/Test4/Data_QC_filtered.csv
+    Deleted:    data/Test4/Data_QC_flagged (1).csv
+    Deleted:    data/Test4/Data_QC_flagged.csv
+    Deleted:    data/Test4/Data_cort_values_methodA.csv
+    Deleted:    data/Test4/Data_cort_values_methodB.csv
+    Deleted:    data/Test4/Data_cort_values_methodC.csv
+    Deleted:    data/Test4/Data_cort_values_method_ALL.csv
+    Deleted:    data/Test4/Standard_data_test4.csv
+    Deleted:    data/Test4/failed_samples (1).csv
+    Deleted:    data/Test4/failed_samples.csv
+    Deleted:    data/Test4/layout_wells_test4_021925.csv
+    Deleted:    data/Test4/myassays_table_test4_021925 (1).csv
+    Deleted:    data/Test4/myassays_table_test4_021925.csv
+    Deleted:    data/Test4/myassays_table_test4_021925_acc_dilution.csv
+    Deleted:    data/Test5/Data_QC_filtered.csv
+    Deleted:    data/Test5/Data_QC_flagged.csv
+    Deleted:    data/Test5/Data_cort_values_methodA.csv
+    Deleted:    data/Test5/Data_cort_values_methodB.csv
+    Deleted:    data/Test5/Data_cort_values_methodC.csv
+    Deleted:    data/Test5/Data_cort_values_method_ALL.csv
+    Deleted:    data/Test5/Standard_data_test5.csv
+    Deleted:    data/Test5/failed_samples.csv
+    Deleted:    data/Test5/layout_wells_test5_051325.csv
+    Deleted:    data/Test5/myassays_table_test5_051325.csv
+    Deleted:    data/Test6/Data_QC_filtered.csv
+    Deleted:    data/Test6/Data_QC_flagged.csv
+    Deleted:    data/Test6/Data_cort_values_methodA.csv
+    Deleted:    data/Test6/Data_cort_values_methodB.csv
+    Deleted:    data/Test6/Data_cort_values_methodC.csv
+    Deleted:    data/Test6/Data_cort_values_method_ALL.csv
+    Deleted:    data/Test6/Standard_data_test6.csv
+    Deleted:    data/Test6/failed_samples.csv
+    Deleted:    data/Test6/layout_wells_test6_053025.csv
+    Deleted:    data/Test6/myassays_table_test6_053025.csv
+    Deleted:    data/Test7/Data_QC_filtered.csv
+    Deleted:    data/Test7/Data_QC_flagged.csv
+    Deleted:    data/Test7/Data_cort_values.csv
+    Deleted:    data/Test7/Standard_data_test7.csv
+    Deleted:    data/Test7/failed_samples.csv
+    Deleted:    data/Test7/layout_wells_test7_081025.csv
+    Deleted:    data/Test7/myassays_table_test7_081025.csv
+    Deleted:    data/Test7/raw.plate.csv
+    Deleted:    data/Test8/Data_QC_filtered.csv
+    Deleted:    data/Test8/Data_QC_flagged.csv
+    Deleted:    data/Test8/Data_cort_values.csv
+    Modified:   data/Test8/Merged_ELISA_results_Test8.csv
+    Deleted:    data/Test8/Standard_data_test8.csv
+    Deleted:    data/Test8/failed_samples.csv
+    Deleted:    data/Test8/layout_wells_test8_090225.csv
+    Deleted:    data/Test8/myassays_table_test8_090225.csv
+    Deleted:    data/Test8/myassays_table_test8_090225_ave.csv
+    Deleted:    data/Test8/raw.plate.csv
+    Deleted:    data/Test9/Data_QC_filtered.csv
+    Deleted:    data/Test9/Data_QC_filtered2.csv
+    Deleted:    data/Test9/Data_QC_flagged.csv
+    Deleted:    data/Test9/Data_QC_flagged2.csv
+    Deleted:    data/Test9/Data_cort_values.csv
+    Modified:   data/Test9/Merged_ELISA_results_Test9.csv
+    Deleted:    data/Test9/Standard_data_test251008.csv
+    Deleted:    data/Test9/failed_samples.csv
+    Deleted:    data/Test9/failed_samples2.csv
+    Deleted:    data/Test9/layout_wells_test9_251008.csv
+    Deleted:    data/Test9/myassays_table_test9_251008.csv
+    Deleted:    data/Test9/myassays_table_test9_251008_ave.csv
+    Deleted:    data/Test9/raw.plate.csv
+    Deleted:    data/layout_wells_testX_DATE.csv
+    Deleted:    inter-assay-eval.Rmd
+    Deleted:    inter-assay-eval.html
+    Deleted:    myassays_table_test4_021925_acc_dilution.csv
+    Deleted:    test4_parallelism.csv
+    Deleted:    toydataset.csv
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="overview" class="section level1 hasAnchor" number="1">
+<h1 class="hasAnchor"><span class="header-section-number">1</span>
+Overview<a href="#overview" class="anchor-section"
+aria-label="Anchor link to header"></a></h1>
+<p>This file documents all the transformations done to obtain final
+cortisol values for the ELISA plate called:</p>
+<pre><code>Test7</code></pre>
+<p>This is how final values were obtained:</p>
+<pre><code>|-- Plate reader produces optical density (OD) values
+      |
+      |
+      |---&gt; Myassays.com uses ODs and map of plate layout to:
+      
+           1) Subtract readings for the NSB (non-specific binding, 0% binding) well 
+              from all values
+              
+           2) Normalize all values, dividing them by the reading for the zero standard 
+              (blank, or B0, 100% binding)
+              
+           3) Fit a 4-Parameter Logistic curve (for a sigmoidal shape) 
+              to the standard readings
+              
+           4) Extrapolate cortisol concentration values from the standard curve
+                  * Obtained values for each replicate separately by 
+                  treating them as a single sample when providing 
+                  the plate layout
+                  * These values do not control for differences 
+                  in dilution, sample weight, spike, etc. 
+                  * Values obtained are in the same unit as the
+                  standards provided (pg/ml)
+                  * Flagged samples were labeled as such in SampleInfo.csv file
+                       |
+                       |
+                       |----&gt; In R, I calculate final values using two formulas:
+                              A) Traditional used across studies
+                              B) Alternative, accounts for Spike (when necessary)</code></pre>
+<p><strong>Example</strong> with actual results from Plate 10:</p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="16%" />
+<col width="20%" />
+<col width="20%" />
+<col width="29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ID.</th>
+<th>Optical Density</th>
+<th>OD-NSB (0.05)</th>
+<th>B/B0 (0.792) *100</th>
+<th>Conc (pg/ml) extrapolated from std curve (A)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>T100.</td>
+<td>0.373</td>
+<td>0.323</td>
+<td>41%</td>
+<td>916.1</td>
+</tr>
+<tr class="even">
+<td>T100.</td>
+<td>0.383</td>
+<td>0.333</td>
+<td>42%</td>
+<td>871</td>
+</tr>
+</tbody>
+</table>
+<p>Now, using the formula A * F / B * C / D * E, we calculate the
+normalized final concentration value, adjusted for mass, extraction and
+reconstitution volumes.</p>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="14%" />
+<col width="17%" />
+<col width="17%" />
+<col width="20%" />
+<col width="13%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>A (Concentration in pg/ml)</th>
+<th>B (Mass in mg)</th>
+<th>C (MeOH added in mL)</th>
+<th>D (MeOH recovered in mL)</th>
+<th>E (Reconstitution volume in mL)</th>
+<th>F (Sample dilution factor)</th>
+<th>Result in pg/mg</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>916.1</td>
+<td>16</td>
+<td>1.4.</td>
+<td>1.</td>
+<td>0.22</td>
+<td>1.</td>
+<td>17.6</td>
+</tr>
+<tr class="even">
+<td>871</td>
+<td>16</td>
+<td>1.4</td>
+<td>1</td>
+<td>0.22</td>
+<td>1.</td>
+<td>16.7</td>
+</tr>
+</tbody>
+</table>
+<p>Check Rmarkdown file to see the code used to clean and merge data
+frames.</p>
+<div id="input-files" class="section level3 hasAnchor" number="1.0.1">
+<h3 class="hasAnchor"><span class="header-section-number">1.0.1</span>
+Input files<a href="#input-files" class="anchor-section"
+aria-label="Anchor link to header"></a></h3>
+<p>All located in ./HairCort-Evaluation-Nist2020/data/TestX</p>
+<ul>
+<li><strong>Results</strong>:</li>
+</ul>
+<pre><code>ResultsMyAssaysIndiv_T7.csv</code></pre>
+<ul>
+<li><strong>Results for Standards</strong>:</li>
+</ul>
+<pre><code>ResultsMyAssaysIndiv_T7_st.csv</code></pre>
+<ul>
+<li><strong>Sample information</strong>:</li>
+</ul>
+<pre><code>SampleInfo.csv</code></pre>
+</div>
+</div>
+<div id="results" class="section level1 hasAnchor" number="2">
+<h1 class="hasAnchor"><span class="header-section-number">2</span>
+Results<a href="#results" class="anchor-section"
+aria-label="Anchor link to header"></a></h1>
+<div id="binding-percentages-and-non-normalized-cort-values"
+class="section level2 hasAnchor" number="2.1">
+<h2 class="hasAnchor"><span class="header-section-number">2.1</span>
+Binding Percentages and non-normalized cort values<a
+href="#binding-percentages-and-non-normalized-cort-values"
+class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figure/Data_analysis_ALL_PLATES.Rmd/all.groups.binding.perc.cort-1.png" width="768" style="display: block; margin: auto;" />
+## Binding Percentages by Sample
+<img src="figure/Data_analysis_ALL_PLATES.Rmd/all.groups.binding.perc.sample-1.png" width="768" style="display: block; margin: auto;" />
+## Binding Percentages by Sample, filtered out flagged samples
+<img src="figure/Data_analysis_ALL_PLATES.Rmd/goodqual.groups.binding.perc.sample-1.png" width="768" style="display: block; margin: auto;" />
+## Binding Percentages by Sample, averaged for replicates</p>
+<pre><code>`summarise()` has grouped output by &#39;Sample&#39;. You can override using the
+`.groups` argument.</code></pre>
+<p><img src="figure/Data_analysis_ALL_PLATES.Rmd/goodqual.ave.binding.perc.sample-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="results-by-hair-count-if-information-exists"
+class="section level1 hasAnchor" number="3">
+<h1 class="hasAnchor"><span class="header-section-number">3</span>
+Results by hair count (if information exists)<a
+href="#results-by-hair-count-if-information-exists"
+class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<pre><code>Skipping plot, data set does not have information on 
+    the number of hair strands</code></pre>
+<pre><code>Skipping plot</code></pre>
+<pre><code>Skipping plot</code></pre>
+<pre><code>Skipping plot</code></pre>
+<pre><code>Skipping plot</code></pre>
+<pre><code>Skipping plot
+Skipping plot
+Skipping plot</code></pre>
+</div>
+<div id="calculating-final-normalized-values"
+class="section level1 hasAnchor" number="4">
+<h1 class="hasAnchor"><span class="header-section-number">4</span>
+Calculating final, normalized values<a
+href="#calculating-final-normalized-values" class="anchor-section"
+aria-label="Anchor link to header"></a></h1>
+<div id="formula-a-traditional" class="section level2 hasAnchor"
+number="4.1">
+<h2 class="hasAnchor"><span class="header-section-number">4.1</span>
+Formula A (traditional)<a href="#formula-a-traditional"
+class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre><code>    A * F / B * C / D * E = Cortisol concentration in pg/mg
+
+    ▪ A = output myassays.com (pg/ml)
+    ▪ B = sample mass (mg)
+    ▪ C = methanol added for extraction (mL)
+    ▪ D = methanol recovered (mL)
+    ▪ E = reconstitution volume (mL)
+    ▪ F = Sample dilution factor (2 if 1:2, 4 if 1:4)
+    </code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">############################################################</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">##### Calculate final values not accounting for spike </span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="do">############################################################</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>data<span class="sc">$</span>Final_pg_mg <span class="ot">&lt;-</span> </span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>     (data<span class="sc">$</span>Conc_pg_ml <span class="sc">*</span> data<span class="sc">$</span>Dilution_factor_sample </span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>      <span class="sc">/</span> data<span class="sc">$</span>Weight_mg) <span class="sc">*</span>            <span class="co"># A / B *</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>     data<span class="sc">$</span>Extraction_ratio <span class="sc">*</span>         <span class="co"># C / D *</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>     data<span class="sc">$</span>Reconst_buffer_ml          <span class="co"># E </span></span></code></pre></div>
+<pre><code>Skipping plot</code></pre>
+</div>
+<div id="formula-b-accounting-for-spike"
+class="section level2 hasAnchor" number="4.2">
+<h2 class="hasAnchor"><span class="header-section-number">4.2</span>
+Formula B (accounting for spike)<a
+href="#formula-b-accounting-for-spike" class="anchor-section"
+aria-label="Anchor link to header"></a></h2>
+<p>Simplifies unnecessary unit transformations and accounts for spike
+considering dilution of both sample and the spike</p>
+<ul>
+<li>Step 1: Calculate contribution of the spike</li>
+<li>Step 2: Subtract spike from plate reading values and calculate final
+values accounting for dilution of the sample, weight, and
+reconstitution</li>
+</ul>
+<p><strong>Step 1</strong>: Calculate contribution of spike</p>
+<p>X * Y / Z / SPd = SP</p>
+<ul>
+<li>SP = final value of spike contribution in pg/mL</li>
+<li>X = volume of spike added (mL)</li>
+<li>Y = concentration of the spike added (pg/mL)</li>
+<li>SPd = if serially diluted, dilution factor for the spike (i.e: 1, 2,
+4, 8, etc.)</li>
+<li>Z = total volume (mL) in the well or tube, if spike is added before
+loading the plate (sample + spike)</li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Calculating contribution of the spike</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co"># consider spike volume added, either in the tube or the well</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>data<span class="sc">$</span>SpikeVol_ml <span class="ot">&lt;-</span> data<span class="sc">$</span>Spike_well_ml <span class="sc">+</span> data<span class="sc">$</span>Spike_tube_ml </span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co"># consider total volume of liquid added to the well, adding up spike, buffer and sample volumes</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>data<span class="sc">$</span>TotalVol_ml  <span class="ot">&lt;-</span> data<span class="sc">$</span>Spike_well_ml <span class="sc">+</span> data<span class="sc">$</span>Sample_well_ml <span class="sc">+</span> data<span class="sc">$</span>Buffer_well_ml </span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co"># reading for the standard used to spike samples</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co"># I already run the following line, to save the std readings before overwritting the Ave_conc_pg_ml object</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co"># std &lt;- data[data$Sample == spike_std, c(&quot;Ave_conc_pg_ml&quot;)] </span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co"># average both readings</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>std <span class="ot">&lt;-</span> <span class="fu">mean</span>(std) </span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a>  </span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="co"># Calculate spike contribution to each sample</span></span>
+<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a>      <span class="do">##  ( Spike vol. x Spike Conc.)</span></span>
+<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a>      <span class="do">##   ------------------------  / dilution = Spike contribution (pg/ml)</span></span>
+<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a>      <span class="do">##        Total vol. </span></span>
+<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a>  </span>
+<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="co"># Calculate cort contribution of spike to each sample</span></span>
+<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a>data<span class="sc">$</span>Spike_contribution <span class="ot">&lt;-</span> ((data<span class="sc">$</span>SpikeVol_ml <span class="sc">*</span> std  <span class="sc">/</span>     <span class="co"># X * Y /</span></span>
+<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a>                            data<span class="sc">$</span>TotalVol_ml ) <span class="sc">/</span>           <span class="co"># Z / </span></span>
+<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a>                              data<span class="sc">$</span>Dilution_factor_spike)  <span class="co"># SPd</span></span>
+<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a></span>
+<span id="cb16-26"><a href="#cb16-26" tabindex="-1"></a><span class="co"># Null contributions equal zero</span></span>
+<span id="cb16-27"><a href="#cb16-27" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb16-28"><a href="#cb16-28" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">Spike_contribution =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(Spike_contribution) <span class="sc">|</span> <span class="fu">is.nan</span>(Spike_contribution), <span class="dv">0</span>, Spike_contribution))</span></code></pre></div>
+<pre><code>The reading for the standard used as spike (which is st1 ) in this plate is 3110.5 (pg/ml)</code></pre>
+<pre><code>The contribution of the spike, considering how much is added to the well, is 0 pg/ml</code></pre>
+<p><strong>Step 2 </strong>: Substract spike and calculate final
+values</p>
+<p>((A - <strong>SP</strong>) * F /B) * (C/D) * E = G</p>
+<ul>
+<li>A = pg/ml from assay output;</li>
+<li><em>SP</em> = spike contribution (in pg/ml)</li>
+<li>B = weight (in mg) of hair subjected to extraction;</li>
+<li>C = vol. (in ml) of methanol added to the powdered hair;</li>
+<li>D = vol. (in ml) of methanol recovered from the extract and
+subsequently dried down;</li>
+<li>E = vol. (in ml) of assay buffer used to reconstitute the dried
+extract;</li>
+<li>Sample dilution factor</li>
+<li>G = final value of hair CORT Concentration in pg/mg.</li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="do">##################################</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="do">##### Calculate final values #####</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="do">##################################</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>data<span class="sc">$</span>Final_pg_mg_sp <span class="ot">&lt;-</span> </span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>     ((data<span class="sc">$</span>Conc_pg_ml <span class="sc">-</span> data<span class="sc">$</span>Spike_contribution) <span class="sc">*</span> <span class="co">#  (A - spike)</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>         data<span class="sc">$</span>Dilution_factor_sample) <span class="sc">/</span>  <span class="co">#  * dilution factor /</span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>     data<span class="sc">$</span>Weight_mg <span class="sc">*</span>                    <span class="co"># B *</span></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>     data<span class="sc">$</span>Extraction_ratio <span class="sc">*</span>             <span class="co"># C / D *</span></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>     data<span class="sc">$</span>Reconst_buffer_ml              <span class="co"># E </span></span></code></pre></div>
+<div id="results-formula-b" class="section level3 hasAnchor"
+number="4.2.1">
+<h3 class="hasAnchor"><span class="header-section-number">4.2.1</span>
+Results Formula B<a href="#results-formula-b" class="anchor-section"
+aria-label="Anchor link to header"></a></h3>
+<pre><code>`summarise()` has grouped output by &#39;Sample&#39;. You can override using the
+`.groups` argument.</code></pre>
+<p><img src="figure/Data_analysis_ALL_PLATES.Rmd/goodqual.ave.cort.vals-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="quality" class="section level1 hasAnchor" number="5">
+<h1 class="hasAnchor"><span class="header-section-number">5</span>
+Quality<a href="#quality" class="anchor-section"
+aria-label="Anchor link to header"></a></h1>
+<p>Flag samples with high coefficient of variation (replicate
+measurements that are too different from each other) or that fall
+outside the standard curve (binding percentage is above 80%, or under
+20%)</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># flag samples with high CV (15%) or binding above 80% and under 20%</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>CV_threshold <span class="ot">&lt;-</span> <span class="fl">15.0</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>uppBinLim <span class="ot">&lt;-</span> <span class="fl">80.0</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>lowBinLim <span class="ot">&lt;-</span> <span class="fl">20.0</span></span></code></pre></div>
+<pre><code>Total samples outside the curve: 35 (some are blanks or NSB)</code></pre>
+<pre><code># A tibble: 35 × 3
+   Well  Sample Category
+   &lt;chr&gt; &lt;fct&gt;  &lt;fct&gt;   
+ 1 F3    P10    P10     
+ 2 F4    P10-5  P10     
+ 3 G4    P10-6  P10     
+ 4 H4    P10-6  P10     
+ 5 A5    P20    P20     
+ 6 B5    P20    P20     
+ 7 E6    T20    T20     
+ 8 F6    T20    T20     
+ 9 G6    T20-2  T20     
+10 H6    T20-2  T20     
+# ℹ 25 more rows</code></pre>
+<pre><code>High CV in a total of 10 replicates. These are:</code></pre>
+<pre><code># A tibble: 10 × 3
+   Well  Sample Category
+   &lt;chr&gt; &lt;fct&gt;  &lt;fct&gt;   
+ 1 G4    P10-6  P10     
+ 2 H4    P10-6  P10     
+ 3 E4    P10-5  P10     
+ 4 F4    P10-5  P10     
+ 5 G3    P10-2  P10     
+ 6 H3    P10-2  P10     
+ 7 E3    P10    P10     
+ 8 F3    P10    P10     
+ 9 A6    P20-5  P20     
+10 B6    P20-5  P20     </code></pre>
+<p><img src="figure/Data_analysis_ALL_PLATES.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Samples with concerningly high CV values</code></pre>
+<pre><code>Summary final cortisol values for all samples</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+  1.452  31.936  54.799     Inf 106.429     Inf      18 </code></pre>
+<p><img src="figure/Data_analysis_ALL_PLATES.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="plot-results-grouped-by-category"
+class="section level2 hasAnchor" number="5.1">
+<h2 class="hasAnchor"><span class="header-section-number">5.1</span>
+Plot: results grouped by category<a
+href="#plot-results-grouped-by-category" class="anchor-section"
+aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="plot-results-grouped-by-category-without-outliers"
+class="section level2 hasAnchor" number="5.2">
+<h2 class="hasAnchor"><span class="header-section-number">5.2</span>
+Plot: results grouped by category without outliers<a
+href="#plot-results-grouped-by-category-without-outliers"
+class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figure/Data_analysis_ALL_PLATES.Rmd/plot-by-categ-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="plot-results-grouped-by-data-quality"
+class="section level2 hasAnchor" number="5.3">
+<h2 class="hasAnchor"><span class="header-section-number">5.3</span>
+Plot: results grouped by data quality<a
+href="#plot-results-grouped-by-data-quality" class="anchor-section"
+aria-label="Anchor link to header"></a></h2>
+<pre><code>Skipping plot</code></pre>
+<pre><code>Wrote 72 rows to ./data/Test7/Merged_ELISA_results_Test7.csv, with a total of 36 data points, including reference values such as blanks and standards</code></pre>
+<pre><code>The final file has the following columns:</code></pre>
+<pre><code> [1] &quot;Plate_num&quot;              &quot;Well&quot;                   &quot;Sample&quot;                
+ [4] &quot;Category&quot;               &quot;Subcategory&quot;            &quot;Person&quot;                
+ [7] &quot;Order&quot;                  &quot;Num_strands&quot;            &quot;Weight_mg&quot;             
+[10] &quot;Reconst_buffer_ml&quot;      &quot;Sample_well_ml&quot;         &quot;Buffer_well_ml&quot;        
+[13] &quot;Buffer_tube_ml&quot;         &quot;Dilution_factor_sample&quot; &quot;Spike&quot;                 
+[16] &quot;Spike_well_ml&quot;          &quot;Spike_tube_ml&quot;          &quot;Dilution_factor_spike&quot; 
+[19] &quot;Extraction_ratio&quot;       &quot;Comments&quot;               &quot;OD&quot;                    
+[22] &quot;Binding_perc&quot;           &quot;Conc_pg_ml&quot;             &quot;Ave_conc_pg_ml&quot;        
+[25] &quot;CV_perc&quot;                &quot;SD&quot;                     &quot;SEM&quot;                   
+[28] &quot;Std_recovery&quot;           &quot;Final_pg_mg&quot;            &quot;Ave_Final_pg_mg&quot;       
+[31] &quot;z&quot;                      &quot;SpikeVol_ml&quot;            &quot;TotalVol_ml&quot;           
+[34] &quot;Spike_contribution&quot;     &quot;Final_pg_mg_sp&quot;         &quot;Binding_perc_categ&quot;    
+[37] &quot;CV_categ&quot;              </code></pre>
+<pre><code>This is a list of all the samples included:</code></pre>
+<pre><code> [1] P10   P10-2 P10-3 P10-4 P10-5 P10-6 P20   P20-2 P20-3 P20-4 P20-5 P20-6
+[13] T20   T20-2 T20-3 T20-4 T20-5 T20-6 stb1  stb2  stb3  stb4  stb5  stb6 
+[25] stb7  Pool  NSB   st1   st2   st3   st4   st5   st6   st7   B0    BE   
+36 Levels: P10 P10-2 P10-3 P10-4 P10-5 P10-6 P20 P20-2 P20-3 P20-4 ... BE</code></pre>
+</div>
+</div>
+<div id="pending" class="section level1 hasAnchor" number="6">
+<h1 class="hasAnchor"><span class="header-section-number">6</span>
+Pending<a href="#pending" class="anchor-section"
+aria-label="Anchor link to header"></a></h1>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>R version 4.5.2 (2025-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.0.1
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] gt_1.0.0        GGally_2.4.0    gridExtra_2.3   ggrepel_0.9.6  
+ [5] janitor_2.2.1   lubridate_1.9.4 forcats_1.0.0   stringr_1.5.1  
+ [9] dplyr_1.1.4     purrr_1.0.4     readr_2.1.5     tidyr_1.3.1    
+[13] tibble_3.2.1    ggplot2_4.0.0   tidyverse_2.0.0 knitr_1.50     
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6       xfun_0.52          bslib_0.9.0        lattice_0.22-7    
+ [5] tzdb_0.5.0         vctrs_0.6.5        tools_4.5.2        generics_0.1.3    
+ [9] parallel_4.5.2     pkgconfig_2.0.3    Matrix_1.7-4       RColorBrewer_1.1-3
+[13] S7_0.2.0           lifecycle_1.0.4    compiler_4.5.2     farver_2.1.2      
+[17] git2r_0.36.2       snakecase_0.11.1   httpuv_1.6.16      htmltools_0.5.8.1 
+[21] sass_0.4.10        yaml_2.3.10        crayon_1.5.3       later_1.4.2       
+[25] pillar_1.10.2      jquerylib_0.1.4    cachem_1.1.0       nlme_3.1-168      
+[29] ggstats_0.11.0     tidyselect_1.2.1   digest_0.6.37      stringi_1.8.7     
+[33] labeling_0.4.3     splines_4.5.2      rprojroot_2.0.4    fastmap_1.2.0     
+[37] grid_4.5.2         cli_3.6.4          magrittr_2.0.3     utf8_1.2.4        
+[41] withr_3.0.2        scales_1.4.0       promises_1.3.2     bit64_4.6.0-1     
+[45] timechange_0.3.0   rmarkdown_2.29     bit_4.6.0          workflowr_1.7.1   
+[49] hms_1.1.3          evaluate_1.0.3     mgcv_1.9-3         rlang_1.1.6       
+[53] Rcpp_1.0.14        glue_1.8.0         xml2_1.3.8         rstudioapi_0.17.1 
+[57] vroom_1.6.5        jsonlite_2.0.0     R6_2.6.1           fs_1.6.6          </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRUxJU0EgZGF0YSBhbmFseXNpcyIKYXV0aG9yOiAiUGFsb21hIgpvdXRwdXQ6ICAKICB3b3JrZmxvd3I6OndmbG93X2h0bWw6CiAgICAKICAgIHRoZW1lOgogICAgICB2ZXJzaW9uOiA1CiAgICAgIGJvb3Rzd2F0Y2g6IHplcGh5ciAgICMgb3IgY29zbW8sIGxpdGVyYSwgc2FuZHN0b25lLCB6ZXBoeXIsIGV0Yy4KICAgICAgcHJpbWFyeTogIiMwMEJGQTUiICAgIyBhY2NlbnQgY29sb3IKICAgICAgc2Vjb25kYXJ5OiAiI0MyMTg1QiIgICAjIAogICAgICBzdWNjZXNzOiAiIzI4QTc0NSIgICAgICMKICAgICAgaW5mbzogIiNGRkMxMDciICAgICAgICAjIAogICAgICB3YXJuaW5nOiAiI0ZGQzEwNyIgICAgICMgCiAgICAgIGRhbmdlcjogIiNFODNFOEMiICAKICAgICAgYmFzZV9mb250OiB7Z29vZ2xlOiAiRXhvIDIifQogICAgICBoZWFkaW5nX2ZvbnQ6IHtnb29nbGU6ICJSYWxld2F5In0KICAgIHRvYzogdHJ1ZQogICAgdG9jX2Zsb2F0OiB0cnVlCiAgICB0b2NfZGVwdGg6IDMKICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogICAgY29kZV9mb2xkaW5nOiBzaG93ICAgICAjIG9yICJoaWRlIgogICAgY29kZV9kb3dubG9hZDogdHJ1ZQogICAgaGlnaGxpZ2h0OiB0YW5nbyAgICAgICAjIGNvZGUgc3ludGF4IHRoZW1lICh0YW5nbywgcHlnbWVudHMsIHplbmJ1cm4sIGV0Yy4pCiAgICBkZl9wcmludDogcGFnZWQgICAgICAgICMgbmljZXIgdGFibGVzIGJ5IGRlZmF1bHQKICAgIGFuY2hvcl9zZWN0aW9uczogdHJ1ZQogICAgc21vb3RoX3Njcm9sbDogdHJ1ZQpwYXJhbXM6CiAgcGxhdGU6ICJUZXN0NyIgICAgICAgICMgb25lIG9mOiBUZXN0MyAuLi4gVGVzdDEwCiAgZGF0YV9yb290OiAiLi9kYXRhIiAgICMgcGFyZW50IGRpciB0aGF0IGhvbGRzIFRlc3QzLCBUZXN0NCwgLi4uCiAgc3Bpa2Vfc3RkOiAic3QxIiAKZWRpdG9yX29wdGlvbnM6CiAgY2h1bmtfb3V0cHV0X3R5cGU6IGNvbnNvbGUKLS0tCgpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQpwbGF0ZSAgICAgPC0gcGFyYW1zJHBsYXRlCmRhdGFfcm9vdCA8LSBwYXJhbXMkZGF0YV9yb290CnNwaWtlX3N0ZCA8LSBwYXJhbXMkc3Bpa2Vfc3RkCnBsYXRlX2RpciA8LSBmaWxlLnBhdGgoZGF0YV9yb290LCBwbGF0ZSkKcGxhdGVfc2hvcnQgPC0gcGFzdGUwKCJUIiwgc3ViKCJeVGVzdCIsICIiLCBwbGF0ZSkpICAjICJUZXN0OSIgLT4gIlQ5IgojIFBhdGggaGVscGVyOiBwKCJmaWxlLmNzdiIpIC0+ICIuL2RhdGEvVGVzdDkvZmlsZS5jc3YiCnAgPC0gZnVuY3Rpb24oLi4uKSBmaWxlLnBhdGgocGxhdGVfZGlyLCAuLi4pCm91dHB1dF9wYXRoIDwtIHAocGFzdGUwKCJNZXJnZWRfRUxJU0FfcmVzdWx0c18iLCBwbGF0ZSwgIi5jc3YiKSkKCiMgS2VlcCBmaWd1cmVzIHBlci1wbGF0ZSAob3B0aW9uYWwgYnV0IHRpZHkpCiMgZmlnX2RpciA8LSBmaWxlLnBhdGgocGxhdGVfZGlyLCAiZmlncyIpCiMgZGlyLmNyZWF0ZShmaWdfZGlyLCByZWN1cnNpdmUgPSBUUlVFLCBzaG93V2FybmluZ3MgPSBGQUxTRSkKIyBrbml0cjo6b3B0c19jaHVuayRzZXQoZmlnLnBhdGggPSBwYXN0ZTAoZmlnX2RpciwgIi8iKSkKCmBgYApgYGB7ciBsaWJyYXJpZXMsIGluY2x1ZGUgPSBGQUxTRSwgbWVzc2FnZT1GQUxTRX0KIyBMaWJyYXJpZXMgCmxpYnJhcnkoa25pdHIpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGphbml0b3IpCmxpYnJhcnkocmVhZHIpCmxpYnJhcnkoc3RyaW5ncikKbGlicmFyeShkcGx5cikKbGlicmFyeShnZ3JlcGVsKSAjIGZvciBsYWJlbHMgb24gZGF0YSBwb2ludHMKbGlicmFyeShncmlkRXh0cmEpCmxpYnJhcnkoR0dhbGx5KSAjIyBmb3IgYXNzb2NpYXRpb24gcGxvdHMKbGlicmFyeShndCkgIyMgZm9yIG5pY2VyIHRhYmxlcwpgYGAKCiMgT3ZlcnZpZXcKClRoaXMgZmlsZSBkb2N1bWVudHMgYWxsIHRoZSB0cmFuc2Zvcm1hdGlvbnMgZG9uZSB0byBvYnRhaW4gZmluYWwgY29ydGlzb2wgdmFsdWVzIGZvciB0aGUgRUxJU0EgcGxhdGUgY2FsbGVkOiAKCmBgYHtyIHBsYXRlbnVtLCBlY2hvID0gRkFMU0V9CmNhdChwbGF0ZSkKYGBgCgpUaGlzIGlzIGhvdyBmaW5hbCB2YWx1ZXMgd2VyZSBvYnRhaW5lZDogCgogICAgfC0tIFBsYXRlIHJlYWRlciBwcm9kdWNlcyBvcHRpY2FsIGRlbnNpdHkgKE9EKSB2YWx1ZXMKICAgICAgICAgIHwKICAgICAgICAgIHwKICAgICAgICAgIHwtLS0+IE15YXNzYXlzLmNvbSB1c2VzIE9EcyBhbmQgbWFwIG9mIHBsYXRlIGxheW91dCB0bzoKICAgICAgICAgIAogICAgICAgICAgICAgICAxKSBTdWJ0cmFjdCByZWFkaW5ncyBmb3IgdGhlIE5TQiAobm9uLXNwZWNpZmljIGJpbmRpbmcsIDAlIGJpbmRpbmcpIHdlbGwgCiAgICAgICAgICAgICAgICAgIGZyb20gYWxsIHZhbHVlcwogICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgMikgTm9ybWFsaXplIGFsbCB2YWx1ZXMsIGRpdmlkaW5nIHRoZW0gYnkgdGhlIHJlYWRpbmcgZm9yIHRoZSB6ZXJvIHN0YW5kYXJkIAogICAgICAgICAgICAgICAgICAoYmxhbmssIG9yIEIwLCAxMDAlIGJpbmRpbmcpCiAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAzKSBGaXQgYSA0LVBhcmFtZXRlciBMb2dpc3RpYyBjdXJ2ZSAoZm9yIGEgc2lnbW9pZGFsIHNoYXBlKSAKICAgICAgICAgICAgICAgICAgdG8gdGhlIHN0YW5kYXJkIHJlYWRpbmdzCiAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICA0KSBFeHRyYXBvbGF0ZSBjb3J0aXNvbCBjb25jZW50cmF0aW9uIHZhbHVlcyBmcm9tIHRoZSBzdGFuZGFyZCBjdXJ2ZQogICAgICAgICAgICAgICAgICAgICAgKiBPYnRhaW5lZCB2YWx1ZXMgZm9yIGVhY2ggcmVwbGljYXRlIHNlcGFyYXRlbHkgYnkgCiAgICAgICAgICAgICAgICAgICAgICB0cmVhdGluZyB0aGVtIGFzIGEgc2luZ2xlIHNhbXBsZSB3aGVuIHByb3ZpZGluZyAKICAgICAgICAgICAgICAgICAgICAgIHRoZSBwbGF0ZSBsYXlvdXQKICAgICAgICAgICAgICAgICAgICAgICogVGhlc2UgdmFsdWVzIGRvIG5vdCBjb250cm9sIGZvciBkaWZmZXJlbmNlcyAKICAgICAgICAgICAgICAgICAgICAgIGluIGRpbHV0aW9uLCBzYW1wbGUgd2VpZ2h0LCBzcGlrZSwgZXRjLiAKICAgICAgICAgICAgICAgICAgICAgICogVmFsdWVzIG9idGFpbmVkIGFyZSBpbiB0aGUgc2FtZSB1bml0IGFzIHRoZQogICAgICAgICAgICAgICAgICAgICAgc3RhbmRhcmRzIHByb3ZpZGVkIChwZy9tbCkKICAgICAgICAgICAgICAgICAgICAgICogRmxhZ2dlZCBzYW1wbGVzIHdlcmUgbGFiZWxlZCBhcyBzdWNoIGluIFNhbXBsZUluZm8uY3N2IGZpbGUKICAgICAgICAgICAgICAgICAgICAgICAgICAgfAogICAgICAgICAgICAgICAgICAgICAgICAgICB8CiAgICAgICAgICAgICAgICAgICAgICAgICAgIHwtLS0tPiBJbiBSLCBJIGNhbGN1bGF0ZSBmaW5hbCB2YWx1ZXMgdXNpbmcgdHdvIGZvcm11bGFzOgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQSkgVHJhZGl0aW9uYWwgdXNlZCBhY3Jvc3Mgc3R1ZGllcwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQikgQWx0ZXJuYXRpdmUsIGFjY291bnRzIGZvciBTcGlrZSAod2hlbiBuZWNlc3NhcnkpCgoqKkV4YW1wbGUqKiB3aXRoIGFjdHVhbCByZXN1bHRzIGZyb20gUGxhdGUgMTA6Cgp8SUQuICB8IE9wdGljYWwgRGVuc2l0eSB8IE9ELU5TQiAoMC4wNSkgfCBCL0IwICgwLjc5MikgKjEwMHwgQ29uYyAocGcvbWwpIGV4dHJhcG9sYXRlZCBmcm9tIHN0ZCBjdXJ2ZSAoQSl8CnwtLS18LS0tLXwtLS0tLXwtLS0tLXwtLS0tLS0tfAp8VDEwMC4gIHwgMC4zNzMgfCAwLjMyMyB8ICAgICA0MSUgICAgICB8IDkxNi4xIHwKfFQxMDAuICB8IDAuMzgzIHwgMC4zMzMgfCAgICAgNDIlICAgICAgfCA4NzEgICB8CgoKTm93LCB1c2luZyB0aGUgZm9ybXVsYSBBICogRiAvIEIgKiBDIC8gRCAqIEUsIHdlIGNhbGN1bGF0ZSB0aGUgbm9ybWFsaXplZCBmaW5hbCBjb25jZW50cmF0aW9uIHZhbHVlLCBhZGp1c3RlZCBmb3IgbWFzcywgZXh0cmFjdGlvbiBhbmQgcmVjb25zdGl0dXRpb24gdm9sdW1lcy4KCnwgQSAoQ29uY2VudHJhdGlvbiBpbiBwZy9tbCkgfCBCIChNYXNzIGluIG1nKSB8IEMgKE1lT0ggYWRkZWQgaW4gbUwpIHwgRCAoTWVPSCByZWNvdmVyZWQgaW4gbUwpIHwgRSAoUmVjb25zdGl0dXRpb24gdm9sdW1lIGluIG1MKSB8IEYgKFNhbXBsZSBkaWx1dGlvbiBmYWN0b3IpIHwgUmVzdWx0IGluIHBnL21nIHwKfC0tLS0tLS0tLS0tfC0tLS0tLS0tLS0tLXwtLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0tLXwtLS18CnwgICAgOTE2LjEgIHwgMTYgICB8IDEuNC4gfCAgMS4gfCAgMC4yMiAgfCAgMS4gIHwgMTcuNiB8CnwgICAgODcxICAgIHwgMTYgICB8IDEuNCAgfCAgMSAgfCAgMC4yMiAgfCAgMS4gIHwgMTYuNyB8CgoKQ2hlY2sgUm1hcmtkb3duIGZpbGUgdG8gc2VlIHRoZSBjb2RlIHVzZWQgdG8gY2xlYW4gYW5kIG1lcmdlIGRhdGEgZnJhbWVzLiAKCiMjIyBJbnB1dCBmaWxlcwpBbGwgbG9jYXRlZCBpbiAuL0hhaXJDb3J0LUV2YWx1YXRpb24tTmlzdDIwMjAvZGF0YS9UZXN0WAoKLSAqKlJlc3VsdHMqKjoKYGBge3IgZWNobz1GQUxTRX0KY2F0KHBhc3RlKCJSZXN1bHRzTXlBc3NheXNJbmRpdl8iLCBwbGF0ZV9zaG9ydCwgIi5jc3YiLCBzZXA9IiIpKQpgYGAKLSAqKlJlc3VsdHMgZm9yIFN0YW5kYXJkcyoqOgpgYGB7ciBlY2hvPUZBTFNFfQpjYXQocGFzdGUoIlJlc3VsdHNNeUFzc2F5c0luZGl2XyIsIHBsYXRlX3Nob3J0LCAiX3N0LmNzdiIsIHNlcD0iIikpCmBgYAotICoqU2FtcGxlIGluZm9ybWF0aW9uKio6CmBgYHtyIGVjaG89RkFMU0V9CmNhdCgiU2FtcGxlSW5mby5jc3YiKQpgYGAKYGBge3IgbG9hZGluZyBmaWxlcywgZWNobyA9IEZBTFNFfQojIExvYWRpbmcgZmlsZXMKcmVzdWx0cyAgPC0gcmVhZC5jc3YocChwYXN0ZTAoIlJlc3VsdHNNeUFzc2F5c0luZGl2XyIsIHBsYXRlX3Nob3J0LCAiLmNzdiIpKSwKICAgICAgICAgICAgICAgICAgICAgc3RyaW5nc0FzRmFjdG9ycyA9IFRSVUUsCiAgICAgICAgICAgICAgICAgICAgIG5hLnN0cmluZ3MgPSBjKCIiLCAiICIsICJOQSIpKQoKc3RhbmRhcmQgPC0gcmVhZC5jc3YocChwYXN0ZTAoIlJlc3VsdHNNeUFzc2F5c0luZGl2XyIsIHBsYXRlX3Nob3J0LCAiX3N0LmNzdiIpKSwKICAgICAgICAgICAgICAgICAgICAgc3RyaW5nc0FzRmFjdG9ycyA9IFRSVUUsCiAgICAgICAgICAgICAgICAgICAgIG5hLnN0cmluZ3MgPSBjKCIiLCAiICIsICJOQSIpKQoKaW5mbyA8LSByZWFkLmNzdihwKCJTYW1wbGVJbmZvLmNzdiIpLAogICAgICAgICAgICAgICAgIHN0cmluZ3NBc0ZhY3RvcnMgPSBUUlVFLAogICAgICAgICAgICAgICAgIG5hLnN0cmluZ3MgPSBjKCIiLCAiICIsICJOQSIpKQoKYGBgCmBgYHtyIGNsZWFuaW5nIHJlc3VsdHMgYW5kIHN0YW5kYXJkIGZpbGUsIGVjaG8gPSBGQUxTRX0KCiMgQ2xlYW4gUmVzdWx0cyBmaWxlCgpyZXN1bHRzX2NsZWFuIDwtIHJlc3VsdHMgJT4lCiAgICAgICAgZHBseXI6OnJlbmFtZSggICAgICAgICAgICAgICAgICMgcmVuYW1lIGNvbHVtbnMKICAgICAgICAgIFdlbGwgPSBXZWxscywKICAgICAgICAgIE9EID0gUmF3LAogICAgICAgICAgQmluZGluZ19wZXJjID0gWC4sCiAgICAgICAgICBDb25jX3BnX21sID0gQ29uYy4sIAogICAgICAgICAgQXZlX2NvbmNfcGdfbWwgPSBDb25jLi4uQXZlcmFnZS4sCiAgICAgICAgICBDVl9wZXJjID0gWC5DVgogICAgICAgICkgJT4lCiAgICAgICBtdXRhdGUoYWNyb3NzKGV2ZXJ5dGhpbmcoKSwgICAgICMgcmVwbGFjZSB1bnJlYWRhYmxlIG9yIG5vbi1udW1lcmljIHZhbHVlcwogICAgICAgICAgICAgICAgICAgIH5uYV9pZih0cmltd3MoLiksICItIikpKSAlPiUgCiAgICAgICBtdXRhdGUoQ29uY19wZ19tbCA9IG5hX2lmKENvbmNfcGdfbWwsICI8IEN1cnZlIiksCiAgICAgICAgICAgICBDb25jX3BnX21sID0gbmFfaWYoQ29uY19wZ19tbCwgIj4gQ3VydmUiKSkgJT4lCiAgICAgICBtdXRhdGUoYWNyb3NzKGMoQmluZGluZ19wZXJjLCBDb25jX3BnX21sLCBBdmVfY29uY19wZ19tbCwgQ1ZfcGVyYywgU0VNKSwKICAgICAgICAgICAgICAgIH4gYXMubnVtZXJpYyhhcy5jaGFyYWN0ZXIoLikpKSkgCgogICMgZmlsbCBkb3duIGVtcHR5IGNlbGxzIGZvciByZXBsaWNhdGVzIChtZXJnZWQgY2VsbHMgaW4gb3JpZ2luYWwgZmlsZSkKcmVzdWx0c19maWxsZWQgPC0gcmVzdWx0c19jbGVhbiAlPiUKICAgICAgIG11dGF0ZSgucm93X2lkID0gcm93X251bWJlcigpKSAlPiUgCiAgCiAgICAgIGZpbGwoICAgICAgICAgICAgICAgICAgIyBGaWxsIHNlbGVjdGVkIGluZm8gZm9yd2FyZCB1bnRpbCBuZXcgc2FtcGxlIGFwcGVhcnMKICAgICAgICBTYW1wbGUsIEJpbmRpbmdfcGVyYywKICAgICAgICAuZGlyZWN0aW9uID0gImRvd24iCiAgICAgICkgJT4lCiAgICAgIGdyb3VwX2J5KGFjcm9zcyhhbnlfb2YoYygiUGxhdGVfbnVtIiwgIlNhbXBsZSIpKSkpICU+JSAgIyBDcmVhdGUgcmVwbGljYXRlIGluZGV4IGZvciBlYWNoIHNhbXBsZQogICAgICBtdXRhdGUocmVwbGljYXRlID0gcm93X251bWJlcigpKSAlPiUKICAgICAgdW5ncm91cCgpICU+JQogICAgICBzZWxlY3QoLS5yb3dfaWQsIC1yZXBsaWNhdGUsIC1TYW1wbGUpCgoKIyBDbGVhbiBTdGFuZGFyZCBmaWxlCgpzdGFuZGFyZF9jbGVhbiA8LSBzdGFuZGFyZCAlPiUKICBkcGx5cjo6cmVuYW1lKAogICBTYW1wbGUgPSBDYWxpYnJhdG9yLAogICBXZWxsID0gV2VsbHMsCiAgIENvbmNfcGdfbWw9IENvbmMuLAogICBCaW5kaW5nX3BlcmMgPSBSYXcsCiAgIEF2ZV9jb25jX3BnX21sID0gQmFja2ZpdCwgCiAgIFN0ZF9yZWNvdmVyeSA9IFJlY292ZXJ5Li4KICAgICkgJT4lCiAgIG11dGF0ZShhY3Jvc3MoZXZlcnl0aGluZygpLCAgICAgIyByZXBsYWNlIHVucmVhZGFibGUgb3Igbm9uLW51bWVyaWMgdmFsdWVzCiAgICAgICAgICAgICAgICAgICAgfm5hX2lmKHRyaW13cyguKSwgIi0iKSkpICU+JSAKICAgbXV0YXRlKGFjcm9zcyhjKEF2ZV9jb25jX3BnX21sLCBDb25jX3BnX21sLCBCaW5kaW5nX3BlcmMsIFNFTSksCiAgICAgICAgICAgICAgICB+IGFzLm51bWVyaWMoYXMuY2hhcmFjdGVyKC4pKSkpCgogICMgZmlsbCBkb3duIGVtcHR5IGNlbGxzIGZvciByZXBsaWNhdGVzIChtZXJnZWQgY2VsbHMgaW4gb3JpZ2luYWwgZmlsZSkKc3RhbmRhcmRfZmlsbGVkIDwtIHN0YW5kYXJkX2NsZWFuICU+JQogICAgICAgbXV0YXRlKC5yb3dfaWQgPSByb3dfbnVtYmVyKCkpICU+JSAKICAgICAgZmlsbCggICAgICAgICAgICAgICAgICAjIEZpbGwgc2VsZWN0ZWQgaW5mbyBmb3J3YXJkIHVudGlsIG5ldyBzYW1wbGUgYXBwZWFycwogICAgICAgIFNhbXBsZSwgQ29uY19wZ19tbCwgU0VNLAogICAgICAgIC5kaXJlY3Rpb24gPSAiZG93biIKICAgICAgKSAlPiUKICAgICAgZ3JvdXBfYnkoYWNyb3NzKGFueV9vZihjKCJwbGF0ZV9udW0iLCAiU2FtcGxlIikpKSkgJT4lICAjIENyZWF0ZSByZXBsaWNhdGUgaW5kZXggZm9yIGVhY2ggc2FtcGxlCiAgICAgIG11dGF0ZShyZXBsaWNhdGUgPSByb3dfbnVtYmVyKCkpICU+JQogICAgICB1bmdyb3VwKCkgJT4lCiAgICAgIHNlbGVjdCgtLnJvd19pZCwgLXJlcGxpY2F0ZSwgLVNhbXBsZSkKCgojIyBTaW1wbGlmeSBvYmplY3QgbmFtZXMKcmVzIDwtIHJlc3VsdHNfZmlsbGVkCnN0IDwtIHN0YW5kYXJkX2ZpbGxlZApgYGAKYGBge3IgbWVyZ2UgZmlsZXMsIGVjaG8gPSBGQUxTRX0KIyBNZXJnZSByZXN1bHRzIGFuZCBzdGFuZGFyZCBmaWxlIAoKcmVzX3N0IDwtIGZ1bGxfam9pbihyZXMsIHN0LCBieSA9IGludGVyc2VjdChuYW1lcyhyZXMpLCBuYW1lcyhzdCkpKQoKIyBNZXJnZSBzYW1wbGUgaW5mb3JtYXRpb24gYW5kIHJlc3VsdHMvc3RhbmRhcmRzCmRhdGEgPC0gIGZ1bGxfam9pbihpbmZvLCByZXNfc3QsIGJ5ID0gaW50ZXJzZWN0KG5hbWVzKHJlc19zdCksIG5hbWVzKGluZm8pKSkKCgpkYXRhIDwtIGRhdGEgJT4lCiAgZmlsdGVyKENhdGVnb3J5ICE9ICJGbGFnZ2VkIikgJT4lICMgcmVtb3ZlZCBmbGFnZ2VkIHNhbXBsZXMKICBtdXRhdGUoYWNyb3NzKGMoQmluZGluZ19wZXJjLCBDb25jX3BnX21sLCBBdmVfY29uY19wZ19tbCwgU0VNKSwKICAgICAgICAgICAgICAgIH4gYXMubnVtZXJpYyhhcy5jaGFyYWN0ZXIoLikpKSkKI2V4dHJhY3QgdmFsdWVzIGZvciB0aGUgc3Bpa2UgdXNlZCBpbiB0aGlzIHBsYXRlCiBzdGQgPC0gZGF0YVtkYXRhJFNhbXBsZSA9PSBzcGlrZV9zdGQsIGMoIkF2ZV9jb25jX3BnX21sIildIApgYGAKCiMgUmVzdWx0cwojIyBCaW5kaW5nIFBlcmNlbnRhZ2VzIGFuZCBub24tbm9ybWFsaXplZCBjb3J0IHZhbHVlcwpgYGB7ciBrZWVwIGxvZ2ljYWwgb3JkZXIsIGVjaG8gPSBGQUxTRX0KZGF0YSA8LSBkYXRhW29yZGVyKGRhdGEkT3JkZXIpLCBdCmRhdGEkU2FtcGxlIDwtIGZhY3RvcihkYXRhJFNhbXBsZSwgbGV2ZWxzID0gdW5pcXVlKGRhdGEkU2FtcGxlKSkKYGBgCmBgYHtyIGFsbC5ncm91cHMuYmluZGluZy5wZXJjLmNvcnQsIGZpZy53aWR0aD04LCBmaWcuaGVpZ2h0PTYsIHdhcm5pbmcgPSBGQUxTRSwgZWNobyA9IEZBTFNFfQojIFNjYXR0ZXIgcGxvdCBvYnNlcnZlZCBiaW5kaW5nICUgYW5kIGNvcnQgdmFscwoKZ2dwbG90KGRhdGEsIGFlcyh4ID0gbG9nMTAoQXZlX2NvbmNfcGdfbWwpLCAKICAgICAgICAgICAgICAgICB5ID0gQmluZGluZ19wZXJjLCAKICAgICAgICAgICAgICAgICBjb2xvciA9IENhdGVnb3J5KSkgKwogIGFubm90YXRlKCJyZWN0IiwgeG1pbiA9IC1JbmYsIHhtYXggPSBJbmYsIHltaW4gPSA4MCwgeW1heCA9IEluZiwKICAgICAgICAgICBhbHBoYSA9IDAuMiwgZmlsbCA9ICJncmF5NzAiKSArCiAgYW5ub3RhdGUoInJlY3QiLCB4bWluID0gLUluZiwgeG1heCA9IEluZiwgeW1pbiA9IDAsIHltYXggPSAyMCwKICAgICAgICAgICBhbHBoYSA9IDAuMiwgZmlsbCA9ICJncmF5NzAiKSArCiAgZ2VvbV9wb2ludChzaXplID0gMikgKwogIGdlb21fdGV4dChhZXMobGFiZWwgPSBTYW1wbGUpLCAKICAgICAgICAgICAgc2l6ZSA9IDIsICBjb2xvciA9ICJncmF5MzAiLAogICAgICAgICAgICB2anVzdCA9IC0wLjEsIGhqdXN0ID0gLTAuMikgKwogIGdlb21faGxpbmUoeWludGVyY2VwdCA9IDgwLCBsaW5ldHlwZSA9ICJkYXNoZWQiLCAKICAgICAgICAgICAgIGNvbG9yID0gImdyYXkiLCBsaW5ld2lkdGggPSAwLjgpICsKICBnZW9tX2hsaW5lKHlpbnRlcmNlcHQgPSAyMCwgbGluZXR5cGUgPSAiZGFzaGVkIiwgCiAgICAgICAgICAgICBjb2xvciA9ICJncmF5IiwgbGluZXdpZHRoID0gMC44KSArCiAgbGFicyh0aXRsZSA9ICJCaW5kaW5nICUgYW5kIGxvZzEwIGNvcnRpc29sIHZhbHVlcyIsCiAgICAgICBzdWJ0aXRsZSA9ICJOb24tY29ycmVjdGVkIHZhbHVlcyAoZm9yIHdlaWdodCwgZGlsdXRpb24pLCBhbGwgc2FtcGxlcyIsCiAgICAgICB4ID0gIkxvZzEwIENvbmNlbnRyYXRpb24gKHBnL21MKSIsIHkgPSAiQmluZGluZyBQZXJjZW50YWdlIikgKwogIHRoZW1lX21pbmltYWwoKSArCiAgc2NhbGVfeV9jb250aW51b3VzKG4uYnJlYWtzID0gMTApICsKICB0aGVtZShheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dChhbmdsZSA9IDQ1LCBoanVzdCA9IDEpKSAKCmBgYAojIyBCaW5kaW5nIFBlcmNlbnRhZ2VzIGJ5IFNhbXBsZSAKYGBge3IgYWxsLmdyb3Vwcy5iaW5kaW5nLnBlcmMuc2FtcGxlLCBmaWcud2lkdGg9OCwgZmlnLmhlaWdodD02LCBlY2hvID0gRkFMU0UsIHdhcm5pbmc9RkFMU0V9CmdncGxvdChkYXRhLCBhZXMoeCA9IFNhbXBsZSwgCiAgICAgICAgICAgICAgICAgeSA9IEJpbmRpbmdfcGVyYywgCiAgICAgICAgICAgICAgICAgY29sb3IgPSBDYXRlZ29yeSkpICsKICBhbm5vdGF0ZSgicmVjdCIsIHhtaW4gPSAtSW5mLCB4bWF4ID0gSW5mLCB5bWluID0gODAsIHltYXggPSBJbmYsCiAgICAgICAgICAgYWxwaGEgPSAwLjIsIGZpbGwgPSAiZ3JheTcwIikgKwogIGFubm90YXRlKCJyZWN0IiwgeG1pbiA9IC1JbmYsIHhtYXggPSBJbmYsIHltaW4gPSAwLCB5bWF4ID0gMjAsCiAgICAgICAgICAgYWxwaGEgPSAwLjIsIGZpbGwgPSAiZ3JheTcwIikgKwogIGdlb21fcG9pbnQoc2l6ZSA9IDIpICsKICBnZW9tX3RleHQoYWVzKGxhYmVsID0gU2FtcGxlKSwgCiAgICAgICAgICAgIHNpemUgPSAyLjUsIHZqdXN0ID0gMCwgaGp1c3QgPSAtMC4yLCBjb2xvciA9ICJncmF5NDAiKSArCiAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gODAsIGxpbmV0eXBlID0gImRhc2hlZCIsIGNvbG9yID0gImdyYXkiLCBsaW5ld2lkdGggPSAwLjgpICsKICBnZW9tX2hsaW5lKHlpbnRlcmNlcHQgPSAyMCwgbGluZXR5cGUgPSAiZGFzaGVkIiwgY29sb3IgPSAiZ3JheSIsIGxpbmV3aWR0aCA9IDAuOCkgKwogIGxhYnModGl0bGUgPSAiQmluZGluZyAlIGJ5IFNhbXBsZSIsCiAgICAgICBzdWJ0aXRsZSA9ICJOb24tY29ycmVjdGVkIHZhbHVlcyAoZm9yIHdlaWdodCwgZGlsdXRpb24pLCBhbGwgc2FtcGxlcyIsCiAgICAgICB4ID0gIlNhbXBsZSBJRCIsIHkgPSAiQmluZGluZyBQZXJjZW50YWdlIikgKwogICAgdGhlbWUoYXhpcy50ZXh0LnggPSBlbGVtZW50X3RleHQoYW5nbGUgPSA0NSwgaGp1c3QgPSAxKSkgKwogIHNjYWxlX3lfY29udGludW91cyhuLmJyZWFrcyA9IDEwKQoKYGBgCiMjIEJpbmRpbmcgUGVyY2VudGFnZXMgYnkgU2FtcGxlLCBmaWx0ZXJlZCBvdXQgZmxhZ2dlZCBzYW1wbGVzIApgYGB7ciBnb29kcXVhbC5ncm91cHMuYmluZGluZy5wZXJjLnNhbXBsZSwgZmlnLndpZHRoPTgsIGZpZy5oZWlnaHQ9Niwgd2FybmluZz1GQUxTRSwgZWNobyA9IEZBTFNFfQoKZmlsdGVyZWQgPC0gZGF0YSAlPiUgCiAgZmlsdGVyKFN1YmNhdGVnb3J5ICE9ICJMb3dRdWFsIikKCmdncGxvdChmaWx0ZXJlZCAsIGFlcyh4ID0gU2FtcGxlLCAKICAgICAgICAgICAgICAgICB5ID0gQmluZGluZ19wZXJjLCAKICAgICAgICAgICAgICAgICBjb2xvciA9IENhdGVnb3J5KSkgKwogIGFubm90YXRlKCJyZWN0IiwgeG1pbiA9IC1JbmYsIHhtYXggPSBJbmYsIHltaW4gPSA4MCwgeW1heCA9IEluZiwKICAgICAgICAgICBhbHBoYSA9IDAuMiwgZmlsbCA9ICJncmF5NzAiKSArCiAgYW5ub3RhdGUoInJlY3QiLCB4bWluID0gLUluZiwgeG1heCA9IEluZiwgeW1pbiA9IDAsIHltYXggPSAyMCwKICAgICAgICAgICBhbHBoYSA9IDAuMiwgZmlsbCA9ICJncmF5NzAiKSArCiAgZ2VvbV9wb2ludChzaXplID0gMikgKwogIGdlb21fdGV4dChhZXMobGFiZWwgPSBXZWxsKSwgCiAgICAgICAgICAgIHNpemUgPSAyLjUsIHZqdXN0ID0gMCwgaGp1c3QgPSAtMC4yLCBjb2xvciA9ICJncmF5NDAiKSArCiAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gODAsIGxpbmV0eXBlID0gImRhc2hlZCIsIGNvbG9yID0gImdyYXkiLCBsaW5ld2lkdGggPSAwLjgpICsKICBnZW9tX2hsaW5lKHlpbnRlcmNlcHQgPSAyMCwgbGluZXR5cGUgPSAiZGFzaGVkIiwgY29sb3IgPSAiZ3JheSIsIGxpbmV3aWR0aCA9IDAuOCkgKwogIGxhYnModGl0bGUgPSAiQmluZGluZyAlIGJ5IFNhbXBsZSIsCiAgICAgICBzdWJ0aXRsZSA9ICJOb24tY29ycmVjdGVkIHZhbHVlcyAoZm9yIHdlaWdodCwgZGlsdXRpb24pLCBnb29kIHF1YWxpdHkgc2FtcGxlcyBvbmx5ICIsCiAgICAgICB4ID0gIlNhbXBsZSBJRCIsIHkgPSAiQmluZGluZyBQZXJjZW50YWdlIikgKwogIHRoZW1lX21pbmltYWwoKSArCiAgdGhlbWUoYXhpcy50ZXh0LnggPSBlbGVtZW50X3RleHQoYW5nbGUgPSA0NSwgaGp1c3QgPSAxKSkgKwogIHNjYWxlX3lfY29udGludW91cyhuLmJyZWFrcyA9IDEwKQoKYGBgCiMjIEJpbmRpbmcgUGVyY2VudGFnZXMgYnkgU2FtcGxlLCBhdmVyYWdlZCBmb3IgcmVwbGljYXRlcwpgYGB7ciBnb29kcXVhbC5hdmUuYmluZGluZy5wZXJjLnNhbXBsZSwgZmlnLndpZHRoPTgsIGZpZy5oZWlnaHQ9NiwgZWNobyA9IEZBTFNFfQpmaWx0ZXJlZCA8LSBmaWx0ZXJlZCAlPiUKICBncm91cF9ieShTYW1wbGUsIENhdGVnb3J5KSAlPiUKIHN1bW1hcmlzZSgKICAgQXZlX2NvbmNfcGdfbWwgPSBtZWFuKENvbmNfcGdfbWwsIG5hLnJtID0gVFJVRSksCiAgIEF2ZV9iaW5kaW5nX3BlcmMgPSBtZWFuKEJpbmRpbmdfcGVyYywgbmEucm0gPSBUUlVFKSwKIyMgQUREIFNFTSAoU3RhbmRhcmQgZXJyb3Igb2YgdGhlIG1lYW4pCiAgIFNkX2JpbmRpbmcgPSBzZChCaW5kaW5nX3BlcmMsIG5hLnJtID0gVFJVRSksCiAgIE4gPSBuKCksCiAgIFNlbV9iaW5kaW5nID0gU2RfYmluZGluZyAvIHNxcnQoTikKICApCgoKZ2dwbG90KGZpbHRlcmVkLCBhZXMoeCA9IFNhbXBsZSwgCiAgICAgICAgICAgICAgICAgeSA9IEF2ZV9iaW5kaW5nX3BlcmMsIAogICAgICAgICAgICAgICAgIGNvbG9yID0gQ2F0ZWdvcnkpKSArCiAgYW5ub3RhdGUoInJlY3QiLCB4bWluID0gLUluZiwgeG1heCA9IEluZiwgeW1pbiA9IDgwLCB5bWF4ID0gSW5mLAogICAgICAgICAgIGFscGhhID0gMC4yLCBmaWxsID0gImdyYXk3MCIpICsKICBhbm5vdGF0ZSgicmVjdCIsIHhtaW4gPSAtSW5mLCB4bWF4ID0gSW5mLCB5bWluID0gMCwgeW1heCA9IDIwLAogICAgICAgICAgIGFscGhhID0gMC4yLCBmaWxsID0gImdyYXk3MCIpICsKICBnZW9tX3BvaW50KHNpemUgPSAyKSArCiAgZ2VvbV9lcnJvcmJhcihhZXMoeW1pbiA9IEF2ZV9iaW5kaW5nX3BlcmMgLSBTZW1fYmluZGluZywKICAgICAgICAgICAgICAgICAgICB5bWF4ID0gQXZlX2JpbmRpbmdfcGVyYyArIFNlbV9iaW5kaW5nKSwKICAgICAgICAgICAgICAgIHdpZHRoID0gMC4yLCBsaW5ld2lkdGggPSAwLjUpICsKICBnZW9tX3RleHQoYWVzKGxhYmVsID0gU2FtcGxlKSwgCiAgICAgICAgICAgIHNpemUgPSAyLjUsIHZqdXN0ID0gMCwgaGp1c3QgPSAtMC4yLCBjb2xvciA9ICJncmF5NDAiKSArCiAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gODAsIGxpbmV0eXBlID0gImRhc2hlZCIsIGNvbG9yID0gImdyYXkiLCBsaW5ld2lkdGggPSAwLjgpICsKICBnZW9tX2hsaW5lKHlpbnRlcmNlcHQgPSAyMCwgbGluZXR5cGUgPSAiZGFzaGVkIiwgY29sb3IgPSAiZ3JheSIsIGxpbmV3aWR0aCA9IDAuOCkgKwogIGxhYnModGl0bGUgPSAiQXZlcmFnZWQgQmluZGluZyAlIGJ5IFNhbXBsZSIsCiAgICAgICBzdWJ0aXRsZSA9ICJOb24tY29ycmVjdGVkIHZhbHVlcyAoZm9yIHdlaWdodCwgZGlsdXRpb24pLCBnb29kIHF1YWxpdHkgc2FtcGxlcyBvbmx5LiBCYXJzIHNob3cgU0VNIiwKICAgICAgIHggPSAiU2FtcGxlIElEIiwgeSA9ICJCaW5kaW5nIFBlcmNlbnRhZ2UiKSArCiAgdGhlbWVfbWluaW1hbCgpICsKICB0aGVtZShheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dChhbmdsZSA9IDQ1LCBoanVzdCA9IDEpKSArCiAgc2NhbGVfeV9jb250aW51b3VzKG4uYnJlYWtzID0gMTApCgpgYGAKCgojIFJlc3VsdHMgYnkgaGFpciBjb3VudCAoaWYgaW5mb3JtYXRpb24gZXhpc3RzKQoKYGBge3Igd2VpZ2h0LmhhaXIuY291bnQsIGZpZy53aWR0aD04LCBmaWcuaGVpZ2h0PTYsIGVjaG8gPSBGQUxTRX0KCmlmICgiTnVtX3N0cmFuZHMiICVpbiUgbmFtZXMoZGF0YSkgJiYgYW55KGRhdGEkTnVtX3N0cmFuZHMgIT0gMCwgbmEucm0gPSBUUlVFKSkgewpkYXRhX2hjIDwtIGRhdGEgJT4lIAogICAgICBmaWx0ZXIoU3ViY2F0ZWdvcnkgPT0gIkhhaXJDb3VudCIpIAoKZGF0YV9oYyAlPiUgCiAgICBkaXN0aW5jdChTYW1wbGUsIC5rZWVwX2FsbCA9IFRSVUUpICU+JQogICAgZ2dwbG90KGFlcyh4ID0gTnVtX3N0cmFuZHMsIAogICAgICAgICAgICAgICB5ID0gV2VpZ2h0X21nLAogICAgICAgICAgICAgICAgICAgZmlsbCA9IENhdGVnb3J5LCAKICAgICAgICAgICAgICAgICAgIGdyb3VwID0gQ2F0ZWdvcnkpKSArCiAgICAgIGdlb21fc21vb3RoKG1ldGhvZCA9ICJsbSIsIHNlID0gVFJVRSwgCiAgICAgICAgICAgICAgICAgIGxpbmV3aWR0aCA9IDAuNCwgYWxwaGEgPSAwLjA5LAogICAgICAgICAgICAgICAgICBhZXMoY29sb3IgPSBDYXRlZ29yeSkpICsKICAgICAgZ2VvbV90ZXh0KGFlcyhsYWJlbCA9IFNhbXBsZSksIAogICAgICAgICAgICBzaXplID0gMi41LCB2anVzdCA9IDAsIAogICAgICAgICAgICBoanVzdCA9IC0wLjIsIGNvbG9yID0gImdyYXk0MCIpICsKICAgICAgZ2VvbV9qaXR0ZXIoc2hhcGUgPSAyMywgc2l6ZSA9IDMsIAogICAgICAgICAgICAgICAgICBhbHBoYSA9IDAuNywgd2lkdGggPSAwLjMpICsKICAgICAgbGFicyh0aXRsZSA9ICJIYWlyIGNvdW50IHZzIFdlaWdodCAiLAogICAgICAgICAgICAgICAgIHggPSAiSGFpciBjb3VudCIsIAogICAgICAgICAgICAgICAgIHkgPSAiV2VpZ2h0IChtZykiKSArCiAgICAgIHRoZW1lX21pbmltYWwoYmFzZV9zaXplID0gOSkgCiAKfSBlbHNlIHsKICAKICAgIG1lc3NhZ2UocGFzdGUoIlNraXBwaW5nIHBsb3QsIGRhdGEgc2V0IGRvZXMgbm90IGhhdmUgaW5mb3JtYXRpb24gb24gCiAgICB0aGUgbnVtYmVyIG9mIGhhaXIgc3RyYW5kcyIpKQogIH0KCmBgYApgYGB7ciAgaGFpci52cy5iaW5kbmluZywgZmlnLndpZHRoPTgsIGZpZy5oZWlnaHQ9NiwgZWNobyA9IEZBTFNFfQoKaWYgKCJOdW1fc3RyYW5kcyIgJWluJSBuYW1lcyhkYXRhKSAmJiBhbnkoZGF0YSROdW1fc3RyYW5kcyAhPSAwLCBuYS5ybSA9IFRSVUUpKSB7CiAgICBkYXRhICU+JSAKICAgIGdncGxvdChhZXMoeCA9IE51bV9zdHJhbmRzLCAKICAgICAgICAgICAgICAgeSA9IEJpbmRpbmdfcGVyYywKICAgICAgICAgICAgICAgICAgIGZpbGwgPSBDYXRlZ29yeSwgCiAgICAgICAgICAgICAgICAgICBncm91cCA9IENhdGVnb3J5KSkgKwogICAgIGFubm90YXRlKCJyZWN0IiwgeG1pbiA9IC1JbmYsIHhtYXggPSBJbmYsIAogICAgICAgICAgICAgIHltaW4gPSA4MCwgeW1heCA9IEluZiwKICAgICAgICAgICBhbHBoYSA9IDAuMiwgZmlsbCA9ICJncmF5NzAiKSArCiAgICAgYW5ub3RhdGUoInJlY3QiLCB4bWluID0gLUluZiwgeG1heCA9IEluZiwgCiAgICAgICAgICAgeW1pbiA9IDAsIHltYXggPSAyMCwKICAgICAgICAgICBhbHBoYSA9IDAuMiwgZmlsbCA9ICJncmF5NzAiKSArCiAgICAgIGdlb21fc21vb3RoKG1ldGhvZCA9ICJsbSIsIHNlID0gVFJVRSwgCiAgICAgICAgICAgICAgICAgIGxpbmV3aWR0aCA9IDAuNCwgYWxwaGEgPSAwLjA5LAogICAgICAgICAgICAgICAgICBhZXMoY29sb3IgPSBDYXRlZ29yeSkpICsKICAgICAgZ2VvbV9qaXR0ZXIoc2hhcGUgPSAyMywgc2l6ZSA9IDMsIAogICAgICAgICAgICAgICAgICBhbHBoYSA9IDAuNywgd2lkdGggPSAwLjMpICsKICAgICAgIGxhYnModGl0bGUgPSAiSGFpciBjb3VudCB2cyBCaW5kaW5nICUiLAogICAgICAgICAgICAgICAgIHggPSAiSGFpciBjb3VudCIsIAogICAgICAgICAgICAgICAgIHkgPSAiQmluZGluZyAlIikgKwogICAgICB0aGVtZV9taW5pbWFsKGJhc2Vfc2l6ZSA9IDkpICsKICAgICAgZ2VvbV90ZXh0KGFlcyhsYWJlbCA9IFNhbXBsZSksIAogICAgICAgICAgICBzaXplID0gMi41LCB2anVzdCA9IDAsIGhqdXN0ID0gLTAuMywKICAgICAgICAgICAgY29sb3IgPSAiZ3JheTQwIikgKyAKICAgICAgc2NhbGVfeV9jb250aW51b3VzKG4uYnJlYWtzID0gMTApICsKICAgICAgc2NhbGVfeF9jb250aW51b3VzKG4uYnJlYWtzID0gMTApCiAKfSBlbHNlIHsKICAKICAgIG1lc3NhZ2UocGFzdGUoIlNraXBwaW5nIHBsb3QiKSkKICB9CmBgYAoKYGBge3IgIGhhaXIudnMud2VpZ2h0LCBmaWcud2lkdGg9OCwgZmlnLmhlaWdodD02LCBlY2hvID0gRkFMU0V9CgppZiAoIk51bV9zdHJhbmRzIiAlaW4lIG5hbWVzKGRhdGEpICYmIGFueShkYXRhJE51bV9zdHJhbmRzICE9IDAsIG5hLnJtID0gVFJVRSkpIHsKICAgIGRhdGFfaGMgJT4lCiAgICBnZ3Bsb3QoYWVzKHggPSBXZWlnaHRfbWcsIAogICAgICAgICAgICAgICB5ID0gQmluZGluZ19wZXJjLAogICAgICAgICAgICAgICAgICAgZmlsbCA9IENhdGVnb3J5LCAKICAgICAgICAgICAgICAgICAgIGdyb3VwID0gQ2F0ZWdvcnkpKSArCiAgICAgYW5ub3RhdGUoInJlY3QiLCB4bWluID0gLUluZiwgeG1heCA9IEluZiwgCiAgICAgICAgICAgICAgeW1pbiA9IDgwLCB5bWF4ID0gSW5mLAogICAgICAgICAgIGFscGhhID0gMC4yLCBmaWxsID0gImdyYXk3MCIpICsKICAgICBhbm5vdGF0ZSgicmVjdCIsIHhtaW4gPSAtSW5mLCB4bWF4ID0gSW5mLCAKICAgICAgICAgICB5bWluID0gMCwgeW1heCA9IDIwLAogICAgICAgICAgIGFscGhhID0gMC4yLCBmaWxsID0gImdyYXk3MCIpICsKICAgICAgZ2VvbV9zbW9vdGgobWV0aG9kID0gImxtIiwgc2UgPSBUUlVFLCAKICAgICAgICAgICAgICAgICAgbGluZXdpZHRoID0gMC40LCBhbHBoYSA9IDAuMDksCiAgICAgICAgICAgICAgICAgIGFlcyhjb2xvciA9IENhdGVnb3J5KSkgKwogICAgICBnZW9tX2ppdHRlcihzaGFwZSA9IDIzLCBzaXplID0gMywgCiAgICAgICAgICAgICAgICAgIGFscGhhID0gMC43LCB3aWR0aCA9IDAuMykgKwogICAgICAgbGFicyh0aXRsZSA9ICJXZWlnaHQgdnMgQmluZGluZyAlIiwKICAgICAgICAgICAgICAgICB4ID0gIldlaWdodCAobWcpIiwgCiAgICAgICAgICAgICAgICAgeSA9ICJCaW5kaW5nICUiKSArCiAgICAgIHRoZW1lX21pbmltYWwoYmFzZV9zaXplID0gOSkgKwogICAgICBnZW9tX3RleHQoYWVzKGxhYmVsID0gU2FtcGxlKSwgCiAgICAgICAgICAgIHNpemUgPSAyLjUsIHZqdXN0ID0gMCwgaGp1c3QgPSAtMC4zLAogICAgICAgICAgICBjb2xvciA9ICJncmF5NDAiKSArIAogICAgICBzY2FsZV95X2NvbnRpbnVvdXMobi5icmVha3MgPSAxMCkgKwogICAgICBzY2FsZV94X2NvbnRpbnVvdXMobi5icmVha3MgPSAxMCkKIAp9IGVsc2UgewogIAogICAgbWVzc2FnZShwYXN0ZSgiU2tpcHBpbmcgcGxvdCIpKQogIH0KCgoKYGBgCmBgYHtyICBoYWlyLnZzLmJpbmRuaW5nX2ZhY2V0LCBmaWcud2lkdGg9OCwgZmlnLmhlaWdodD02LCBlY2hvID0gRkFMU0V9CgppZiAoIk51bV9zdHJhbmRzIiAlaW4lIG5hbWVzKGRhdGEpICYmIGFueShkYXRhJE51bV9zdHJhbmRzICE9IDAsIG5hLnJtID0gVFJVRSkpIHsKICAgIGRhdGFfaGMgJT4lIAogICAgZ2dwbG90KGFlcyh4ID0gTnVtX3N0cmFuZHMsIAogICAgICAgICAgICAgICB5ID0gQmluZGluZ19wZXJjLAogICAgICAgICAgICAgICAgICAgZmlsbCA9IENhdGVnb3J5LCAKICAgICAgICAgICAgICAgICAgIGdyb3VwID0gQ2F0ZWdvcnkpKSArCiAgICAgYW5ub3RhdGUoInJlY3QiLCB4bWluID0gLUluZiwgeG1heCA9IEluZiwgCiAgICAgICAgICAgICAgeW1pbiA9IDgwLCB5bWF4ID0gSW5mLAogICAgICAgICAgIGFscGhhID0gMC4yLCBmaWxsID0gImdyYXk3MCIpICsKICAgICBhbm5vdGF0ZSgicmVjdCIsIHhtaW4gPSAtSW5mLCB4bWF4ID0gSW5mLCAKICAgICAgICAgICB5bWluID0gMCwgeW1heCA9IDIwLAogICAgICAgICAgIGFscGhhID0gMC4yLCBmaWxsID0gImdyYXk3MCIpICsKICAgICAgZ2VvbV9zbW9vdGgobWV0aG9kID0gImxtIiwgc2UgPSBUUlVFLCAKICAgICAgICAgICAgICAgICAgbGluZXdpZHRoID0gMC40LCBhbHBoYSA9IDAuMDksCiAgICAgICAgICAgICAgICAgIGFlcyhjb2xvciA9IENhdGVnb3J5KSkgKwogICAgICBnZW9tX2ppdHRlcihzaGFwZSA9IDIzLCBzaXplID0gMywgCiAgICAgICAgICAgICAgICAgIGFscGhhID0gMC43LCB3aWR0aCA9IDAuMykgKwogICAgICAgbGFicyh0aXRsZSA9ICJIYWlyIGNvdW50IHZzIEJpbmRpbmcgJSIsCiAgICAgICAgICAgICAgICAgeCA9ICJIYWlyIGNvdW50IiwgCiAgICAgICAgICAgICAgICAgeSA9ICJCaW5kaW5nICUiKSArCiAgICAgIHRoZW1lX21pbmltYWwoYmFzZV9zaXplID0gOSkgKwogICAgICBnZW9tX3RleHQoYWVzKGxhYmVsID0gU2FtcGxlKSwgCiAgICAgICAgICAgIHNpemUgPSAyLjUsIHZqdXN0ID0gMCwgaGp1c3QgPSAtMC4zLAogICAgICAgICAgICBjb2xvciA9ICJncmF5NDAiKSArIAogICAgICBzY2FsZV95X2NvbnRpbnVvdXMobi5icmVha3MgPSAxMCkgKwogICAgICBzY2FsZV94X2NvbnRpbnVvdXMobi5icmVha3MgPSAxMCkgCiAKfSBlbHNlIHsKICAKICAgIG1lc3NhZ2UocGFzdGUoIlNraXBwaW5nIHBsb3QiKSkKICB9CgoKCmBgYApgYGB7ciAgaGFpci52cy53ZWlnaHRfZmFjZXQsIGZpZy53aWR0aD04LCBmaWcuaGVpZ2h0PTYsIGVjaG8gPSBGQUxTRX0KCmlmICgiTnVtX3N0cmFuZHMiICVpbiUgbmFtZXMoZGF0YSkgJiYgYW55KGRhdGEkTnVtX3N0cmFuZHMgIT0gMCwgbmEucm0gPSBUUlVFKSkgewogICAgZGF0YV9oYyAlPiUgCiAgICBnZ3Bsb3QoYWVzKHggPSBXZWlnaHRfbWcsIAogICAgICAgICAgICAgICB5ID0gQmluZGluZ19wZXJjLAogICAgICAgICAgICAgICAgICAgZmlsbCA9IENhdGVnb3J5LCAKICAgICAgICAgICAgICAgICAgIGdyb3VwID0gQ2F0ZWdvcnkpKSArCiAgICAgYW5ub3RhdGUoInJlY3QiLCB4bWluID0gLUluZiwgeG1heCA9IEluZiwgCiAgICAgICAgICAgICAgeW1pbiA9IDgwLCB5bWF4ID0gSW5mLAogICAgICAgICAgIGFscGhhID0gMC4yLCBmaWxsID0gImdyYXk3MCIpICsKICAgICBhbm5vdGF0ZSgicmVjdCIsIHhtaW4gPSAtSW5mLCB4bWF4ID0gSW5mLCAKICAgICAgICAgICB5bWluID0gMCwgeW1heCA9IDIwLAogICAgICAgICAgIGFscGhhID0gMC4yLCBmaWxsID0gImdyYXk3MCIpICsKICAgICAgZ2VvbV9zbW9vdGgobWV0aG9kID0gImxtIiwgc2UgPSBUUlVFLCAKICAgICAgICAgICAgICAgICAgbGluZXdpZHRoID0gMC40LCBhbHBoYSA9IDAuMDksCiAgICAgICAgICAgICAgICAgIGFlcyhjb2xvciA9IENhdGVnb3J5KSkgKwogICAgICBnZW9tX2ppdHRlcihzaGFwZSA9IDIzLCBzaXplID0gMywgCiAgICAgICAgICAgICAgICAgIGFscGhhID0gMC43LCB3aWR0aCA9IDAuMykgKwogICAgICAgbGFicyh0aXRsZSA9ICJXZWlnaHQgdnMgQmluZGluZyAlIiwKICAgICAgICAgICAgICAgICB4ID0gIldlaWdodCAobWcpIiwgCiAgICAgICAgICAgICAgICAgeSA9ICJCaW5kaW5nICUiKSArCiAgICAgIHRoZW1lX21pbmltYWwoYmFzZV9zaXplID0gOSkgKwogICAgICBnZW9tX3RleHQoYWVzKGxhYmVsID0gU2FtcGxlKSwgCiAgICAgICAgICAgIHNpemUgPSAyLjUsIHZqdXN0ID0gMCwgaGp1c3QgPSAtMC4zLAogICAgICAgICAgICBjb2xvciA9ICJncmF5NDAiKSArIAogICAgICBzY2FsZV95X2NvbnRpbnVvdXMobi5icmVha3MgPSAxMCkgKwogICAgICBzY2FsZV94X2NvbnRpbnVvdXMobi5icmVha3MgPSAxMCkgCiAKfSBlbHNlIHsKICAKICAgIG1lc3NhZ2UocGFzdGUoIlNraXBwaW5nIHBsb3QiKSkKICB9CgoKCmBgYApgYGB7ciBjb3VudCx3ZWlnaHQsYmluZGluZywgZWNobyA9IEZBTFNFfQoKCmlmICgiTnVtX3N0cmFuZHMiICVpbiUgbmFtZXMoZGF0YSkgJiYgYW55KGRhdGEkTnVtX3N0cmFuZHMgIT0gMCwgbmEucm0gPSBUUlVFKSkgewogIApsaWJyYXJ5KHBsb3RseSkKCmdncGFpcnMoZGF0YSwKICAgICAgICBjb2x1bW5zID0gYygiV2VpZ2h0X21nIiwgIk51bV9zdHJhbmRzIiwgIkJpbmRpbmdfcGVyYyIpLAogICAgICAgIGFlcyhjb2xvciA9IENhdGVnb3J5KSkKfSBlbHNlIHsKICAKICAgIG1lc3NhZ2UocGFzdGUoIlNraXBwaW5nIHBsb3QiKSkKICB9CgppZiAoIk51bV9zdHJhbmRzIiAlaW4lIG5hbWVzKGRhdGEpICYmIGFueShkYXRhJE51bV9zdHJhbmRzICE9IDAsIG5hLnJtID0gVFJVRSkpIHsKcGxvdF9seShkYXRhLAogICAgICAgIHggPSB+V2VpZ2h0X21nLAogICAgICAgIHkgPSB+TnVtX3N0cmFuZHMsCiAgICAgICAgeiA9IH5CaW5kaW5nX3BlcmMsCiAgICAgICAgY29sb3IgPSB+Q2F0ZWdvcnksCiAgICAgICAgY29sb3JzID0gIlNldDEiLAogICAgICAgIHR5cGUgPSAic2NhdHRlcjNkIiwKICAgICAgICBtb2RlID0gIm1hcmtlcnMiKQp9IGVsc2UgewogICAgbWVzc2FnZShwYXN0ZSgiU2tpcHBpbmcgcGxvdCIpKQogIH0KCmlmICgiTnVtX3N0cmFuZHMiICVpbiUgbmFtZXMoZGF0YSkgJiYgYW55KGRhdGEkTnVtX3N0cmFuZHMgIT0gMCwgbmEucm0gPSBUUlVFKSkgewpsaWJyYXJ5KHJlc2hhcGUyKQpjb3JfZGF0YSA8LSBjb3IoZGF0YVssIGMoIldlaWdodF9tZyIsICJOdW1fc3RyYW5kcyIsICJCaW5kaW5nX3BlcmMiKV0sIHVzZSA9ICJjb21wbGV0ZS5vYnMiKQptZWx0ZWQgPC0gbWVsdChjb3JfZGF0YSkKCmdncGxvdChtZWx0ZWQsIGFlcyhWYXIxLCBWYXIyLCBmaWxsID0gdmFsdWUpKSArCiAgZ2VvbV90aWxlKCkgKwogIGdlb21fdGV4dChhZXMobGFiZWwgPSByb3VuZCh2YWx1ZSwgMikpLCBjb2xvciA9ICJ3aGl0ZSIpICsKICBzY2FsZV9maWxsX2dyYWRpZW50Mihsb3cgPSAiYmx1ZSIsIGhpZ2ggPSAicmVkIiwgbWlkID0gIndoaXRlIiwgbWlkcG9pbnQgPSAwKSArCiAgdGhlbWVfbWluaW1hbCgpICsKICBsYWJzKHRpdGxlID0gIkNvcnJlbGF0aW9uIGJldHdlZW4gV2VpZ2h0LCBIYWlyIFN0cmFuZHMsIGFuZCBCaW5kaW5nICUiKSAKCn0gZWxzZSB7CiAgCiAgICBtZXNzYWdlKHBhc3RlKCJTa2lwcGluZyBwbG90IikpCiAgfQoKCmBgYAoKCiMgQ2FsY3VsYXRpbmcgZmluYWwsIG5vcm1hbGl6ZWQgdmFsdWVzCiMjIEZvcm11bGEgQSAodHJhZGl0aW9uYWwpCiAgCiAgICAgICAgQSAqIEYgLyBCICogQyAvIEQgKiBFID0gQ29ydGlzb2wgY29uY2VudHJhdGlvbiBpbiBwZy9tZwogIAogICAgICAgIOKWqiBBID0gb3V0cHV0IG15YXNzYXlzLmNvbSAocGcvbWwpCiAgICAgICAg4paqIEIgPSBzYW1wbGUgbWFzcyAobWcpCiAgICAgICAg4paqIEMgPSBtZXRoYW5vbCBhZGRlZCBmb3IgZXh0cmFjdGlvbiAobUwpCiAgICAgICAg4paqIEQgPSBtZXRoYW5vbCByZWNvdmVyZWQgKG1MKQogICAgICAgIOKWqiBFID0gcmVjb25zdGl0dXRpb24gdm9sdW1lIChtTCkKICAgICAgICDilqogRiA9IFNhbXBsZSBkaWx1dGlvbiBmYWN0b3IgKDIgaWYgMToyLCA0IGlmIDE6NCkKICAgICAgICAKYGBge3IgQ2FsY3VsYXRlIGZpbmFsIHZhbHVlc30KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiMjIyMjIENhbGN1bGF0ZSBmaW5hbCB2YWx1ZXMgbm90IGFjY291bnRpbmcgZm9yIHNwaWtlIAojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKCmRhdGEkRmluYWxfcGdfbWcgPC0gCiAgICAgKGRhdGEkQ29uY19wZ19tbCAqIGRhdGEkRGlsdXRpb25fZmFjdG9yX3NhbXBsZSAKICAgICAgLyBkYXRhJFdlaWdodF9tZykgKiAgICAgICAgICAgICMgQSAvIEIgKgogICAgIGRhdGEkRXh0cmFjdGlvbl9yYXRpbyAqICAgICAgICAgIyBDIC8gRCAqCiAgICAgZGF0YSRSZWNvbnN0X2J1ZmZlcl9tbCAgICAgICAgICAjIEUgCmBgYAoKYGBge3IgY2FsY3VsYXRlIGF2ZXJhZ2UgZmluYWwgdmFscyBhbmQgQ1YsIGVjaG8gPSBGQUxTRX0KIyMjIyMjIENhbGN1bGF0ZSBhdmVyYWdlIGZpbmFsIHZhbHMgYW5kIENWICMjIyMjIApkYXRhIDwtIGRhdGEgJT4lCiAgZ3JvdXBfYnkoU2FtcGxlLCBDYXRlZ29yeSkgJT4lCiAgZmlsdGVyKFN1YmNhdGVnb3J5ICE9ICJGbGFnZ2VkIikgJT4lIAogIG11dGF0ZShBdmVfY29uY19wZ19tbCA9IChtZWFuKENvbmNfcGdfbWwsIG5hLnJtID0gVFJVRSkpKSAlPiUKICBtdXRhdGUoQXZlX0ZpbmFsX3BnX21nID0gKG1lYW4oRmluYWxfcGdfbWcsIG5hLnJtID0gVFJVRSkpKSAlPiUKICBtdXRhdGUoQ1ZfcGVyYyA9IChzZChGaW5hbF9wZ19tZywgbmEucm0gPSBUUlVFKSAvIG1lYW4oRmluYWxfcGdfbWcsIG5hLnJtID0gVFJVRSkpICogMTAwKSAlPiUKICBtdXRhdGUoeiA9IChGaW5hbF9wZ19tZyAtIG1lYW4oRmluYWxfcGdfbWcsIG5hLnJtID0gVFJVRSkpIC8gc2QoRmluYWxfcGdfbWcsIG5hLnJtID0gVFJVRSkpICU+JQogIHVuZ3JvdXAoKQoKaWYgKCJOdW1fc3RyYW5kcyIgJWluJSBuYW1lcyhkYXRhKSAmJiBhbnkoZGF0YSROdW1fc3RyYW5kcyAhPSAwLCBuYS5ybSA9IFRSVUUpKSB7CmRhdGEkY29ydHhzdHJhbmQgPC0gZGF0YSRGaW5hbF9wZ19tZyAvIGRhdGEkTnVtX3N0cmFuZHMKfSBlbHNlIHsKICAKICAgIG1lc3NhZ2UocGFzdGUoIlNraXBwaW5nIHBsb3QiKSkKICB9CgoKYGBgCiMjIEZvcm11bGEgQiAoYWNjb3VudGluZyBmb3Igc3Bpa2UpCgpTaW1wbGlmaWVzIHVubmVjZXNzYXJ5IHVuaXQgdHJhbnNmb3JtYXRpb25zIGFuZCBhY2NvdW50cyBmb3Igc3Bpa2UgY29uc2lkZXJpbmcgZGlsdXRpb24gb2YgYm90aCBzYW1wbGUgYW5kIHRoZSBzcGlrZQoKLSBTdGVwIDE6IENhbGN1bGF0ZSBjb250cmlidXRpb24gb2YgdGhlIHNwaWtlCi0gU3RlcCAyOiBTdWJ0cmFjdCBzcGlrZSBmcm9tIHBsYXRlIHJlYWRpbmcgdmFsdWVzIGFuZCBjYWxjdWxhdGUgZmluYWwgdmFsdWVzIGFjY291bnRpbmcgZm9yIGRpbHV0aW9uIG9mIHRoZSBzYW1wbGUsIHdlaWdodCwgYW5kIHJlY29uc3RpdHV0aW9uCgoqKlN0ZXAgMSoqOiBDYWxjdWxhdGUgY29udHJpYnV0aW9uIG9mIHNwaWtlCgpYICogWSAvIFogLyBTUGQgPSBTUAoKLSBTUCA9IGZpbmFsIHZhbHVlIG9mIHNwaWtlIGNvbnRyaWJ1dGlvbiBpbiBwZy9tTAotIFggPSB2b2x1bWUgb2Ygc3Bpa2UgYWRkZWQgKG1MKQotIFkgPSBjb25jZW50cmF0aW9uIG9mIHRoZSBzcGlrZSBhZGRlZCAocGcvbUwpCi0gU1BkID0gaWYgc2VyaWFsbHkgZGlsdXRlZCwgZGlsdXRpb24gZmFjdG9yIGZvciB0aGUgc3Bpa2UgKGkuZTogMSwgMiwgNCwgOCwgZXRjLikKLSBaID0gdG90YWwgdm9sdW1lIChtTCkgaW4gdGhlIHdlbGwgb3IgdHViZSwgaWYgc3Bpa2UgaXMgYWRkZWQgYmVmb3JlIGxvYWRpbmcgdGhlIHBsYXRlIChzYW1wbGUgKyBzcGlrZSkKCmBgYHtyIGNhbGMgY29udHJpYiBzcGlrZX0KIyBDYWxjdWxhdGluZyBjb250cmlidXRpb24gb2YgdGhlIHNwaWtlCgojIGNvbnNpZGVyIHNwaWtlIHZvbHVtZSBhZGRlZCwgZWl0aGVyIGluIHRoZSB0dWJlIG9yIHRoZSB3ZWxsCmRhdGEkU3Bpa2VWb2xfbWwgPC0gZGF0YSRTcGlrZV93ZWxsX21sICsgZGF0YSRTcGlrZV90dWJlX21sIAoKIyBjb25zaWRlciB0b3RhbCB2b2x1bWUgb2YgbGlxdWlkIGFkZGVkIHRvIHRoZSB3ZWxsLCBhZGRpbmcgdXAgc3Bpa2UsIGJ1ZmZlciBhbmQgc2FtcGxlIHZvbHVtZXMKZGF0YSRUb3RhbFZvbF9tbCAgPC0gZGF0YSRTcGlrZV93ZWxsX21sICsgZGF0YSRTYW1wbGVfd2VsbF9tbCArIGRhdGEkQnVmZmVyX3dlbGxfbWwgCgojIHJlYWRpbmcgZm9yIHRoZSBzdGFuZGFyZCB1c2VkIHRvIHNwaWtlIHNhbXBsZXMKIyBJIGFscmVhZHkgcnVuIHRoZSBmb2xsb3dpbmcgbGluZSwgdG8gc2F2ZSB0aGUgc3RkIHJlYWRpbmdzIGJlZm9yZSBvdmVyd3JpdHRpbmcgdGhlIEF2ZV9jb25jX3BnX21sIG9iamVjdAojIHN0ZCA8LSBkYXRhW2RhdGEkU2FtcGxlID09IHNwaWtlX3N0ZCwgYygiQXZlX2NvbmNfcGdfbWwiKV0gCgojIGF2ZXJhZ2UgYm90aCByZWFkaW5ncwpzdGQgPC0gbWVhbihzdGQpIAogIAojIENhbGN1bGF0ZSBzcGlrZSBjb250cmlidXRpb24gdG8gZWFjaCBzYW1wbGUKICAgICAgIyMgICggU3Bpa2Ugdm9sLiB4IFNwaWtlIENvbmMuKQogICAgICAjIyAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAgLyBkaWx1dGlvbiA9IFNwaWtlIGNvbnRyaWJ1dGlvbiAocGcvbWwpCiAgICAgICMjICAgICAgICBUb3RhbCB2b2wuIAogIAojIENhbGN1bGF0ZSBjb3J0IGNvbnRyaWJ1dGlvbiBvZiBzcGlrZSB0byBlYWNoIHNhbXBsZQpkYXRhJFNwaWtlX2NvbnRyaWJ1dGlvbiA8LSAoKGRhdGEkU3Bpa2VWb2xfbWwgKiBzdGQgIC8gICAgICMgWCAqIFkgLwogICAgICAgICAgICAgICAgICAgICAgICAgICAgZGF0YSRUb3RhbFZvbF9tbCApIC8gICAgICAgICAgICMgWiAvIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkYXRhJERpbHV0aW9uX2ZhY3Rvcl9zcGlrZSkgICMgU1BkCgojIE51bGwgY29udHJpYnV0aW9ucyBlcXVhbCB6ZXJvCmRhdGEgPC0gZGF0YSAlPiUKbXV0YXRlKFNwaWtlX2NvbnRyaWJ1dGlvbiA9IGlmZWxzZShpcy5uYShTcGlrZV9jb250cmlidXRpb24pIHwgaXMubmFuKFNwaWtlX2NvbnRyaWJ1dGlvbiksIDAsIFNwaWtlX2NvbnRyaWJ1dGlvbikpCgpgYGAKYGBge3IgZWNobyA9IEZBTFNFfQpjYXQoIlRoZSByZWFkaW5nIGZvciB0aGUgc3RhbmRhcmQgdXNlZCBhcyBzcGlrZSAod2hpY2ggaXMiLCBzcGlrZV9zdGQsICIpIGluIHRoaXMgcGxhdGUgaXMiLCBzdGQsICIocGcvbWwpIikKY2F0KCJUaGUgY29udHJpYnV0aW9uIG9mIHRoZSBzcGlrZSwgY29uc2lkZXJpbmcgaG93IG11Y2ggaXMgYWRkZWQgdG8gdGhlIHdlbGwsIGlzIiwgdW5pcXVlKGRhdGEkU3Bpa2VfY29udHJpYnV0aW9uKSwgInBnL21sIikKYGBgCioqU3RlcCAyICoqOiBTdWJzdHJhY3Qgc3Bpa2UgYW5kIGNhbGN1bGF0ZSBmaW5hbCB2YWx1ZXMKCigoQSAtICoqU1AqKikgKiBGIC9CKSAqIChDL0QpICogRSAgPSBHCgotIEEgPSBwZy9tbCBmcm9tIGFzc2F5IG91dHB1dDsKLSAqU1AqID0gc3Bpa2UgY29udHJpYnV0aW9uIChpbiBwZy9tbCkgCi0gQiA9IHdlaWdodCAoaW4gbWcpIG9mIGhhaXIgc3ViamVjdGVkIHRvIGV4dHJhY3Rpb247Ci0gQyA9IHZvbC4gKGluIG1sKSBvZiBtZXRoYW5vbCBhZGRlZCB0byB0aGUgcG93ZGVyZWQgaGFpcjsKLSBEID0gdm9sLiAoaW4gbWwpIG9mIG1ldGhhbm9sIHJlY292ZXJlZCBmcm9tIHRoZSBleHRyYWN0IGFuZCBzdWJzZXF1ZW50bHkgZHJpZWQgZG93bjsKLSBFID0gdm9sLiAoaW4gbWwpIG9mIGFzc2F5IGJ1ZmZlciB1c2VkIHRvIHJlY29uc3RpdHV0ZSB0aGUgZHJpZWQgZXh0cmFjdDsKLSBTYW1wbGUgZGlsdXRpb24gZmFjdG9yCi0gRyA9IGZpbmFsIHZhbHVlIG9mIGhhaXIgQ09SVCBDb25jZW50cmF0aW9uIGluIHBnL21nLgoKYGBge3IgY2FsYy1zcGlrZX0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMjIyBDYWxjdWxhdGUgZmluYWwgdmFsdWVzICMjIyMjCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKCmRhdGEkRmluYWxfcGdfbWdfc3AgPC0gCiAgICAgKChkYXRhJENvbmNfcGdfbWwgLSBkYXRhJFNwaWtlX2NvbnRyaWJ1dGlvbikgKiAjICAoQSAtIHNwaWtlKQogICAgICAgICBkYXRhJERpbHV0aW9uX2ZhY3Rvcl9zYW1wbGUpIC8gICMgICogZGlsdXRpb24gZmFjdG9yIC8KICAgICBkYXRhJFdlaWdodF9tZyAqICAgICAgICAgICAgICAgICAgICAjIEIgKgogICAgIGRhdGEkRXh0cmFjdGlvbl9yYXRpbyAqICAgICAgICAgICAgICMgQyAvIEQgKgogICAgIGRhdGEkUmVjb25zdF9idWZmZXJfbWwgICAgICAgICAgICAgICMgRSAKCgoKYGBgCgojIyMgUmVzdWx0cyBGb3JtdWxhIEIKYGBge3IgZ29vZHF1YWwuYXZlLmNvcnQudmFscywgZmlnLndpZHRoPTgsIGZpZy5oZWlnaHQ9NiwgZWNobyA9IEZBTFNFLCB3YXJuaW5nID0gRkFMU0V9CgpmaWx0ZXJlZCA8LSBkYXRhICU+JSAKICBmaWx0ZXIoU3ViY2F0ZWdvcnkgIT0gIkxvd1F1YWwiLCBQZXJzb24gIT0gIlJlZl92YWx1ZXMiLCBQZXJzb24gIT0gIlNwaWtlIiwKICAgICAgICAgKSAlPiUKICBncm91cF9ieShTYW1wbGUsIENhdGVnb3J5KSAlPiUKIHN1bW1hcmlzZSgKICAgQXZlX0ZpbmFsX3BnX21nX3NwID0gbWVhbihGaW5hbF9wZ19tZ19zcCwgbmEucm0gPSBUUlVFKSwKIyMgQUREIFNFTSAoU3RhbmRhcmQgZXJyb3Igb2YgdGhlIG1lYW4pCiAgIFNkX0ZpbmFsX3BnX21nX3NwID0gc2QoRmluYWxfcGdfbWdfc3AsIG5hLnJtID0gVFJVRSksCiAgIE4gPSBuKCksCiAgIFNlbV9GaW5hbF9wZ19tZ19zcCA9IFNkX0ZpbmFsX3BnX21nX3NwIC8gc3FydChOKQogICkKCgpnZ3Bsb3QoZmlsdGVyZWQsIGFlcyh4ID0gU2FtcGxlLCAKICAgICAgICAgICAgICAgICB5ID0gQXZlX0ZpbmFsX3BnX21nX3NwLCAKICAgICAgICAgICAgICAgICBjb2xvciA9IENhdGVnb3J5KSkgKwogIGFubm90YXRlKCJyZWN0IiwgeG1pbiA9IC1JbmYsIHhtYXggPSBJbmYsIHltaW4gPSAtSW5mLCB5bWF4ID0gMCwKICAgICAgICAgICBhbHBoYSA9IDAuMiwgZmlsbCA9ICJncmF5NzAiKSArCiAgZ2VvbV9wb2ludChzaXplID0gMikgKwogIGdlb21fZXJyb3JiYXIoYWVzKHltaW4gPSBBdmVfRmluYWxfcGdfbWdfc3AgLSBTZW1fRmluYWxfcGdfbWdfc3AsCiAgICAgICAgICAgICAgICAgICAgeW1heCA9IEF2ZV9GaW5hbF9wZ19tZ19zcCArIFNlbV9GaW5hbF9wZ19tZ19zcCksCiAgICAgICAgICAgICAgICB3aWR0aCA9IDAuMiwgbGluZXdpZHRoID0gMC41KSArCiAgZ2VvbV90ZXh0KGFlcyhsYWJlbCA9IFNhbXBsZSksIAogICAgICAgICAgICBzaXplID0gMywgdmp1c3QgPSAwLCBoanVzdCA9IC0wLjIsIGNvbG9yID0gImdyYXk0MCIpICsKICBsYWJzKHRpdGxlID0gIkF2ZXJhZ2VkIENvcnQgdmFsdWVzLCBGb3JtdWxhIEIsIGJ5IFNhbXBsZSIsCiAgICAgICBzdWJ0aXRsZSA9ICJDb3JyZWN0ZWQgdmFsdWVzIChmb3Igd2VpZ2h0LCBkaWx1dGlvbiksIGdvb2QgcXVhbGl0eSBzYW1wbGVzIG9ubHkuIEJhcnMgc2hvdyBTRU0iLAogICAgICAgeCA9ICJTYW1wbGUgSUQiLCB5ID0gIkNvcnQgdmFscyAocGcvbWcpIGFjY291bnRpbmcgZm9yIFNwaWtlIikgKwogIHRoZW1lX21pbmltYWwoKSArCiAgdGhlbWUoYXhpcy50ZXh0LnggPSBlbGVtZW50X3RleHQoYW5nbGUgPSA0NSwgaGp1c3QgPSAxKSkgKwogIHNjYWxlX3lfY29udGludW91cyhuLmJyZWFrcyA9IDEwKQoKYGBgCgoKIyBRdWFsaXR5CkZsYWcgc2FtcGxlcyB3aXRoIGhpZ2ggY29lZmZpY2llbnQgb2YgdmFyaWF0aW9uIChyZXBsaWNhdGUgbWVhc3VyZW1lbnRzIHRoYXQgYXJlIHRvbyBkaWZmZXJlbnQgZnJvbSBlYWNoIG90aGVyKSBvciB0aGF0IGZhbGwgb3V0c2lkZSB0aGUgc3RhbmRhcmQgY3VydmUgKGJpbmRpbmcgcGVyY2VudGFnZSBpcyBhYm92ZSA4MCUsIG9yIHVuZGVyIDIwJSkKYGBge3IgcWMgcGFyYW1ldGVyc30KIyBmbGFnIHNhbXBsZXMgd2l0aCBoaWdoIENWICgxNSUpIG9yIGJpbmRpbmcgYWJvdmUgODAlIGFuZCB1bmRlciAyMCUKQ1ZfdGhyZXNob2xkIDwtIDE1LjAKdXBwQmluTGltIDwtIDgwLjAKbG93QmluTGltIDwtIDIwLjAKYGBgCgpgYGB7ciBmbGFnIGlzc3VlcywgZWNobz0gRkFMU0V9CiMgZmxhZyBzYW1wbGVzIHdpdGggYmluZGluZyBwZXJjZW50YWdlIG92ZXIgODAgb3IgdW5kZXIgMjAKZGF0YV9xdWFsIDwtIGRhdGEgJT4lCiAgbXV0YXRlKEJpbmRpbmdfcGVyY19jYXRlZyA9IGlmZWxzZShCaW5kaW5nX3BlcmMgPiB1cHBCaW5MaW0sICJBQk9WRSA4MCUgYmluZGluZyIsIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaWZlbHNlKEJpbmRpbmdfcGVyYyA8IGxvd0JpbkxpbSwgIlVOREVSIDIwJSBiaW5kaW5nIiwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTkEpKSkgJT4lIAogIG11dGF0ZShDVl9jYXRlZyA9IGlmZWxzZShkYXRhJENWX3BlcmMgPiBDVl90aHJlc2hvbGQsICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgIkhJR0ggQ1YiLCBOQSkpCgpvdXRfY3VydmUgPC0gZGF0YV9xdWFsWyFpcy5uYShkYXRhX3F1YWwkQmluZGluZ19wZXJjX2NhdGVnKSwgXSAKCmNhdChwYXN0ZSgiVG90YWwgc2FtcGxlcyBvdXRzaWRlIHRoZSBjdXJ2ZToiLCBucm93KG91dF9jdXJ2ZSksICIoc29tZSBhcmUgYmxhbmtzIG9yIE5TQikiLCBzZXA9IiAiKSkKcHJpbnQob3V0X2N1cnZlWzI6NF0pCgpjdl9oaWdoIDwtIGRhdGFfcXVhbCAlPiUgCiBmaWx0ZXIoQ1ZfcGVyYyA+IENWX3RocmVzaG9sZCkgJT4lIAogYXJyYW5nZShkZXNjKENWX3BlcmMpKQoKY2F0KCJIaWdoIENWIGluIGEgdG90YWwgb2YiLCBucm93KGN2X2hpZ2gpLCAicmVwbGljYXRlcy4gVGhlc2UgYXJlOiIpCnByaW50KGN2X2hpZ2hbMjo0XSkKCmBgYAoKCgpgYGB7ciBlY2hvID0gRkFMU0UsIHdhcm5pbmcgPSBGQUxTRX0KIyBWaXN1YWxpemUgbG93IHF1YWxpdHkgc2FtcGxlcwpkYXRhX3F1YWwgJT4lCiAgZmlsdGVyKCFDYXRlZ29yeSA9PSAiU3RkIiwgQ2F0ZWdvcnkgIT0gIk5TQiIsIENhdGVnb3J5ICE9ICJCMCIpICU+JQpnZ3Bsb3QoYWVzKHggPSBTYW1wbGUsIHkgPSBGaW5hbF9wZ19tZyksIGdyb3VwID0gQmluZGluZ19wZXJjX2NhdGVnKSArCiAgZ2VvbV9wb2ludCgpICsKIyAgZ2VvbV9ib3hwbG90KCkgKwogIGxhYnModGl0bGUgPSAiUmVwbGljYXRlcyBwZXIgc2FtcGxlIikgKwogIHRoZW1lKGF4aXMudGV4dC54ID0gZWxlbWVudF90ZXh0KGFuZ2xlID0gNDUsIGhqdXN0ID0gMSkpCgpjYXQoIlNhbXBsZXMgd2l0aCBjb25jZXJuaW5nbHkgaGlnaCBDViB2YWx1ZXMiKQoKY2F0KCJTdW1tYXJ5IGZpbmFsIGNvcnRpc29sIHZhbHVlcyBmb3IgYWxsIHNhbXBsZXMiKQpzdW1tYXJ5KGRhdGFfcXVhbCRGaW5hbF9wZ19tZykKCiMgcmVtb3ZlIG91dGxpZXJzIGFuZCByZWNhbGN1bGF0ZSBDVgojIHJlbW92ZSA8LSBjKCJENCIsICJENSIsICJFNiIsICJDNiIpCiMgZGF0YV9jbGVhbiA8LSBkYXRhX3F1YWwgJT4lCiAgICMgZmlsdGVyKCFXZWxscyAlaW4lIHJlbW92ZSkKCgpkYXRhX2NsZWFuIDwtIGRhdGFfcXVhbCAlPiUKICBncm91cF9ieShTYW1wbGUpICU+JQogIG11dGF0ZShBdmVfY29uY19wZ19tbCA9IChtZWFuKENvbmNfcGdfbWwsIG5hLnJtID0gVFJVRSkpKSAlPiUKICBtdXRhdGUoQ1YuUGVyYyA9IChzZChDb25jX3BnX21sLCBuYS5ybSA9IFRSVUUpIC8gCiAgICAgICAgICAgICAgICAgICAgICBtZWFuKENvbmNfcGdfbWwsIG5hLnJtID0gVFJVRSkpICogMTAwKSAlPiUKICBtdXRhdGUoeiA9IChDb25jX3BnX21sIC0gbWVhbihDb25jX3BnX21sLCBuYS5ybSA9IFRSVUUpKSAvCiAgICAgICAgICAgc2QoQ29uY19wZ19tbCwgbmEucm0gPSBUUlVFKSkgJT4lCiAgdW5ncm91cCgpCgpnZ3Bsb3QoZGF0YV9jbGVhbiwgYWVzKHggPSBTYW1wbGUsIHkgPSBDb25jX3BnX21sKSkgKwogIGdlb21fcG9pbnQoKSArCiAgZ2VvbV9ib3hwbG90KCkKYGBgCgoKIyMgUGxvdDogcmVzdWx0cyBncm91cGVkIGJ5IGNhdGVnb3J5CmBgYHtyIHBsb3QtYnktY2F0ZWcsIGVjaG8gPSBGQUxTRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CgppZiAoIk51bV9zdHJhbmRzIiAlaW4lIG5hbWVzKGRhdGEpICYmIGFueShkYXRhJE51bV9zdHJhbmRzICE9IDAsIG5hLnJtID0gVFJVRSkpIHsKZ2dwbG90KGRhdGFfY2xlYW4sIGFlcyh5ID0gY29ydHhzdHJhbmQsIAogICAgICAgICAgICAgICAgICB4ID0gU2FtcGxlLAogICAgICAgICAgICAgICAgICBjb2xvciA9IENhdGVnb3J5LAogICAgICAgICAgICAgICAgICBmaWxsPSBDYXRlZ29yeSkpICsKICBnZW9tX3Ntb290aChtZXRob2QgPSAibG0iLCAKICAgICAgICAgICAgICBjb2xvciA9ICJnb2xkMyIsIAogICAgICAgICAgICAgIHNlID0gVFJVRSwKICAgICAgICAgICAgICBhbHBoYSA9IDAuMikgKyAKICBnZW9tX3BvaW50KHNpemUgPSAyLjUpICsgIAojICB5bGltKDAsIG1heChkYXRhX2NsZWFuJEZpbmFsX3BnX21nKSkgKwojICAgZ2VvbV90ZXh0KGxhYmVsID0gYyhkYXRhX2NsZWFuJFNhbXBsZSksIG51ZGdlX3kgPSAxMCwgbnVkZ2VfeCA9IDAsIHNpemUgPSAyKSArCiAgdGhlbWVfbWluaW1hbCgpICsgIAogIGxhYnMoCiAgICB0aXRsZSA9ICJGaW5hbCBDb3J0IENvbmNlbnRyYXRpb24gYnkgQ2F0ZWdvcnkKICAgIChBbGwgc2FtcGxlcykiLAogICAgeSA9ICJDb3J0IGJ5IGhhaXIgc3RyYW5kIiwKICAgIHggPSAiU2FtcGxlIG51bWJlciIgIAogICkgKwogIHRoZW1lKAogICAgcGxvdC50aXRsZSA9IGVsZW1lbnRfdGV4dChoanVzdCA9IDAuNSwgc2l6ZSA9IDE2LCBmYWNlID0gImJvbGQiKSwgIAogICAgYXhpcy50aXRsZSA9IGVsZW1lbnRfdGV4dChzaXplID0gMTQpLCAgCiAgICBheGlzLnRleHQgPSBlbGVtZW50X3RleHQoc2l6ZSA9IDEyKSwgCiAgICBheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dChhbmdsZSA9IDQ1LCBoanVzdCA9IDEpCiAgKSAKfSBlbHNlIHsKICAKICAgIG1lc3NhZ2UocGFzdGUoIlNraXBwaW5nIHBsb3QiKSkKICB9CgpgYGAKCiMjIFBsb3Q6IHJlc3VsdHMgZ3JvdXBlZCBieSBjYXRlZ29yeSB3aXRob3V0IG91dGxpZXJzCmBgYHtyIHBsb3QtYnktY2F0ZWctMiwgZWNobyA9IEZBTFNFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0KCmdncGxvdChkYXRhX2NsZWFuLCBhZXMoeSA9IEZpbmFsX3BnX21nLCAKICAgICAgICAgICAgICAgICAgeCA9IDE6bGVuZ3RoKFNhbXBsZSksCiAgICAgICAgICAgICAgICAgIGNvbG9yID0gQ2F0ZWdvcnksCiAgICAgICAgICAgICAgICAgIGZpbGw9IENhdGVnb3J5KSkgKwogIGdlb21fc21vb3RoKG1ldGhvZCA9ICJsbSIsIAogICAgICAgICAgICAgIGNvbG9yID0gImdvbGQzIiwgCiAgICAgICAgICAgICAgc2UgPSBUUlVFLAogICAgICAgICAgICAgIGFscGhhID0gMC4yKSArIAogICAgIGdlb21fcG9pbnQoc2l6ZSA9IDIuNSkgKyAgCiAgICAgIyAgeWxpbSgwLDEzNSkgKwogIGdlb21fdGV4dChsYWJlbCA9IGMoZGF0YV9jbGVhbiRTYW1wbGUpLCBudWRnZV95ID0gMywgbnVkZ2VfeCA9IDAsIHNpemUgPSAyLjIpICsKICB0aGVtZV9taW5pbWFsKCkgKyAgCiAgbGFicygKICAgIHRpdGxlID0gIkZpbmFsIENvcnQgQ29uY2VudHJhdGlvbiBieSBDYXRlZ29yeQogICAgKEFsbCBzYW1wbGVzKSIsCiAgICB5ID0gIkZpbmFsIGNvcnQgY29uY2VudHJhdGlvbiIsCiAgICB4ID0gIlNhbXBsZSBudW1iZXIiICAKICApICsKICB0aGVtZSgKICAgIHBsb3QudGl0bGUgPSBlbGVtZW50X3RleHQoaGp1c3QgPSAwLjUsIHNpemUgPSAxNiwgZmFjZSA9ICJib2xkIiksICAKICAgIGF4aXMudGl0bGUgPSBlbGVtZW50X3RleHQoc2l6ZSA9IDE0KSwgIAogICAgYXhpcy50ZXh0ID0gZWxlbWVudF90ZXh0KHNpemUgPSAxMikgCiAgKSAKYGBgCgojIyBQbG90OiByZXN1bHRzIGdyb3VwZWQgYnkgZGF0YSBxdWFsaXR5CmBgYHtyIGVjaG8gPSBGQUxTRSwgd2FybmluZz1GQUxTRSB9CgojIHNjYXR0ZXJwbG90IAppZiAoIk51bV9zdHJhbmRzIiAlaW4lIG5hbWVzKGRhdGEpICYmIGFueShkYXRhJE51bV9zdHJhbmRzICE9IDAsIG5hLnJtID0gVFJVRSkpIHsKZ2dwbG90KGRhdGFfY2xlYW4sIGFlcyh5ID0gY29ydHhzdHJhbmQsIAogICAgICAgICAgICAgICAgIHggPSBvcmRlcihTYW1wbGUpLAogICAgICAgICAgICAgICAgIGNvbG9yID0gQ2F0ZWdvcnkpKSArCiAgZ2VvbV9wb2ludChzaXplID0gMi41LCAgYWxwaGEgPSAwLjg1KSArICAKICBnZW9tX3RleHQoYWVzKGxhYmVsID0gU2FtcGxlKSwgc2l6ZSA9IDIuMywgdmp1c3QgPSAtMSwgaGp1c3QgPSAwLjYpICsKICB0aGVtZV9taW5pbWFsKCkgKyAgCiAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gMCwgCiAgICAgICAgICAgICBsaW5ldHlwZSA9ICJkYXNoZWQiLCBjb2xvciA9ICJyZWQiKSArCiAgbGFicygKICAgIHRpdGxlID0gIkZpbmFsIGNvcnQgdmFsdWVzIiwKICAgIHkgPSAiQ29ydF9ieV9oYWlyIHN0cmFuZCIsCiAgICB4ID0gIlNhbXBsZSIgKSArCiAgdGhlbWUoCiAgICBwbG90LnRpdGxlID0gZWxlbWVudF90ZXh0KGhqdXN0ID0gMC41LCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2l6ZSA9IDE3LCBmYWNlID0gImJvbGQiKSwKICAgIGF4aXMudGl0bGUgPSBlbGVtZW50X3RleHQoc2l6ZSA9IDE0KSwgIAogICAgYXhpcy50ZXh0ID0gZWxlbWVudF90ZXh0KHNpemUgPSAxMCkgIAogICkKfSBlbHNlIHsKICAKICAgIG1lc3NhZ2UocGFzdGUoIlNraXBwaW5nIHBsb3QiKSkKICB9CgpgYGAKCgpgYGB7ciBzYXZpbmcgZmluYWwgZmlsZSwgZWNobz1GQUxTRX0KCndyaXRlX2NzdihkYXRhX3F1YWwgLCBvdXRwdXRfcGF0aCkKcHJpbnQoZ2x1ZTo6Z2x1ZSgiV3JvdGUge25yb3coZGF0YV9xdWFsKX0gcm93cyB0byB7b3V0cHV0X3BhdGh9LCB3aXRoIGEgdG90YWwgb2Yge2xlbmd0aCh1bmlxdWUoZGF0YV9xdWFsJFNhbXBsZSkpfSBkYXRhIHBvaW50cywgaW5jbHVkaW5nIHJlZmVyZW5jZSB2YWx1ZXMgc3VjaCBhcyBibGFua3MgYW5kIHN0YW5kYXJkcyIpKQoKY2F0KCJUaGUgZmluYWwgZmlsZSBoYXMgdGhlIGZvbGxvd2luZyBjb2x1bW5zOiIpCnByaW50KGNvbG5hbWVzKGRhdGFfcXVhbCkpCgpjYXQoIlRoaXMgaXMgYSBsaXN0IG9mIGFsbCB0aGUgc2FtcGxlcyBpbmNsdWRlZDoiKQpwcmludCh1bmlxdWUoZGF0YV9xdWFsJFNhbXBsZSkpCmBgYAoKIyBQZW5kaW5nCmBgYHtyIGVjaG8gPSBGQUxTRX0KCiMjIEZsYWdncwoKIyMgUGxhdGUgQ1YKCiMjIFBsYXZlIENWIHJlbW92aW5nIHJlZiB2YWx1ZXMKCiMjIFBsYXRlIENWIHJlbW92aW5nIGJhZCBxdWFsaXR5IHNhbXBsZXMKCiMjIFBsYXRlIG1hcCBpbWFnZQpgYGAKCgoKCg==</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Data_analysis_ALL_PLATES.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
