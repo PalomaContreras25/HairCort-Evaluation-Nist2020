@@ -1,11 +1,34 @@
 ---
 title: "ELISA data analysis"
 author: "Paloma"
-output: workflowr::wflow_html
+output:  
+  workflowr::wflow_html:
+    theme:
+      version: 5
+      bootswatch: zephyr   # or cosmo, litera, sandstone, zephyr, etc.
+      primary: "#00BFA5"   # accent color
+      secondary: "#C2185B"   # 
+      success: "#28A745"     #
+      info: "#FFC107"        # 
+      warning: "#FFC107"     # 
+      danger: "#E83E8C"  
+      base_font: {google: "Exo 2"}
+      heading_font: {google: "Raleway"}
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    number_sections: true
+    code_folding: show     # or "hide"
+    code_download: true
+    highlight: tango       # code syntax theme (tango, pygments, zenburn, etc.)
+    df_print: paged        # nicer tables by default
+    anchor_sections: true
+    smooth_scroll: true
+    
 params:
-  plate: "Test9"        # one of: Test3 ... Test10
+  plate: "Test10"        # one of: Test3 ... Test10
   data_root: "./data"   # parent dir that holds Test3, Test4, ...
-  spike_std: "st4" 
+  spike_std: "st1" 
 editor_options:
   chunk_output_type: console
 ---
@@ -21,9 +44,10 @@ plate_short <- paste0("T", sub("^Test", "", plate))  # "Test9" -> "T9"
 p <- function(...) file.path(plate_dir, ...)
 
 # Keep figures per-plate (optional but tidy)
-fig_dir <- file.path(plate_dir, "figs")
-dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
-knitr::opts_chunk$set(fig.path = paste0(fig_dir, "/"))
+# fig_dir <- file.path(plate_dir, "figs")
+# dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
+# knitr::opts_chunk$set(fig.path = paste0(fig_dir, "/"))
+
 ```
 ```{r libraries, include = FALSE, message=FALSE}
 # Libraries 
@@ -33,6 +57,10 @@ library(janitor)
 library(readr)
 library(stringr)
 library(dplyr)
+library(ggrepel) # for labels on data points
+library(gridExtra)
+library(GGally) ## for association plots
+library(gt) ## for nicer tables
 ```
 
 # Overview
@@ -74,9 +102,25 @@ This is how final values were obtained:
                                   A) Traditional used across studies
                                   B) Alternative, accounts for Spike (when necessary)
 
+**Example** with actual results from Plate 10:
+
+|ID.  | Optical Density | OD-NSB (0.05) | B/B0 (0.792) *100| Conc (pg/ml) extrapolated from std curve (A)|
+|---|----|-----|-----|-------|
+|T100.  | 0.373 | 0.323 |     41%      | 916.1 |
+|T100.  | 0.383 | 0.333 |     42%      | 871   |
+
+
+Now, using the formula A * F / B * C / D * E, we calculate the normalized final concentration value, adjusted for mass, extraction and reconstitution volumes.
+
+| A (Concentration in pg/ml) | B (Mass in mg) | C (MeOH added in mL) | D (MeOH recovered in mL) | E (Reconstitution volume in mL) | F (Sample dilution factor) | Result in pg/mg |
+|-----------|------------|--------------|--------------|-----------------|-----------|---|
+|    916.1  | 16   | 1.4. |  1. |  0.22  |  1.  | 17.6 |
+|    871    | 16   | 1.4  |  1  |  0.22  |  1.  | 16.7 |
+
+
 Check Rmarkdown file to see the code used to clean and merge data frames. 
 
-## Input files
+### Input files
 All located in ./HairCort-Evaluation-Nist2020/data/TestX
 
 - **Results**:
@@ -224,7 +268,7 @@ ggplot(data, aes(x = log10(Ave_conc_pg_ml),
 
 ```
 ## Binding Percentages by Sample 
-```{r all.groups.binding.perc.sample, fig.width=8, fig.height=6, echo = FALSE}
+```{r all.groups.binding.perc.sample, fig.width=8, fig.height=6, echo = FALSE, warning=FALSE}
 ggplot(data, aes(x = Sample, 
                  y = Binding_perc, 
                  color = Category)) +
@@ -240,13 +284,13 @@ ggplot(data, aes(x = Sample,
   labs(title = "Binding % by Sample",
        subtitle = "Non-corrected values (for weight, dilution), all samples",
        x = "Sample ID", y = "Binding Percentage") +
-  theme_minimal() +
+  theme_set(theme_minimal(base_family = "Exo 2")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_y_continuous(n.breaks = 10)
 
 ```
 ## Binding Percentages by Sample, filtered out flagged samples 
-```{r goodqual.groups.binding.perc.sample, fig.width=8, fig.height=6, echo = FALSE}
+```{r goodqual.groups.binding.perc.sample, fig.width=8, fig.height=6, warning=FALSE, echo = FALSE}
 
 filtered <- data %>% 
   filter(Subcategory != "LowQual")
@@ -310,42 +354,238 @@ ggplot(filtered, aes(x = Sample,
 ```
 
 
-## Binding Percentages vs Hair Count (if information exists)
+# Results by hair count (if information exists)
 
-```{r bind.perc.hair.count, fig.width=8, fig.height=6, echo = FALSE, echo = FALSE}
-
+```{r weight.hair.count, fig.width=8, fig.height=6, echo = FALSE}
 
 if ("Num_strands" %in% names(data) && any(data$Num_strands != 0, na.rm = TRUE)) {
+data_hc <- data %>% 
+      filter(Subcategory == "HairCount") 
 
-  data %>% 
-  ggplot( aes(x = Num_strands, 
-                 y = Binding_perc, 
-                 color = Category)) +
-  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 80, ymax = Inf,
-           alpha = 0.2, fill = "gray70") +
-  annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0, ymax = 20,
-           alpha = 0.2, fill = "gray70") +
-  geom_jitter(size = 2, height = 0, width = 0.1) +
-#  geom_text(aes(label = Sample), 
- #           size = 2.5, vjust = 0, hjust = -0.2, color = "gray40") +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 0.3, alpha = 0.09, 
-              aes(group = Category)) +
-  geom_hline(yintercept = 80, linetype = "dashed", color = "gray", linewidth = 0.8) +
-  geom_hline(yintercept = 20, linetype = "dashed", color = "gray", linewidth = 0.8) +
-  labs(title = "Binding % by Sample",
-       subtitle = "Non-corrected values (for weight, dilution)",
-       x = "Hair Count", y = "Binding Percentage") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_y_continuous(n.breaks = 10) +
-  scale_x_continuous(n.breaks = 10)
+data_hc %>% 
+    distinct(Sample, .keep_all = TRUE) %>%
+    ggplot(aes(x = Num_strands, 
+               y = Weight_mg,
+                   fill = Category, 
+                   group = Category)) +
+      geom_smooth(method = "lm", se = TRUE, 
+                  linewidth = 0.4, alpha = 0.09,
+                  aes(color = Category)) +
+      geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, 
+            hjust = -0.2, color = "gray40") +
+      geom_jitter(shape = 23, size = 3, 
+                  alpha = 0.7, width = 0.3) +
+      labs(title = "Hair count vs Weight ",
+                 x = "Hair count", 
+                 y = "Weight (mg)") +
+      theme_minimal(base_size = 9) 
+ 
 } else {
-    message(paste("Skipping plot, data set is missing information on 
+  
+    message(paste("Skipping plot, data set does not have information on 
     the number of hair strands"))
   }
 
 ```
+```{r  hair.vs.bindning, fig.width=8, fig.height=6, echo = FALSE}
 
+if ("Num_strands" %in% names(data) && any(data$Num_strands != 0, na.rm = TRUE)) {
+    data_hc %>% 
+    ggplot(aes(x = Num_strands, 
+               y = Binding_perc,
+                   fill = Category, 
+                   group = Category)) +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+              ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+           ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+      geom_smooth(method = "lm", se = TRUE, 
+                  linewidth = 0.4, alpha = 0.09,
+                  aes(color = Category)) +
+      geom_jitter(shape = 23, size = 3, 
+                  alpha = 0.7, width = 0.3) +
+       labs(title = "Hair count vs Binding %",
+                 x = "Hair count", 
+                 y = "Binding %") +
+      theme_minimal(base_size = 9) +
+      geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, hjust = -0.3,
+            color = "gray40") + 
+      scale_y_continuous(n.breaks = 10) +
+      scale_x_continuous(n.breaks = 10)
+ 
+} else {
+  
+    message(paste("Skipping plot"))
+  }
+
+
+
+```
+```{r  hair.vs.weight, fig.width=8, fig.height=6, echo = FALSE}
+
+if ("Num_strands" %in% names(data) && any(data$Num_strands != 0, na.rm = TRUE)) {
+    data_hc %>%
+    ggplot(aes(x = Weight_mg, 
+               y = Binding_perc,
+                   fill = Category, 
+                   group = Category)) +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+              ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+           ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+      geom_smooth(method = "lm", se = TRUE, 
+                  linewidth = 0.4, alpha = 0.09,
+                  aes(color = Category)) +
+      geom_jitter(shape = 23, size = 3, 
+                  alpha = 0.7, width = 0.3) +
+       labs(title = "Weight vs Binding %",
+                 x = "Weight (mg)", 
+                 y = "Binding %") +
+      theme_minimal(base_size = 9) +
+      geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, hjust = -0.3,
+            color = "gray40") + 
+      scale_y_continuous(n.breaks = 10) +
+      scale_x_continuous(n.breaks = 10)
+ 
+} else {
+  
+    message(paste("Skipping plot"))
+  }
+
+
+
+```
+```{r  hair.vs.bindning_facet, fig.width=8, fig.height=6, echo = FALSE}
+
+if ("Num_strands" %in% names(data) && any(data$Num_strands != 0, na.rm = TRUE)) {
+    data_hc %>% 
+    ggplot(aes(x = Num_strands, 
+               y = Binding_perc,
+                   fill = Category, 
+                   group = Category)) +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+              ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+           ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+      geom_smooth(method = "lm", se = TRUE, 
+                  linewidth = 0.4, alpha = 0.09,
+                  aes(color = Category)) +
+      geom_jitter(shape = 23, size = 3, 
+                  alpha = 0.7, width = 0.3) +
+       labs(title = "Hair count vs Binding %",
+                 x = "Hair count", 
+                 y = "Binding %") +
+      theme_minimal(base_size = 9) +
+      geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, hjust = -0.3,
+            color = "gray40") + 
+      scale_y_continuous(n.breaks = 10) +
+      scale_x_continuous(n.breaks = 10) +
+    facet_wrap(~Category)
+ 
+} else {
+  
+    message(paste("Skipping plot"))
+  }
+
+
+
+```
+```{r  hair.vs.weight_facet, fig.width=8, fig.height=6, echo = FALSE}
+
+if ("Num_strands" %in% names(data) && any(data$Num_strands != 0, na.rm = TRUE)) {
+    data_hc %>% 
+    ggplot(aes(x = Weight_mg, 
+               y = Binding_perc,
+                   fill = Category, 
+                   group = Category)) +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+              ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+           ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+      geom_smooth(method = "lm", se = TRUE, 
+                  linewidth = 0.4, alpha = 0.09,
+                  aes(color = Category)) +
+      geom_jitter(shape = 23, size = 3, 
+                  alpha = 0.7, width = 0.3) +
+       labs(title = "Weight vs Binding %",
+                 x = "Weight (mg)", 
+                 y = "Binding %") +
+      theme_minimal(base_size = 9) +
+      geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, hjust = -0.3,
+            color = "gray40") + 
+      scale_y_continuous(n.breaks = 10) +
+      scale_x_continuous(n.breaks = 10) +
+      facet_wrap(~Category)
+ 
+} else {
+  
+    message(paste("Skipping plot"))
+  }
+
+
+
+```
+```{r count,weight,binding, echo = FALSE}
+
+
+if ("Num_strands" %in% names(data) && any(data$Num_strands != 0, na.rm = TRUE)) {
+  
+library(plotly)
+
+ggpairs(data_hc,
+        columns = c("Weight_mg", "Num_strands", "Binding_perc"),
+        aes(color = Category))
+} else {
+  
+    message(paste("Skipping plot"))
+  }
+
+if ("Num_strands" %in% names(data) && any(data$Num_strands != 0, na.rm = TRUE)) {
+plot_ly(data,
+        x = ~Weight_mg,
+        y = ~Num_strands,
+        z = ~Binding_perc,
+        color = ~Category,
+        colors = "Set1",
+        type = "scatter3d",
+        mode = "markers")
+} else {
+  
+    message(paste("Skipping plot"))
+  }
+
+if ("Num_strands" %in% names(data) && any(data$Num_strands != 0, na.rm = TRUE)) {
+library(reshape2)
+cor_data <- cor(data_hc[, c("Weight_mg", "Num_strands", "Binding_perc")], use = "complete.obs")
+melted <- melt(cor_data)
+
+ggplot(melted, aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  geom_text(aes(label = round(value, 2)), color = "white") +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", midpoint = 0) +
+  theme_minimal() +
+  labs(title = "Correlation between Weight, Hair Strands, and Binding %") 
+
+} else {
+  
+    message(paste("Skipping plot"))
+  }
+
+
+```
 
 
 # Calculating final, normalized values
@@ -371,6 +611,7 @@ data$Final_pg_mg <-
      data$Extraction_ratio *         # C / D *
      data$Reconst_buffer_ml          # E 
 ```
+
 ```{r calculate average final vals and CV, echo = FALSE}
 ###### Calculate average final vals and CV ##### 
 data <- data %>%
@@ -436,7 +677,7 @@ cat("The contribution of the spike, considering how much is added to the well, i
 ```
 **Step 2 **: Substract spike and calculate final values
 
-((A - **SP**)/B) * (C/D) * E  = F
+((A - **SP**) * F /B) * (C/D) * E  = G
 
 - A = pg/ml from assay output;
 - *SP* = spike contribution (in pg/ml) 
@@ -444,7 +685,8 @@ cat("The contribution of the spike, considering how much is added to the well, i
 - C = vol. (in ml) of methanol added to the powdered hair;
 - D = vol. (in ml) of methanol recovered from the extract and subsequently dried down;
 - E = vol. (in ml) of assay buffer used to reconstitute the dried extract;
-- F = final value of hair CORT Concentration in pg/mg.
+- Sample dilution factor
+- G = final value of hair CORT Concentration in pg/mg.
 
 ```{r calc-spike}
 ##################################
@@ -452,8 +694,7 @@ cat("The contribution of the spike, considering how much is added to the well, i
 ##################################
 
 data$Final_pg_mg_sp <- 
-     (
-       (data$Conc_pg_ml - data$Spike_contribution) * #  (A - spike)
+     ((data$Conc_pg_ml - data$Spike_contribution) * #  (A - spike)
          data$Dilution_factor_sample) /  #  * dilution factor /
      data$Weight_mg *                    # B *
      data$Extraction_ratio *             # C / D *
@@ -461,20 +702,12 @@ data$Final_pg_mg_sp <-
 
 ```
 
-```{r echo = FALSE}
-plot(data$Final_pg_mg_sp, data$Final_pg_mg)
-plot(hist(data$Final_pg_mg_sp))
-```
-
-   
-
-
-
 ### Results Formula B
 ```{r goodqual.ave.cort.vals, fig.width=8, fig.height=6, echo = FALSE}
 
 filtered <- data %>% 
-  filter(Subcategory != "LowQual", Person != "Ref_values", Person != "Spike") %>%
+  filter(Subcategory != "LowQual", Person != "Ref_values", Person != "Spike",
+         ) %>%
   group_by(Sample, Category) %>%
  summarise(
    Ave_Final_pg_mg_sp = mean(Final_pg_mg_sp, na.rm = TRUE),
@@ -671,21 +904,12 @@ print(unique(data_qual$Sample))
 
 # Pending
 ```{r}
-## Standard curve quality (%RE)
-
-## Blank OD
-
-## NSB
-
-## Max OD
 
 ## Flaggs
-
 
 ## Plate CV
 
 ## Plave CV removing ref values
-
 
 ## Plate CV removing bad quality samples
 

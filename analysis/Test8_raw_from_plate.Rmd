@@ -35,7 +35,7 @@ layout <- read.csv(file.path(data_path,"layout_wells_test8_090225.csv"),
 m <- merge(layout, data, by = c("Wells"))
 m$weight_mg <- as.numeric(m$weight_mg)
 
-new_colnames <- c(Category = "Categ",
+new_colnames <- c(
                   Conc_pg.ml = "X.Concentration.",
                   OD = "read.450",
                   Binding = "Normalized.Data") 

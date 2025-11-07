@@ -1,0 +1,207 @@
+---
+title: "plate8and10"
+output: html_document
+date: "2025-11-07"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo = FALSE}
+library(dplyr)
+library(ggplot2)
+library(ggrepel) # for labels on data points
+library(gridExtra)
+library(GGally) ## for association plots
+data <-read.csv("./data/plate8and10.csv")
+
+```
+
+
+
+# Results by hair count (if information exists)
+
+```{r weight.hair.count, fig.width=8, fig.height=6, echo = FALSE}
+
+
+
+data %>% 
+    # distinct(Sample, .keep_all = TRUE) %>%
+    filter(Sample != "P400") %>%
+    ggplot(aes(x = Num_strands, 
+               y = Weight_mg,
+                   fill = Category, 
+                   group = Category,
+                  )) +
+      geom_smooth(method = "lm", se = TRUE, 
+                  linewidth = 0.4, alpha = 0.09,
+                  aes(color = Category)) +
+      geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, 
+            hjust = -0.2, color = "gray40") +
+      geom_jitter(shape = 23, size = 3, 
+                  alpha = 0.7, width = 0.3) +
+      labs(title = "Hair count vs Weight (Combined plate 8 and plate 10) ",
+                 x = "Hair count", 
+                 y = "Weight (mg)") +
+      theme_minimal(base_size = 9) 
+
+```
+```{r  hair.vs.bindning, fig.width=8, fig.height=6, echo = FALSE}
+    data %>% 
+    ggplot(aes(x = Num_strands, 
+               y = Binding_perc,
+                   fill = Category, 
+                   group = Category)) +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+              ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+           ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+      geom_smooth(method = "lm", se = TRUE, 
+                  linewidth = 0.4, alpha = 0.09,
+                  aes(color = Category)) +
+      geom_jitter(shape = 23, size = 3, 
+                  alpha = 0.7, width = 0.3) +
+       labs(title = "Hair count vs Binding %, (Combined plate 8 and plate 10)",
+                 x = "Hair count", 
+                 y = "Binding %") +
+      theme_minimal(base_size = 9) +
+      geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, hjust = -0.3,
+            color = "gray40") + 
+      scale_y_continuous(n.breaks = 10) +
+      scale_x_continuous(n.breaks = 10)
+ 
+```
+```{r  hair.vs.weight, fig.width=8, fig.height=6, echo = FALSE}
+
+data %>%
+    ggplot(aes(x = Weight_mg, 
+               y = Binding_perc,
+                   fill = Category, 
+                   group = Category)) +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+              ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+           ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+      geom_smooth(method = "lm", se = TRUE, 
+                  linewidth = 0.4, alpha = 0.09,
+                  aes(color = Category)) +
+      geom_jitter(shape = 23, size = 3, 
+                  alpha = 0.7, width = 0.3) +
+       labs(title = "Weight vs Binding % (Combined plate 8 and plate 10)",
+                 x = "Weight (mg)", 
+                 y = "Binding %") +
+      theme_minimal(base_size = 9) +
+      geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, hjust = -0.3,
+            color = "gray40") + 
+      scale_y_continuous(n.breaks = 10) +
+      scale_x_continuous(n.breaks = 10)
+
+```
+```{r  hair.vs.bindning_facet, fig.width=8, fig.height=6, echo = FALSE}
+
+    data %>% 
+    ggplot(aes(x = Num_strands, 
+               y = Binding_perc,
+                   fill = Category, 
+                   group = Category)) +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+              ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+           ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+      geom_smooth(method = "lm", se = TRUE, 
+                  linewidth = 0.4, alpha = 0.09,
+                  aes(color = Category)) +
+      geom_jitter(shape = 23, size = 3, 
+                  alpha = 0.7, width = 0.3) +
+       labs(title = "Hair count vs Binding % (Combined plate 8 and plate 10)",
+                 x = "Hair count", 
+                 y = "Binding %") +
+      theme_minimal(base_size = 9) +
+      geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, hjust = -0.3,
+            color = "gray40") + 
+      scale_y_continuous(n.breaks = 10) +
+      scale_x_continuous(n.breaks = 10) +
+    facet_wrap(~Category)
+
+
+
+```
+```{r  hair.vs.weight_facet, fig.width=8, fig.height=6, echo = FALSE}
+
+data %>% 
+    ggplot(aes(x = Weight_mg, 
+               y = Binding_perc,
+                   fill = Category, 
+                   group = Category)) +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+              ymin = 80, ymax = Inf,
+           alpha = 0.2, fill = "gray70") +
+     annotate("rect", xmin = -Inf, xmax = Inf, 
+           ymin = 0, ymax = 20,
+           alpha = 0.2, fill = "gray70") +
+      geom_smooth(method = "lm", se = TRUE, 
+                  linewidth = 0.4, alpha = 0.09,
+                  aes(color = Category)) +
+      geom_jitter(shape = 23, size = 3, 
+                  alpha = 0.7, width = 0.3) +
+       labs(title = "Weight vs Binding % (Combined plate 8 and plate 10)",
+                 x = "Weight (mg)", 
+                 y = "Binding %") +
+      theme_minimal(base_size = 9) +
+      geom_text(aes(label = Sample), 
+            size = 2.5, vjust = 0, hjust = -0.3,
+            color = "gray40") + 
+      scale_y_continuous(n.breaks = 10) +
+      scale_x_continuous(n.breaks = 10) +
+      facet_wrap(~Category)
+
+```
+```{r count,weight,binding, echo = FALSE}
+
+
+library(plotly)
+
+plot_ly(data,
+        x = ~Weight_mg,
+        y = ~Num_strands,
+        z = ~Binding_perc,
+        color = ~Category,
+        colors = "Set1",
+        type = "scatter3d",
+        mode = "markers")
+
+data %>% 
+     # distinct(Sample, .keep_all = TRUE) %>%
+  ggplot( aes(x = Weight_mg, y = Binding_perc, color = Category)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~Category) +
+  theme_minimal()
+
+library(reshape2)
+cor_data <- cor(data[, c("Weight_mg", "Num_strands", "Binding_perc")], use = "complete.obs")
+melted <- melt(cor_data)
+
+ggplot(melted, aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  geom_text(aes(label = round(value, 2)), color = "white") +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", midpoint = 0) +
+  theme_minimal() +
+  labs(title = "Correlation between Weight, Hair Strands, and Binding % (Combined plate 8 and plate 10)") 
+
+
+```
+
