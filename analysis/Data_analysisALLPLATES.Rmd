@@ -12,7 +12,8 @@ output:
       info: "#FFC107"
       warning: "#FFC107"
       danger: "#E83E8C"
-    embed_resources: false
+    self_contained: true
+    embed_resources: true
     toc: true
     toc_depth: 2
     number_sections: true
