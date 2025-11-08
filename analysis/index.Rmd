@@ -97,13 +97,14 @@ Find more details in the pages below:
 
 **Plate overall description**
 
-| Test # |  Date    | Observations    | 
-|----|-------|-------------------------------------------|
-|   9    | 10-08-25 | Used multichannel, slower dispensing but worked well overall   |
-|   8    | 09-02-25 | Plate washer overflowed, washed twice  |
-|   7    | 08-10-25 | Had issues with repeater: addition of conjugate and antibody was not homogeneous (particularly the antibody) |
-|   6    | 05-30-25 | Did not use results. Plate broke, individual wells got disorganized, not sure if put it back in the right order    |
-|   5    | 05-13-25 | Mistake: added TMB before washing plate. Washed the plate and added TMB again. Overall, it seems like values are smaller than in previous plates. Also, Tina's samples were much more pulverized than mine    |
-|   4    | 02-19-25 |                 |
-|   3    | 09-15-24 |                 |
+| Test # |  Date    | Report | Data | Observations|
+|---|----|----|-----|-----------------|
+|   10   | 10-09-25 | [Plate10](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/output/Test10/Test10_plate_report.html)  | [Results 10](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/data/Test10/Merged_ELISA_results_T10.csv)   |NA |
+|   9    | 10-08-25 | [Plate9](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/output/Test9/Test9_plate_report.html) | [Results 9](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/data/Test9/Merged_ELISA_results_T9.csv)  | Used multichannel, slower dispensing but worked well overall   |
+|   8    | 09-02-25 | [Plate8](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/output/Test8/Test8_plate_report.html)  | [Results 8](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/data/Test8/Merged_ELISA_results_T8.csv)| Plate washer overflowed, washed twice  |
+|   7    | 08-10-25 | [Plate7](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/output/Test7/Test7_plate_report.html)  | [Results 7](https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/data/Test7/Merged_ELISA_results_T7.csv)|Had issues with repeater: addition of conjugate and antibody was not homogeneous (particularly the antibody) |
+|   6    | 05-30-25 | | |  Did not use results. Plate broke, individual wells got disorganized, not sure if put it back in the right order    |
+|   5    | 05-13-25 | | | Mistake: added TMB before washing plate. Washed the plate and added TMB again. Overall, it seems like values are smaller than in previous plates. Also, Tina's samples were much more pulverized than mine    |
+|   4    | 02-19-25 |    | |             |
+|   3    | 09-15-24 |      | |           |
 

@@ -281,7 +281,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -292,8 +292,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -302,13 +302,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-11-03
+<strong>Last updated:</strong> 2025-11-08
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -332,33 +332,36 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree8527e68c6a290a79195cd546f5243bbcd7daee52targetblank8527e68a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treeea980dd0f0338a2beccb134264e95a7ce0768e19targetblankea980dda">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/8527e68c6a290a79195cd546f5243bbcd7daee52" target="_blank">8527e68</a>
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/ea980dd0f0338a2beccb134264e95a7ce0768e19" target="_blank">ea980dd</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020tree8527e68c6a290a79195cd546f5243bbcd7daee52targetblank8527e68a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomPalomaContreras25HairCortEvaluationNist2020treeea980dd0f0338a2beccb134264e95a7ce0768e19targetblankea980dda"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -368,7 +371,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/8527e68c6a290a79195cd546f5243bbcd7daee52" target="_blank">8527e68</a>.
+<a href="https://github.com/PalomaContreras25/HairCort-Evaluation-Nist2020/tree/ea980dd0f0338a2beccb134264e95a7ce0768e19" target="_blank">ea980dd</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -386,23 +389,24 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .RData
     Ignored:    .Rhistory
+    Ignored:    .bslib-cache/
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/data/
     Ignored:    data/.DS_Store
-    Ignored:    data/Test10/figs/
-    Ignored:    data/Test3/.DS_Store
-    Ignored:    data/Test4/.DS_Store
+    Ignored:    data/Test10/.DS_Store
+    Ignored:    data/Test3_old/.DS_Store
+    Ignored:    data/Test4_old/.DS_Store
     Ignored:    data/Test7/.DS_Store
-    Ignored:    data/Test7/figs/
-    Ignored:    data/Test8/figs/
+    Ignored:    data/Test8/.DS_Store
     Ignored:    data/Test9/.DS_Store
-    Ignored:    data/Test9/figs/
     Ignored:    figure/.DS_Store
+    Ignored:    output/.DS_Store
+    Ignored:    output/_intermediates/
+    Ignored:    plots/.DS_Store
 
 Unstaged changes:
-    Modified:   analysis/Data_analysis.Rmd
-    Modified:   analysis/about.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -446,6 +450,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PalomaContreras25/HairCort-Evaluation-Nist2020/9e6e6ae27721ff7b455c8bafc80e88251db7929a/docs/index.html" target="_blank">9e6e6ae</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-11-03
+</td>
+<td>
+upd_report
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1331,55 +1352,92 @@ information and experimental design</a></li>
 <p><strong>Plate overall description</strong></p>
 <table>
 <colgroup>
-<col width="7%" />
+<col width="9%" />
 <col width="12%" />
-<col width="79%" />
+<col width="12%" />
+<col width="15%" />
+<col width="51%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>Test #</th>
 <th>Date</th>
+<th>Report</th>
+<th>Data</th>
 <th>Observations</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>9</td>
-<td>10-08-25</td>
-<td>Used multichannel, slower dispensing but worked well overall</td>
+<td>10</td>
+<td>10-09-25</td>
+<td><a
+href="https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/output/Test10/Test10_plate_report.html">Plate10</a></td>
+<td><a
+href="https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/data/Test10/Merged_ELISA_results_T10.csv">Results
+10</a></td>
+<td>NA</td>
 </tr>
 <tr class="even">
-<td>8</td>
-<td>09-02-25</td>
-<td>Plate washer overflowed, washed twice</td>
+<td>9</td>
+<td>10-08-25</td>
+<td><a
+href="https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/output/Test9/Test9_plate_report.html">Plate9</a></td>
+<td><a
+href="https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/data/Test9/Merged_ELISA_results_T9.csv">Results
+9</a></td>
+<td>Used multichannel, slower dispensing but worked well overall</td>
 </tr>
 <tr class="odd">
+<td>8</td>
+<td>09-02-25</td>
+<td><a
+href="https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/output/Test8/Test8_plate_report.html">Plate8</a></td>
+<td><a
+href="https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/data/Test8/Merged_ELISA_results_T8.csv">Results
+8</a></td>
+<td>Plate washer overflowed, washed twice</td>
+</tr>
+<tr class="even">
 <td>7</td>
 <td>08-10-25</td>
+<td><a
+href="https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/output/Test7/Test7_plate_report.html">Plate7</a></td>
+<td><a
+href="https://palomacontreras25.github.io/HairCort-Evaluation-Nist2020/data/Test7/Merged_ELISA_results_T7.csv">Results
+7</a></td>
 <td>Had issues with repeater: addition of conjugate and antibody was not
 homogeneous (particularly the antibody)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>6</td>
 <td>05-30-25</td>
+<td></td>
+<td></td>
 <td>Did not use results. Plate broke, individual wells got disorganized,
 not sure if put it back in the right order</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>5</td>
 <td>05-13-25</td>
+<td></td>
+<td></td>
 <td>Mistake: added TMB before washing plate. Washed the plate and added
 TMB again. Overall, it seems like values are smaller than in previous
 plates. Also, Tina’s samples were much more pulverized than mine</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>4</td>
 <td>02-19-25</td>
 <td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>3</td>
 <td>09-15-24</td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
