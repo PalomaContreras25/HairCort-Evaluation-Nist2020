@@ -3,26 +3,23 @@ title: "ELISA data analysis"
 author: "Paloma"
 output:  
   workflowr::wflow_html:
-    
     theme:
       version: 5
-      bootswatch: zephyr   # or cosmo, litera, sandstone, zephyr, etc.
-      primary: "#00BFA5"   # accent color
-      secondary: "#C2185B"   # 
-      success: "#28A745"     #
-      info: "#FFC107"        # 
-      warning: "#FFC107"     # 
-      danger: "#E83E8C"  
-      base_font: {google: "Exo 2"}
-      heading_font: {google: "Raleway"}
+      bootswatch: "zephyr"
+      primary: "#00BFA5"
+      secondary: "#C2185B"
+      success: "#28A745"
+      info: "#FFC107"
+      warning: "#FFC107"
+      danger: "#E83E8C"
+    embed_resources: false
     toc: true
-    toc_float: true
-    toc_depth: 3
+    toc_depth: 2
     number_sections: true
-    code_folding: show     # or "hide"
+    code_folding: show
     code_download: true
-    highlight: tango       # code syntax theme (tango, pygments, zenburn, etc.)
-    df_print: paged        # nicer tables by default
+    highlight: tango
+    df_print: paged
     anchor_sections: true
     smooth_scroll: true
 params:
@@ -530,8 +527,6 @@ if ("Num_strands" %in% names(data) && any(data$Num_strands != 0, na.rm = TRUE)) 
     message(paste("Skipping plot"))
   }
 
-
-
 ```
 ```{r count,weight,binding, echo = FALSE}
 
@@ -577,7 +572,6 @@ ggplot(melted, aes(Var1, Var2, fill = value)) +
   
     message(paste("Skipping plot"))
   }
-
 
 ```
 
@@ -765,7 +759,7 @@ data_qual <- data %>%
 out_curve <- data_qual[!is.na(data_qual$Binding_perc_categ), ] 
 
 cat(paste("Total samples outside the curve:", nrow(out_curve), "(some are blanks or NSB)", sep=" "))
-print(out_curve[2:4])
+out_curve[2:4]
 
 cv_high <- data_qual %>% 
  filter(CV_perc > CV_threshold) %>% 
