@@ -149,6 +149,7 @@ info <- read.csv(p("SampleInfo.csv"),
                  na.strings = c("", " ", "NA"))
 
 ```
+
 ```{r cleaning results and standard file, echo = FALSE}
 
 # Clean Results file
